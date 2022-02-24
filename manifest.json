@@ -30,4 +30,5 @@
           "js": ["content-script.js"]
         }
     ]
+
 }
