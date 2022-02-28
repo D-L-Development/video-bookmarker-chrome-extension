@@ -4,5 +4,3 @@ class Video{
         this.length = length;
     }
 }
-
-export default Video;

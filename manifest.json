@@ -27,7 +27,7 @@
         {
           "matches": ["https://*/*"],
           "css": ["my-styles.css"],
-          "js": ["content-script.js"]
+          "js": ["Storage.js","Video.js","content-script.js"]
         }
     ]
 
