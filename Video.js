@@ -2,21 +2,6 @@ class Video{
     constructor(videoElement){
         this.video = videoElement;
         this.storage = new Storage();
-
-
-        document.addEventListener('keydown', e=>{
-            if(e.ctrlKey && e.key == 'b'){
-              addBookmark();
-            }
-        })
-          
-        document.addEventListener('keydown', e=>{
-            if(e.ctrlKey && e.key == ';'){
-                // print bookmarks pretty
-                printBookmarksPretty();
-                copyStringToClipboard(formatMapToTableString());
-            }
-        })
     }
 
     play(){
@@ -35,24 +20,16 @@ class Video{
     }
 
     addBookmark(){
-        pause();
-        const currentTimestamp = getCurrentTimestamp()
+        this.pause();
+        const currentTimestamp = this.getCurrentTimestamp()
         const bookmarkText = prompt(`Add a bookmark at ${currentTimestamp}`);
+        
+        // if text input is not empty, then add bookmark
         if(bookmarkText){
             this.storage.addBookmark(currentTimestamp, bookmarkText);
+            this.storage.printBookmarksPretty();
         }
-        
-        
-        // printBookmarksPretty();
-        play();
-    }
-
-    printBookmarksPretty(){
-        console.clear();
-        console.log(`%cSession Name: %c${sessionName}`, "color: yellow", "color: #DEB887");
-        const bookmarkFromLocalStorage = JSON.parse(localStorage.getItem('bookmarks'));
-        console.log("%cCurrent Bookmarks: ", "color: red");
-        console.table(bookmarkFromLocalStorage);
+        this.play();
     }
 
     copyStringToClipboard (str) {
@@ -76,9 +53,9 @@ class Video{
         const TAB_CHAR = String.fromCharCode(9);
         const NEWLINE_CHAR = String.fromCharCode(10);
         let formatedString = "";
-        for(let key in bookmarks){
+        for(let key in this.storage.bookmarks){
           // timestamp + TAB + bookmark + NEWLINE
-          formatedString += key + TAB_CHAR + bookmarks[key] + NEWLINE_CHAR;
+          formatedString += key + TAB_CHAR + this.storage.bookmarks[key] + NEWLINE_CHAR;
         }
         
         return formatedString;

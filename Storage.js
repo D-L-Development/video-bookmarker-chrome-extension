@@ -1,26 +1,28 @@
 class Storage{
     constructor(){
-        this.bookmarks = getBookmarksFromLocalStorage();
-        this.sessionName = this.getSessionNameFromLocalStorage();
+        this.bookmarks = this.getBookmarksFromLocalStorage();
+        this.videoSession = this.getVideoSessionFromLocalStorage();
     }
 
     writeToLocalStorage(key, value){
         localStorage.setItem(key, JSON.stringify(value));
     }
 
-    getSessionNameFromLocalStorage(){
+    getVideoSessionFromLocalStorage(){
     
-        let sessionName = localStorage.getItem("sessionName");
-        if(sessionName)
+        // get video session object from local storage
+        let videoSession = localStorage.getItem("videoSession");
+        if(videoSession)
         {
-          return JSON.parse(sessionName);
+          return JSON.parse(videoSession);
         } 
         else
         {
-          sessionName = prompt("Please enter a session name:");
-          const newSessionName = {"sessionName": sessionName};
-          writeToLocalStorage("sessionName", newSessionName);
-          return newSessionName;
+          // if no session object is found, then ask the user for one
+          const newSessionName = prompt("Please enter a session name:");
+          videoSession = {"sessionName": newSessionName};
+          this.writeToLocalStorage("videoSession", videoSession);
+          return videoSession;
         }
     }
 
@@ -39,8 +41,28 @@ class Storage{
     }
 
     addBookmark(currentTimestamp, bookmarkText){
-        // TODO: check to makes sure there isn't already a timestamp
-        this.bookmarks[currentTimestamp] = bookmarkText;
-        writeToLocalStorage("bookmarks", bookmarks);
+                
+        if(!this.bookmarks[currentTimestamp])
+        {
+            this.bookmarks[currentTimestamp] = bookmarkText;
+            this.writeToLocalStorage("bookmarks", this.bookmarks);
+        }
+        else
+        {
+            const userResponse = prompt("There's already a bookmark here! Would you like to replace it with this one?", "no");
+            if(userResponse.toLowerCase() === "yes"){
+                this.bookmarks[currentTimestamp] = bookmarkText;
+                this.writeToLocalStorage("bookmarks", this.bookmarks);
+            }
+        }
+        
+    }
+
+    printBookmarksPretty(){
+        console.clear();
+        console.log(`%cSession Name: %c${this.videoSession.sessionName}`, "color: yellow", "color: #DEB887");
+        const bookmarkFromLocalStorage = this.getBookmarksFromLocalStorage();
+        console.log("%cCurrent Bookmarks: ", "color: red");
+        console.table(bookmarkFromLocalStorage);
     }
 }

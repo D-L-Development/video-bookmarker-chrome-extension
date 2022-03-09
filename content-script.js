@@ -1,9 +1,28 @@
 console.log("Content Script Ran!");
 
+//console.log(chrome.storage);
+
+let video = null;
 
 // try to get an HTML video element
 getVideoElement().then((res)=>{
-    console.log("Res:", res.video);
+    video = new Video(res.video);
+
+    document.addEventListener('keydown', e=>{
+        if(e.ctrlKey && e.key == 'b'){
+            video.addBookmark();
+        }
+    })
+      
+    document.addEventListener('keydown', e=>{
+        if(e.ctrlKey && e.key == ';'){
+            // print bookmarks pretty
+            video.storage.printBookmarksPretty();
+            video.copyStringToClipboard(video.formatMapToTableString());
+            console.log("I copied the table to your clipboard!");
+        }
+    })
+    
 }).catch((err)=>{
     console.log("Error!", err);
 })
