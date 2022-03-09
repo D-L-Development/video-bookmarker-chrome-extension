@@ -1,0 +1,22 @@
+body{
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(228, 239, 248);
+}
+
+table, th, td{
+    border: 1px solid grey;
+    border-collapse: collapse;
+}
+
+th, td{
+    padding: .5rem;
+}
+
+table{
+    margin-bottom: 1rem;
+}
