@@ -22,6 +22,20 @@ getVideoElement().then((res)=>{
             console.log("I copied the table to your clipboard!");
         }
     })
+
+    document.addEventListener('keydown', e=>{
+        if(e.ctrlKey && e.key == ','){
+            
+            // clear local storage if user says yes
+            const userResponse = prompt("Are you sure you want to delete the session?", "no");
+            if(userResponse.toLowerCase() === "yes"){
+                video.storage.reset();
+                location.reload()
+                console.log("Storage cleared!!");
+            }
+   
+        }
+    })
     
 }).catch((err)=>{
     console.log("Error!", err);

@@ -58,6 +58,11 @@ class Storage{
         
     }
 
+    reset(){
+        localStorage.removeItem('videoSession');
+        localStorage.removeItem('bookmarks');
+    }
+
     printBookmarksPretty(){
         console.clear();
         console.log(`%cSession Name: %c${this.videoSession.sessionName}`, "color: yellow", "color: #DEB887");
