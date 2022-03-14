@@ -1,45 +1,55 @@
 console.log("Content Script Ran!");
 
-//console.log(chrome.storage);
-
 let video = null;
 
-// try to get an HTML video element
-getVideoElement().then((res)=>{
-    video = new Video(res.video);
 
-    document.addEventListener('keydown', e=>{
-        if(e.ctrlKey && e.key == 'b'){
-            video.addBookmark();
-        }
-    })
-      
-    document.addEventListener('keydown', e=>{
-        if(e.ctrlKey && e.key == ';'){
-            // print bookmarks pretty
-            video.storage.printBookmarksPretty();
-            video.copyStringToClipboard(video.formatMapToTableString());
-            console.log("I copied the table to your clipboard!");
-        }
-    })
-
-    document.addEventListener('keydown', e=>{
-        if(e.ctrlKey && e.key == ','){
-            
-            // clear local storage if user says yes
-            const userResponse = prompt("Are you sure you want to delete the session?", "no");
-            if(userResponse.toLowerCase() === "yes"){
+// when (CTRL) + (,) are pressed then reset the session
+document.addEventListener('keydown', e=>{
+    if(e.ctrlKey && e.key == ','){
+        
+        // clear local storage and look for video element if user says yes
+        const userResponse = prompt("Are you sure you want to reset the session?", "no");
+        if(userResponse.toLowerCase() === "yes"){
+            if(video){
                 video.storage.reset();
-                location.reload()
-                console.log("Storage cleared!!");
+                entryPoint();
             }
-   
         }
-    })
-    
-}).catch((err)=>{
-    console.log("Error!", err);
+
+    }
 })
+
+
+// this is the entry point to the application
+// it starts by searching for a video element on the page
+entryPoint();
+
+
+
+function entryPoint(){
+    // try to get an HTML video element
+    getVideoElement().then((res)=>{
+        video = new Video(res.video);
+
+        document.addEventListener('keydown', e=>{
+            if(e.ctrlKey && e.key == 'b'){
+                video.addBookmark();
+            }
+        })
+        
+        document.addEventListener('keydown', e=>{
+            if(e.ctrlKey && e.key == ';'){
+                // print bookmarks pretty
+                video.storage.printBookmarksPretty();
+                video.copyStringToClipboard(video.formatMapToTableString());
+                console.log("I copied the table to your clipboard!");
+            }
+        })
+        
+    }).catch((err)=>{
+        console.log("Error!", err);
+    })
+}
 
 
 
