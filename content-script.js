@@ -1,6 +1,7 @@
 console.log("Content Script Ran!");
 
 let video = null;
+let initialPageLoad = true;
 
 
 // when (CTRL) + (,) are pressed then reset the session
@@ -31,20 +32,25 @@ function entryPoint(){
     getVideoElement().then((res)=>{
         video = new Video(res.video);
 
-        document.addEventListener('keydown', e=>{
-            if(e.ctrlKey && e.key == 'b'){
-                video.addBookmark();
-            }
-        })
-        
-        document.addEventListener('keydown', e=>{
-            if(e.ctrlKey && e.key == ';'){
-                // print bookmarks pretty
-                video.storage.printBookmarksPretty();
-                video.copyStringToClipboard(video.formatMapToTableString());
-                console.log("I copied the table to your clipboard!");
-            }
-        })
+        // only add the lisnteners once
+        if(initialPageLoad){
+            document.addEventListener('keydown', e=>{
+                if(e.ctrlKey && e.key == 'b'){
+                    video.addBookmark();
+                }
+            })
+            
+            document.addEventListener('keydown', e=>{
+                if(e.ctrlKey && e.key == ';'){
+                    // print bookmarks pretty
+                    video.storage.printBookmarksPretty();
+                    video.copyStringToClipboard(video.formatMapToTableString());
+                    console.log("I copied the table to your clipboard!");
+                }
+            })
+        }
+
+        initialPageLoad = false;
         
     }).catch((err)=>{
         console.log("Error!", err);
