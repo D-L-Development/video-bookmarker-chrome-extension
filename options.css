@@ -1,10 +1,21 @@
+#How_To{
+    margin-top: 10rem;
+}
+
+#How_To h1{
+    font-size: 2rem;
+}
+
+#How_To h2{
+    font-size: 1.5rem;
+}
+
 table, th, td{
     border: 1px solid rgb(0, 0, 0);
-    border-collapse: collapse;
 }
 
 th, td{
-    padding: .5rem;
+    padding: 1rem;
 }
 
 table{
@@ -12,5 +23,5 @@ table{
 }
 
 td{
-    size: 1rem;
+    font-size: 1rem;
 }
