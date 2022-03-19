@@ -1,27 +1,88 @@
+body{
+    background: #51F0BC;
+    margin: 0;
+}
+
+header.primary{
+    height:fit-content;
+    background-color: #10bc83; 
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+     /* offset-x | offset-y | blur-radius | color */
+    text-shadow: -2px 1px 5px rgb(0, 0, 0);
+    color: #BD2D5B
+}
+
+header.primary h1{
+    font-size: 5rem;
+    margin: 50px 40px;
+    text-align: center;
+}
+
+header.primary h2{
+    font-size: 2.5rem;
+    margin: 1rem;
+
+}
+
 #How_To{
     margin-top: 10rem;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #How_To h1{
-    font-size: 2rem;
+    font-size: 3rem;
+    color: #BD2D5B;
+    /* offset-x | offset-y | blur-radius | color */
+    text-shadow: -2px 2px 5px rgb(68, 68, 68);
 }
 
 #How_To h2{
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+    color: #BD2D5B;
+    /* offset-x | offset-y | blur-radius | color */
+    text-shadow: -1px 1px 5px rgb(102, 102, 102);
 }
 
-table, th, td{
-    border: 1px solid rgb(0, 0, 0);
+table{
+    border: 2px solid rgb(0, 0, 0);
+    margin-bottom: 2rem;
+    border-spacing: 0;
+    border-radius: 10px;
+    max-width: 75%;
+    min-width: 200px;
+    background:rgb(230, 255, 250)
 }
 
 th, td{
     padding: 1rem;
+    margin: 0;
 }
 
-table{
-    margin-bottom: 1rem;
+#shortcut{
+    border-right: 2px solid black;
 }
+
 
 td{
+    font-size: 1rem;
+    border-top: 2px solid black;
+}
+
+footer{
+    height:fit-content;
+    background-color: #10bc83; 
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+     /* offset-x | offset-y | blur-radius | color */
+    text-shadow: -2px 1px 5px rgb(68, 68, 68);
+    color: #94143c
+}
+
+footer h6{
     font-size: 1rem;
 }
