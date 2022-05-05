@@ -13,6 +13,10 @@ class Video{
         this.video.pause();
     }
 
+    jumpToTimestamp(seconds){
+        this.video.currentTime = seconds;
+    }
+
     getCurrentTimestamp(){
         // get the current video time in seconds
         const currentVideoTime = Math.floor(this.video.currentTime);

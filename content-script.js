@@ -48,6 +48,22 @@ function entryPoint(){
                     console.log("I copied the table to your clipboard!");
                 }
             })
+
+            document.addEventListener('keydown', e=>{
+                if(e.ctrlKey && e.key == '.'){
+                    // ask user for timestamp
+                    const userTimeStamp = prompt("Enter the timestamp HH:MM:SS");
+                    if(userTimeStamp){
+                        const timeStamp = userTimeStamp.split(':'); // split it at the colons
+                        // minutes are worth 60 seconds. Hours are worth 60 minutes.
+                        const seconds = (+timeStamp[0]) * 60 * 60 + (+timeStamp[1]) * 60 + (+timeStamp[2]);
+                        
+                        // jump to that timestamp 
+                        video.jumpToTimestamp(seconds);
+                    }
+                }
+            })
+
         }
 
         initialPageLoad = false;
