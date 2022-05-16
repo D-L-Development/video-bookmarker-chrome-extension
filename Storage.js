@@ -2,6 +2,7 @@ class Storage{
     constructor(){
         this.bookmarks = this.getBookmarksFromLocalStorage();
         this.videoSession = this.getVideoSessionFromLocalStorage();
+        const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
     }
 
     writeToLocalStorage(key, value){
@@ -58,9 +59,15 @@ class Storage{
         
     }
 
+    // reset(){
+    //     localStorage.removeItem('videoSession');
+    //     localStorage.removeItem('bookmarks');
+    // }
+
     reset(){
-        localStorage.removeItem('videoSession');
-        localStorage.removeItem('bookmarks');
+        chrome.storage.sync.remove(STORAGE_KEY, ()=>{
+            console.log("Session removed!");
+        })
     }
 
     printBookmarksPretty(){
