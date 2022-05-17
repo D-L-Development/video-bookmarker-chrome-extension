@@ -28,17 +28,7 @@ class Storage{
                 this.videoSession = {
                     [this.STORAGE_KEY]: {
                         sessionName: prompt("Enter the name of this session:", "Untitled"),
-                        bookmarks: {
-                                "00:45:32": {
-                                    timestamp: "00:45:32",
-                                    text: "lorem ipsum"    
-                                },
-                                "00:41:25": {
-                                    timestamp: "00:41:25",
-                                    text: "lorem ipsum"    
-                                }
-                        }
-                        
+                        bookmarks: {} 
                     }
                 }
 
