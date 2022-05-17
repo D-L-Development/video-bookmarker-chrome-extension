@@ -1,39 +1,3 @@
-// // remove the code below. It's just for testing
-// document.addEventListener('click', e=>{
-//     const response = prompt('Positive for writing, negative for reading!');
-//     if(response){
-        
-        
-        
-
-//         if(response > 0){
-//             const cardValue = prompt('enter the cardValue');
-//             const cardSuit = prompt('enter the cardSuit');
-        
-
-//             const storedObj = {
-//                 cardValue: cardValue,
-//                 cardSuit: cardSuit
-//             }
-
-//             chrome.storage.sync.set(storedObj, function() {
-                
-//                 console.log('Value is set to ');
-//                 console.log(storedObj);
-//               });
-//         }else{
-//             const key = prompt("Enter the key");
-//             chrome.storage.sync.get(key, function(result) {
-//                 console.log('Value currently is');
-//                 console.log(result);
-                
-//               });
-//         }
-//     }
-    
-// })
-
-
 console.log("Content Script Ran!");
 
 let video = null;
@@ -62,14 +26,19 @@ document.addEventListener('keydown', e=>{
 entryPoint();
 
 
-
 function entryPoint(){
     // try to get an HTML video element
     getVideoElement().then((res)=>{
+
+        
+
         video = new Video(res.video);
 
         // only add the lisnteners once
         if(initialPageLoad){
+
+            initialPageLoad = false;
+
             document.addEventListener('keydown', e=>{
                 if(e.ctrlKey && e.key == 'b'){
                     video.addBookmark();
@@ -102,7 +71,7 @@ function entryPoint(){
 
         }
 
-        initialPageLoad = false;
+        
         
     }).catch((err)=>{
         console.log("Error!", err);
