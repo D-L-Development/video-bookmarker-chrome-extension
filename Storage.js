@@ -3,17 +3,9 @@ class Storage{
         this.videoSession = {};
         this.STORAGE_KEY = "web-video-bookmarker-4$23hV2";
         this.setVideoSessionFromLocalStorage();
-
-        document.addEventListener('keydown', e=>{
-            if(e.key == '-'){
-                chrome.storage.sync.get(this.STORAGE_KEY, (result)=>{
-                    console.log(result);
-                })
-            }
-        })
     }
 
-    writeToLocalStorage(){
+    syncToLocalStorage(){
         chrome.storage.sync.set(this.videoSession, ()=>{
             console.log("value set to");
             console.log(this.videoSession);
@@ -26,17 +18,16 @@ class Storage{
         
         chrome.storage.sync.get(this.STORAGE_KEY,(response)=>{
             
-
             // if there is a session in storage, then return it
-            if(response.key){ 
-                return response.key; 
+            if(Object.keys(response).length > 0){ 
+                this.videoSession = response; 
+                console.log(response);
             }
-            
             else{
 
                 this.videoSession = {
                     [this.STORAGE_KEY]: {
-                        sessionName: "some name",
+                        sessionName: prompt("Enter the name of this session:", "Untitled"),
                         bookmarks: {
                                 "00:45:32": {
                                     timestamp: "00:45:32",
@@ -51,10 +42,7 @@ class Storage{
                     }
                 }
 
-                console.log("TAG", "Video session after being set");
-                console.log(this.videoSession);
-
-                this.writeToLocalStorage();
+                this.syncToLocalStorage();
             }
         })
     }
@@ -63,16 +51,15 @@ class Storage{
 
     addBookmark(currentTimestamp, bookmarkText){
                 
-        if(!this.videoSession[this.STORAGE_KEY].bookmarks[currentTimestamp])
-        {
-            this.videoSession[this.STORAGE_KEY].bookmarks[currentTimestamp] = bookmarkText;
-            this.writeToLocalStorage();
-        }
-        else
-        {
-            
-        }
+        const { bookmarks } = this.videoSession[this.STORAGE_KEY];
         
+        bookmarks[currentTimestamp] = { timestamp: currentTimestamp, text: bookmarkText };
+        this.syncToLocalStorage(); 
+    }
+
+    // return whether a timestamp has a bookmark or not
+    getBookmarkAtTimestamp(currentTimestamp){
+        return this.videoSession[this.STORAGE_KEY].bookmarks[currentTimestamp];
     }
 
 

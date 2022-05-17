@@ -26,12 +26,21 @@ class Video{
 
     addBookmark(){
         this.pause();
-        const currentTimestamp = this.getCurrentTimestamp()
-        const bookmarkText = prompt(`Add a bookmark at ${currentTimestamp}`);
+        const currentTimestamp = this.getCurrentTimestamp();
+        const currentBookmark = this.storage.getBookmarkAtTimestamp(currentTimestamp);
+        
+        let placeholder = "";
+
+        // if there's already a bookmark
+        if(currentBookmark){
+            placeholder = currentBookmark.text;
+        }
+
+        const newBookmarkText = prompt(`Add a bookmark at ${currentTimestamp}`, placeholder);
         
         // if text input is not empty, then add bookmark
-        if(bookmarkText){
-            this.storage.addBookmark(currentTimestamp, bookmarkText);
+        if(newBookmarkText){
+            this.storage.addBookmark(currentTimestamp, newBookmarkText);
             this.storage.printBookmarksPretty();
         }
         this.play();
