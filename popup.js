@@ -3,6 +3,23 @@ console.log("Popup script ran!");
 const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 const tableWrapper = document.getElementById('tableWrapper');
 const sessionName = document.querySelector('h1');
+const copyTableBtn = document.getElementById('copyTableBtn');
+
+
+// wire copy event for button
+copyTableBtn.addEventListener('click', e=>{
+
+    chrome.storage.sync.get(STORAGE_KEY, response=>{
+        if(Object.keys(response).length > 0){
+            // create UI
+            const {bookmarks} = response[STORAGE_KEY];
+            // send message to client script
+            copyTableToClipboard(bookmarks);
+        }
+    })
+
+    
+})
 
 chrome.storage.sync.get(STORAGE_KEY, response=>{
     if(Object.keys(response).length > 0){
@@ -42,3 +59,4 @@ function createBookmarksTable(bookmarks){
 function updateTitle(title){
     sessionName.innerText = title;
 }
+

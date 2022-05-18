@@ -27,7 +27,7 @@
         {
           "matches": ["https://*/*"],
           "css": ["my-styles.css"],
-          "js": ["Storage.js","Video.js","content-script.js"]
+          "js": ["./utils/copyToClipboard.js", "Storage.js","Video.js","content-script.js"]
         }
     ]
 
