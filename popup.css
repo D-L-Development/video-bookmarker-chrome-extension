@@ -48,7 +48,7 @@ tr:nth-child(even) {
 
 #tableWrapper{
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 footer{
@@ -57,6 +57,7 @@ footer{
     background-color: var(--primary);
     display: flex;
     align-items: center;
+    margin-top: auto;
 }
 
 #copyTableBtn{
