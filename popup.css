@@ -1,11 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 body{
-    width: 500px;
+    width: 300px;
     height: 500px;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: rgb(228, 239, 248);
+}
+
+h1{
+    margin: .5rem 0;
 }
 
 table, th, td{
@@ -17,6 +25,19 @@ th, td{
     padding: .5rem;
 }
 
+.note{
+    width: 80%;
+}
+
 table{
     margin-bottom: 1rem;
+}
+
+table, tbody, tr{
+    width: 100%;
+}
+
+#tableWrapper{
+    background-color: orange;
+    width: 100%;
 }

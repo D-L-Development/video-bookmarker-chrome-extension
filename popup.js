@@ -19,16 +19,19 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 function createBookmarksTable(bookmarks){
     
+    // remove the current HTML content
+    tableWrapper.innerHTML = "";
+
     let HTML_Content = "";
 
-    HTML_Content += "<table><tbody><tr><th>Timestamp:</th><th>Note:</th></tr>"
+    HTML_Content += `<table><tbody><tr><th class="timestamp">Timestamp:</th><th class="note">Note:</th></tr>`;
     
     for(const key in bookmarks){
         const currentBookmark = bookmarks[key];
-        HTML_Content += `<tr><td>${currentBookmark.timestamp}</td><td>${currentBookmark.text}</td></tr>`;
+        HTML_Content += `<tr><td class="timestamp">${currentBookmark.timestamp}</td><td class="note">${currentBookmark.text}</td></tr>`;
     }
 
-    HTML_Content += "<tbody/><table/>"
+    HTML_Content += "</tbody></table>"
 
     tableWrapper.innerHTML = HTML_Content;
 }
