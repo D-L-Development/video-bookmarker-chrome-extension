@@ -1,0 +1,9 @@
+:root {
+
+    /* COLORS */
+    --primary: rgb(16, 4, 54);
+    --secondary: rgb(228, 87, 65);
+    --secondary-faded: rgba(228, 87, 65, 0.708);
+    --table-row: rgb(219, 216, 216);
+
+}
