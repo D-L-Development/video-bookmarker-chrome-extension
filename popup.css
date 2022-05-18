@@ -29,10 +29,6 @@ th, td{
     width: 80%;
 }
 
-table{
-    margin-bottom: 1rem;
-}
-
 table, tbody, tr{
     width: 100%;
 }
@@ -40,4 +36,5 @@ table, tbody, tr{
 #tableWrapper{
     background-color: orange;
     width: 100%;
+    overflow-y: scroll;
 }
