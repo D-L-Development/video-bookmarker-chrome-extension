@@ -2,19 +2,22 @@ console.log("Popup script ran!");
 
 const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 const tableWrapper = document.getElementById('tableWrapper');
+const sessionName = document.querySelector('h1');
 
 chrome.storage.sync.get(STORAGE_KEY, response=>{
     if(Object.keys(response).length > 0){
         // create UI
-        const {bookmarks} = response[STORAGE_KEY];
+        const {bookmarks, sessionName} = response[STORAGE_KEY];
         createBookmarksTable(bookmarks);
+        updateTitle(sessionName);
     }
 })
 
 // listener for storage updates
 chrome.storage.onChanged.addListener((changes, area) => {
-    const {bookmarks} = changes[STORAGE_KEY].newValue;
+    const {bookmarks, sessionName} = changes[STORAGE_KEY].newValue;
     createBookmarksTable(bookmarks);
+    updateTitle(sessionName);
 });
 
 function createBookmarksTable(bookmarks){
@@ -34,4 +37,8 @@ function createBookmarksTable(bookmarks){
     HTML_Content += "</tbody></table>"
 
     tableWrapper.innerHTML = HTML_Content;
+}
+
+function updateTitle(title){
+    sessionName.innerText = title;
 }
