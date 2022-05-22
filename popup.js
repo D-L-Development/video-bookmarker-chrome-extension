@@ -4,6 +4,7 @@ const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 const tableWrapper = document.getElementById('tableWrapper');
 const sessionName = document.querySelector('h1');
 const copyTableBtn = document.getElementById('copyTableBtn');
+const closeBtnIcon = document.getElementById('closeIconBtn');
 
 
 // wire copy event for button
@@ -20,6 +21,9 @@ copyTableBtn.addEventListener('click', e=>{
 
     
 })
+
+// wire event for closing sidebar
+closeBtnIcon.addEventListener('click', handleCloseIconClick)
 
 chrome.storage.sync.get(STORAGE_KEY, response=>{
     if(Object.keys(response).length > 0){
@@ -58,5 +62,16 @@ function createBookmarksTable(bookmarks){
 
 function updateTitle(title){
     sessionName.innerText = title;
+}
+
+// message the content script to close the sidebarIframe
+function handleCloseIconClick(e){
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, "toggle", function(response) {
+            if(response.status === "success"){
+                console.log(`Message sent to tab ${tabs[0].id}`);
+            }
+        });
+    });
 }
 
