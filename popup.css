@@ -83,7 +83,7 @@ footer{
 }
 
 #copyTableBtn{
-    margin-left: .2rem;
+    margin-left: .5rem;
     background-color: var(--secondary);
     border-radius: .3rem;
     padding: .2rem .5rem;

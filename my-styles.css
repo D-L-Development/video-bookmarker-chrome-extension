@@ -10,7 +10,9 @@
     -webkit-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
     -o-transition-duration: 0.3s;
-     transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-box-shadow: -2px 0px 11px 1px rgba(0,0,0,0.89); 
+    box-shadow: -2px 0px 11px 1px rgba(0,0,0,0.89);
 }
 
 .web-sidebar.on{
