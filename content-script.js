@@ -69,6 +69,27 @@ function entryPoint(){
                 }
             })
 
+            document.addEventListener('keydown', e=>{
+                if(e.ctrlKey && e.key == '['){
+                    // create the sidebar here
+                    const div = document.createElement("div"); 
+                    div.setAttribute('id', 'myDiv');
+                    // document.body.appendChild(div); 
+                    div.innerText="Dako";
+                    document.body.insertBefore(div, document.body.firstChild);
+                    
+                    const style = {
+                        position: 'fixed',
+                        backgroundColor: 'yellow',
+                        width: '200px',
+                        height: '200px',
+                        zIndex: '100'
+                    }
+
+                    Object.assign(div.style, style);
+                }
+            })
+
         }
 
         
@@ -107,3 +128,10 @@ function getVideoElement(repeatCount = 20){
 
     })
 }
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    if(msg === "toggle"){
+        console.log("Message recieved");
+        sendResponse({status: "success"});
+    }
+})
