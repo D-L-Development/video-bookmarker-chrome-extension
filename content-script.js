@@ -69,30 +69,7 @@ function entryPoint(){
                 }
             })
 
-            document.addEventListener('keydown', e=>{
-                if(e.ctrlKey && e.key == '['){
-                    // create the sidebar here
-                    const div = document.createElement("div"); 
-                    div.setAttribute('id', 'myDiv');
-                    // document.body.appendChild(div); 
-                    div.innerText="Dako";
-                    document.body.insertBefore(div, document.body.firstChild);
-                    
-                    const style = {
-                        position: 'fixed',
-                        backgroundColor: 'yellow',
-                        width: '200px',
-                        height: '200px',
-                        zIndex: '100'
-                    }
-
-                    Object.assign(div.style, style);
-                }
-            })
-
         }
-
-        
         
     }).catch((err)=>{
         console.log("Error!", err);
@@ -129,6 +106,7 @@ function getVideoElement(repeatCount = 20){
     })
 }
 
+// handle the sidebar creation upon action icon click
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if(msg === "toggle"){
         console.log("Message recieved");
@@ -137,24 +115,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
 })
 
-const iframe = document.createElement('iframe'); 
-iframe.style.background = "green";
-iframe.style.height = "100%";
-iframe.style.width = "0px";
-iframe.style.position = "fixed";
-iframe.style.top = "0px";
-iframe.style.right = "0px";
-iframe.style.zIndex = "9000000000000000000";
-iframe.style.border = "0px"; 
-iframe.src = chrome.runtime.getURL("popup.html")
-
-document.body.appendChild(iframe);
+const sidebarIframe = document.createElement('iframe');
+sidebarIframe.classList.add('web-sidebar'); 
+sidebarIframe.src = chrome.runtime.getURL("popup.html")
+document.body.appendChild(sidebarIframe);
 
 function toggle(){
-    if(iframe.style.width == "0px"){
-        iframe.style.width="400px";
-    }
-    else{
-        iframe.style.width="0px";
-    }
+    sidebarIframe.classList.toggle('on');
 }
