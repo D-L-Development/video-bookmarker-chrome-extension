@@ -1,0 +1,11 @@
+// TODO: enable clicks on the timestamps
+// TODO: add a button to open the sidebar
+// TODO: make the table header float
+// TODO: add a box shadow under the header
+// TODO: add the icons and other buttons
+// TODO: add functionality to add button
+// TODO: add functionality to copy button
+// TODO: add functionality to reset button
+// TODO: add functionality to print button
+// TODO: add functionality to save button
+// TODO: add a navigation page for other sessions
