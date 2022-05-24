@@ -1,35 +1,107 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="popup.css" />
     <script src="./popup.js" defer></script>
     <script src="./utils/copyToClipboard.js" defer></script>
   </head>
   <body>
-      <header>
-        <h1>First Lecture</h1>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16" id="closeIconBtn">
-          <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
-        </svg>
-      </header>
-      <div id="tableWrapper">
-        <table>
-          <tbody>
-            <tr>
-              <th>Timestamp:</th>
-              <th>Note:</th>
-            </tr>
-            <tr>
-              <td>00:10:39</td>
-              <td>This part is important!</td>
-            </tr>
-            <tr>
-              <td>00:43:23</td>
-              <td>End of lecture.</td>
-            </tr>
-          </tbody>
-        </table>
+    <header>
+      <h1>First Lecture</h1>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-x-square-fill"
+        viewBox="0 0 16 16"
+        id="closeIconBtn"
+      >
+        <path
+          d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
+        />
+      </svg>
+    </header>
+    <div id="tableWrapper">
+      <div class="bookmark">
+        <div class="bookmarkHeader">
+          <p class="headerText">
+            <span class="timestampText">00:53:43</span>
+            <span class="title">Title</span>
+          </p>
+
+          <div class="headerIcons">
+            <img
+              src="./images/icons/check-square.svg"
+              alt="confirm icon"
+              id="confirmIcon"
+              class="headerIcon"
+            />
+            <img
+              src="./images/icons/pencil-square.svg"
+              alt="edit icon"
+              id="editIcon"
+              class="headerIcon"
+            />
+            <img
+              src="./images/icons/list-nested.svg"
+              alt="nest icon"
+              id="nestIcon"
+              class="headerIcon"
+            />
+            <img
+              src="./images/icons/trash.svg"
+              alt="trash icon"
+              id="trashIcon"
+              class="headerIcon"
+            />
+          </div>
+        </div>
+        <div class="bookmarkText">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, ab
+          nisi aliquam rem nemo beatae perferendis
+        </div>
       </div>
+      <div class="bookmark nested">
+        <div class="bookmarkHeader">
+          <p class="headerText">
+            <span class="timestampText">00:54:33</span>
+            <span class="title">Title</span>
+          </p>
+
+          <div class="headerIcons">
+            <img
+              src="./images/icons/check-square.svg"
+              alt="confirm icon"
+              id="confirmIcon"
+              class="headerIcon"
+            />
+            <img
+              src="./images/icons/pencil-square.svg"
+              alt="edit icon"
+              id="editIcon"
+              class="headerIcon"
+            />
+            <img
+              src="./images/icons/list-nested.svg"
+              alt="nest icon"
+              id="nestIcon"
+              class="headerIcon"
+            />
+            <img
+              src="./images/icons/trash.svg"
+              alt="trash icon"
+              id="trashIcon"
+              class="headerIcon"
+            />
+          </div>
+        </div>
+        <div class="bookmarkText">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, ab
+          nisi aliquam rem nemo beatae perferendis
+        </div>
+      </div>
+    </div>
     <footer>
       <div id="copyTableBtn">Copy Table</div>
     </footer>
