@@ -44,7 +44,8 @@ class Video {
 
     // if text input is not empty, then add bookmark
     if (newBookmarkText) {
-      this.storage.addBookmark(currentTimestamp, newBookmarkText);
+      // TODO: let the user decide when they add a bookmark if it's nested or not
+      this.storage.addBookmark(currentTimestamp, newBookmarkText, false);
       this.storage.printBookmarksPretty();
     }
     this.play();
@@ -52,6 +53,10 @@ class Video {
 
   removeBookmark(timestamp) {
     this.storage.removeBookmark(timestamp);
+  }
+
+  toggleBookmarkNesting(timestamp) {
+    this.storage.toggleBookmarkNesting(timestamp);
   }
   copyStringToClipboard(str) {
     // Create new element

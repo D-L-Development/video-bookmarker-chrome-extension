@@ -31,12 +31,13 @@ class Storage {
     });
   }
 
-  addBookmark(currentTimestamp, bookmarkText) {
+  addBookmark(currentTimestamp, bookmarkText, isNested) {
     const { bookmarks } = this.videoSession[this.STORAGE_KEY];
 
     bookmarks[currentTimestamp] = {
       timestamp: currentTimestamp,
       text: bookmarkText,
+      isNested,
     };
     this.syncToLocalStorage();
   }
@@ -49,6 +50,19 @@ class Storage {
     } else {
       console.log(
         `Can't remove bookmark at ${timestamp} because it doesn't exist`
+      );
+    }
+  }
+
+  toggleBookmarkNesting(timestamp) {
+    const { bookmarks } = this.videoSession[this.STORAGE_KEY];
+    const targetBookmark = bookmarks[timestamp];
+    if (targetBookmark) {
+      targetBookmark.isNested = !targetBookmark.isNested;
+      this.syncToLocalStorage();
+    } else {
+      console.log(
+        `Can't toggle bookmark nesting at ${timestamp} because it doesn't exist`
       );
     }
   }

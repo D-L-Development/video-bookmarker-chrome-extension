@@ -47,9 +47,12 @@ function updateAllBookmarksUI(bookmarks) {
     // <div class='bookmark'>
     const bookmarkElem = document.createElement("div");
     bookmarksContainer.appendChild(bookmarkElem);
-    bookmarkElem.classList.add(
-      `bookmark${currentBookmark.isNested ? " nested" : ""}`
-    );
+    bookmarkElem.classList.add("bookmark");
+    if (currentBookmark.isNested) {
+      bookmarkElem.classList.add("nested");
+    } else {
+      bookmarkElem.classList.remove("nested");
+    }
     //    <div class='bookmarkHeader'>
     const bookmarkHeaderElem = document.createElement("div");
     bookmarkElem.appendChild(bookmarkHeaderElem);
@@ -98,6 +101,7 @@ function updateAllBookmarksUI(bookmarks) {
     nestIconElem.setAttribute("src", "./images/icons/list-nested.svg");
     nestIconElem.setAttribute("id", "nestIcon");
     nestIconElem.setAttribute("alt", "nest icon");
+    nestIconElem.addEventListener("click", handleNestIconClick);
 
     const deleteIconElem = document.createElement("img");
     headerIcons.appendChild(deleteIconElem);
@@ -154,6 +158,18 @@ const handleTrashIconClick = (e) => {
     (response) => {
       if (response.status === "success") {
         console.log(`Deleted timestamp!`);
+      }
+    }
+  );
+};
+
+const handleNestIconClick = (e) => {
+  const timestamp = e.target.parentElement.getAttribute("timestamp");
+  sendMessageToActiveTab(
+    { action: "toggleBookmarkNesting", payload: timestamp },
+    (response) => {
+      if (response.status === "success") {
+        console.log(`Nest toggle timestamp!`);
       }
     }
   );

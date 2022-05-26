@@ -109,6 +109,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       deleteBookmark(msg.payload);
       sendResponse({ status: "success" });
       break;
+    case "toggleBookmarkNesting":
+      toggleBookmarkNesting(msg.payload);
+      sendResponse({ status: "success" });
+      break;
   }
 });
 
@@ -139,4 +143,12 @@ function deleteBookmark(timestamp) {
   }
 
   alert("Can't delete bookmark. No video found on the current page!");
+}
+
+function toggleBookmarkNesting(timestamp) {
+  if (video) {
+    video.toggleBookmarkNesting(timestamp);
+    return;
+  }
+  alert("Can't toggle bookmark nesting. No video found on the current page!");
 }
