@@ -65,6 +65,7 @@ function updateAllBookmarksUI(bookmarks) {
     headerTextElem.appendChild(timestampTextElem);
     timestampTextElem.classList.add("timestampText");
     timestampTextElem.innerText = currentBookmark.timestamp;
+    timestampTextElem.addEventListener("click", handleTimestampClick);
 
     const titleElem = document.createElement("span");
     headerTextElem.appendChild(titleElem);
@@ -116,13 +117,34 @@ function updateTitle(title) {
   sessionName.innerText = title;
 }
 
+// // message the content script to close the sidebarIframe
+// function handleCloseIconClick(e) {
+//   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//     chrome.tabs.sendMessage(tabs[0].id, "toggle", function (response) {
+//       if (response.status === "success") {
+//         console.log(`Message sent to tab ${tabs[0].id}`);
+//       }
+//     });
+//   });
+// }
+
 // message the content script to close the sidebarIframe
 function handleCloseIconClick(e) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, "toggle", function (response) {
-      if (response.status === "success") {
-        console.log(`Message sent to tab ${tabs[0].id}`);
-      }
-    });
+  sendMessageToActiveTab("toggle", (response) => {
+    if (response.status === "success") {
+      console.log(`Message sent to tab`);
+    }
   });
 }
+
+// sends a message to the active tab's content script
+const sendMessageToActiveTab = (tag, callback) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, tag, callback);
+  });
+};
+
+// icon event handlers
+const handleTimestampClick = (e) => {
+  console.log("Clicked", e.target.innerText);
+};
