@@ -96,12 +96,6 @@ function getVideoElement(repeatCount = 20) {
 
 // handle the sidebar creation upon action icon click
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  //   if (msg.action === "toggle") {
-  //     console.log("Message recieved");
-  //     sendResponse({ status: "success" });
-  //     toggle();
-  //   }
-
   switch (msg.action) {
     case "toggle":
       toggle();
@@ -109,6 +103,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       break;
     case "jumpToTimestamp":
       jumpToTimestamp(msg.payload);
+      sendResponse({ status: "success" });
+      break;
+    case "deleteBookmark":
+      deleteBookmark(msg.payload);
       sendResponse({ status: "success" });
       break;
   }
@@ -132,4 +130,13 @@ function jumpToTimestamp(timestamp) {
   }
 
   alert("Can't jump to timestamp. No video found on the current page!");
+}
+
+function deleteBookmark(timestamp) {
+  if (video) {
+    video.removeBookmark(timestamp);
+    return;
+  }
+
+  alert("Can't delete bookmark. No video found on the current page!");
 }

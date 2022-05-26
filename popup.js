@@ -76,6 +76,7 @@ function updateAllBookmarksUI(bookmarks) {
     const headerIcons = document.createElement("div");
     bookmarkHeaderElem.appendChild(headerIcons);
     headerIcons.classList.add("headerIcons");
+    headerIcons.setAttribute("timestamp", currentBookmark.timestamp);
 
     const checkIconElem = document.createElement("img");
     headerIcons.appendChild(checkIconElem);
@@ -104,6 +105,7 @@ function updateAllBookmarksUI(bookmarks) {
     deleteIconElem.setAttribute("src", "./images/icons/trash.svg");
     deleteIconElem.setAttribute("id", "trashIcon");
     deleteIconElem.setAttribute("alt", "trash icon");
+    deleteIconElem.addEventListener("click", handleTrashIconClick);
 
     const bookmarkTextElem = document.createElement("div");
     bookmarkElem.appendChild(bookmarkTextElem);
@@ -116,17 +118,6 @@ function updateAllBookmarksUI(bookmarks) {
 function updateTitle(title) {
   sessionName.innerText = title;
 }
-
-// // message the content script to close the sidebarIframe
-// function handleCloseIconClick(e) {
-//   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//     chrome.tabs.sendMessage(tabs[0].id, "toggle", function (response) {
-//       if (response.status === "success") {
-//         console.log(`Message sent to tab ${tabs[0].id}`);
-//       }
-//     });
-//   });
-// }
 
 // sends a message to the active tab's content script
 const sendMessageToActiveTab = (payload, callback) => {
@@ -151,6 +142,18 @@ const handleTimestampClick = (e) => {
     (response) => {
       if (response.status === "success") {
         console.log(`Jumped to timestamp!`);
+      }
+    }
+  );
+};
+
+const handleTrashIconClick = (e) => {
+  const timestamp = e.target.parentElement.getAttribute("timestamp");
+  sendMessageToActiveTab(
+    { action: "deleteBookmark", payload: timestamp },
+    (response) => {
+      if (response.status === "success") {
+        console.log(`Deleted timestamp!`);
       }
     }
   );

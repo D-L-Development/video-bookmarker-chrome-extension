@@ -41,6 +41,18 @@ class Storage {
     this.syncToLocalStorage();
   }
 
+  removeBookmark(timestamp) {
+    const { bookmarks } = this.videoSession[this.STORAGE_KEY];
+    if (bookmarks[timestamp]) {
+      delete bookmarks[timestamp];
+      this.syncToLocalStorage();
+    } else {
+      console.log(
+        `Can't remove bookmark at ${timestamp} because it doesn't exist`
+      );
+    }
+  }
+
   // return whether a timestamp has a bookmark or not
   getBookmarkAtTimestamp(currentTimestamp) {
     return this.videoSession[this.STORAGE_KEY].bookmarks[currentTimestamp];
