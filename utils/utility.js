@@ -1,0 +1,61 @@
+function copyStringToClipboard(str) {
+  // Create new element
+  var el = document.createElement("textarea");
+  // Set value (string to be copied)
+  el.value = str;
+  // Set non-editable to avoid focus and move outside of view
+  el.setAttribute("readonly", "");
+  el.style = { position: "absolute", left: "-9999px" };
+  document.body.appendChild(el);
+  // Select text inside element
+  el.select();
+  // Copy text to clipboard
+  document.execCommand("copy");
+  // Remove temporary element
+  document.body.removeChild(el);
+}
+
+function formatMapToTableString(bookmarks) {
+  const TAB_CHAR = String.fromCharCode(9);
+  const NEWLINE_CHAR = String.fromCharCode(10);
+  let formatedString = "";
+  for (let key in bookmarks) {
+    // timestamp + TAB + bookmark + NEWLINE
+    formatedString += key + TAB_CHAR + bookmarks[key].text + NEWLINE_CHAR;
+  }
+
+  return formatedString;
+}
+
+function copyTableToClipboard(bookmarks) {
+  copyStringToClipboard(formatMapToTableString(bookmarks));
+}
+
+function guid() {
+  let s4 = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
+  //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
+  return (
+    s4() +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    s4() +
+    s4()
+  );
+}
+
+function timestampToSeconds(timestamp) {
+  const array = timestamp.split(":"); // split it at the colons
+  // minutes are worth 60 seconds. Hours are worth 60 minutes.
+  return +array[0] * 60 * 60 + +array[1] * 60 + +array[2];
+}
