@@ -1,7 +1,7 @@
 console.log("Popup script ran!");
 
 const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
-const tableWrapper = document.getElementById("tableWrapper");
+const bookmarksContainer = document.getElementById("bookmarksContainer");
 const sessionName = document.querySelector("h1");
 const copyTableBtn = document.getElementById("copyTableBtn");
 const closeBtnIcon = document.getElementById("closeIconBtn");
@@ -25,7 +25,7 @@ chrome.storage.sync.get(STORAGE_KEY, (response) => {
   if (Object.keys(response).length > 0) {
     // create UI
     const { bookmarks, sessionName } = response[STORAGE_KEY];
-    createBookmarksTable(bookmarks);
+    updateAllBookmarksUI(bookmarks);
     updateTitle(sessionName);
   }
 });
@@ -33,26 +33,83 @@ chrome.storage.sync.get(STORAGE_KEY, (response) => {
 // listener for storage updates
 chrome.storage.onChanged.addListener((changes, area) => {
   const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
-  createBookmarksTable(bookmarks);
+  updateAllBookmarksUI(bookmarks);
   updateTitle(sessionName);
 });
 
-function createBookmarksTable(bookmarks) {
-  // // remove the current HTML content
-  // tableWrapper.innerHTML = "";
-  // let HTML_Content = "";
-  // HTML_Content += `<table><tbody><tr><th class="timestamp">Timestamp:</th><th class="note">Note:</th></tr>`;
-  // for (const key in bookmarks) {
-  //   const currentBookmark = bookmarks[key];
-  //   HTML_Content += `<tr><td class="timestamp"><a href="#" id="timestampLink">${currentBookmark.timestamp}</a></td><td class="note">${currentBookmark.text}</td></tr>`;
-  // }
-  // HTML_Content += "</tbody></table>";
-  // tableWrapper.innerHTML = HTML_Content;
-  // // ! you left off here
-  // for (const key in bookmarks) {
-  //   const currentBookmark = bookmarks[key];
-  //   const tableRow = document.createElement("tr");
-  // }
+function updateAllBookmarksUI(bookmarks) {
+  // clear current bookmarks
+  bookmarksContainer.innerHTML = "";
+
+  for (const key in bookmarks) {
+    const currentBookmark = bookmarks[key];
+
+    // <div class='bookmark'>
+    const bookmarkElem = document.createElement("div");
+    bookmarksContainer.appendChild(bookmarkElem);
+    bookmarkElem.classList.add(
+      `bookmark${currentBookmark.isNested ? " nested" : ""}`
+    );
+    //    <div class='bookmarkHeader'>
+    const bookmarkHeaderElem = document.createElement("div");
+    bookmarkElem.appendChild(bookmarkHeaderElem);
+    bookmarkHeaderElem.classList.add("bookmarkHeader");
+    //        <p class='headerText'>
+    //           <span class='headerText'>
+    //           <span class='title'>
+    const headerTextElem = document.createElement("p");
+    bookmarkHeaderElem.appendChild(headerTextElem);
+    headerTextElem.classList.add("headerText");
+
+    const timestampTextElem = document.createElement("span");
+    headerTextElem.appendChild(timestampTextElem);
+    timestampTextElem.classList.add("timestampText");
+    timestampTextElem.innerText = currentBookmark.timestamp;
+
+    const titleElem = document.createElement("span");
+    headerTextElem.appendChild(titleElem);
+    titleElem.classList.add("title");
+    titleElem.innerText = currentBookmark.text;
+
+    //        <div class='headerIcons'>
+    const headerIcons = document.createElement("div");
+    bookmarkHeaderElem.appendChild(headerIcons);
+    headerIcons.classList.add("headerIcons");
+
+    const checkIconElem = document.createElement("img");
+    headerIcons.appendChild(checkIconElem);
+    checkIconElem.classList.add("headerIcon");
+    checkIconElem.setAttribute("src", "./images/icons/check-square.svg");
+    checkIconElem.setAttribute("id", "confirmIcon");
+    checkIconElem.setAttribute("alt", "confirm icon");
+
+    const editIconElem = document.createElement("img");
+    headerIcons.appendChild(editIconElem);
+    editIconElem.classList.add("headerIcon");
+    editIconElem.setAttribute("src", "./images/icons/pencil-square.svg");
+    editIconElem.setAttribute("id", "editIcon");
+    editIconElem.setAttribute("alt", "edit icon");
+
+    const nestIconElem = document.createElement("img");
+    headerIcons.appendChild(nestIconElem);
+    nestIconElem.classList.add("headerIcon");
+    nestIconElem.setAttribute("src", "./images/icons/list-nested.svg");
+    nestIconElem.setAttribute("id", "nestIcon");
+    nestIconElem.setAttribute("alt", "nest icon");
+
+    const deleteIconElem = document.createElement("img");
+    headerIcons.appendChild(deleteIconElem);
+    deleteIconElem.classList.add("headerIcon");
+    deleteIconElem.setAttribute("src", "./images/icons/trash.svg");
+    deleteIconElem.setAttribute("id", "trashIcon");
+    deleteIconElem.setAttribute("alt", "trash icon");
+
+    const bookmarkTextElem = document.createElement("div");
+    bookmarkElem.appendChild(bookmarkTextElem);
+    bookmarkTextElem.classList.add("bookmarkText");
+    bookmarkTextElem.innerText =
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, abnisi aliquam rem nemo beatae perferendis";
+  }
 }
 
 function updateTitle(title) {

@@ -44,36 +44,7 @@ h1 {
   color: rgba(255, 255, 255, 0.832);
 }
 
-table,
-th,
-td {
-  border: 1px solid grey;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 0.5rem;
-}
-
-.note {
-  width: 80%;
-}
-.timestamp {
-  text-align: center;
-}
-
-table,
-tbody,
-tr {
-  width: 100%;
-}
-
-tr:nth-child(even) {
-  background-color: var(--table-row);
-}
-
-#tableWrapper {
+#bookmarksContainer {
   width: 100%;
   overflow-y: scroll;
 }
