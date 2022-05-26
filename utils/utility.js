@@ -53,3 +53,9 @@ function guid() {
     s4()
   );
 }
+
+function timestampToSeconds(timestamp) {
+  const array = timestamp.split(":"); // split it at the colons
+  // minutes are worth 60 seconds. Hours are worth 60 minutes.
+  return +array[0] * 60 * 60 + +array[1] * 60 + +array[2];
+}

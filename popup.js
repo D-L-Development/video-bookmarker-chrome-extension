@@ -128,23 +128,30 @@ function updateTitle(title) {
 //   });
 // }
 
+// sends a message to the active tab's content script
+const sendMessageToActiveTab = (payload, callback) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, payload, callback);
+  });
+};
 // message the content script to close the sidebarIframe
 function handleCloseIconClick(e) {
-  sendMessageToActiveTab("toggle", (response) => {
+  sendMessageToActiveTab({ action: "toggle" }, (response) => {
     if (response.status === "success") {
-      console.log(`Message sent to tab`);
+      console.log(`Side menu closed!`);
     }
   });
 }
 
-// sends a message to the active tab's content script
-const sendMessageToActiveTab = (tag, callback) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, tag, callback);
-  });
-};
-
 // icon event handlers
 const handleTimestampClick = (e) => {
-  console.log("Clicked", e.target.innerText);
+  const timestamp = e.target.innerText;
+  sendMessageToActiveTab(
+    { action: "jumpToTimestamp", payload: timestamp },
+    (response) => {
+      if (response.status === "success") {
+        console.log(`Jumped to timestamp!`);
+      }
+    }
+  );
 };
