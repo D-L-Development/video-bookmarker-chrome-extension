@@ -29,7 +29,7 @@ h1 {
   color: white;
 }
 
-.bi.bi-x-square-fill {
+#closeIcon {
   color: white;
   position: absolute;
   top: 15px;
@@ -39,9 +39,23 @@ h1 {
   transition: 0.2s;
 }
 
-.bi.bi-x-square-fill:hover {
+.navIcon:hover {
   cursor: pointer;
   color: rgba(255, 255, 255, 0.832);
+}
+
+#backArrowIconWrapper {
+  position: absolute;
+  width: 10%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#backArrowIcon {
+  width: 2rem;
+  height: 2rem;
 }
 
 #bookmarksContainer {

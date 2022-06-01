@@ -23,6 +23,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       createNewSession();
       sendResponse({ status: "success" });
       break;
+    case "loadNavigationPage":
+      session.sideMenuUpdate(NAGIVATION_PAGE_URL);
+      sendResponse({ status: "success" });
+      break;
     case "jumpToTimestamp":
       jumpToTimestamp(msg.payload);
       sendResponse({ status: "success" });

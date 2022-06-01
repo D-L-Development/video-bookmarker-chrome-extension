@@ -4,7 +4,8 @@ const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 const bookmarksContainer = document.getElementById("bookmarksContainer");
 const sessionName = document.querySelector("h1");
 const copyTableBtn = document.getElementById("copyTableBtn");
-const closeBtnIcon = document.getElementById("closeIconBtn");
+const closeBtnIcon = document.getElementById("closeIcon");
+const backArrowIcon = document.getElementById("backArrowIcon");
 
 // wire copy event for button
 copyTableBtn.addEventListener("click", (e) => {
@@ -20,6 +21,8 @@ copyTableBtn.addEventListener("click", (e) => {
 
 // wire event for closing sidebar
 closeBtnIcon.addEventListener("click", handleCloseIconClick);
+// wire event handler for the back btn
+backArrowIcon.addEventListener("click", handleBackArrowIconClick);
 
 chrome.storage.sync.get(STORAGE_KEY, (response) => {
   if (Object.keys(response).length > 0) {
@@ -128,6 +131,15 @@ function handleCloseIconClick(e) {
   sendMessageToActiveTab({ action: "toggle" }, (response) => {
     if (response.status === "success") {
       console.log(`Side menu closed!`);
+    }
+  });
+}
+
+// send message to content script to load the navigation page
+function handleBackArrowIconClick(e) {
+  sendMessageToActiveTab({ action: "loadNavigationPage" }, (response) => {
+    if (response.status === "success") {
+      console.log(`Navigation pagee loaded!`);
     }
   });
 }
