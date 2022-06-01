@@ -123,13 +123,6 @@ function updateTitle(title) {
   sessionName.innerText = title;
 }
 
-// sends a message to the active tab's content script
-const sendMessageToActiveTab = (payload, callback) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, payload, callback);
-  });
-};
-
 // message the content script to close the sidebarIframe
 function handleCloseIconClick(e) {
   sendMessageToActiveTab({ action: "toggle" }, (response) => {

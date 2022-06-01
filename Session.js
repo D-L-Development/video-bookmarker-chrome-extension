@@ -23,12 +23,19 @@ class Session {
     });
   }
 
-  createSidemenu(URL) {
-    this.sidebarIframe = document.createElement("iframe");
-    this.sidebarIframe.classList.add("web-sidebar");
-    // this.sidebarIframe.src = chrome.runtime.getURL("popup.html");
+  // creates the sidebar if it doesn't already exist, and sets its source to URL param
+  sideMenuUpdate(URL) {
+    // create the side menu if there's isn't one
+    if (!this.sidebarIframe) {
+      this.sidebarIframe = document.createElement("iframe");
+      this.sidebarIframe.classList.add("web-sidebar");
+      // this.sidebarIframe.src = chrome.runtime.getURL("popup.html");
+      this.sidebarIframe.src = URL;
+      document.body.appendChild(this.sidebarIframe);
+    }
+
+    // update the source URL
     this.sidebarIframe.src = URL;
-    document.body.appendChild(this.sidebarIframe);
   }
 
   removeSidemenu() {

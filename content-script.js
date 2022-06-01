@@ -1,5 +1,8 @@
 console.log("Content Script Ran!");
 
+const NAGIVATION_PAGE_URL = chrome.runtime.getURL("navigation.html");
+const SIDEBAR_PAGE_URL = chrome.runtime.getURL("popup.html");
+
 let initialPageLoad = true;
 let session = null;
 
@@ -35,10 +38,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
 });
 
-function createNewSession() {
-  console.log("Okay I can do that");
-}
-
 function initSession() {
   // TODO 01: check the URL against the storage and see if there's a session already created for the URL
   // TODO 02: if there's already a session, then just load it and get the current video, otherwise load the navigation page
@@ -48,7 +47,7 @@ function initSession() {
       .then((res) => {
         session.video = new Video(res.video);
         // create the side menu for found video
-        session.createSidemenu(chrome.runtime.getURL("popup.html"));
+        session.sideMenuUpdate(SIDEBAR_PAGE_URL);
         session.toggleSidemenuVisiblity();
       })
       .catch((error) => {
@@ -57,54 +56,9 @@ function initSession() {
       });
   } else {
     // TODO: render the navigation page
-    session.createSidemenu(chrome.runtime.getURL("navigation.html"));
+    session.sideMenuUpdate(NAGIVATION_PAGE_URL);
     session.toggleSidemenuVisiblity();
   }
-
-  // // try to get an HTML video element
-  // getVideoElement()
-  //   .then((res) => {
-  //     video = new Video(res.video);
-
-  //     // only add the lisnteners once
-  //     if (initialPageLoad) {
-  //       initialPageLoad = false;
-
-  //       document.addEventListener("keydown", (e) => {
-  //         if (e.ctrlKey && e.key == "b") {
-  //           video.addBookmark();
-  //         }
-  //       });
-
-  //       document.addEventListener("keydown", (e) => {
-  //         if (e.ctrlKey && e.key == ";") {
-  //           // print bookmarks pretty
-  //           video.storage.printBookmarksPretty();
-  //           video.copyStringToClipboard(video.formatMapToTableString());
-  //           console.log("I copied the table to your clipboard!");
-  //         }
-  //       });
-
-  //       document.addEventListener("keydown", (e) => {
-  //         if (e.ctrlKey && e.key == ".") {
-  //           // ask user for timestamp
-  //           const userTimeStamp = prompt("Enter the timestamp HH:MM:SS");
-  //           if (userTimeStamp) {
-  //             const timeStamp = userTimeStamp.split(":"); // split it at the colons
-  //             // minutes are worth 60 seconds. Hours are worth 60 minutes.
-  //             const seconds =
-  //               +timeStamp[0] * 60 * 60 + +timeStamp[1] * 60 + +timeStamp[2];
-
-  //             // jump to that timestamp
-  //             video.jumpToTimestamp(seconds);
-  //           }
-  //         }
-  //       });
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     console.log("Error!", err);
-  //   });
 }
 
 // resolves a promise with an HTML video element
@@ -128,4 +82,47 @@ function getVideoElement(repeatCount = 20) {
       }
     }, 500);
   });
+}
+
+function createNewSession() {
+  // try to get an HTML video element
+  getVideoElement()
+    .then((res) => {
+      session.video = new Video(res.video);
+      session.sideMenuUpdate(SIDEBAR_PAGE_URL);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key == "b") {
+          video.addBookmark();
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key == ";") {
+          // print bookmarks pretty
+          video.storage.printBookmarksPretty();
+          video.copyStringToClipboard(video.formatMapToTableString());
+          console.log("I copied the table to your clipboard!");
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key == ".") {
+          // ask user for timestamp
+          const userTimeStamp = prompt("Enter the timestamp HH:MM:SS");
+          if (userTimeStamp) {
+            const timeStamp = userTimeStamp.split(":"); // split it at the colons
+            // minutes are worth 60 seconds. Hours are worth 60 minutes.
+            const seconds =
+              +timeStamp[0] * 60 * 60 + +timeStamp[1] * 60 + +timeStamp[2];
+
+            // jump to that timestamp
+            video.jumpToTimestamp(seconds);
+          }
+        }
+      });
+    })
+    .catch((err) => {
+      console.log("Error!", err);
+    });
 }
