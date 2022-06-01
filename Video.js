@@ -2,7 +2,6 @@ class Video {
   constructor(videoElement) {
     this.video = videoElement;
     this.storage = new Storage();
-    //this.storage.printBookmarksPretty();
   }
 
   play() {

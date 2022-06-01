@@ -139,7 +139,7 @@ function handleCloseIconClick(e) {
 function handleBackArrowIconClick(e) {
   sendMessageToActiveTab({ action: "loadNavigationPage" }, (response) => {
     if (response.status === "success") {
-      console.log(`Navigation pagee loaded!`);
+      console.log(`Navigation page loaded!`);
     }
   });
 }

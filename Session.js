@@ -1,7 +1,7 @@
 class Session {
-  constructor() {
-    this.session = {};
-    this.video = null;
+  constructor(video, videoURL) {
+    this.video = video;
+    this.videoURL = videoURL;
     this.sidebarIframe = null;
     this.ALL_SESSIONS = "All Sessions";
   }
@@ -29,7 +29,6 @@ class Session {
     if (!this.sidebarIframe) {
       this.sidebarIframe = document.createElement("iframe");
       this.sidebarIframe.classList.add("web-sidebar");
-      // this.sidebarIframe.src = chrome.runtime.getURL("popup.html");
       this.sidebarIframe.src = URL;
       document.body.appendChild(this.sidebarIframe);
     }

@@ -2,6 +2,7 @@ console.log("Content Script Ran!");
 
 const NAGIVATION_PAGE_URL = chrome.runtime.getURL("navigation.html");
 const SIDEBAR_PAGE_URL = chrome.runtime.getURL("popup.html");
+const CURRENT_PAGE_URL = window.location.href;
 
 let initialPageLoad = true;
 let session = null;
@@ -28,15 +29,15 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sendResponse({ status: "success" });
       break;
     case "jumpToTimestamp":
-      jumpToTimestamp(msg.payload);
+      session.jumpToTimestamp(msg.payload);
       sendResponse({ status: "success" });
       break;
     case "deleteBookmark":
-      deleteBookmark(msg.payload);
+      session.deleteBookmark(msg.payload);
       sendResponse({ status: "success" });
       break;
     case "toggleBookmarkNesting":
-      toggleBookmarkNesting(msg.payload);
+      session.toggleBookmarkNesting(msg.payload);
       sendResponse({ status: "success" });
       break;
   }
@@ -45,17 +46,16 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 function initSession() {
   // TODO 01: check the URL against the storage and see if there's a session already created for the URL
   // TODO 02: if there's already a session, then just load it and get the current video, otherwise load the navigation page
-  session = new Session();
-  if (session.sessionExists(window.location.href)) {
+  if (session.sessionExists(CURRENT_PAGE_URL)) {
     getVideoElement()
       .then((res) => {
-        session.video = new Video(res.video);
+        session = new Session(new Video(res.video), CURRENT_PAGE_URL);
         // create the side menu for found video
         session.sideMenuUpdate(SIDEBAR_PAGE_URL);
         session.toggleSidemenuVisiblity();
       })
       .catch((error) => {
-        session.video = null;
+        session = new Session(null, null);
         alert("URL found, but there is not video in the document");
       });
   } else {
@@ -92,20 +92,20 @@ function createNewSession() {
   // try to get an HTML video element
   getVideoElement()
     .then((res) => {
-      session.video = new Video(res.video);
+      session = new Session(new Video(res.video), CURRENT_PAGE_URL);
       session.sideMenuUpdate(SIDEBAR_PAGE_URL);
 
       document.addEventListener("keydown", (e) => {
         if (e.ctrlKey && e.key == "b") {
-          video.addBookmark();
+          session.video.addBookmark();
         }
       });
 
       document.addEventListener("keydown", (e) => {
         if (e.ctrlKey && e.key == ";") {
           // print bookmarks pretty
-          video.storage.printBookmarksPretty();
-          video.copyStringToClipboard(video.formatMapToTableString());
+          session.video.storage.printBookmarksPretty();
+          session.video.copyStringToClipboard(video.formatMapToTableString());
           console.log("I copied the table to your clipboard!");
         }
       });
@@ -121,12 +121,13 @@ function createNewSession() {
               +timeStamp[0] * 60 * 60 + +timeStamp[1] * 60 + +timeStamp[2];
 
             // jump to that timestamp
-            video.jumpToTimestamp(seconds);
+            session.video.jumpToTimestamp(seconds);
           }
         }
       });
     })
     .catch((err) => {
+      session = new Session(null, null);
       console.log("Error!", err);
     });
 }
