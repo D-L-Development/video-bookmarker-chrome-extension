@@ -31,13 +31,14 @@
         "./utils/utility.js",
         "Storage.js",
         "Video.js",
+        "Session.js",
         "content-script.js"
       ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["popup.html"],
+      "resources": ["navigation.html", "popup.html"],
       "matches": ["https://*/*", "http://*/*"]
     }
   ]
