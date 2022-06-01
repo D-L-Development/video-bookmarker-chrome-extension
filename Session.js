@@ -3,11 +3,24 @@ class Session {
     this.session = {};
     this.video = null;
     this.sidebarIframe = null;
+    this.ALL_SESSIONS = "All Sessions";
   }
 
   sessionExists(URL) {
     // TODO: look in storage for session with matching URL
-    return false;
+    chrome.storage.sync.get(this.ALL_SESSIONS, (response) => {
+      // if there is a session in storage, then return it
+      if (Object.keys(response).length > 0) {
+        const sessions = response[this.ALL_SESSIONS];
+        console.log(sessions);
+        sessions.forEach((session) => {
+          if (session === URL) {
+            return true;
+          }
+        });
+      }
+      return false;
+    });
   }
 
   createSidemenu(URL) {

@@ -16,6 +16,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       }
       sendResponse({ status: "success" });
       break;
+    case "createNewSession":
+      createNewSession();
+      sendResponse({ status: "success" });
+      break;
     case "jumpToTimestamp":
       jumpToTimestamp(msg.payload);
       sendResponse({ status: "success" });
@@ -30,6 +34,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       break;
   }
 });
+
+function createNewSession() {
+  console.log("Okay I can do that");
+}
 
 function initSession() {
   // TODO 01: check the URL against the storage and see if there's a session already created for the URL

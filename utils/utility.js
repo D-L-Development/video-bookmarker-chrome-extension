@@ -59,3 +59,10 @@ function timestampToSeconds(timestamp) {
   // minutes are worth 60 seconds. Hours are worth 60 minutes.
   return +array[0] * 60 * 60 + +array[1] * 60 + +array[2];
 }
+
+// sends a message to the active tab's content script
+const sendMessageToActiveTab = (payload, callback) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, payload, callback);
+  });
+};

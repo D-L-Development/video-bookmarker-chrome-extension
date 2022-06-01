@@ -129,6 +129,7 @@ const sendMessageToActiveTab = (payload, callback) => {
     chrome.tabs.sendMessage(tabs[0].id, payload, callback);
   });
 };
+
 // message the content script to close the sidebarIframe
 function handleCloseIconClick(e) {
   sendMessageToActiveTab({ action: "toggle" }, (response) => {
