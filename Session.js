@@ -1,18 +1,69 @@
 class Session {
-  constructor(video, videoURL) {
-    this.video = video;
-    this.videoURL = videoURL;
+  static NAGIVATION_PAGE_URL = chrome.runtime.getURL("navigation.html");
+  static SIDEBAR_PAGE_URL = chrome.runtime.getURL("popup.html");
+  static ALL_SESSIONS = "All Sessions";
+
+  /**
+   * @param {String} pageURL - takes the URL of the current page and initializes the class based on if the URL is already in localstorage
+   */
+  constructor(pageURL) {
+    this.video = null;
     this.sidebarIframe = null;
-    this.ALL_SESSIONS = "All Sessions";
+    this.pageURL = pageURL;
+
+    if (this.#sessionExists(pageURL)) {
+      this.#getVideoElement()
+        .then((res) => {
+          this.video = new Video(res.video);
+          // create the side menu for found video
+          this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
+          this.toggleSidemenuVisiblity();
+        })
+        .catch((error) => {
+          this.#resetVideo();
+          alert("URL found, but there is not video in the document");
+        });
+    } else {
+      // TODO: render the navigation page
+      this.#resetVideo();
+      this.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
+      this.toggleSidemenuVisiblity();
+    }
   }
 
-  sessionExists(URL) {
+  createNewSession(pageURL) {
+    if (!this.#sessionExists(pageURL)) {
+      // TODO: create a session here
+      this.#getVideoElement()
+        .then((res) => {
+          this.video = new Video(res.video);
+          // create the side menu for found video
+          this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
+          // this.toggleSidemenuVisiblity();
+        })
+        .catch((error) => {
+          alert("There is not a video in the document");
+        });
+    } else {
+      alert(
+        "Session for the URL already exists! Please delete the session first!"
+      );
+    }
+  }
+
+  #resetVideo() {
+    this.video = null;
+    this.pageURL = null;
+  }
+
+  // TODO: change this to return a promise
+  #sessionExists(URL) {
     // TODO: look in storage for session with matching URL
-    chrome.storage.sync.get(this.ALL_SESSIONS, (response) => {
+    chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
+      console.log(response);
       // if there is a session in storage, then return it
       if (Object.keys(response).length > 0) {
-        const sessions = response[this.ALL_SESSIONS];
-        console.log(sessions);
+        const sessions = response[Session.ALL_SESSIONS];
         sessions.forEach((session) => {
           if (session === URL) {
             return true;
@@ -20,6 +71,33 @@ class Session {
         });
       }
       return false;
+    });
+  }
+
+  /**
+   * searches the DOM for a video element. Returns the first found video
+   *
+   * @param {number} repeatCount - the amount of times the interval should repeatedly search for the video
+   * @returns {Promise} - resolved with an HTML video element, or rejected with an error
+   */
+  #getVideoElement(repeatCount = 20) {
+    // return a promise
+    return new Promise((resolve, reject) => {
+      // declare time interval
+      const intervalId = setInterval(() => {
+        // if repeated (repeatCount) times, then reject
+        if (--repeatCount <= 0) {
+          clearInterval(intervalId);
+          reject("Failed to find video!");
+        }
+
+        // try to get video again
+        const video = document.querySelector("video");
+        if (video) {
+          clearInterval(intervalId);
+          resolve({ video });
+        }
+      }, 500);
     });
   }
 
