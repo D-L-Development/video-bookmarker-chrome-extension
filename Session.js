@@ -26,52 +26,19 @@ class Session {
           });
       })
       .catch(() => {
-        // TODO: render the navigation page
+        // render the navigation page
         this.#resetVideo();
         this.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
         this.toggleSidemenuVisiblity();
       });
-
-    // if (this.#sessionExists(pageURL)) {
-    //   this.#getVideoElement()
-    //     .then((res) => {
-    //       this.video = new Video(res.video, pageURL);
-    //       // create the side menu for found video
-    //       this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
-    //       this.toggleSidemenuVisiblity();
-    //     })
-    //     .catch((error) => {
-    //       this.#resetVideo();
-    //       alert("URL found, but there is not video in the document");
-    //     });
-    // } else {
-    //   // TODO: render the navigation page
-    //   this.#resetVideo();
-    //   this.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
-    //   this.toggleSidemenuVisiblity();
-    // }
   }
 
+  /**
+   * creates a new session with an HTML video if it doesn't already exist
+   *
+   * @param {String} pageURL - the current page URL in which the session should be created under
+   */
   createNewSession(pageURL) {
-    // if (!this.#sessionExists(pageURL)) {
-    //   // TODO: create a session here
-    //   this.#getVideoElement()
-    //     .then((res) => {
-    //       this.#addSessionURLToStorage(pageURL);
-    //       this.video = new Video(res.video, pageURL);
-    //       // create the side menu for found video
-    //       this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
-    //       // this.toggleSidemenuVisiblity();
-    //     })
-    //     .catch((error) => {
-    //       alert("There is not a video in the document");
-    //     });
-    // } else {
-    //   alert(
-    //     "Session for the URL already exists! Please delete the session first!"
-    //   );
-    // }
-
     this.#sessionExists(pageURL)
       .then(() => {
         alert(
@@ -93,12 +60,20 @@ class Session {
       });
   }
 
+  /**
+   * resets the video and current page URL
+   */
   #resetVideo() {
     this.video = null;
     this.pageURL = null;
   }
 
-  // TODO: change to this to be async
+  // ? maybe change to this to be async
+  /**
+   * adds the passed in URL under the - ALL SESSIONS - key in storage which is an array
+   *
+   * @param {String} sessionURL - URL for current video session
+   */
   #addSessionURLToStorage(sessionURL) {
     chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
       // get all the session URL's from storage
@@ -113,10 +88,13 @@ class Session {
     });
   }
 
-  // TODO: change this to return a promise
+  /**
+   * searched chrome.storgage under the ALL SESSIONS key in the sessions array for the passed in URL
+   *
+   * @param {String} URL - represents the URL that is being searched in chrome.storage
+   * @returns {Promise} - resolved or rejected depending on if the URL for the session is already in storage
+   */
   #sessionExists(URL) {
-    // TODO: look in storage for session with matching URL
-
     return new Promise((resolve, reject) => {
       chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
         // if there is a session in storage, then return it
@@ -162,7 +140,11 @@ class Session {
     });
   }
 
-  // creates the sidebar if it doesn't already exist, and sets its source to URL param
+  /**
+   * creates the sidebar if it doesn't already exist, and sets its source to URL param
+   *
+   * @param {String} URL - passed in URL for desired resource HTML page to be rendered within the created frame
+   */
   sideMenuUpdate(URL) {
     // create the side menu if there's isn't one
     if (!this.sidebarIframe) {
@@ -176,17 +158,26 @@ class Session {
     this.sidebarIframe.src = URL;
   }
 
+  /**
+   * removes the sidebar element from the DOM
+   */
   removeSidemenu() {
     this.sidebarIframe.remove();
     this.sidebarIframe = null;
   }
 
+  /**
+   * toggels the visiblity of the sidemeny iframe
+   */
   toggleSidemenuVisiblity() {
     this.sidebarIframe.classList.toggle("on");
   }
 
-  // triggered upon a message from popup script.
-  // Takes a timestamp and jumps to it in the video
+  /**
+   * takes a timestamp and skips in the video until that timestamp
+   *
+   * @param {String} timestamp - the desired HH:MM:SS timestamp in which the video should jump to
+   */
   jumpToTimestamp(timestamp) {
     if (this.video) {
       this.video.jumpToTimestamp(timestampToSeconds(timestamp));
@@ -196,6 +187,11 @@ class Session {
     alert("Can't jump to timestamp. No video found on the current page!");
   }
 
+  /**
+   * deletes the desired bookmark from chrome.storage based on the timestamp
+   *
+   * @param {String} timestamp - the desired HH:MM:SS timestamp to be deleted
+   */
   deleteBookmark(timestamp) {
     if (this.video) {
       this.video.removeBookmark(timestamp);
@@ -205,6 +201,11 @@ class Session {
     alert("Can't delete bookmark. No video found on the current page!");
   }
 
+  /**
+   * toggles the nesting of the desired bookmark from chrome.storage based on the timestamp
+   *
+   * @param {String} timestamp - the desired HH:MM:SS timestamp in which the nesting for should be toggled
+   */
   toggleBookmarkNesting(timestamp) {
     if (this.video) {
       this.video.toggleBookmarkNesting(timestamp);
