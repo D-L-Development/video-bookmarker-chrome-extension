@@ -1,7 +1,8 @@
 class Storage {
-  constructor() {
+  constructor(pageURL) {
     this.videoSession = {};
-    this.STORAGE_KEY = "web-video-bookmarker-4$23hV2";
+    // this.STORAGE_KEY = "web-video-bookmarker-4$23hV2";
+    this.STORAGE_KEY = pageURL;
     this.setVideoSessionFromLocalStorage();
   }
 

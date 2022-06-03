@@ -11,44 +11,86 @@ class Session {
     this.sidebarIframe = null;
     this.pageURL = pageURL;
 
-    if (this.#sessionExists(pageURL)) {
-      this.#getVideoElement()
-        .then((res) => {
-          this.video = new Video(res.video);
-          // create the side menu for found video
-          this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
-          this.toggleSidemenuVisiblity();
-        })
-        .catch((error) => {
-          this.#resetVideo();
-          alert("URL found, but there is not video in the document");
-        });
-    } else {
-      // TODO: render the navigation page
-      this.#resetVideo();
-      this.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
-      this.toggleSidemenuVisiblity();
-    }
+    this.#sessionExists(pageURL)
+      .then(() => {
+        this.#getVideoElement()
+          .then((res) => {
+            this.video = new Video(res.video, pageURL);
+            // create the side menu for found video
+            this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
+            this.toggleSidemenuVisiblity();
+          })
+          .catch((error) => {
+            this.#resetVideo();
+            alert("URL found, but there is not video in the document");
+          });
+      })
+      .catch(() => {
+        // TODO: render the navigation page
+        this.#resetVideo();
+        this.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
+        this.toggleSidemenuVisiblity();
+      });
+
+    // if (this.#sessionExists(pageURL)) {
+    //   this.#getVideoElement()
+    //     .then((res) => {
+    //       this.video = new Video(res.video, pageURL);
+    //       // create the side menu for found video
+    //       this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
+    //       this.toggleSidemenuVisiblity();
+    //     })
+    //     .catch((error) => {
+    //       this.#resetVideo();
+    //       alert("URL found, but there is not video in the document");
+    //     });
+    // } else {
+    //   // TODO: render the navigation page
+    //   this.#resetVideo();
+    //   this.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
+    //   this.toggleSidemenuVisiblity();
+    // }
   }
 
   createNewSession(pageURL) {
-    if (!this.#sessionExists(pageURL)) {
-      // TODO: create a session here
-      this.#getVideoElement()
-        .then((res) => {
-          this.video = new Video(res.video);
-          // create the side menu for found video
-          this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
-          // this.toggleSidemenuVisiblity();
-        })
-        .catch((error) => {
-          alert("There is not a video in the document");
-        });
-    } else {
-      alert(
-        "Session for the URL already exists! Please delete the session first!"
-      );
-    }
+    // if (!this.#sessionExists(pageURL)) {
+    //   // TODO: create a session here
+    //   this.#getVideoElement()
+    //     .then((res) => {
+    //       this.#addSessionURLToStorage(pageURL);
+    //       this.video = new Video(res.video, pageURL);
+    //       // create the side menu for found video
+    //       this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
+    //       // this.toggleSidemenuVisiblity();
+    //     })
+    //     .catch((error) => {
+    //       alert("There is not a video in the document");
+    //     });
+    // } else {
+    //   alert(
+    //     "Session for the URL already exists! Please delete the session first!"
+    //   );
+    // }
+
+    this.#sessionExists(pageURL)
+      .then(() => {
+        alert(
+          "Session for the URL already exists! Please delete the session first! :)"
+        );
+      })
+      .catch(() => {
+        this.#getVideoElement()
+          .then((res) => {
+            this.#addSessionURLToStorage(pageURL);
+            this.video = new Video(res.video, pageURL);
+            // create the side menu for found video
+            this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
+            // this.toggleSidemenuVisiblity();
+          })
+          .catch((error) => {
+            alert("There is not a video in the document");
+          });
+      });
   }
 
   #resetVideo() {
@@ -56,21 +98,40 @@ class Session {
     this.pageURL = null;
   }
 
+  // TODO: change to this to be async
+  #addSessionURLToStorage(sessionURL) {
+    chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
+      // get all the session URL's from storage
+      if (Object.keys(response).length > 0) {
+        const sessions = response[Session.ALL_SESSIONS];
+        sessions.push(sessionURL);
+        chrome.storage.sync.set({ [Session.ALL_SESSIONS]: sessions }, () => {
+          console.log("value set to");
+          console.log(sessions);
+        });
+      }
+    });
+  }
+
   // TODO: change this to return a promise
   #sessionExists(URL) {
     // TODO: look in storage for session with matching URL
-    chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
-      console.log(response);
-      // if there is a session in storage, then return it
-      if (Object.keys(response).length > 0) {
-        const sessions = response[Session.ALL_SESSIONS];
-        sessions.forEach((session) => {
-          if (session === URL) {
-            return true;
-          }
-        });
-      }
-      return false;
+
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
+        // if there is a session in storage, then return it
+        if (Object.keys(response).length > 0) {
+          const sessions = response[Session.ALL_SESSIONS];
+
+          const sessionFound = sessions.some((session) => session === URL);
+
+          console.log(sessionFound);
+
+          sessionFound ? resolve() : reject();
+        } else {
+          reject();
+        }
+      });
     });
   }
 

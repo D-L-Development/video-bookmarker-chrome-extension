@@ -1,7 +1,5 @@
 console.log("Content Script Ran!");
 
-const CURRENT_PAGE_URL = window.location.href;
-
 let initialPageLoad = true;
 let session = null;
 
@@ -17,14 +15,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       // TODO: figure out how to run code when the content script is initially loaded
       if (initialPageLoad) {
         initialPageLoad = false;
-        session = new Session(CURRENT_PAGE_URL);
+        session = new Session(window.location.href);
       } else {
         session.toggleSidemenuVisiblity();
       }
       sendResponse({ status: "success" });
       break;
     case "createNewSession":
-      session.createNewSession(CURRENT_PAGE_URL);
+      session.createNewSession(window.location.href);
       sendResponse({ status: "success" });
       break;
     case "loadNavigationPage":
