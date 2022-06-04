@@ -1,5 +1,4 @@
 class Session {
-  static NAGIVATION_PAGE_URL = chrome.runtime.getURL("navigation.html");
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("popup.html");
   static ALL_SESSIONS = "All Sessions";
 
@@ -11,14 +10,18 @@ class Session {
     this.sidebarIframe = null;
     this.pageURL = pageURL;
 
+    // create the side menu for found video
+    this.createSideMenu(Session.SIDEBAR_PAGE_URL);
+
     this.#sessionExists(pageURL)
       .then(() => {
         this.#getVideoElement()
           .then((res) => {
             this.video = new Video(res.video, pageURL);
-            // create the side menu for found video
-            this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
-            this.toggleSidemenuVisiblity();
+            // update the current video in chrome.storage and open the sidemenu
+            Storage.updateCurrentVideoURL(pageURL).then(() => {
+              this.toggleSidemenuVisiblity(true);
+            });
           })
           .catch((error) => {
             this.#resetVideo();
@@ -28,8 +31,11 @@ class Session {
       .catch(() => {
         // render the navigation page
         this.#resetVideo();
-        this.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
-        this.toggleSidemenuVisiblity();
+        // set the current video URL in chrome.storage to null
+        // so popup.js renders the nav page
+        Storage.updateCurrentVideoURL(null).then(() => {
+          this.toggleSidemenuVisiblity(true);
+        });
       });
   }
 
@@ -50,9 +56,8 @@ class Session {
           .then((res) => {
             this.#addSessionURLToStorage(pageURL);
             this.video = new Video(res.video, pageURL);
-            // create the side menu for found video
-            this.sideMenuUpdate(Session.SIDEBAR_PAGE_URL);
-            // this.toggleSidemenuVisiblity();
+            // update the current video URL in chrome.storage so the popup would update
+            Storage.updateCurrentVideoURL(pageURL);
           })
           .catch((error) => {
             alert("There is not a video in the document");
@@ -141,21 +146,16 @@ class Session {
   }
 
   /**
-   * creates the sidebar if it doesn't already exist, and sets its source to URL param
+   * creates the sidmenu iframe and sets its source to URL param
    *
    * @param {String} URL - passed in URL for desired resource HTML page to be rendered within the created frame
    */
-  sideMenuUpdate(URL) {
-    // create the side menu if there's isn't one
-    if (!this.sidebarIframe) {
-      this.sidebarIframe = document.createElement("iframe");
-      this.sidebarIframe.classList.add("web-sidebar");
-      this.sidebarIframe.src = URL;
-      document.body.appendChild(this.sidebarIframe);
-    }
-
-    // update the source URL
+  createSideMenu(URL) {
+    // create the side menu
+    this.sidebarIframe = document.createElement("iframe");
+    this.sidebarIframe.classList.add("web-sidebar");
     this.sidebarIframe.src = URL;
+    document.body.appendChild(this.sidebarIframe);
   }
 
   /**
@@ -169,8 +169,18 @@ class Session {
   /**
    * toggels the visiblity of the sidemeny iframe
    */
-  toggleSidemenuVisiblity() {
-    this.sidebarIframe.classList.toggle("on");
+  toggleSidemenuVisiblity(value = null) {
+    switch (value) {
+      case null:
+        this.sidebarIframe.classList.toggle("on");
+        break;
+      case true:
+        this.sidebarIframe.classList.add("on");
+        break;
+      case false:
+        this.sidebarIframe.classList.remove("on");
+        break;
+    }
   }
 
   /**

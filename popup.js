@@ -6,6 +6,7 @@ const sessionName = document.querySelector("h1");
 const copyTableBtn = document.getElementById("copyTableBtn");
 const closeBtnIcon = document.getElementById("closeIcon");
 const backArrowIcon = document.getElementById("backArrowIcon");
+const CURRENT_VID_KEY = "currentVideoURL";
 
 // wire copy event for button
 copyTableBtn.addEventListener("click", (e) => {
@@ -24,6 +25,17 @@ closeBtnIcon.addEventListener("click", handleCloseIconClick);
 // wire event handler for the back btn
 backArrowIcon.addEventListener("click", handleBackArrowIconClick);
 
+// wire event handler for create new session click
+const newSessionButton = document.getElementById("newSessionButton");
+
+newSessionButton.addEventListener("click", (e) => {
+  sendMessageToActiveTab({ action: "createNewSession" }, (response) => {
+    if (response.status === "success") {
+      console.log(`New session created!`);
+    }
+  });
+});
+
 chrome.storage.sync.get(STORAGE_KEY, (response) => {
   if (Object.keys(response).length > 0) {
     // create UI
@@ -35,6 +47,11 @@ chrome.storage.sync.get(STORAGE_KEY, (response) => {
 
 // listener for storage updates
 chrome.storage.onChanged.addListener((changes, area) => {
+  if (changes[CURRENT_VID_KEY]?.newValue) {
+    // TODO: render the current video element
+    // TODO: or render all sessions
+  }
+
   const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
   updateAllBookmarksUI(bookmarks);
   updateTitle(sessionName);

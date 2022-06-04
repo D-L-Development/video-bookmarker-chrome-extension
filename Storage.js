@@ -1,9 +1,22 @@
 class Storage {
+  static CURRENT_VID_KEY = "currentVideoURL";
   constructor(pageURL) {
     this.videoSession = {};
-    // this.STORAGE_KEY = "web-video-bookmarker-4$23hV2";
     this.STORAGE_KEY = pageURL;
     this.setVideoSessionFromLocalStorage();
+  }
+
+  /**
+   * updates the currentVideoURL in chrome.storage. Set this value to null to render the nav page
+   * pass a URL to notify the sidemenu to render the bookmarks for the video
+   *
+   * @param {String} currentVideoURL - the video URL to be stored in local storage under "currentVideoURL" key
+   * @returns {Promise}
+   */
+  static updateCurrentVideoURL(currentVideoURL) {
+    return chrome.storage.sync.set({
+      [Storage.CURRENT_VID_KEY]: currentVideoURL,
+    });
   }
 
   syncToLocalStorage() {

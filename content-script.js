@@ -26,7 +26,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sendResponse({ status: "success" });
       break;
     case "loadNavigationPage":
-      session.sideMenuUpdate(Session.NAGIVATION_PAGE_URL);
+      // load the navigation page
+      Storage.updateCurrentVideoURL(null).then(() => {
+        session.toggleSidemenuVisiblity(true);
+      });
       sendResponse({ status: "success" });
       break;
     case "jumpToTimestamp":
@@ -73,5 +76,14 @@ document.addEventListener("keydown", (e) => {
       // jump to that timestamp
       session.video.jumpToTimestamp(seconds);
     }
+  }
+});
+
+// TODO: remove this. It's for testing
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key == "`") {
+    chrome.storage.sync.get(null, (response) => {
+      console.log(response);
+    });
   }
 });
