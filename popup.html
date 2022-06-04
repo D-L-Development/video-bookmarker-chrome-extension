@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="popup.css" />
+    <script src="./userInterfaceManager.js" defer></script>
     <script src="./popup.js" defer></script>
     <script src="./utils/utility.js" defer></script>
   </head>
@@ -104,7 +105,7 @@
           </div>
         </div>
       </template>
-      <div id="pageScroller" class="videoPage">
+      <div id="pageScroller">
         <div id="mainNavPage" class="page"></div>
         <div id="videoBookmarksPage" class="page"></div>
       </div>
@@ -113,11 +114,5 @@
       <div id="copyTableBtn">Copy Table</div>
       <button id="newSessionButton">Create New Session</button>
     </footer>
-    <script>
-      const page = document.getElementById("pageScroller");
-      page.addEventListener("click", () => {
-        page.classList.toggle("videoPage");
-      });
-    </script>
   </body>
 </html>

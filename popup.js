@@ -6,7 +6,9 @@ const sessionName = document.querySelector("h1");
 const copyTableBtn = document.getElementById("copyTableBtn");
 const closeBtnIcon = document.getElementById("closeIcon");
 const backArrowIcon = document.getElementById("backArrowIcon");
-const CURRENT_VID_KEY = "currentVideoURL";
+const { CURRENT_VID_KEY } = userInterfaceManager;
+
+const uiManager = new userInterfaceManager();
 
 // wire copy event for button
 copyTableBtn.addEventListener("click", (e) => {
@@ -40,20 +42,27 @@ chrome.storage.sync.get(STORAGE_KEY, (response) => {
   if (Object.keys(response).length > 0) {
     // create UI
     const { bookmarks, sessionName } = response[STORAGE_KEY];
-    updateAllBookmarksUI(bookmarks);
+    // updateAllBookmarksUI(bookmarks);
     updateTitle(sessionName);
   }
 });
 
 // listener for storage updates
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (changes[CURRENT_VID_KEY]?.newValue) {
+  if (changes[CURRENT_VID_KEY]) {
     // TODO: render the current video element
     // TODO: or render all sessions
+    const { newValue } = changes[CURRENT_VID_KEY];
+    const { NAV_PAGE, VIDEO_PAGE } = userInterfaceManager;
+    if (newValue) {
+      uiManager.togglePage(VIDEO_PAGE);
+    } else {
+      uiManager.togglePage(NAV_PAGE);
+    }
   }
 
   const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
-  updateAllBookmarksUI(bookmarks);
+  // updateAllBookmarksUI(bookmarks);
   updateTitle(sessionName);
 });
 
