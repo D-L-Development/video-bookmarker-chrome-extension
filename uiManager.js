@@ -1,0 +1,3 @@
+class userInterfaceManager {
+  constructor() {}
+}
