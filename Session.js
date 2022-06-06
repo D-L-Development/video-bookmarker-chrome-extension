@@ -11,7 +11,7 @@ class Session {
     this.pageURL = pageURL;
 
     // create the side menu for found video
-    this.createSideMenu(Session.SIDEBAR_PAGE_URL);
+    this.#createSideMenu(Session.SIDEBAR_PAGE_URL);
 
     this.#sessionExists(pageURL)
       .then(() => {
@@ -150,7 +150,7 @@ class Session {
    *
    * @param {String} URL - passed in URL for desired resource HTML page to be rendered within the created frame
    */
-  createSideMenu(URL) {
+  #createSideMenu(URL) {
     // create the side menu
     this.sidebarIframe = document.createElement("iframe");
     this.sidebarIframe.classList.add("web-sidebar");

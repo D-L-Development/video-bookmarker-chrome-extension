@@ -2,68 +2,41 @@ console.log("Popup script ran!");
 
 const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 const bookmarksContainer = document.getElementById("bookmarksContainer");
-const sessionName = document.querySelector("h1");
-const copyTableBtn = document.getElementById("copyTableBtn");
-const closeBtnIcon = document.getElementById("closeIcon");
-const backArrowIcon = document.getElementById("backArrowIcon");
-const { CURRENT_VID_KEY } = userInterfaceManager;
 
 const uiManager = new userInterfaceManager();
 
-// wire copy event for button
-copyTableBtn.addEventListener("click", (e) => {
-  chrome.storage.sync.get(STORAGE_KEY, (response) => {
-    if (Object.keys(response).length > 0) {
-      // create UI
-      const { bookmarks } = response[STORAGE_KEY];
-      // send message to client script
-      copyTableToClipboard(bookmarks);
-    }
-  });
-});
-
-// wire event for closing sidebar
-closeBtnIcon.addEventListener("click", handleCloseIconClick);
-// wire event handler for the back btn
-backArrowIcon.addEventListener("click", handleBackArrowIconClick);
-
-// wire event handler for create new session click
-const newSessionButton = document.getElementById("newSessionButton");
-
-newSessionButton.addEventListener("click", (e) => {
-  sendMessageToActiveTab({ action: "createNewSession" }, (response) => {
-    if (response.status === "success") {
-      console.log(`New session created!`);
-    }
-  });
-});
-
-chrome.storage.sync.get(STORAGE_KEY, (response) => {
-  if (Object.keys(response).length > 0) {
-    // create UI
-    const { bookmarks, sessionName } = response[STORAGE_KEY];
-    // updateAllBookmarksUI(bookmarks);
-    updateTitle(sessionName);
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  const { NAV_PAGE, VIDEO_PAGE } = userInterfaceManager;
+  switch (msg.type) {
+    case NAV_PAGE:
+      uiManager.renderNavPage();
+      sendResponse({ status: "success" });
+      break;
+    case VIDEO_PAGE:
+      sendResponse({ status: "success" });
+      uiManager.renderVideoPage();
+      break;
   }
 });
+
+// chrome.storage.sync.get(STORAGE_KEY, (response) => {
+//   if (Object.keys(response).length > 0) {
+//     // create UI
+//     const { bookmarks, sessionName } = response[STORAGE_KEY];
+//     // updateAllBookmarksUI(bookmarks);
+
+//     uiManager.updateTitle(sessionName);
+//   }
+// });
+
+// TODO: render the current video element
+// TODO: or render all sessions
 
 // listener for storage updates
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (changes[CURRENT_VID_KEY]) {
-    // TODO: render the current video element
-    // TODO: or render all sessions
-    const { newValue } = changes[CURRENT_VID_KEY];
-    const { NAV_PAGE, VIDEO_PAGE } = userInterfaceManager;
-    if (newValue) {
-      uiManager.togglePage(VIDEO_PAGE);
-    } else {
-      uiManager.togglePage(NAV_PAGE);
-    }
-  }
-
   const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
   // updateAllBookmarksUI(bookmarks);
-  updateTitle(sessionName);
+  uiManager.updateTitle(sessionName);
 });
 
 function updateAllBookmarksUI(bookmarks) {
@@ -148,28 +121,7 @@ function updateAllBookmarksUI(bookmarks) {
   }
 }
 
-function updateTitle(title) {
-  sessionName.innerText = title;
-}
-
-// message the content script to close the sidebarIframe
-function handleCloseIconClick(e) {
-  sendMessageToActiveTab({ action: "toggle" }, (response) => {
-    if (response.status === "success") {
-      console.log(`Side menu closed!`);
-    }
-  });
-}
-
-// send message to content script to load the navigation page
-function handleBackArrowIconClick(e) {
-  sendMessageToActiveTab({ action: "loadNavigationPage" }, (response) => {
-    if (response.status === "success") {
-      console.log(`Navigation page loaded!`);
-    }
-  });
-}
-
+// TODO: move these event listeners the userInterfaceManager
 // icon event handlers
 const handleTimestampClick = (e) => {
   const timestamp = e.target.innerText;
