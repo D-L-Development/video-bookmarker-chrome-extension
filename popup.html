@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="popupLoading.css" />
     <link rel="stylesheet" href="popup.css" />
     <script src="./userInterfaceManager.js" defer></script>
     <script src="./popup.js" defer></script>
@@ -105,9 +106,33 @@
           </div>
         </div>
       </template>
-      <div id="pageScroller">
-        <div id="mainNavPage" class="page"></div>
-        <div id="videoBookmarksPage" class="page"></div>
+      <div id="pageScroller" class="videoPage">
+        <div id="mainNavPage" class="page">
+          <div id="mainNavPageContent" class="pageContent"></div>
+          <div class="pageContentLoading">
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+          </div>
+        </div>
+        <div id="videoBookmarksPage" class="page">
+          <div id="videoBookmarksPageContent" class="pageContent"></div>
+          <div class="pageContentLoading">
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+            <div class="bookmarkPlaceholder"></div>
+          </div>
+        </div>
       </div>
     </div>
     <footer>
