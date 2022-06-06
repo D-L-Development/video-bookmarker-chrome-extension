@@ -12,30 +12,25 @@ class Session {
 
     // create the side menu for found video
     this.#createSideMenu(Session.SIDEBAR_PAGE_URL);
+    this.toggleSidemenuVisiblity(true);
 
     this.#sessionExists(pageURL)
       .then(() => {
         this.#getVideoElement()
           .then((res) => {
             this.video = new Video(res.video, pageURL);
-            // update the current video in chrome.storage and open the sidemenu
-            Storage.updateCurrentVideoURL(pageURL).then(() => {
-              this.toggleSidemenuVisiblity(true);
-            });
+            // TODO: sent message to popup.js to open the video page
           })
           .catch((error) => {
             this.#resetVideo();
+            // TODO: send message to popup.js to render a 404 page
             alert("URL found, but there is not video in the document");
           });
       })
       .catch(() => {
         // render the navigation page
         this.#resetVideo();
-        // set the current video URL in chrome.storage to null
-        // so popup.js renders the nav page
-        Storage.updateCurrentVideoURL(null).then(() => {
-          this.toggleSidemenuVisiblity(true);
-        });
+        // TODO: send message to popup.js to render nav page
       });
   }
 
@@ -45,8 +40,11 @@ class Session {
    * @param {String} pageURL - the current page URL in which the session should be created under
    */
   createNewSession(pageURL) {
+    // TODO: send msg to popup.js to create a spinner in the nav page
     this.#sessionExists(pageURL)
       .then(() => {
+        // TODO: send msg to popup.js to remove spinner
+        // ? render a modal
         alert(
           "Session for the URL already exists! Please delete the session first! :)"
         );
@@ -56,8 +54,7 @@ class Session {
           .then((res) => {
             this.#addSessionURLToStorage(pageURL);
             this.video = new Video(res.video, pageURL);
-            // update the current video URL in chrome.storage so the popup would update
-            Storage.updateCurrentVideoURL(pageURL);
+            // TODO: send msg to popup.js to render the video session and remove spinner
           })
           .catch((error) => {
             alert("There is not a video in the document");
