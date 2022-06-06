@@ -28,6 +28,12 @@
   background-size: 1200px; // Animation Area
 }
 
+.spinner {
+  margin-top: 1rem;
+  width: 5rem;
+  height: 5rem;
+}
+
 @keyframes placeholderAnimate {
   0% {
     background-position: -450px 0;
