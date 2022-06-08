@@ -28,16 +28,6 @@ class userInterfaceManager {
     this.renderNavPage();
   }
 
-  #setNavPageIsLoading(isLoadingNav) {
-    mainNavPageContentLoading.style.display = isLoadingNav ? "flex" : "none";
-  }
-
-  #setVideoPageIsLoading(isLoadingVideo) {
-    videoBookmarksPageContentLoading.style.display = isLoadingVideo
-      ? "flex"
-      : "none";
-  }
-
   togglePage(page = null) {
     switch (page) {
       case userInterfaceManager.NAV_PAGE:
@@ -55,31 +45,11 @@ class userInterfaceManager {
     this.sessionName.innerText = title;
   }
 
-  // TODO: this needs testing
-  /**
-   * searches chrome.storage for the key ALL_SESSIONS
-   *
-   * @returns {Promise} - resolved with a sessions array from chrome.storage, or rejected
-   */
-  #getAllSessionsFromChromeStorage() {
-    return new Promise((resolve, reject) => {
-      chrome.storage.sync.get(userInterfaceManager.ALL_SESSIONS, (response) => {
-        // if there is a session in storage, then return it
-        if (Object.keys(response).length > 0) {
-          const sessions = response[userInterfaceManager.ALL_SESSIONS];
-          sessions.length ? resolve({ sessions }) : reject();
-        } else {
-          reject();
-        }
-      });
-    });
-  }
-
   renderNavPage() {
-    // hide the content
-    this.mainNavPageContent.style.display = "none";
     // show the loading page
     this.#setNavPageIsLoading(true);
+    // drag the nav page in frame if it's not already
+    this.togglePage(userInterfaceManager.NAV_PAGE);
     // wait for all sessions to be retreived from chrome.storage
     this.#getAllSessionsFromChromeStorage()
       .then((response) => {
@@ -95,6 +65,11 @@ class userInterfaceManager {
       });
   }
 
+  renderVideoPage() {
+    console.log("renderVideoPage()");
+    this.scrollablePagesContainer.classList.add("videoPage");
+  }
+
   /**
    * renders the elements corrosponding to each session name, or
    * an empty page indicating that there are no sessions present
@@ -103,6 +78,8 @@ class userInterfaceManager {
    * @returns
    */
   #renderNavSessionsUI(sessions) {
+    // TODO: remove the copy table button
+    // TODO: remove the back button
     // if there are no sessions in storage, then render a simple msg
     if (!sessions) {
       this.mainNavPageContent.innerHTML = `<p>No sessions available!</p>`;
@@ -115,13 +92,6 @@ class userInterfaceManager {
       this.mainNavPageContent.innerHTML += `<p class="sessionWrapper">${sessionName}</p>`;
     });
     this.#setNavPageIsLoading(false);
-    this.mainNavPageContent.style.display = "block";
-    this.togglePage(userInterfaceManager.NAV_PAGE);
-  }
-
-  renderVideoPage() {
-    console.log("renderVideoPage()");
-    this.scrollablePagesContainer.classList.add("videoPage");
   }
 
   #wireEventListeners() {
@@ -167,4 +137,42 @@ class userInterfaceManager {
   #handleBackArrowIconClick = (e) => {
     this.renderNavPage();
   };
+
+  // TODO: this needs testing
+  /**
+   * searches chrome.storage for the key ALL_SESSIONS
+   *
+   * @returns {Promise} - resolved with a sessions array from chrome.storage, or rejected
+   */
+  #getAllSessionsFromChromeStorage() {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(userInterfaceManager.ALL_SESSIONS, (response) => {
+        // if there is a session in storage, then return it
+        if (Object.keys(response).length > 0) {
+          const sessions = response[userInterfaceManager.ALL_SESSIONS];
+          sessions.length ? resolve({ sessions }) : reject();
+        } else {
+          reject();
+        }
+      });
+    });
+  }
+
+  #setNavPageIsLoading(isLoadingNav) {
+    this.mainNavPageContentLoading.style.display = isLoadingNav
+      ? "flex"
+      : "none";
+    // hide or show the content
+    this.mainNavPageContent.style.display = isLoadingNav ? "none" : "block";
+  }
+
+  #setVideoPageIsLoading(isLoadingVideo) {
+    videoBookmarksPageContentLoading.style.display = isLoadingVideo
+      ? "flex"
+      : "none";
+    // hide or show the content
+    this.videoBookmarksPageContent.style.display = isLoadingVideo
+      ? "none"
+      : "block";
+  }
 }
