@@ -1,6 +1,7 @@
 class userInterfaceManager {
   static NAV_PAGE = "navPage";
   static VIDEO_PAGE = "videoPage";
+  static ALL_SESSIONS = "All Sessions";
   // TODO: make this value get updated from the popup.js by receiving messages from the content script
   static STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 
@@ -54,11 +55,39 @@ class userInterfaceManager {
     this.sessionName.innerText = title;
   }
 
-  renderNavPage() {
+  // TODO: this needs testing
+  #getAllSessionsFromChromeStorage() {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(userInterfaceManager.ALL_SESSIONS, (response) => {
+        // if there is a session in storage, then return it
+        if (Object.keys(response).length > 0) {
+          const sessions = response[userInterfaceManager.ALL_SESSIONS];
+          sessions.length ? resolve({ sessions }) : reject();
+        } else {
+          console.log("reject");
+          reject();
+        }
+      });
+    });
+  }
+
+  async renderNavPage() {
     console.log("renderNavPage()");
-    this.#setNavPageIsLoading(false);
-    this.mainNavPageContent.style.display = "block";
-    this.scrollablePagesContainer.classList.remove("videoPage");
+    this.#getAllSessionsFromChromeStorage()
+      .then((response) => {
+        this.mainNavPageContent.innerHTML = "";
+        response.sessions.forEach((sessionName) => {
+          this.mainNavPageContent.innerHTML += `<p>${sessionName}</p>`;
+        });
+        this.#setNavPageIsLoading(false);
+        this.mainNavPageContent.style.display = "block";
+        this.togglePage(userInterfaceManager.NAV_PAGE);
+      })
+      .catch((e) => {
+        // TODO: render empty page
+        console.log(e);
+        alert("failed to render nav page");
+      });
   }
 
   renderVideoPage() {
@@ -106,6 +135,7 @@ class userInterfaceManager {
     });
   }
 
-  // send message to content script to load the navigation page
-  #handleBackArrowIconClick(e) {}
+  #handleBackArrowIconClick = async (e) => {
+    this.renderNavPage();
+  };
 }
