@@ -1,8 +1,8 @@
 class Video {
-  constructor(videoElement, pageURL) {
+  constructor(videoElement, sessionName) {
     this.video = videoElement;
-    this.pageURL = pageURL;
-    this.storage = new Storage(pageURL);
+    this.sessionName = sessionName;
+    this.storage = new Storage(sessionName);
   }
 
   play() {

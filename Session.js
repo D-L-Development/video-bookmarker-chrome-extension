@@ -3,61 +3,43 @@ class Session {
   static ALL_SESSIONS = "All Sessions";
 
   /**
-   * @param {String} pageURL - takes the URL of the current page and initializes the class based on if the URL is already in localstorage
+   * @param {String} sessionName - takes the session name and initializes the class member
    */
-  constructor(pageURL) {
+  constructor(sessionName) {
     this.video = null;
     this.sidebarIframe = null;
-    this.pageURL = pageURL;
+    this.sessionName = sessionName;
 
     // create the side menu for found video
     this.#createSideMenu(Session.SIDEBAR_PAGE_URL);
     this.toggleSidemenuVisiblity(true);
-
-    this.#sessionExists(pageURL)
-      .then(() => {
-        this.#getVideoElement()
-          .then((res) => {
-            this.video = new Video(res.video, pageURL);
-            // TODO: sent message to popup.js to open the video page
-          })
-          .catch((error) => {
-            this.#resetVideo();
-            // TODO: send message to popup.js to render a 404 page
-            alert("URL found, but there is not video in the document");
-          });
-      })
-      .catch(() => {
-        // render the navigation page
-        this.#resetVideo();
-        // TODO: send message to popup.js to render nav page
-      });
   }
 
   /**
    * creates a new session with an HTML video if it doesn't already exist
    *
-   * @param {String} pageURL - the current page URL in which the session should be created under
+   * @param {String} sessionName - the current session name from the user
    */
-  createNewSession(pageURL) {
-    // TODO: send msg to popup.js to create a spinner in the nav page
-    this.#sessionExists(pageURL)
+  createNewSession(sessionName) {
+    this.#sessionExists(sessionName)
       .then(() => {
-        // TODO: send msg to popup.js to remove spinner
         // ? render a modal
         alert(
-          "Session for the URL already exists! Please delete the session first! :)"
+          "Session name already exists! Remove that session, or choose a different name!"
         );
+        // TODO: send msg to popup.js to render the nav page again and get rid of the spinner
+        // TODO: this could be done as a spinner within the button
       })
       .catch(() => {
         this.#getVideoElement()
           .then((res) => {
-            this.#addSessionURLToStorage(pageURL);
-            this.video = new Video(res.video, pageURL);
+            this.#addSessionURLToStorage(sessionName);
+            this.video = new Video(res.video, sessionName);
             // TODO: send msg to popup.js to render the video session and remove spinner
           })
           .catch((error) => {
             alert("There is not a video in the document");
+            // TODO: send msg to popup.js to render the nav page back
           });
       });
   }
@@ -67,21 +49,22 @@ class Session {
    */
   #resetVideo() {
     this.video = null;
-    this.pageURL = null;
+    this.sessionName = null;
   }
 
   // ? maybe change to this to be async
+  // TODO: move this to storage class as a static method
   /**
-   * adds the passed in URL under the - ALL SESSIONS - key in storage which is an array
+   * adds the passed in session name under the - ALL SESSIONS - key in storage which is an array
    *
-   * @param {String} sessionURL - URL for current video session
+   * @param {String} sessionName - session name for current video session
    */
-  #addSessionURLToStorage(sessionURL) {
+  #addSessionNameToStorage(sessionName) {
     chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
       // get all the session URL's from storage
       if (Object.keys(response).length > 0) {
         const sessions = response[Session.ALL_SESSIONS];
-        sessions.push(sessionURL);
+        sessions.push(sessionName);
         chrome.storage.sync.set({ [Session.ALL_SESSIONS]: sessions }, () => {
           console.log("value set to");
           console.log(sessions);
@@ -91,19 +74,21 @@ class Session {
   }
 
   /**
-   * searched chrome.storgage under the ALL SESSIONS key in the sessions array for the passed in URL
+   * searched chrome.storgage under the ALL SESSIONS key in the sessions array for the passed in session name
    *
-   * @param {String} URL - represents the URL that is being searched in chrome.storage
-   * @returns {Promise} - resolved or rejected depending on if the URL for the session is already in storage
+   * @param {String} sessionName - represents the session name that is being searched in chrome.storage
+   * @returns {Promise} - resolved or rejected depending on if the session name for the session is already in storage
    */
-  #sessionExists(URL) {
+  #sessionExists(sessionName) {
     return new Promise((resolve, reject) => {
       chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
         // if there is a session in storage, then return it
         if (Object.keys(response).length > 0) {
           const sessions = response[Session.ALL_SESSIONS];
 
-          const sessionFound = sessions.some((session) => session === URL);
+          const sessionFound = sessions.some(
+            (session) => session === sessionName
+          );
 
           console.log(sessionFound);
 

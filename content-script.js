@@ -1,5 +1,7 @@
 console.log("Content Script Ran!");
 
+// TODO: replace all strings with constants
+
 let initialPageLoad = true;
 let session = null;
 
@@ -15,21 +17,15 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       // TODO: figure out how to run code when the content script is initially loaded
       if (initialPageLoad) {
         initialPageLoad = false;
-        session = new Session(window.location.href);
+        session = new Session();
       } else {
         session.toggleSidemenuVisiblity();
       }
       sendResponse({ status: "success" });
       break;
     case "createNewSession":
-      session.createNewSession(window.location.href);
-      sendResponse({ status: "success" });
-      break;
-    case "loadNavigationPage":
-      // load the navigation page
-      Storage.updateCurrentVideoURL(null).then(() => {
-        session.toggleSidemenuVisiblity(true);
-      });
+      // TODO: handle the promise here and respond accordingly
+      session.createNewSession();
       sendResponse({ status: "success" });
       break;
     case "jumpToTimestamp":

@@ -1,7 +1,7 @@
 class Storage {
-  constructor(pageURL) {
+  constructor(sessionName) {
     this.videoSession = {};
-    this.STORAGE_KEY = pageURL;
+    this.STORAGE_KEY = sessionName;
     this.setVideoSessionFromLocalStorage();
   }
 
