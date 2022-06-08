@@ -1,0 +1,32 @@
+#mainNavPageContent {
+}
+#videoBookmarksPageContent {
+}
+
+.pageContent {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sessionWrapper {
+  width: 80%;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+  margin-top: 1rem;
+  border-radius: 0.2rem;
+  color: white;
+  background-color: rgb(205, 92, 92);
+}
+
+.sessionWrapper:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.pageContentLoading {
+  display: none;
+}

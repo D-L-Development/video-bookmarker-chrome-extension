@@ -77,7 +77,7 @@ class userInterfaceManager {
       .then((response) => {
         this.mainNavPageContent.innerHTML = "";
         response.sessions.forEach((sessionName) => {
-          this.mainNavPageContent.innerHTML += `<p>${sessionName}</p>`;
+          this.mainNavPageContent.innerHTML += `<p class="sessionWrapper">${sessionName}</p>`;
         });
         this.#setNavPageIsLoading(false);
         this.mainNavPageContent.style.display = "block";
