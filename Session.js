@@ -33,7 +33,7 @@ class Session {
       .catch(() => {
         this.#getVideoElement()
           .then((res) => {
-            this.#addSessionURLToStorage(sessionName);
+            this.#addSessionNameToStorage(sessionName);
             this.video = new Video(res.video, sessionName);
             // TODO: send msg to popup.js to render the video session and remove spinner
           })

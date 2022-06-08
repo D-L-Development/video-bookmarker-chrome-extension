@@ -12,18 +12,29 @@ class userInterfaceManager {
     this.newSessionButton = document.getElementById("newSessionButton");
     this.closeBtnIcon = document.getElementById("closeIcon");
     this.backArrowIcon = document.getElementById("backArrowIcon");
+    this.videoBookmarksPageContentLoading = document.getElementById(
+      "videoBookmarksPageContentLoading"
+    );
+    this.mainNavPageContentLoading = document.getElementById(
+      "mainNavPageContentLoading"
+    );
+    this.videoBookmarksPageContent = document.getElementById(
+      "videoBookmarksPageContent"
+    );
+    this.mainNavPageContent = document.getElementById("mainNavPageContent");
 
     this.#wireEventListeners();
+    this.renderNavPage();
+  }
 
-    const { CURRENT_VID_KEY, VIDEO_PAGE } = userInterfaceManager;
-    // TODO: this needs to happen faster
-    chrome.storage.sync.get(CURRENT_VID_KEY, (response) => {
-      if (response[CURRENT_VID_KEY]) {
-        this.togglePage(VIDEO_PAGE);
-      } else {
-        this.togglePage(NAV_PAGE);
-      }
-    });
+  #setNavPageIsLoading(isLoadingNav) {
+    mainNavPageContentLoading.style.display = isLoadingNav ? "flex" : "none";
+  }
+
+  #setVideoPageIsLoading(isLoadingVideo) {
+    videoBookmarksPageContentLoading.style.display = isLoadingVideo
+      ? "flex"
+      : "none";
   }
 
   togglePage(page = null) {
@@ -45,10 +56,14 @@ class userInterfaceManager {
 
   renderNavPage() {
     console.log("renderNavPage()");
+    this.#setNavPageIsLoading(false);
+    this.mainNavPageContent.style.display = "block";
+    this.scrollablePagesContainer.classList.remove("videoPage");
   }
 
   renderVideoPage() {
     console.log("renderVideoPage()");
+    this.scrollablePagesContainer.classList.add("videoPage");
   }
 
   #wireEventListeners() {
@@ -92,11 +107,5 @@ class userInterfaceManager {
   }
 
   // send message to content script to load the navigation page
-  #handleBackArrowIconClick(e) {
-    sendMessageToActiveTab({ action: "loadNavigationPage" }, (response) => {
-      if (response.status === "success") {
-        console.log(`Navigation page loaded!`);
-      }
-    });
-  }
+  #handleBackArrowIconClick(e) {}
 }
