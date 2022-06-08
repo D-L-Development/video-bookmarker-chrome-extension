@@ -56,6 +56,11 @@ class userInterfaceManager {
   }
 
   // TODO: this needs testing
+  /**
+   * searches chrome.storage for the key ALL_SESSIONS
+   *
+   * @returns {Promise} - resolved with a sessions array from chrome.storage, or rejected
+   */
   #getAllSessionsFromChromeStorage() {
     return new Promise((resolve, reject) => {
       chrome.storage.sync.get(userInterfaceManager.ALL_SESSIONS, (response) => {
@@ -64,30 +69,54 @@ class userInterfaceManager {
           const sessions = response[userInterfaceManager.ALL_SESSIONS];
           sessions.length ? resolve({ sessions }) : reject();
         } else {
-          console.log("reject");
           reject();
         }
       });
     });
   }
 
-  async renderNavPage() {
-    console.log("renderNavPage()");
+  renderNavPage() {
+    // hide the content
+    this.mainNavPageContent.style.display = "none";
+    // show the loading page
+    this.#setNavPageIsLoading(true);
+    // wait for all sessions to be retreived from chrome.storage
     this.#getAllSessionsFromChromeStorage()
       .then((response) => {
-        this.mainNavPageContent.innerHTML = "";
-        response.sessions.forEach((sessionName) => {
-          this.mainNavPageContent.innerHTML += `<p class="sessionWrapper">${sessionName}</p>`;
-        });
-        this.#setNavPageIsLoading(false);
-        this.mainNavPageContent.style.display = "block";
-        this.togglePage(userInterfaceManager.NAV_PAGE);
+        // TODO: remove the interval it's only here to simulate slow connection
+        setTimeout(() => {
+          this.#renderNavSessionsUI(response.sessions);
+        }, 1000);
       })
       .catch((e) => {
         // TODO: render empty page
         console.log(e);
-        alert("failed to render nav page");
+        this.#renderNavSessionsUI(null);
       });
+  }
+
+  /**
+   * renders the elements corrosponding to each session name, or
+   * an empty page indicating that there are no sessions present
+   *
+   * @param {Array} sessions - array of strings from chrome.storage holding session names
+   * @returns
+   */
+  #renderNavSessionsUI(sessions) {
+    // if there are no sessions in storage, then render a simple msg
+    if (!sessions) {
+      this.mainNavPageContent.innerHTML = `<p>No sessions available!</p>`;
+      return;
+    }
+
+    // otherwise, render all the sessions
+    this.mainNavPageContent.innerHTML = "";
+    sessions.forEach((sessionName) => {
+      this.mainNavPageContent.innerHTML += `<p class="sessionWrapper">${sessionName}</p>`;
+    });
+    this.#setNavPageIsLoading(false);
+    this.mainNavPageContent.style.display = "block";
+    this.togglePage(userInterfaceManager.NAV_PAGE);
   }
 
   renderVideoPage() {
@@ -135,7 +164,7 @@ class userInterfaceManager {
     });
   }
 
-  #handleBackArrowIconClick = async (e) => {
+  #handleBackArrowIconClick = (e) => {
     this.renderNavPage();
   };
 }
