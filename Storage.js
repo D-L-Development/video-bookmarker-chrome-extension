@@ -45,7 +45,7 @@ class Storage {
             (session) => session === sessionName
           );
 
-          console.log(sessionFound);
+          console.log("sessionFound", sessionFound);
 
           sessionFound ? resolve() : reject();
         } else {

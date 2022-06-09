@@ -3,7 +3,7 @@ class userInterfaceManager {
   static VIDEO_PAGE = "videoPage";
   static ALL_SESSIONS = "All Sessions";
   // TODO: make this value get updated from the popup.js by receiving messages from the content script
-  static STORAGE_KEY = "web-video-bookmarker-4$23hV2";
+  // static STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 
   constructor() {
     // get the DOM elements
@@ -23,6 +23,8 @@ class userInterfaceManager {
       "videoBookmarksPageContent"
     );
     this.mainNavPageContent = document.getElementById("mainNavPageContent");
+
+    this.currentSessionName = null;
 
     this.#wireEventListeners();
     this.renderNavPage();
@@ -103,17 +105,18 @@ class userInterfaceManager {
       this.#handleBackArrowIconClick
     );
 
-    // wire copy event for button
-    this.copyTableBtn.addEventListener("click", (e) => {
-      chrome.storage.sync.get(userInterfaceManager.STORAGE_KEY, (response) => {
-        if (Object.keys(response).length > 0) {
-          // create UI
-          const { bookmarks } = response[userInterfaceManager.STORAGE_KEY];
-          // send message to client script
-          copyTableToClipboard(bookmarks);
-        }
-      });
-    });
+    // TODO: fix copy all bookmarks button
+    // // wire copy event for button
+    // this.copyTableBtn.addEventListener("click", (e) => {
+    //   chrome.storage.sync.get(userInterfaceManager.STORAGE_KEY, (response) => {
+    //     if (Object.keys(response).length > 0) {
+    //       // create UI
+    //       const { bookmarks } = response[userInterfaceManager.STORAGE_KEY];
+    //       // send message to client script
+    //       copyTableToClipboard(bookmarks);
+    //     }
+    //   });
+    // });
 
     // wire event handler for create new session click
     this.newSessionButton.addEventListener(
@@ -137,13 +140,18 @@ class userInterfaceManager {
 
   #handleNewSessionButtonClick = (e) => {
     // TODO: render popup here instead of prompt
+    // TODO: add spinner
     const userResponse = prompt("Enter the session name:", "Session Name");
     if (userResponse !== "") {
       sendMessageToActiveTab(
         { action: "createNewSession", payload: userResponse },
         (response) => {
           if (response.status === "success") {
+            // TODO: render the video page
+            // this.renderVideoPage(userResponse)
             console.log(`New session created!`);
+          } else {
+            alert(response.payload);
           }
         }
       );

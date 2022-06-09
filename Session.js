@@ -18,30 +18,29 @@ class Session {
    * creates a new session with an HTML video if it doesn't already exist
    *
    * @param {String} sessionName - the current session name from the user
+   * @returns {Promise} - resolved or rejected with a msg depending on the status
    */
   createNewSession(sessionName) {
-    Storage.sessionExists(sessionName)
-      .then(() => {
-        // ? render a modal
-        alert(
-          "Session name already exists! Remove that session, or choose a different name!"
-        );
-        // TODO: send msg to popup.js to render the nav page again and get rid of the spinner
-        // TODO: this could be done as a spinner within the button
-      })
-      .catch(() => {
-        this.#getVideoElement()
-          .then((res) => {
-            Storage.addSessionNameToStorage(sessionName);
-            this.video = new Video(res.video, sessionName);
-            // TODO: send msg to popup.js to render the video session and remove spinner
-          })
-          .catch((error) => {
-            alert("There is not a video in the document");
-            console.log(error);
-            // TODO: send msg to popup.js to render the nav page back
-          });
-      });
+    return new Promise((resolve, reject) => {
+      Storage.sessionExists(sessionName)
+        .then(() => {
+          reject(
+            "Session name already exists! Remove that session, or choose a different name!"
+          );
+        })
+        .catch(() => {
+          this.#getVideoElement()
+            .then((res) => {
+              Storage.addSessionNameToStorage(sessionName);
+              this.video = new Video(res.video, sessionName);
+              resolve();
+            })
+            .catch((error) => {
+              reject("There is not a video in the document");
+              console.log(error);
+            });
+        });
+    });
   }
 
   /**

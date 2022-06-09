@@ -24,9 +24,16 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sendResponse({ status: "success" });
       break;
     case "createNewSession":
-      // TODO: handle the promise here and respond accordingly
-      session.createNewSession(msg.payload);
-      sendResponse({ status: "success" });
+      session
+        .createNewSession(msg.payload)
+        .then(() => {
+          sendResponse({ status: "success" });
+        })
+        .catch((msg) => {
+          sendResponse({ status: "failure", payload: msg });
+        });
+      // indicate that the response is asynchrounus
+      return true;
       break;
     case "jumpToTimestamp":
       session.jumpToTimestamp(msg.payload);

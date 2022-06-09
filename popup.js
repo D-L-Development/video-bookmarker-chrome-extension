@@ -1,23 +1,22 @@
 console.log("Popup script ran!");
 
-const STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 const bookmarksContainer = document.getElementById("bookmarksContainer");
 
 const uiManager = new userInterfaceManager();
 
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  const { NAV_PAGE, VIDEO_PAGE } = userInterfaceManager;
-  switch (msg.type) {
-    case NAV_PAGE:
-      uiManager.renderNavPage();
-      sendResponse({ status: "success" });
-      break;
-    case VIDEO_PAGE:
-      sendResponse({ status: "success" });
-      uiManager.renderVideoPage();
-      break;
-  }
-});
+// chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+//   const { NAV_PAGE, VIDEO_PAGE } = userInterfaceManager;
+//   switch (msg.type) {
+//     case NAV_PAGE:
+//       uiManager.renderNavPage();
+//       sendResponse({ status: "success" });
+//       break;
+//     case VIDEO_PAGE:
+//       sendResponse({ status: "success" });
+//       uiManager.renderVideoPage();
+//       break;
+//   }
+// });
 
 // chrome.storage.sync.get(STORAGE_KEY, (response) => {
 //   if (Object.keys(response).length > 0) {
@@ -34,8 +33,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 // listener for storage updates
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (changes[STORAGE_KEY]?.newValue) {
-    const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
+  if (
+    uiManager.currentSessionName &&
+    changes[uiManager.currentSessionName]?.newValue
+  ) {
+    // const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
     // updateAllBookmarksUI(bookmarks);
     uiManager.updateTitle(sessionName);
   }
