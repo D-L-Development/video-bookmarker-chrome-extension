@@ -2,8 +2,6 @@ class userInterfaceManager {
   static NAV_PAGE = "navPage";
   static VIDEO_PAGE = "videoPage";
   static ALL_SESSIONS = "All Sessions";
-  // TODO: make this value get updated from the popup.js by receiving messages from the content script
-  // static STORAGE_KEY = "web-video-bookmarker-4$23hV2";
 
   constructor() {
     // get the DOM elements
@@ -53,7 +51,7 @@ class userInterfaceManager {
     // drag the nav page in frame if it's not already
     this.togglePage(userInterfaceManager.NAV_PAGE);
     // wait for all sessions to be retreived from chrome.storage
-    this.#getAllSessionsFromChromeStorage()
+    this.#getAllSessionNamesFromChromeStorage()
       .then((response) => {
         // TODO: remove the interval it's only here to simulate slow connection
         setTimeout(() => {
@@ -69,7 +67,23 @@ class userInterfaceManager {
 
   renderVideoPage(sessionName) {
     console.log("renderVideoPage()", sessionName);
+    // show the loading page
+    this.#setVideoPageIsLoading(true);
+    // drag the video page in frame if it's not already
     this.togglePage(userInterfaceManager.VIDEO_PAGE);
+    // get the video session from chrome.storage
+    this.#getSessionFromChromeStorage(sessionName)
+      .then((response) => {
+        // TODO: remove the interval it's only here to simulate slow connection
+        setTimeout(() => {
+          this.#renderVideoSessionUI(response.bookmarks);
+        }, 1000);
+      })
+      .catch((e) => {
+        // TODO: render empty page
+        console.log(e);
+        this.#renderVideoSessionUI(null);
+      });
   }
 
   /**
@@ -98,6 +112,14 @@ class userInterfaceManager {
       this.mainNavPageContent.appendChild(sessionWrapper);
     });
     this.#setNavPageIsLoading(false);
+  }
+
+  #renderVideoSessionUI(bookmarks) {
+    if (!bookmarks) {
+      console.log("Empty bookmarks");
+      return;
+    }
+    console.log(bookmarks);
   }
 
   #wireEventListeners() {
@@ -173,7 +195,7 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    */
   #handleSessionItemClick = (e) => {
-    console.log(e.target.innerText);
+    this.renderVideoPage(e.target.innerText);
   };
 
   // TODO: this needs testing
@@ -182,7 +204,7 @@ class userInterfaceManager {
    *
    * @returns {Promise} - resolved with a sessions array from chrome.storage, or rejected
    */
-  #getAllSessionsFromChromeStorage() {
+  #getAllSessionNamesFromChromeStorage() {
     return new Promise((resolve, reject) => {
       chrome.storage.sync.get(userInterfaceManager.ALL_SESSIONS, (response) => {
         // if there is a session in storage, then return it
@@ -191,6 +213,21 @@ class userInterfaceManager {
           sessions.length ? resolve({ sessions }) : reject();
         } else {
           reject();
+        }
+      });
+    });
+  }
+
+  #getSessionFromChromeStorage(sessionName) {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(sessionName, (response) => {
+        if (Object.keys(response).length > 0) {
+          const { bookmarks } = response[sessionName];
+          Object.keys(bookmarks).length
+            ? resolve({ bookmarks })
+            : reject("No bookmarks");
+        } else {
+          reject("Can't find the session name in storage!");
         }
       });
     });
