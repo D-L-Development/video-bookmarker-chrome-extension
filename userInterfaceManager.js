@@ -91,7 +91,11 @@ class userInterfaceManager {
     // otherwise, render all the sessions
     this.mainNavPageContent.innerHTML = "";
     sessions.forEach((sessionName) => {
-      this.mainNavPageContent.innerHTML += `<p class="sessionWrapper">${sessionName}</p>`;
+      const sessionWrapper = document.createElement("div");
+      sessionWrapper.classList.add("sessionWrapper");
+      sessionWrapper.innerText = sessionName;
+      sessionWrapper.addEventListener("click", this.#handleSessionItemClick);
+      this.mainNavPageContent.appendChild(sessionWrapper);
     });
     this.#setNavPageIsLoading(false);
   }
@@ -138,6 +142,12 @@ class userInterfaceManager {
     this.renderNavPage();
   };
 
+  /**
+   * triggered when the createNewSession Button is clicked. It messages the content script to create a new session,
+   * and renders the video page, or an alert msg depending on the response from the content script
+   *
+   * @param {Event} e - click event object
+   */
   #handleNewSessionButtonClick = (e) => {
     // TODO: render popup here instead of prompt
     // TODO: add spinner
@@ -155,6 +165,15 @@ class userInterfaceManager {
         }
       );
     }
+  };
+
+  /**
+   * triggered when a session items is clicked from the nav page. It render the video page with the clicked session item
+   *
+   * @param {Event} e - click event object
+   */
+  #handleSessionItemClick = (e) => {
+    console.log(e.target.innerText);
   };
 
   // TODO: this needs testing
