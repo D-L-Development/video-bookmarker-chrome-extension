@@ -1,8 +1,58 @@
 class Storage {
+  static ALL_SESSIONS = "All Sessions";
+
   constructor(sessionName) {
     this.videoSession = {};
     this.STORAGE_KEY = sessionName;
-    this.setVideoSessionFromLocalStorage();
+    this.#setVideoSessionFromLocalStorage();
+  }
+
+  // ? maybe change to this to be async
+  /**
+   * adds the passed in session name under the - ALL SESSIONS - key in storage which is an array
+   *
+   * @param {String} sessionName - session name for current video session
+   */
+  static addSessionNameToStorage(sessionName) {
+    const { ALL_SESSIONS } = Storage;
+    chrome.storage.sync.get(ALL_SESSIONS, (response) => {
+      // get all the session URL's from storage
+      if (Object.keys(response).length > 0) {
+        const sessions = response[ALL_SESSIONS];
+        sessions.push(sessionName);
+        chrome.storage.sync.set({ [ALL_SESSIONS]: sessions }, () => {
+          console.log("value set to");
+          console.log(sessions);
+        });
+      }
+    });
+  }
+
+  /**
+   * searched chrome.storgage under the ALL SESSIONS key in the sessions array for the passed in session name
+   *
+   * @param {String} sessionName - represents the session name that is being searched in chrome.storage
+   * @returns {Promise} - resolved or rejected depending on if the session name for the session is already in storage
+   */
+  static sessionExists(sessionName) {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(Storage.ALL_SESSIONS, (response) => {
+        // if there is a session in storage, then return it
+        if (Object.keys(response).length > 0) {
+          const sessions = response[Storage.ALL_SESSIONS];
+
+          const sessionFound = sessions.some(
+            (session) => session === sessionName
+          );
+
+          console.log(sessionFound);
+
+          sessionFound ? resolve() : reject();
+        } else {
+          reject();
+        }
+      });
+    });
   }
 
   syncToLocalStorage() {
@@ -12,7 +62,7 @@ class Storage {
     });
   }
 
-  setVideoSessionFromLocalStorage() {
+  #setVideoSessionFromLocalStorage() {
     chrome.storage.sync.get(this.STORAGE_KEY, (response) => {
       // if there is a session in storage, then return it
       if (Object.keys(response).length > 0) {
@@ -21,7 +71,7 @@ class Storage {
       } else {
         this.videoSession = {
           [this.STORAGE_KEY]: {
-            sessionName: prompt("Enter the name of this session:", "Untitled"),
+            sessionName: this.STORAGE_KEY,
             bookmarks: {},
           },
         };

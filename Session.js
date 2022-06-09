@@ -1,6 +1,5 @@
 class Session {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("popup.html");
-  static ALL_SESSIONS = "All Sessions";
 
   /**
    * @param {String} sessionName - takes the session name and initializes the class member
@@ -21,7 +20,7 @@ class Session {
    * @param {String} sessionName - the current session name from the user
    */
   createNewSession(sessionName) {
-    this.#sessionExists(sessionName)
+    Storage.sessionExists(sessionName)
       .then(() => {
         // ? render a modal
         alert(
@@ -33,12 +32,13 @@ class Session {
       .catch(() => {
         this.#getVideoElement()
           .then((res) => {
-            this.#addSessionNameToStorage(sessionName);
+            Storage.addSessionNameToStorage(sessionName);
             this.video = new Video(res.video, sessionName);
             // TODO: send msg to popup.js to render the video session and remove spinner
           })
           .catch((error) => {
             alert("There is not a video in the document");
+            console.log(error);
             // TODO: send msg to popup.js to render the nav page back
           });
       });
@@ -50,54 +50,6 @@ class Session {
   #resetVideo() {
     this.video = null;
     this.sessionName = null;
-  }
-
-  // ? maybe change to this to be async
-  // TODO: move this to storage class as a static method
-  /**
-   * adds the passed in session name under the - ALL SESSIONS - key in storage which is an array
-   *
-   * @param {String} sessionName - session name for current video session
-   */
-  #addSessionNameToStorage(sessionName) {
-    chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
-      // get all the session URL's from storage
-      if (Object.keys(response).length > 0) {
-        const sessions = response[Session.ALL_SESSIONS];
-        sessions.push(sessionName);
-        chrome.storage.sync.set({ [Session.ALL_SESSIONS]: sessions }, () => {
-          console.log("value set to");
-          console.log(sessions);
-        });
-      }
-    });
-  }
-
-  /**
-   * searched chrome.storgage under the ALL SESSIONS key in the sessions array for the passed in session name
-   *
-   * @param {String} sessionName - represents the session name that is being searched in chrome.storage
-   * @returns {Promise} - resolved or rejected depending on if the session name for the session is already in storage
-   */
-  #sessionExists(sessionName) {
-    return new Promise((resolve, reject) => {
-      chrome.storage.sync.get(Session.ALL_SESSIONS, (response) => {
-        // if there is a session in storage, then return it
-        if (Object.keys(response).length > 0) {
-          const sessions = response[Session.ALL_SESSIONS];
-
-          const sessionFound = sessions.some(
-            (session) => session === sessionName
-          );
-
-          console.log(sessionFound);
-
-          sessionFound ? resolve() : reject();
-        } else {
-          reject();
-        }
-      });
-    });
   }
 
   /**

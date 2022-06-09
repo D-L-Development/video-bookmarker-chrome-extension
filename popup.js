@@ -34,9 +34,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 // listener for storage updates
 chrome.storage.onChanged.addListener((changes, area) => {
-  const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
-  // updateAllBookmarksUI(bookmarks);
-  uiManager.updateTitle(sessionName);
+  if (changes[STORAGE_KEY]?.newValue) {
+    const { bookmarks, sessionName } = changes[STORAGE_KEY].newValue;
+    // updateAllBookmarksUI(bookmarks);
+    uiManager.updateTitle(sessionName);
+  }
 });
 
 function updateAllBookmarksUI(bookmarks) {
