@@ -116,13 +116,10 @@ class userInterfaceManager {
     });
 
     // wire event handler for create new session click
-    this.newSessionButton.addEventListener("click", (e) => {
-      sendMessageToActiveTab({ action: "createNewSession" }, (response) => {
-        if (response.status === "success") {
-          console.log(`New session created!`);
-        }
-      });
-    });
+    this.newSessionButton.addEventListener(
+      "click",
+      this.#handleNewSessionButtonClick
+    );
   }
 
   // message the content script to close the sidebarIframe
@@ -136,6 +133,21 @@ class userInterfaceManager {
 
   #handleBackArrowIconClick = (e) => {
     this.renderNavPage();
+  };
+
+  #handleNewSessionButtonClick = (e) => {
+    // TODO: render popup here instead of prompt
+    const userResponse = prompt("Enter the session name:", "Session Name");
+    if (userResponse !== "") {
+      sendMessageToActiveTab(
+        { action: "createNewSession", payload: userResponse },
+        (response) => {
+          if (response.status === "success") {
+            console.log(`New session created!`);
+          }
+        }
+      );
+    }
   };
 
   // TODO: this needs testing

@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       break;
     case "createNewSession":
       // TODO: handle the promise here and respond accordingly
-      session.createNewSession();
+      session.createNewSession(msg.payload);
       sendResponse({ status: "success" });
       break;
     case "jumpToTimestamp":
