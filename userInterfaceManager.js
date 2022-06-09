@@ -67,9 +67,9 @@ class userInterfaceManager {
       });
   }
 
-  renderVideoPage() {
-    console.log("renderVideoPage()");
-    this.scrollablePagesContainer.classList.add("videoPage");
+  renderVideoPage(sessionName) {
+    console.log("renderVideoPage()", sessionName);
+    this.togglePage(userInterfaceManager.VIDEO_PAGE);
   }
 
   /**
@@ -147,10 +147,9 @@ class userInterfaceManager {
         { action: "createNewSession", payload: userResponse },
         (response) => {
           if (response.status === "success") {
-            // TODO: render the video page
-            // this.renderVideoPage(userResponse)
-            console.log(`New session created!`);
+            this.renderVideoPage(userResponse);
           } else {
+            // TODO: render popup here instead of alert
             alert(response.payload);
           }
         }
