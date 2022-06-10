@@ -31,25 +31,33 @@ class userInterfaceManager {
     // get the templates
     this.bookmarkTemplate = document.getElementById("bookmarkTemplate");
 
+    // memeber to keep track of the currently rendered page
+    // gets updated by the togglePage function
+    // TODO: make sure to prevent modifiying sessions or bookmarks when going in between pages. This variable should always be updated. You know what I mean
+    this.isNavPageInFrame = true;
+
     this.#wireEventListeners();
     this.renderNavPage();
   }
 
   /**
    * adds or removes the CSS class "videoPage" to slide the scrollerPage div right, or left
-   * to expose the nav, or video page
+   * to expose the nav, or video page. It also updates isNavPageInFrame
    *
    * @param {String} page - defaults to null, and accepts the two constant strings navPage, or videoPage
    */
   togglePage(page = null) {
     switch (page) {
       case userInterfaceManager.NAV_PAGE:
+        this.isNavPageInFrame = true;
         this.scrollablePagesContainer.classList.remove("videoPage");
         break;
       case userInterfaceManager.VIDEO_PAGE:
+        this.isNavPageInFrame = false;
         this.scrollablePagesContainer.classList.add("videoPage");
         break;
       default:
+        this.isNavPageInFrame = !isNavPageInFrame;
         this.scrollablePagesContainer.classList.toggle("videoPage");
     }
   }
@@ -59,7 +67,7 @@ class userInterfaceManager {
    *
    * @param {String} title - the string value for the h1 element
    */
-  updateTitle(title) {
+  #updateTitle(title) {
     this.sessionName.innerText = title;
   }
 
@@ -70,6 +78,8 @@ class userInterfaceManager {
   renderNavPage() {
     // show the loading page
     this.#setNavPageIsLoading(true);
+    // update the title
+    this.#updateTitle("All Sessions");
     // drag the nav page in frame if it's not already
     this.togglePage(userInterfaceManager.NAV_PAGE);
     // wait for all sessions to be retreived from chrome.storage
@@ -98,6 +108,8 @@ class userInterfaceManager {
   renderVideoPage(sessionName) {
     // show the loading page
     this.#setVideoPageIsLoading(true);
+    // update the title
+    this.#updateTitle(sessionName);
     // drag the video page in frame if it's not already
     this.togglePage(userInterfaceManager.VIDEO_PAGE);
     // get the video session from chrome.storage

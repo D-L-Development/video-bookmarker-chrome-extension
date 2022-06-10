@@ -34,7 +34,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         });
       // indicate that the response is asynchrounus
       return true;
-      break;
     case "selectSession":
       session
         .selectSession(msg.payload)
@@ -46,7 +45,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         });
       // indicate that the response is asynchrounus
       return true;
-      break;
     case "jumpToTimestamp":
       session.jumpToTimestamp(msg.payload);
       sendResponse({ status: "success" });
