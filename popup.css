@@ -116,11 +116,9 @@ h1 {
   cursor: pointer;
 }
 
-/* Styles for nested bookmarks */
+/* Styles for bookmarks */
 .bookmark {
   height: fit-content;
-}
-.bookmark {
   margin: 0.5rem;
   -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
@@ -151,7 +149,7 @@ h1 {
   height: 1rem;
   border-radius: 0.2rem;
 }
-.bookmark .bookmarkText {
+.bookmark .bookmarkBodyText {
   background-color: var(--bookmark-body);
   padding: 0.25rem;
   margin-bottom: 0.5rem;

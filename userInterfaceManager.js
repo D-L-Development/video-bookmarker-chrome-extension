@@ -22,7 +22,8 @@ class userInterfaceManager {
     );
     this.mainNavPageContent = document.getElementById("mainNavPageContent");
 
-    this.currentSessionName = null;
+    // get the templates
+    this.bookmarkTemplate = document.getElementById("bookmarkTemplate");
 
     this.#wireEventListeners();
     this.renderNavPage();
@@ -114,12 +115,47 @@ class userInterfaceManager {
     this.#setNavPageIsLoading(false);
   }
 
-  #renderVideoSessionUI(bookmarks) {
-    if (!bookmarks) {
-      console.log("Empty bookmarks");
-      return;
+  #renderVideoSessionUI(bookmarksss) {
+    // if (!bookmarks) {
+    //   console.log("Empty bookmarks");
+    //   return;
+    // }
+    const bookmarks = {
+      "00:55:22": {
+        isNested: true,
+        text: "First one",
+        timestamp: "00:55:22",
+      },
+      "00:55:23": {
+        isNested: false,
+        text: "Second one",
+        timestamp: "00:55:23",
+      },
+      "00:55:24": {
+        isNested: true,
+        text: "Third one",
+        timestamp: "00:55:24",
+      },
+    };
+    // TODO: render the bookmarks based on template and wire event listeners for icons
+    for (const key in bookmarks) {
+      const { isNested, text, timestamp } = bookmarks[key];
+      const bookmarkElem =
+        this.bookmarkTemplate.content.firstElementChild.cloneNode(true);
+      if (isNested) {
+        bookmarkElem.classList.add("nested");
+      }
+      bookmarkElem.querySelector(".timestampText").innerText = timestamp;
+      bookmarkElem.querySelector(".title").innerText = "Default Title";
+      bookmarkElem.querySelector(".bookmarkBodyText").innerText = text;
+      // wire event listeners for header icons
+      bookmarkElem.querySelector(".confirmIcon");
+      bookmarkElem.querySelector(".editIcon");
+      bookmarkElem.querySelector(".nestIcon");
+      bookmarkElem.querySelector(".headerIcon");
+
+      console.log(bookmarkElem);
     }
-    console.log(bookmarks);
   }
 
   #wireEventListeners() {
