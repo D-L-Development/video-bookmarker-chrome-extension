@@ -14,11 +14,11 @@ class userInterfaceManager {
     this.videoBookmarksPageContentLoading = document.getElementById(
       "videoBookmarksPageContentLoading"
     );
-    this.mainNavPageContentLoading = document.getElementById(
-      "mainNavPageContentLoading"
-    );
     this.videoBookmarksPageContent = document.getElementById(
       "videoBookmarksPageContent"
+    );
+    this.mainNavPageContentLoading = document.getElementById(
+      "mainNavPageContentLoading"
     );
     this.mainNavPageContent = document.getElementById("mainNavPageContent");
 
@@ -57,12 +57,14 @@ class userInterfaceManager {
         // TODO: remove the interval it's only here to simulate slow connection
         setTimeout(() => {
           this.#renderNavSessionsUI(response.sessions);
+          this.#setNavPageIsLoading(false);
         }, 1000);
       })
       .catch((e) => {
         // TODO: render empty page
         console.log(e);
         this.#renderNavSessionsUI(null);
+        this.#setNavPageIsLoading(false);
       });
   }
 
@@ -78,12 +80,14 @@ class userInterfaceManager {
         // TODO: remove the interval it's only here to simulate slow connection
         setTimeout(() => {
           this.#renderVideoSessionUI(response.bookmarks);
+          this.#setVideoPageIsLoading(false);
         }, 1000);
       })
       .catch((e) => {
         // TODO: render empty page
         console.log(e);
         this.#renderVideoSessionUI(null);
+        this.#setVideoPageIsLoading(false);
       });
   }
 
@@ -112,49 +116,40 @@ class userInterfaceManager {
       sessionWrapper.addEventListener("click", this.#handleSessionItemClick);
       this.mainNavPageContent.appendChild(sessionWrapper);
     });
-    this.#setNavPageIsLoading(false);
   }
 
-  #renderVideoSessionUI(bookmarksss) {
-    // if (!bookmarks) {
-    //   console.log("Empty bookmarks");
-    //   return;
-    // }
-    const bookmarks = {
-      "00:55:22": {
-        isNested: true,
-        text: "First one",
-        timestamp: "00:55:22",
-      },
-      "00:55:23": {
-        isNested: false,
-        text: "Second one",
-        timestamp: "00:55:23",
-      },
-      "00:55:24": {
-        isNested: true,
-        text: "Third one",
-        timestamp: "00:55:24",
-      },
-    };
-    // TODO: render the bookmarks based on template and wire event listeners for icons
+  #renderVideoSessionUI(bookmarks) {
+    // remove current content
+    this.videoBookmarksPageContent.innerHTML = "";
+    if (!bookmarks) {
+      // TODO: render empty video page
+      this.videoBookmarksPageContent.innerHTML = `<p>No bookmarks present!</p>`;
+      return;
+    }
+    // render the bookmarks
     for (const key in bookmarks) {
       const { isNested, text, timestamp } = bookmarks[key];
       const bookmarkElem =
         this.bookmarkTemplate.content.firstElementChild.cloneNode(true);
-      if (isNested) {
-        bookmarkElem.classList.add("nested");
-      }
+      // add or remove the nested class
+      isNested
+        ? bookmarkElem.classList.add("nested")
+        : bookmarkElem.classList.remove("nested");
+      // set the content
       bookmarkElem.querySelector(".timestampText").innerText = timestamp;
       bookmarkElem.querySelector(".title").innerText = "Default Title";
       bookmarkElem.querySelector(".bookmarkBodyText").innerText = text;
+      // set the timestamp attribute
+      bookmarkElem
+        .querySelector(".headerIcons")
+        .setAttribute("timestamp", timestamp);
       // wire event listeners for header icons
       bookmarkElem.querySelector(".confirmIcon");
       bookmarkElem.querySelector(".editIcon");
       bookmarkElem.querySelector(".nestIcon");
       bookmarkElem.querySelector(".headerIcon");
-
-      console.log(bookmarkElem);
+      // append the new bookmark
+      this.videoBookmarksPageContent.appendChild(bookmarkElem);
     }
   }
 
@@ -278,7 +273,7 @@ class userInterfaceManager {
   }
 
   #setVideoPageIsLoading(isLoadingVideo) {
-    videoBookmarksPageContentLoading.style.display = isLoadingVideo
+    this.videoBookmarksPageContentLoading.style.display = isLoadingVideo
       ? "flex"
       : "none";
     // hide or show the content
