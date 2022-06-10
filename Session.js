@@ -11,7 +11,10 @@ class Session {
 
     // create the side menu for found video
     this.#createSideMenu(Session.SIDEBAR_PAGE_URL);
-    this.toggleSidemenuVisiblity(true);
+    // ? TODO: there's probably a better way to do this below
+    setTimeout(() => {
+      this.toggleSidemenuVisiblity(true);
+    }, 50);
   }
 
   /**
