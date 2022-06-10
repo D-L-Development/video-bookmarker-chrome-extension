@@ -29,8 +29,20 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         .then(() => {
           sendResponse({ status: "success" });
         })
-        .catch((msg) => {
-          sendResponse({ status: "failure", payload: msg });
+        .catch((error) => {
+          sendResponse({ status: "failure", payload: error });
+        });
+      // indicate that the response is asynchrounus
+      return true;
+      break;
+    case "selectSession":
+      session
+        .selectSession(msg.payload)
+        .then(() => {
+          sendResponse({ status: "success" });
+        })
+        .catch((error) => {
+          sendResponse({ status: "failure", payload: error });
         });
       // indicate that the response is asynchrounus
       return true;

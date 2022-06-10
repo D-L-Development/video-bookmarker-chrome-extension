@@ -271,7 +271,20 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    */
   #handleSessionItemClick = (e) => {
-    this.renderVideoPage(e.target.innerText);
+    // TODO: render a spinner within the clicked session item on the left side
+    const { innerText } = e.target;
+    sendMessageToActiveTab(
+      { action: "selectSession", payload: innerText },
+      (response) => {
+        // TODO: remove the spinner when a response is recieved
+        if (response.status === "success") {
+          this.renderVideoPage(innerText);
+        } else {
+          // TODO: render popup here instead of alert
+          alert(response.payload);
+        }
+      }
+    );
   };
 
   /**

@@ -44,6 +44,23 @@ class Session {
   }
 
   /**
+   * gets called by the content script when a msg fromm the uiManger is recieved.
+   * it makes sure the video session exists, and creates a new video for it
+   *
+   * @param {String} selectedSession - string value of the selected session
+   */
+  async selectSession(selectedSession) {
+    try {
+      // TODO: an assumption is made here that the session is under "ALL_SESSIONS" key, and is found under its name key
+      await Storage.sessionExists(selectedSession);
+      const result = await this.#getVideoElement();
+      this.video = new Video(result.video, selectedSession);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * resets the video and current page URL
    */
   #resetVideo() {

@@ -50,9 +50,9 @@ class Storage {
 
           console.log("sessionFound", sessionFound);
 
-          sessionFound ? resolve() : reject();
+          sessionFound ? resolve() : reject("Selected session is not found!");
         } else {
-          reject();
+          reject("There are no sessions!");
         }
       });
     });
