@@ -58,7 +58,7 @@ class userInterfaceManager {
         setTimeout(() => {
           this.#renderNavSessionsUI(response.sessions);
           this.#setNavPageIsLoading(false);
-        }, 1000);
+        }, 500);
       })
       .catch((e) => {
         // TODO: render empty page
@@ -69,7 +69,6 @@ class userInterfaceManager {
   }
 
   renderVideoPage(sessionName) {
-    console.log("renderVideoPage()", sessionName);
     // show the loading page
     this.#setVideoPageIsLoading(true);
     // drag the video page in frame if it's not already
@@ -81,7 +80,7 @@ class userInterfaceManager {
         setTimeout(() => {
           this.#renderVideoSessionUI(response.bookmarks);
           this.#setVideoPageIsLoading(false);
-        }, 1000);
+        }, 500);
       })
       .catch((e) => {
         // TODO: render empty page

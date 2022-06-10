@@ -18,6 +18,7 @@
   position: absolute;
   left: 0;
   transition: all 0.5s ease-in-out;
+  background-color: white;
 }
 
 #pageScroller.videoPage {
@@ -25,11 +26,11 @@
 }
 
 #mainNavPage {
-  background-color: yellow;
+  background-color: white;
 }
 
 #videoBookmarksPage {
-  background-color: brown;
+  background-color: white;
 }
 
 #content {
