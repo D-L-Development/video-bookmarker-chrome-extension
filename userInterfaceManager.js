@@ -1,3 +1,9 @@
+/**
+ * userInterfaceManager - responsible for handling ui changes for the sidemenu iframe.
+ * an instance of this class is created in the popup.js file. This class uses chrome.storage
+ * but only for reading. It NEVER updates chrome.storage. It rather sends messages to the
+ * content script to handle any changes needed outside of the scope of the sidemenu ui
+ */
 class userInterfaceManager {
   static NAV_PAGE = "navPage";
   static VIDEO_PAGE = "videoPage";
@@ -29,6 +35,12 @@ class userInterfaceManager {
     this.renderNavPage();
   }
 
+  /**
+   * adds or removes the CSS class "videoPage" to slide the scrollerPage div right, or left
+   * to expose the nav, or video page
+   *
+   * @param {String} page - defaults to null, and accepts the two constant strings navPage, or videoPage
+   */
   togglePage(page = null) {
     switch (page) {
       case userInterfaceManager.NAV_PAGE:
@@ -42,10 +54,19 @@ class userInterfaceManager {
     }
   }
 
+  /**
+   * sets the value of the h1 HTML element
+   *
+   * @param {String} title - the string value for the h1 element
+   */
   updateTitle(title) {
     this.sessionName.innerText = title;
   }
 
+  /**
+   * responsible for sliding the nav page into frame, and loading it's content from chrome.storage
+   * through the use of a couple of helper functions.
+   */
   renderNavPage() {
     // show the loading page
     this.#setNavPageIsLoading(true);
@@ -68,6 +89,12 @@ class userInterfaceManager {
       });
   }
 
+  /**
+   * responsible for sliding the video page into frame, and loading it's content from chrome.storage
+   * through the use of a couple of helper functions using the sessionName param as a storage key
+   *
+   * @param {String} sessionName - string session name value to be rendered in the video page div
+   */
   renderVideoPage(sessionName) {
     // show the loading page
     this.#setVideoPageIsLoading(true);
@@ -117,6 +144,12 @@ class userInterfaceManager {
     });
   }
 
+  /**
+   * renders the HTML elements corrosponding to each bookmark passed in, or an empty page
+   * if null is passed in. It uses a template from the popup.html page to render each bookmark
+   *
+   * @param {Object} bookmarks - the object from chrome.storage with timestamp "hh:mm:ss" keys
+   */
   #renderVideoSessionUI(bookmarks) {
     // remove current content
     this.videoBookmarksPageContent.innerHTML = "";
@@ -152,6 +185,10 @@ class userInterfaceManager {
     }
   }
 
+  /**
+   * Helper function to wire all event listeners for presistent components
+   * such as the back button or close icon
+   */
   #wireEventListeners() {
     // wire event for closing sidebar
     this.closeBtnIcon.addEventListener("click", this.#handleCloseIconClick);
@@ -181,7 +218,11 @@ class userInterfaceManager {
     );
   }
 
-  // message the content script to close the sidebarIframe
+  /**
+   * Messages the content script to close the sidebarIframe
+   *
+   * @param {Event} e - click event object
+   */
   #handleCloseIconClick(e) {
     sendMessageToActiveTab({ action: "toggle" }, (response) => {
       if (response.status === "success") {
@@ -190,6 +231,11 @@ class userInterfaceManager {
     });
   }
 
+  /**
+   * Triggered when the back arrow icon is clicked. It renders the nav page
+   *
+   * @param {Event} e - click event object
+   */
   #handleBackArrowIconClick = (e) => {
     this.renderNavPage();
   };
@@ -228,7 +274,6 @@ class userInterfaceManager {
     this.renderVideoPage(e.target.innerText);
   };
 
-  // TODO: this needs testing
   /**
    * searches chrome.storage for the key ALL_SESSIONS
    *
@@ -248,6 +293,12 @@ class userInterfaceManager {
     });
   }
 
+  /**
+   * Searches chrome.storage for the session name, and returns the bookmarks
+   *
+   * @param {String} sessionName - the session name key to be searched for in chrome.storage
+   * @returns {Promise} - resolves a promise with a bookmarks object if found in chrome.storage
+   */
   #getSessionFromChromeStorage(sessionName) {
     return new Promise((resolve, reject) => {
       chrome.storage.sync.get(sessionName, (response) => {
@@ -263,6 +314,11 @@ class userInterfaceManager {
     });
   }
 
+  /**
+   * shows the loading page and hides the nav content, or the exact opposite
+   *
+   * @param {Boolean} isLoadingNav - whether the nav page is loading or not
+   */
   #setNavPageIsLoading(isLoadingNav) {
     this.mainNavPageContentLoading.style.display = isLoadingNav
       ? "flex"
@@ -271,6 +327,11 @@ class userInterfaceManager {
     this.mainNavPageContent.style.display = isLoadingNav ? "none" : "block";
   }
 
+  /**
+   * shows the loading page and hides the video content, or the exact opposite
+   *
+   * @param {Boolean} isLoadingVideo - whether the video page is loading or not
+   */
   #setVideoPageIsLoading(isLoadingVideo) {
     this.videoBookmarksPageContentLoading.style.display = isLoadingVideo
       ? "flex"
