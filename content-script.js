@@ -90,3 +90,12 @@ document.addEventListener("keydown", (e) => {
     });
   }
 });
+
+// TODO: remove this. It's for testing
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key == "*") {
+    chrome.storage.sync.clear(() => {
+      console.log("STORAGE CLEARED!");
+    });
+  }
+});

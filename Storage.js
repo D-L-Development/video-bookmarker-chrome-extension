@@ -13,19 +13,22 @@ class Storage {
    *
    * @param {String} sessionName - session name for current video session
    */
-  static addSessionNameToStorage(sessionName) {
+  static async addSessionNameToStorage(sessionName) {
     const { ALL_SESSIONS } = Storage;
-    chrome.storage.sync.get(ALL_SESSIONS, (response) => {
-      // get all the session URL's from storage
+    let currentSessions = [];
+    // get all the session URL's from storage
+    try {
+      const response = await chrome.storage.sync.get(ALL_SESSIONS);
       if (Object.keys(response).length > 0) {
-        const sessions = response[ALL_SESSIONS];
-        sessions.push(sessionName);
-        chrome.storage.sync.set({ [ALL_SESSIONS]: sessions }, () => {
-          console.log("value set to");
-          console.log(sessions);
-        });
+        currentSessions = response[ALL_SESSIONS];
       }
-    });
+      // add the new session name to array
+      currentSessions.push(sessionName);
+      // save all sessions to chrome.storage
+      await chrome.storage.sync.set({ [ALL_SESSIONS]: currentSessions });
+    } catch (error) {
+      console.log(`Error saving all sessions!`, error);
+    }
   }
 
   /**
