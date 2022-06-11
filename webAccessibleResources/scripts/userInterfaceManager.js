@@ -164,7 +164,9 @@ class userInterfaceManager {
         .setAttribute("sessionName", sessionName);
       // TODO: wire event listeners
       sessionElem.querySelector(".sessionConfirmIcon");
-      sessionElem.querySelector(".sessionEditIcon");
+      sessionElem
+        .querySelector(".sessionEditIcon")
+        .addEventListener("click", this.#handleSessionItemEdition);
       sessionElem
         .querySelector(".sessionDeleteIcon")
         .addEventListener("click", this.#handleSessionItemDeletion);
@@ -339,6 +341,23 @@ class userInterfaceManager {
         } else {
           // TODO: render a modal
           alert(response.payload);
+        }
+      }
+    );
+  };
+
+  #handleSessionItemEdition = (e) => {
+    const { parentElement } = e.target;
+    this.#addSpinnerToSessionItem(parentElement);
+    const sessionName = parentElement.getAttribute("sessionName");
+    sendMessageToActiveTab(
+      { action: "editSession", payload: sessionName },
+      (response) => {
+        this.#removeSpinnerFromSessionItem(parentElement);
+        if (response.status === "success") {
+          console.log("Success");
+        } else {
+          console.log(response.payload);
         }
       }
     );

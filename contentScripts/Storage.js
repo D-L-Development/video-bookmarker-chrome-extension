@@ -31,7 +31,7 @@ class Storage {
   /**
    * gets all session names from chrome.storage
    *
-   * @returns {Promise} - resolved with an array of all session names, or an empty one
+   * @returns {Array} - resolved with an array of all session names, or an empty one
    */
   static async getAllSessionNamesFromStorage() {
     const { ALL_SESSIONS } = Storage;
@@ -70,6 +70,24 @@ class Storage {
   }
 
   /**
+   * Searches chrome.storage for session by sessionName as the key
+   *
+   * @param {String} sessionName - session name to be searched for in chrome.storage
+   * @returns {Object} - session object found in storage
+   */
+  static async getSessionFromStorage(sessionName) {
+    try {
+      const response = await chrome.storage.sync.get(sessionName);
+      // if there is a session in storage, then return it
+      if (Object.keys(response).length > 0) {
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * searched chrome.storgage under the ALL SESSIONS key in the sessions array for the passed in session name
    *
    * @param {String} sessionName - represents the session name that is being searched in chrome.storage
@@ -101,6 +119,19 @@ class Storage {
       console.log("value set to");
       console.log(this.videoSession);
     });
+  }
+
+  /**
+   * Sets an object in chrome.storage
+   *
+   * @param {Object} object
+   */
+  static async writeObjToStorage(object) {
+    try {
+      await chrome.storage.sync.set(object);
+    } catch (error) {
+      throw error;
+    }
   }
 
   #setVideoSessionFromLocalStorage() {

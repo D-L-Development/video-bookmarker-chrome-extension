@@ -79,6 +79,35 @@ class Session {
   }
 
   /**
+   * Removes the current session and adds a new one with the provided details
+   *
+   * @param {String} currentSessionName - session name to be edited
+   * @param {String} newSessionName - new session name to be set for session
+   */
+  async updateSessionName(currentSessionName, newSessionName) {
+    // TODO: the currently saved object in local storage isn't saving all the info. Revisit this at some point
+    try {
+      const foundSession = await Storage.getSessionFromStorage(
+        currentSessionName
+      );
+      // update the storage key
+      foundSession[newSessionName] = foundSession[currentSessionName];
+      // remove the old key
+      delete foundSession[currentSessionName];
+      // update the inner session name
+      foundSession[newSessionName].sessionName = newSessionName;
+      // remove the previous object
+      // TODO: figure out if these events needs to wait on eachother
+      await Storage.removeSessionFromStorage(currentSessionName);
+      // save the new object to storage
+      await Storage.addSessionNameToStorage(newSessionName);
+      await Storage.writeObjToStorage(foundSession);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * resets the video and current page URL
    */
   #resetVideo() {
