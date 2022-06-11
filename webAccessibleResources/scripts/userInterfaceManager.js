@@ -319,8 +319,29 @@ class userInterfaceManager {
     );
   };
 
+  /**
+   * Handles when the trash icon for a session item is clicked. It sends a msg
+   * to the content script to remove the session from the all session names
+   * array as well as under the session name key
+   *
+   * @param {Event} e - click event object
+   */
   #handleSessionItemDeletion = (e) => {
-    console.log(e.target.parentElement.getAttribute("sessionName"));
+    const { parentElement } = e.target;
+    this.#addSpinnerToSessionItem(parentElement);
+    const sessionName = parentElement.getAttribute("sessionName");
+    sendMessageToActiveTab(
+      { action: "deleteSession", payload: sessionName },
+      (response) => {
+        this.#removeSpinnerFromSessionItem(parentElement);
+        if (response.status === "success") {
+          this.renderNavPage();
+        } else {
+          // TODO: render a modal
+          alert(response.payload);
+        }
+      }
+    );
   };
 
   /**

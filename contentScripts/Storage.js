@@ -18,16 +18,54 @@ class Storage {
     let currentSessions = [];
     // get all the session URL's from storage
     try {
-      const response = await chrome.storage.sync.get(ALL_SESSIONS);
-      if (Object.keys(response).length > 0) {
-        currentSessions = response[ALL_SESSIONS];
-      }
+      currentSessions = await Storage.getAllSessionNamesFromStorage();
       // add the new session name to array
       currentSessions.push(sessionName);
       // save all sessions to chrome.storage
       await chrome.storage.sync.set({ [ALL_SESSIONS]: currentSessions });
     } catch (error) {
       console.log(`Error saving all sessions!`, error);
+    }
+  }
+
+  /**
+   * gets all session names from chrome.storage
+   *
+   * @returns {Promise} - resolved with an array of all session names, or an empty one
+   */
+  static async getAllSessionNamesFromStorage() {
+    const { ALL_SESSIONS } = Storage;
+    let sessions = [];
+    try {
+      const response = await chrome.storage.sync.get(ALL_SESSIONS);
+      if (Object.keys(response).length > 0) {
+        sessions = response[ALL_SESSIONS];
+      }
+      return sessions;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Deletes a session from chrome.storage under the provided session name
+   * and remove the session from all session names array
+   *
+   * @param {String} sessionName - session to be deleted
+   */
+  static async removeSessionFromStorage(sessionName) {
+    try {
+      const sessions = await Storage.getAllSessionNamesFromStorage();
+      const index = sessions.indexOf(sessionName);
+      if (index > -1) {
+        sessions.splice(index, 1);
+      } else {
+        throw "Couldn't find session name under all sessions";
+      }
+      await chrome.storage.sync.set({ [Storage.ALL_SESSIONS]: sessions });
+      await chrome.storage.sync.remove(sessionName);
+    } catch (error) {
+      throw error;
     }
   }
 

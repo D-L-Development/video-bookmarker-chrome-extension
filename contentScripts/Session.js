@@ -66,6 +66,19 @@ class Session {
   }
 
   /**
+   * Removes the session from chrome.storage
+   *
+   * @param {String} sessionName - session name to be deleted
+   */
+  async removeSession(sessionName) {
+    try {
+      await Storage.removeSessionFromStorage(sessionName);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * resets the video and current page URL
    */
   #resetVideo() {

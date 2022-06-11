@@ -45,6 +45,17 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         });
       // indicate that the response is asynchrounus
       return true;
+    case "deleteSession":
+      session
+        .removeSession(msg.payload)
+        .then(() => {
+          sendResponse({ status: "success" });
+        })
+        .catch((error) => {
+          sendResponse({ status: "failure", payload: error });
+        });
+      // indicate that the response is asynchrounus
+      return true;
     case "jumpToTimestamp":
       session.jumpToTimestamp(msg.payload);
       sendResponse({ status: "success" });
