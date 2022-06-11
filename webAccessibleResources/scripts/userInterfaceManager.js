@@ -346,7 +346,31 @@ class userInterfaceManager {
     );
   };
 
+  /**
+   * Updates the session item ui to allow the user to edit the name
+   *
+   * @param {Event} e - event object
+   */
   #handleSessionItemEdition = (e) => {
+    const iconGroupDiv = e.target.parentElement;
+    // hide the session name span
+    const currentSessionNameElem = iconGroupDiv.previousElementSibling;
+    currentSessionNameElem.style.display = "none";
+    // create a text input field
+    const textInputField = document.createElement("input");
+    textInputField.setAttribute("type", "text");
+    textInputField.classList.add("sessionItemEditTextInput");
+    textInputField.value = currentSessionNameElem.innerText;
+    // append the text box to the session wrapper
+    const sessionWrapper = iconGroupDiv.parentElement;
+    sessionWrapper.insertBefore(
+      textInputField,
+      sessionWrapper.firstElementChild
+    );
+    // TODO: show the checkmark icon and hide the edit
+  };
+
+  #handleSessionItemEditionConfirm = (e) => {
     const { parentElement } = e.target;
     this.#addSpinnerToSessionItem(parentElement);
     const sessionName = parentElement.getAttribute("sessionName");
