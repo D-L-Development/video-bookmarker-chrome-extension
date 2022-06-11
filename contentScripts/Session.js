@@ -1,5 +1,7 @@
 class Session {
-  static SIDEBAR_PAGE_URL = chrome.runtime.getURL("popup.html");
+  static SIDEBAR_PAGE_URL = chrome.runtime.getURL(
+    "../webAccessibleResources/popup.html"
+  );
 
   /**
    * @param {String} sessionName - takes the session name and initializes the class member

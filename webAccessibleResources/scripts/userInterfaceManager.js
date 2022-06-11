@@ -313,7 +313,7 @@ class userInterfaceManager {
    */
   #addSpinnerToSessionItem(element) {
     const spinner = document.createElement("img");
-    spinner.setAttribute("src", "./images/icons/spinner_sm.gif");
+    spinner.setAttribute("src", "../../images/icons/spinner_sm.gif");
     spinner.setAttribute("alt", "spinner icon");
     spinner.classList.add("sessionItemSpinner");
     element.appendChild(spinner);

@@ -26,19 +26,19 @@
   "content_scripts": [
     {
       "matches": ["https://*/*", "http://*/*"],
-      "css": ["my-styles.css"],
+      "css": ["contentScripts/content-script.css"],
       "js": [
-        "./utils/utility.js",
-        "Storage.js",
-        "Video.js",
-        "Session.js",
-        "content-script.js"
+        "contentScripts/utility.js",
+        "contentScripts/Storage.js",
+        "contentScripts/Video.js",
+        "contentScripts/Session.js",
+        "contentScripts/content-script.js"
       ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["popup.html"],
+      "resources": ["webAccessibleResources/popup.html"],
       "matches": ["https://*/*", "http://*/*"]
     }
   ]

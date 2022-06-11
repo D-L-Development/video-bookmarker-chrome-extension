@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="popupLoading.css" />
-    <link rel="stylesheet" href="popup.css" />
-    <link rel="stylesheet" href="navigation.css" />
-    <script src="./userInterfaceManager.js" defer></script>
-    <script src="./popup.js" defer></script>
-    <script src="./utils/utility.js" defer></script>
+    <link rel="stylesheet" href="./styles/popupLoading.css" />
+    <link rel="stylesheet" href="./styles/popup.css" />
+    <link rel="stylesheet" href="./styles/navigation.css" />
+    <script src="./scripts/userInterfaceManager.js" defer></script>
+    <script src="./scripts/popup.js" defer></script>
+    <script src="../contentScripts/utility.js" defer></script>
   </head>
   <body>
     <header>
       <h1>First Lecture</h1>
       <span id="backArrowIconWrapper">
         <img
-          src="./images/icons/arrow-left-short.svg"
+          src="../images/icons/arrow-left-short.svg"
           alt="back arrow icon"
           id="backArrowIcon"
           class="navIcon"
         />
       </span>
       <img
-        src="./images/icons/x-square-fill.svg"
+        src="../images/icons/x-square-fill.svg"
         alt="close icon"
         id="closeIcon"
         class="navIcon"
@@ -37,22 +37,22 @@
 
             <div class="headerIcons">
               <img
-                src="./images/icons/check-square.svg"
+                src="../images/icons/check-square.svg"
                 alt="confirm icon"
                 class="confirmIcon headerIcon"
               />
               <img
-                src="./images/icons/pencil-square.svg"
+                src="../images/icons/pencil-square.svg"
                 alt="edit icon"
                 class="editIcon headerIcon"
               />
               <img
-                src="./images/icons/list-nested.svg"
+                src="../images/icons/list-nested.svg"
                 alt="nest icon"
                 class="nestIcon headerIcon"
               />
               <img
-                src="./images/icons/trash.svg"
+                src="../images/icons/trash.svg"
                 alt="trash icon"
                 class="trashIcon headerIcon"
               />
@@ -92,7 +92,7 @@
           <div class="pageContentLoading" id="mainNavPageContentLoading">
             <img
               class="spinner"
-              src="./images/icons/spinner.gif"
+              src="../images/icons/spinner.gif"
               alt="loading..."
             />
             <div class="bookmarkPlaceholder"></div>
@@ -116,7 +116,7 @@
           <div class="pageContentLoading" id="videoBookmarksPageContentLoading">
             <img
               class="spinner"
-              src="./images/icons/spinner.gif"
+              src="../images/icons/spinner.gif"
               alt="loading..."
             />
             <div class="bookmarkPlaceholder"></div>
