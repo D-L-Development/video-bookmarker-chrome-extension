@@ -21,6 +21,7 @@
   border-radius: 0.2rem;
   color: white;
   background-color: rgb(205, 92, 92);
+  position: relative;
 }
 
 .sessionWrapper:last-of-type {
@@ -28,4 +29,11 @@
 }
 
 .pageContentLoading {
+}
+
+.sessionItemSpinner {
+  width: 1.2rem;
+  height: 1.2rem;
+  position: absolute;
+  left: 0.5rem;
 }

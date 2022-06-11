@@ -284,11 +284,13 @@ class userInterfaceManager {
    */
   #handleSessionItemClick = (e) => {
     // TODO: render a spinner within the clicked session item on the left side
+    this.#addSpinnerToSessionItem(e.target);
     const { innerText } = e.target;
     sendMessageToActiveTab(
       { action: "selectSession", payload: innerText },
       (response) => {
         // TODO: remove the spinner when a response is recieved
+        this.#removeSpinnerFromSessionItem(e.target);
         if (response.status === "success") {
           this.renderVideoPage(innerText);
         } else {
@@ -298,6 +300,18 @@ class userInterfaceManager {
       }
     );
   };
+
+  #addSpinnerToSessionItem(element) {
+    const spinner = document.createElement("img");
+    spinner.setAttribute("src", "./images/icons/spinner_sm.gif");
+    spinner.setAttribute("alt", "spinner icon");
+    spinner.classList.add("sessionItemSpinner");
+    element.appendChild(spinner);
+  }
+
+  #removeSpinnerFromSessionItem(element) {
+    element.querySelector(".sessionItemSpinner").remove();
+  }
 
   /**
    * searches chrome.storage for the key ALL_SESSIONS
