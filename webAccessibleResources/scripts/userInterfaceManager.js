@@ -155,12 +155,19 @@ class userInterfaceManager {
     sessions.forEach((sessionName) => {
       const sessionElem =
         this.sessionItemTemplate.content.firstElementChild.cloneNode(true);
-      sessionElem.querySelector(".sessionName").innerText = sessionName;
-      sessionElem.addEventListener("click", this.#handleSessionItemClick);
+      const sessionNameElem = sessionElem.querySelector(".sessionName");
+      sessionNameElem.innerText = sessionName;
+      sessionNameElem.addEventListener("click", this.#handleSessionItemClick);
+      // set attibute so the icons can delete the session item
+      sessionElem
+        .querySelector(".sessionItemIcons")
+        .setAttribute("sessionName", sessionName);
       // TODO: wire event listeners
       sessionElem.querySelector(".sessionConfirmIcon");
       sessionElem.querySelector(".sessionEditIcon");
-      sessionElem.querySelector(".sessionDeleteIcon");
+      sessionElem
+        .querySelector(".sessionDeleteIcon")
+        .addEventListener("click", this.#handleSessionItemDeletion);
 
       this.mainNavPageContent.appendChild(sessionElem);
     });
@@ -296,7 +303,7 @@ class userInterfaceManager {
   #handleSessionItemClick = (e) => {
     // add a spinner
     this.#addSpinnerToSessionItem(e.target);
-    const { innerText } = e.target.querySelector(".sessionName");
+    const { innerText } = e.target;
     sendMessageToActiveTab(
       { action: "selectSession", payload: innerText },
       (response) => {
@@ -310,6 +317,10 @@ class userInterfaceManager {
         }
       }
     );
+  };
+
+  #handleSessionItemDeletion = (e) => {
+    console.log(e.target.parentElement.getAttribute("sessionName"));
   };
 
   /**

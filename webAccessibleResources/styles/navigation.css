@@ -32,6 +32,10 @@
 .sessionName {
   margin-left: 0.7rem;
 }
+.sessionName:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
 
 .sessionItemIcon {
   margin-left: 0.2rem;
