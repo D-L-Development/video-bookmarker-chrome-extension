@@ -30,6 +30,7 @@ class userInterfaceManager {
 
     // get the templates
     this.bookmarkTemplate = document.getElementById("bookmarkTemplate");
+    this.sessionItemTemplate = document.getElementById("sessionItemTemplate");
 
     // memeber to keep track of the currently rendered page
     // gets updated by the togglePage function
@@ -152,11 +153,16 @@ class userInterfaceManager {
     // otherwise, render all the sessions
     this.mainNavPageContent.innerHTML = "";
     sessions.forEach((sessionName) => {
-      const sessionWrapper = document.createElement("div");
-      sessionWrapper.classList.add("sessionWrapper");
-      sessionWrapper.innerText = sessionName;
-      sessionWrapper.addEventListener("click", this.#handleSessionItemClick);
-      this.mainNavPageContent.appendChild(sessionWrapper);
+      const sessionElem =
+        this.sessionItemTemplate.content.firstElementChild.cloneNode(true);
+      sessionElem.querySelector(".sessionName").innerText = sessionName;
+      sessionElem.addEventListener("click", this.#handleSessionItemClick);
+      // TODO: wire event listeners
+      sessionElem.querySelector(".sessionConfirmIcon");
+      sessionElem.querySelector(".sessionEditIcon");
+      sessionElem.querySelector(".sessionDeleteIcon");
+
+      this.mainNavPageContent.appendChild(sessionElem);
     });
   }
 
@@ -290,7 +296,7 @@ class userInterfaceManager {
   #handleSessionItemClick = (e) => {
     // add a spinner
     this.#addSpinnerToSessionItem(e.target);
-    const { innerText } = e.target;
+    const { innerText } = e.target.querySelector(".sessionName");
     sendMessageToActiveTab(
       { action: "selectSession", payload: innerText },
       (response) => {
