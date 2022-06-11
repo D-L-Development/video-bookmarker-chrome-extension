@@ -80,6 +80,8 @@ class userInterfaceManager {
     this.#setNavPageIsLoading(true);
     // update the title
     this.#updateTitle("All Sessions");
+    // remove the back button icon
+    this.#setBackArrowIconVisibility(false);
     // drag the nav page in frame if it's not already
     this.togglePage(userInterfaceManager.NAV_PAGE);
     // wait for all sessions to be retreived from chrome.storage
@@ -110,6 +112,8 @@ class userInterfaceManager {
     this.#setVideoPageIsLoading(true);
     // update the title
     this.#updateTitle(sessionName);
+    // show the back arrow icon
+    this.#setBackArrowIconVisibility(true);
     // drag the video page in frame if it's not already
     this.togglePage(userInterfaceManager.VIDEO_PAGE);
     // get the video session from chrome.storage
@@ -249,6 +253,7 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    */
   #handleBackArrowIconClick = (e) => {
+    // ? TODO: send msg to content script to remove reference to the video object
     this.renderNavPage();
   };
 
@@ -283,13 +288,13 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    */
   #handleSessionItemClick = (e) => {
-    // TODO: render a spinner within the clicked session item on the left side
+    // add a spinner
     this.#addSpinnerToSessionItem(e.target);
     const { innerText } = e.target;
     sendMessageToActiveTab(
       { action: "selectSession", payload: innerText },
       (response) => {
-        // TODO: remove the spinner when a response is recieved
+        // remove the spinner when a response is recieved from the content script
         this.#removeSpinnerFromSessionItem(e.target);
         if (response.status === "success") {
           this.renderVideoPage(innerText);
@@ -301,6 +306,11 @@ class userInterfaceManager {
     );
   };
 
+  /**
+   * sets the the session item into a loading state. Adds the spinner // TODO: prevent other clicks
+   *
+   * @param {HTML Element} element - a session item HTML element where the spinner will be added
+   */
   #addSpinnerToSessionItem(element) {
     const spinner = document.createElement("img");
     spinner.setAttribute("src", "./images/icons/spinner_sm.gif");
@@ -309,6 +319,11 @@ class userInterfaceManager {
     element.appendChild(spinner);
   }
 
+  /**
+   * removes the loading state from the session item
+   *
+   * @param {HTML Element} element - a session item HTML element where the spinner will be removed
+   */
   #removeSpinnerFromSessionItem(element) {
     element.querySelector(".sessionItemSpinner").remove();
   }
@@ -379,5 +394,14 @@ class userInterfaceManager {
     this.videoBookmarksPageContent.style.display = isLoadingVideo
       ? "none"
       : "block";
+  }
+
+  /**
+   * shows or hides the back arrow button icon
+   *
+   * @param {Boolean} isShown - true for shown, false for hidden
+   */
+  #setBackArrowIconVisibility(isShown) {
+    this.backArrowIcon.style.display = isShown ? "block" : "none";
   }
 }
