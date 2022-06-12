@@ -1,4 +1,4 @@
-console.log("Content Script Ran!");
+console.log("Content Script Ran!", guid());
 
 // TODO: replace all strings with constants
 
@@ -12,8 +12,9 @@ let session = null;
  * the content script
  */
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  // MSG is an object from the utility.js file that replaces all strings
   switch (msg.action) {
-    case "toggle":
+    case MSG.TOGGLE:
       // TODO: figure out how to run code when the content script is initially loaded
       if (initialPageLoad) {
         initialPageLoad = false;
@@ -21,64 +22,64 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       } else {
         session.toggleSidemenuVisiblity();
       }
-      sendResponse({ status: "success" });
+      sendResponse({ status: MSG.SUCCESS });
       break;
-    case "createNewSession":
+    case MSG.CREATE_NEW_SESSION:
       session
         .createNewSession(msg.payload)
         .then(() => {
-          sendResponse({ status: "success" });
+          sendResponse({ status: MSG.SUCCESS });
         })
         .catch((error) => {
-          sendResponse({ status: "failure", payload: error });
+          sendResponse({ status: MSG.FAILURE, payload: error });
         });
       // indicate that the response is asynchrounus
       return true;
-    case "selectSession":
+    case MSG.SELECT_SESSION:
       session
         .selectSession(msg.payload)
         .then(() => {
-          sendResponse({ status: "success" });
+          sendResponse({ status: MSG.SUCCESS });
         })
         .catch((error) => {
-          sendResponse({ status: "failure", payload: error });
+          sendResponse({ status: MSG.FAILURE, payload: error });
         });
       // indicate that the response is asynchrounus
       return true;
-    case "deleteSession":
+    case MSG.DELETE_SESSION:
       session
         .removeSession(msg.payload)
         .then(() => {
-          sendResponse({ status: "success" });
+          sendResponse({ status: MSG.SUCCESS });
         })
         .catch((error) => {
-          sendResponse({ status: "failure", payload: error });
+          sendResponse({ status: MSG.FAILURE, payload: error });
         });
       // indicate that the response is asynchrounus
       return true;
-    case "editSession":
+    case MSG.EDIT_SESSION:
       const { oldValue, newValue } = msg.payload;
       session
         .updateSessionName(oldValue, newValue)
         .then(() => {
-          sendResponse({ status: "success" });
+          sendResponse({ status: MSG.SUCCESS });
         })
         .catch((error) => {
-          sendResponse({ status: "failure", payload: error });
+          sendResponse({ status: MSG.FAILURE, payload: error });
         });
       // indicate that the response is asynchrounus
       return true;
-    case "jumpToTimestamp":
+    case MSG.JUMP_TO_TIMESTAMP:
       session.jumpToTimestamp(msg.payload);
-      sendResponse({ status: "success" });
+      sendResponse({ status: MSG.SUCCESS });
       break;
-    case "deleteBookmark":
+    case MSG.DELETE_BOOKMARK:
       session.deleteBookmark(msg.payload);
-      sendResponse({ status: "success" });
+      sendResponse({ status: MSG.SUCCESS });
       break;
-    case "toggleBookmarkNesting":
+    case MSG.TOGGLE_BOOKMARK_NESTING:
       session.toggleBookmarkNesting(msg.payload);
-      sendResponse({ status: "success" });
+      sendResponse({ status: MSG.SUCCESS });
       break;
   }
 });

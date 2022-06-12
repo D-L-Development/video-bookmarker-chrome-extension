@@ -48,18 +48,19 @@ class userInterfaceManager {
    * @param {String} page - defaults to null, and accepts the two constant strings navPage, or videoPage
    */
   togglePage(page = null) {
+    const { NAV_PAGE, VIDEO_PAGE } = userInterfaceManager;
     switch (page) {
-      case userInterfaceManager.NAV_PAGE:
+      case NAV_PAGE:
         this.isNavPageInFrame = true;
-        this.scrollablePagesContainer.classList.remove("videoPage");
+        this.scrollablePagesContainer.classList.remove(VIDEO_PAGE);
         break;
-      case userInterfaceManager.VIDEO_PAGE:
+      case VIDEO_PAGE:
         this.isNavPageInFrame = false;
-        this.scrollablePagesContainer.classList.add("videoPage");
+        this.scrollablePagesContainer.classList.add(VIDEO_PAGE);
         break;
       default:
         this.isNavPageInFrame = !isNavPageInFrame;
-        this.scrollablePagesContainer.classList.toggle("videoPage");
+        this.scrollablePagesContainer.classList.toggle(VIDEO_PAGE);
     }
   }
 
@@ -257,8 +258,8 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    */
   #handleCloseIconClick(e) {
-    sendMessageToActiveTab({ action: "toggle" }, (response) => {
-      if (response.status === "success") {
+    sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
+      if (response.status === MSG.SUCCESS) {
         console.log(`Side menu closed!`);
       }
     });
@@ -286,9 +287,9 @@ class userInterfaceManager {
     const userResponse = prompt("Enter the session name:", "Session Name");
     if (userResponse !== "") {
       sendMessageToActiveTab(
-        { action: "createNewSession", payload: userResponse },
+        { action: MSG.CREATE_NEW_SESSION, payload: userResponse },
         (response) => {
-          if (response.status === "success") {
+          if (response.status === MSG.SUCCESS) {
             this.renderVideoPage(userResponse);
           } else {
             // TODO: render popup here instead of alert
@@ -309,11 +310,11 @@ class userInterfaceManager {
     this.#addSpinnerToSessionItem(e.target);
     const { innerText } = e.target;
     sendMessageToActiveTab(
-      { action: "selectSession", payload: innerText },
+      { action: MSG.SELECT_SESSION, payload: innerText },
       (response) => {
         // remove the spinner when a response is recieved from the content script
         this.#removeSpinnerFromSessionItem(e.target);
-        if (response.status === "success") {
+        if (response.status === MSG.SUCCESS) {
           this.renderVideoPage(innerText);
         } else {
           // TODO: render popup here instead of alert
@@ -336,11 +337,12 @@ class userInterfaceManager {
     this.#addSpinnerToSessionItem(sessionWrapper);
     const sessionName = iconGroupDiv.getAttribute("sessionName");
     sendMessageToActiveTab(
-      { action: "deleteSession", payload: sessionName },
+      { action: MSG.DELETE_SESSION, payload: sessionName },
       (response) => {
         this.#removeSpinnerFromSessionItem(sessionWrapper);
-        if (response.status === "success") {
+        if (response.status === MSG.SUCCESS) {
           sessionWrapper.remove();
+          // TODO: if there are no more sessions, render an empty page
         } else {
           // TODO: render a modal
           alert(response.payload);
@@ -392,14 +394,14 @@ class userInterfaceManager {
 
     this.#addSpinnerToSessionItem(sessionWrapper);
     sendMessageToActiveTab(
-      { action: "editSession", payload: { oldValue, newValue } },
+      { action: MSG.EDIT_SESSION, payload: { oldValue, newValue } },
       (response) => {
         this.#removeSpinnerFromSessionItem(sessionWrapper);
-        if (response.status === "success") {
+        if (response.status === MSG.SUCCESS) {
           this.#showEditIcon(iconGroupDiv, true);
           textInput.remove();
           sessionName.innerText = newValue;
-          sessionName.setAttribute("sessionName", newValue);
+          iconGroupDiv.setAttribute("sessionName", newValue);
           sessionName.style.display = "inline";
         } else {
           alert(response.payload);

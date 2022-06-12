@@ -1,3 +1,16 @@
+const MSG = {
+  SUCCESS: "success",
+  FAILURE: "failure",
+  TOGGLE: "toggle",
+  CREATE_NEW_SESSION: "createNewSession",
+  SELECT_SESSION: "selectSession",
+  DELETE_SESSION: "deleteSession",
+  EDIT_SESSION: "editSession",
+  JUMP_TO_TIMESTAMP: "jumpToTimestamp",
+  DELETE_BOOKMARK: "deleteBookmark",
+  TOGGLE_BOOKMARK_NESTING: "toggleBookmarkNesting",
+};
+
 function copyStringToClipboard(str) {
   // Create new element
   var el = document.createElement("textarea");
