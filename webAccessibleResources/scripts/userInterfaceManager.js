@@ -194,29 +194,38 @@ class userInterfaceManager {
     }
     // render the bookmarks
     for (const key in bookmarks) {
-      const { isNested, text, timestamp } = bookmarks[key];
-      const bookmarkElem =
-        this.bookmarkTemplate.content.firstElementChild.cloneNode(true);
-      // add or remove the nested class
-      isNested
-        ? bookmarkElem.classList.add("nested")
-        : bookmarkElem.classList.remove("nested");
-      // set the content
-      bookmarkElem.querySelector(".timestampText").innerText = timestamp;
-      bookmarkElem.querySelector(".title").innerText = "Default Title";
-      bookmarkElem.querySelector(".bookmarkBodyText").innerText = text;
-      // set the timestamp attribute
-      bookmarkElem
-        .querySelector(".headerIcons")
-        .setAttribute("timestamp", timestamp);
-      // wire event listeners for header icons
-      bookmarkElem.querySelector(".confirmIcon");
-      bookmarkElem.querySelector(".editIcon");
-      bookmarkElem.querySelector(".nestIcon");
-      bookmarkElem.querySelector(".headerIcon");
-      // append the new bookmark
-      this.videoBookmarksPageContent.appendChild(bookmarkElem);
+      this.#appendBookmarkItem(bookmarks[key]);
     }
+  }
+
+  /**
+   * takes a bookmark object data and renders a single UI item and appends it to the videoBookmarksPageContent
+   *
+   * @param {Object} bookmark - bookmark object data to be rendered as a UI item
+   */
+  #appendBookmarkItem(bookmark) {
+    const { isNested, text, timestamp } = bookmark;
+    const bookmarkElem =
+      this.bookmarkTemplate.content.firstElementChild.cloneNode(true);
+    // add or remove the nested class
+    isNested
+      ? bookmarkElem.classList.add("nested")
+      : bookmarkElem.classList.remove("nested");
+    // set the content
+    bookmarkElem.querySelector(".timestampText").innerText = timestamp;
+    bookmarkElem.querySelector(".title").innerText = "Default Title";
+    bookmarkElem.querySelector(".bookmarkBodyText").innerText = text;
+    // set the timestamp attribute
+    bookmarkElem
+      .querySelector(".headerIcons")
+      .setAttribute("timestamp", timestamp);
+    // wire event listeners for header icons
+    bookmarkElem.querySelector(".confirmIcon");
+    bookmarkElem.querySelector(".editIcon");
+    bookmarkElem.querySelector(".nestIcon");
+    bookmarkElem.querySelector(".headerIcon");
+    // append the new bookmark
+    this.videoBookmarksPageContent.appendChild(bookmarkElem);
   }
 
   /**
