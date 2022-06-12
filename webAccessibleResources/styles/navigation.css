@@ -60,6 +60,11 @@
   left: 0.4rem;
 }
 
+/* Hide the confirm edit icon by default */
+.sessionConfirmIcon {
+  display: none;
+}
+
 input.sessionItemEditTextInput {
   outline: none;
   font-size: 0.7rem;

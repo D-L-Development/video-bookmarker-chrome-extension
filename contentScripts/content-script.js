@@ -57,8 +57,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       // indicate that the response is asynchrounus
       return true;
     case "editSession":
+      const { oldValue, newValue } = msg.payload;
       session
-        .updateSessionName(msg.payload, "New Name")
+        .updateSessionName(oldValue, newValue)
         .then(() => {
           sendResponse({ status: "success" });
         })

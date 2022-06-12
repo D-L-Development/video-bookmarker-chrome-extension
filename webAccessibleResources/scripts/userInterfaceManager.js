@@ -163,7 +163,9 @@ class userInterfaceManager {
         .querySelector(".sessionItemIcons")
         .setAttribute("sessionName", sessionName);
       // TODO: wire event listeners
-      sessionElem.querySelector(".sessionConfirmIcon");
+      sessionElem
+        .querySelector(".sessionConfirmIcon")
+        .addEventListener("click", this.#handleSessionItemEditionConfirm);
       sessionElem
         .querySelector(".sessionEditIcon")
         .addEventListener("click", this.#handleSessionItemEdition);
@@ -330,12 +332,12 @@ class userInterfaceManager {
    */
   #handleSessionItemDeletion = (e) => {
     const { parentElement } = e.target;
-    this.#addSpinnerToSessionItem(parentElement);
+    this.#addSpinnerToSessionItem(parentElement.parentElement);
     const sessionName = parentElement.getAttribute("sessionName");
     sendMessageToActiveTab(
       { action: "deleteSession", payload: sessionName },
       (response) => {
-        this.#removeSpinnerFromSessionItem(parentElement);
+        this.#removeSpinnerFromSessionItem(parentElement.parentElement);
         if (response.status === "success") {
           this.renderNavPage();
         } else {
@@ -367,24 +369,61 @@ class userInterfaceManager {
       textInputField,
       sessionWrapper.firstElementChild
     );
-    // TODO: show the checkmark icon and hide the edit
+    // toggle the edit icons
+    this.#showEditIcon(iconGroupDiv, false);
   };
 
   #handleSessionItemEditionConfirm = (e) => {
-    const { parentElement } = e.target;
-    this.#addSpinnerToSessionItem(parentElement);
-    const sessionName = parentElement.getAttribute("sessionName");
+    const iconGroupDiv = e.target.parentElement;
+    const sessionWrapper = iconGroupDiv.parentElement;
+    const sessionName = sessionWrapper.querySelector(".sessionName");
+    const textInput = sessionWrapper.querySelector(".sessionItemEditTextInput");
+    const oldValue = sessionName.innerText;
+    const newValue = textInput.value;
+    // if the value provided is nothing, go with the old value
+    if (newValue === "" || newValue === oldValue) {
+      this.#showEditIcon(iconGroupDiv, true);
+      textInput.remove();
+      sessionName.style.display = "inline";
+      return;
+    }
+
+    this.#addSpinnerToSessionItem(sessionWrapper);
     sendMessageToActiveTab(
-      { action: "editSession", payload: sessionName },
+      { action: "editSession", payload: { oldValue, newValue } },
       (response) => {
-        this.#removeSpinnerFromSessionItem(parentElement);
+        this.#removeSpinnerFromSessionItem(sessionWrapper);
         if (response.status === "success") {
-          console.log("Success");
+          this.#showEditIcon(iconGroupDiv, true);
+          textInput.remove();
+          sessionName.innerText = newValue;
+          sessionName.style.display = "inline";
         } else {
-          console.log(response.payload);
+          alert(response.payload);
         }
       }
     );
+  };
+
+  /**
+   * Sets the visiblity of the edit icon, and confirm edit icon for each session item
+   *
+   * @param {HTML Element} sessionItemIcons - div containing all the icons for a session item
+   * @param {Boolean} show - true if the edit icon should be shown, false otherwise
+   */
+  #showEditIcon = (sessionItemIcons, show) => {
+    const sessionConfirmIcon = sessionItemIcons.querySelector(
+      ".sessionConfirmIcon"
+    );
+    const sessionEditIcon = sessionItemIcons.querySelector(".sessionEditIcon");
+
+    if (show) {
+      sessionEditIcon.style.display = "inline-block";
+      sessionConfirmIcon.style.display = "none";
+    } else {
+      sessionEditIcon.style.display = "none";
+      sessionConfirmIcon.style.display = "inline-block";
+    }
   };
 
   /**
