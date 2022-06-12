@@ -380,7 +380,8 @@ class userInterfaceManager {
     const textInput = sessionWrapper.querySelector(".sessionItemEditTextInput");
     const oldValue = sessionName.innerText;
     const newValue = textInput.value;
-    // if the value provided is nothing, go with the old value
+    // if the value provided is nothing, or the value hasn't changed,
+    // go with the old value
     if (newValue === "" || newValue === oldValue) {
       this.#showEditIcon(iconGroupDiv, true);
       textInput.remove();
@@ -397,6 +398,7 @@ class userInterfaceManager {
           this.#showEditIcon(iconGroupDiv, true);
           textInput.remove();
           sessionName.innerText = newValue;
+          sessionName.setAttribute("sessionName", newValue);
           sessionName.style.display = "inline";
         } else {
           alert(response.payload);
