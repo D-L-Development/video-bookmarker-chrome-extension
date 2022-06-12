@@ -331,15 +331,16 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    */
   #handleSessionItemDeletion = (e) => {
-    const { parentElement } = e.target;
-    this.#addSpinnerToSessionItem(parentElement.parentElement);
-    const sessionName = parentElement.getAttribute("sessionName");
+    const iconGroupDiv = e.target.parentElement;
+    const sessionWrapper = iconGroupDiv.parentElement;
+    this.#addSpinnerToSessionItem(sessionWrapper);
+    const sessionName = iconGroupDiv.getAttribute("sessionName");
     sendMessageToActiveTab(
       { action: "deleteSession", payload: sessionName },
       (response) => {
-        this.#removeSpinnerFromSessionItem(parentElement.parentElement);
+        this.#removeSpinnerFromSessionItem(sessionWrapper);
         if (response.status === "success") {
-          this.renderNavPage();
+          sessionWrapper.remove();
         } else {
           // TODO: render a modal
           alert(response.payload);
