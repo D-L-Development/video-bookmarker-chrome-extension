@@ -81,6 +81,8 @@ class Storage {
       // if there is a session in storage, then return it
       if (Object.keys(response).length > 0) {
         return response;
+      } else {
+        throw "Session not found in storage!";
       }
     } catch (error) {
       throw error;

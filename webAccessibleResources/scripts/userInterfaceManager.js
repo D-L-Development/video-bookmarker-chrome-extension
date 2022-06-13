@@ -454,7 +454,18 @@ class userInterfaceManager {
           iconGroupDiv.setAttribute("sessionName", newValue);
           sessionName.style.display = "inline";
         } else {
-          alert(response.payload);
+          // render a modal with the error
+          const { modal_type, btn_type } = ModalBuilder.TYPES;
+          const failedToEditModal = new ModalBuilder(
+            modal_type.ALERT,
+            "Failed!"
+          )
+            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+              failedToEditModal.remove();
+            })
+            .addBodyText(response.payload, "alignCenter")
+            .build()
+            .show();
         }
       }
     );
