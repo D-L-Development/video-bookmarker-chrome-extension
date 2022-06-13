@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+/* Styles needed for modal */
+.modalWrapper {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.476);
+  position: absolute;
+  top: 0;
+  display: flex;
+}
+.modalWrapper.hide {
+  display: none;
+}
+.modal {
+  width: 350px;
+  height: fit-content;
+  background-color: white;
+  margin: auto;
+  border-radius: 5px;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.modalHeader {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 0.4rem 0;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.modalHeader.alert {
+  background-color: rgb(176, 53, 53);
+}
+.modalHeader.form {
+  background-color: rgb(71, 102, 225);
+}
+.modalHeader.warning {
+  background-color: rgb(182, 179, 24);
+}
+.closeIconContainer {
+  margin-left: auto;
+  width: 40px;
+  display: flex;
+  height: 100%;
+}
+.modalCloseIcon {
+  margin: auto;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+.modalTitle {
+  margin-left: 1rem;
+}
+.modalBody {
+  margin: 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.modalBodyText {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+.alignCenter {
+  text-align: center;
+}
+.actionButtons {
+  height: 2.5rem;
+  margin-top: auto;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-top: 0.5px solid rgb(249, 231, 231);
+}
+.modalButton {
+  border: none;
+  border-radius: 0.2rem;
+  height: 60%;
+  width: 20%;
+  cursor: pointer;
+  color: white;
+  transition: 0.1s ease-in-out;
+  font-size: 0.7rem;
+}
+.modalButton.dismiss {
+  background-color: rgb(108, 108, 206);
+}
+.modalButton.cancel {
+  background-color: #abb8bd;
+}
+.modalButton.submit {
+  background-color: #c26e41;
+}
+.modalButton.dismiss:hover {
+  background-color: rgba(108, 108, 206, 0.724);
+}
+.modalButton.cancel:hover {
+  background-color: #abb8bdbd;
+}
+.modalButton.submit:hover {
+  background-color: #c26e41b3;
+}
+.textFieldSection {
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+.textFieldSection label {
+  font-size: 0.6rem;
+  margin-bottom: 0.2rem;
+  color: rgb(59, 57, 57);
+}
+.textFieldSection input,
+.textFieldSection textarea {
+  outline: none;
+  padding: 0.2rem 0.2rem;
+  caret-color: black;
+  font-size: 0.6rem;
+  border-radius: 2px;
+  border: 1px solid gray;
+  transition: 0.1s;
+  font-family: "Roboto", sans-serif;
+}
+.textFieldSection input::placeholder,
+.textFieldSection textarea::placeholder {
+  color: lightgray;
+  font-size: 0.6rem;
+}
+.textFieldSection input:focus,
+.textFieldSection textarea:focus {
+  outline: 0.5px solid rgb(200, 200, 255);
+  box-shadow: 0px 0px 5px 1px rgb(200, 200, 255);
+}
+.textFieldSection textarea {
+  resize: vertical;
+  max-height: 200px;
+  min-height: 50px;
+}

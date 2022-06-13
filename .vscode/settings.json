@@ -1,0 +1,105 @@
+{
+  "colorInfo.languages": [
+    {
+      "selector": "css",
+      "colors": "css"
+    },
+    {
+      "selector": "sass",
+      "colors": "css"
+    },
+    {
+      "selector": "scss",
+      "colors": "css"
+    },
+    {
+      "selector": "less",
+      "colors": "css"
+    }
+  ],
+  "commentAnchors.tags.list": [
+    {
+      "tag": "ANCHOR",
+      "iconColor": "default",
+      "highlightColor": "#A8C023",
+      "scope": "file",
+      "styleComment": true,
+      "borderStyle": "1px solid #A8C023",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(168, 192, 35, 0.2)",
+      "padding": "1px"
+    },
+    {
+      "tag": "TODO",
+      "iconColor": "blue",
+      "highlightColor": "#3EA8FF",
+      "scope": "workspace",
+      "styleComment": true,
+      "borderStyle": "1px solid #3EA8FF",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(62, 168, 255, 0.2)"
+    },
+    {
+      "tag": "FIXME",
+      "iconColor": "red",
+      "highlightColor": "#F44336",
+      "scope": "workspace",
+      "styleComment": true,
+      "borderStyle": "1px solid #F44336",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(244, 67, 54, 0.2)"
+    },
+    {
+      "tag": "STUB",
+      "iconColor": "purple",
+      "highlightColor": "#BA68C8",
+      "scope": "file",
+      "styleComment": true,
+      "borderStyle": "1px solid #BA68C8",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(186, 104, 200, 0.2)"
+    },
+    {
+      "tag": "NOTE",
+      "iconColor": "orange",
+      "highlightColor": "#FFB300",
+      "scope": "file",
+      "styleComment": true,
+      "borderStyle": "1px solid #FFB300",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(255, 179, 0, 0.2)"
+    },
+    {
+      "tag": "REVIEW",
+      "iconColor": "green",
+      "highlightColor": "#64DD17",
+      "scope": "workspace",
+      "styleComment": true,
+      "borderStyle": "1px solid #64DD17",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(100, 221, 23, 0.2)"
+    },
+    {
+      "tag": "SECTION",
+      "iconColor": "blurple",
+      "highlightColor": "#896AFC",
+      "scope": "workspace",
+      "behavior": "region",
+      "styleComment": true,
+      "borderStyle": "1px solid #896AFC",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(137, 106, 252, 0.2)"
+    },
+    {
+      "tag": "LINK",
+      "iconColor": "#2ECC71",
+      "highlightColor": "#2ECC71",
+      "scope": "workspace",
+      "behavior": "link",
+      "styleComment": true,
+      "borderStyle": "1px solid #2ECC71",
+      "borderRadius": 5,
+      "backgroundColor": "rgba(46, 204, 113, 0.2)"
+    }
+  ]
+}

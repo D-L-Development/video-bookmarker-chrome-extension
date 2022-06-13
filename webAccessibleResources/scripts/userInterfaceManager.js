@@ -101,6 +101,12 @@ class userInterfaceManager {
         this.#renderNavSessionsUI(null);
         this.#setNavPageIsLoading(false);
       });
+    const modal = new ModalBuilder(
+      ModalBuilder.TYPES.modal_type.ALERT,
+      "Welcome to the extension"
+    )
+      .build()
+      .show();
   }
 
   /**

@@ -2,8 +2,10 @@
 <html>
   <head>
     <link rel="stylesheet" href="./styles/popupLoading.css" />
+    <link rel="stylesheet" href="./modalBuilder/ModalStyles.css" />
     <link rel="stylesheet" href="./styles/popup.css" />
     <link rel="stylesheet" href="./styles/navigation.css" />
+    <script src="./modalBuilder/ModalBuilder.js" defer></script>
     <script src="./scripts/userInterfaceManager.js" defer></script>
     <script src="./scripts/popup.js" defer></script>
     <script src="../contentScripts/utility.js" defer></script>
@@ -84,6 +86,48 @@
               class="sessionItemIcon sessionDeleteIcon"
             />
           </div>
+        </div>
+      </template>
+      <template class="modalWrapper">
+        <div class="modalWrapper">
+          <div class="modal">
+            <div class="modalHeader">
+              <span class="modalTitle">Title</span>
+              <div class="closeIconContainer">
+                <img
+                  src="../images/icons/x.svg"
+                  alt="close icon"
+                  class="modalCloseIcon"
+                />
+              </div>
+            </div>
+            <div class="modalBody"></div>
+            <div class="actionButtons"></div>
+          </div>
+        </div>
+      </template>
+      <template class="textInputField">
+        <div class="textFieldSection">
+          <label for="bookmark">Enter a bookmark</label>
+          <input type="text" name="bookmark" id="bookmark" />
+        </div>
+      </template>
+      <template class="textAreaField">
+        <div class="textFieldSection">
+          <label for="bookmarkText">Enter a bookmark text</label>
+          <textarea name="bookmarkText" id="bookmarkText"></textarea>
+        </div>
+      </template>
+      <template class="modalButtons">
+        <!-- cancel, dismiss, submit -->
+        <button class="modalButton" type="button">Button Text</button>
+      </template>
+      <template class="bodyTextTemplate">
+        <div class="modalBodyText">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
+          perspiciatis, ratione commodi alias exercitationem excepturi saepe
+          mollitia soluta? Maxime cupiditate vitae aliquid natus cumque eligendi
+          enim omnis ab sequi error.
         </div>
       </template>
       <div id="pageScroller" class="">
