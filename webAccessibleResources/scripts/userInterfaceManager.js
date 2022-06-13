@@ -101,12 +101,6 @@ class userInterfaceManager {
         this.#renderNavSessionsUI(null);
         this.#setNavPageIsLoading(false);
       });
-    const modal = new ModalBuilder(
-      ModalBuilder.TYPES.modal_type.ALERT,
-      "Welcome to the extension"
-    )
-      .build()
-      .show();
   }
 
   /**
@@ -307,8 +301,14 @@ class userInterfaceManager {
           if (response.status === MSG.SUCCESS) {
             this.renderVideoPage(userResponse);
           } else {
-            // TODO: render popup here instead of alert
-            alert(response.payload);
+            const { modal_type, btn_type } = ModalBuilder.TYPES;
+            const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
+              .addBodyText(response.payload)
+              .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+                modal.remove();
+              })
+              .build()
+              .show();
           }
         }
       );
@@ -332,8 +332,14 @@ class userInterfaceManager {
         if (response.status === MSG.SUCCESS) {
           this.renderVideoPage(innerText);
         } else {
-          // TODO: render popup here instead of alert
-          alert(response.payload);
+          const { btn_type, modal_type } = ModalBuilder.TYPES;
+          const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
+            .addBodyText(response.payload, "alignCenter")
+            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+              modal.remove();
+            })
+            .build()
+            .show();
         }
       }
     );
@@ -351,19 +357,48 @@ class userInterfaceManager {
     const sessionWrapper = iconGroupDiv.parentElement;
     this.#addSpinnerToSessionItem(sessionWrapper);
     const sessionName = iconGroupDiv.getAttribute("sessionName");
-    sendMessageToActiveTab(
-      { action: MSG.DELETE_SESSION, payload: sessionName },
-      (response) => {
+    // render a modal to make sure the user is sure of deleting
+    const { btn_type, modal_type } = ModalBuilder.TYPES;
+    const areYouSureModal = new ModalBuilder(modal_type.WARNING, "Warning")
+      .addBodyText(
+        `Are you sure you want to delete ${sessionName} session?`,
+        "alignCenter"
+      )
+      .setCloseIconClickHandler(() => {
         this.#removeSpinnerFromSessionItem(sessionWrapper);
-        if (response.status === MSG.SUCCESS) {
-          sessionWrapper.remove();
-          // TODO: if there are no more sessions, render an empty page
-        } else {
-          // TODO: render a modal
-          alert(response.payload);
-        }
-      }
-    );
+        areYouSureModal.remove();
+      })
+      .addActionButton(btn_type.CANCEL, "No", () => {
+        this.#removeSpinnerFromSessionItem(sessionWrapper);
+        areYouSureModal.remove();
+      })
+      .addActionButton(btn_type.SUBMIT, "Yes", () => {
+        sendMessageToActiveTab(
+          { action: MSG.DELETE_SESSION, payload: sessionName },
+          (response) => {
+            this.#removeSpinnerFromSessionItem(sessionWrapper);
+            areYouSureModal.remove();
+            if (response.status === MSG.SUCCESS) {
+              sessionWrapper.remove();
+              // TODO: if there are no more sessions, render an empty page
+            } else {
+              // render a modal with the error
+              const failedToDeleteModal = new ModalBuilder(
+                modal_type.ALERT,
+                "Failed!"
+              )
+                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+                  failedToDeleteModal.remove();
+                })
+                .addBodyText(response.payload, "alignCenter")
+                .build()
+                .show();
+            }
+          }
+        );
+      })
+      .build()
+      .show();
   };
 
   /**

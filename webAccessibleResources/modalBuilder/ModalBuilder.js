@@ -21,7 +21,7 @@ class ModalBuilder {
     this.bodyElements = [];
   }
 
-  addActionButton(text, type, clickHandler) {
+  addActionButton(type, text, clickHandler) {
     const newButton =
       this.modalButtonTemplate.content.firstElementChild.cloneNode(true);
     newButton.innerText = text;
@@ -65,9 +65,12 @@ class ModalBuilder {
     return this;
   }
 
+  setCloseIconClickHandler(callback) {
+    this.closeIconHandler = callback;
+    return this;
+  }
+
   build() {
-    console.log(this.bodyElements);
-    console.log(this.bodyElements.length);
     this.modal =
       this.modalWrapperTemplate.content.firstElementChild.cloneNode(true);
     // hide modal by default
@@ -78,11 +81,14 @@ class ModalBuilder {
     this.modal.querySelector(".modalTitle").innerText = this.title;
     // wire event listener to close icon
     const closeIcon = this.modal.querySelector(".modalCloseIcon");
-    closeIcon.addEventListener("click", this.hide.bind(this));
+    if (!this.closeIconHandler) {
+      closeIcon.addEventListener("click", this.remove.bind(this));
+    } else {
+      closeIcon.addEventListener("click", this.closeIcon);
+    }
     // set body content
     const modalBody = this.modal.querySelector(".modalBody");
     for (let bodyItem of this.bodyElements) {
-      console.log("ran");
       modalBody.appendChild(bodyItem);
     }
     // set buttons

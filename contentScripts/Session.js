@@ -121,7 +121,7 @@ class Session {
    * @param {number} repeatCount - the amount of times the interval should repeatedly search for the video
    * @returns {Promise} - resolved with an HTML video element, or rejected with an error
    */
-  #getVideoElement(repeatCount = 20) {
+  #getVideoElement(repeatCount = 3) {
     // return a promise
     return new Promise((resolve, reject) => {
       // declare time interval
@@ -138,7 +138,7 @@ class Session {
           clearInterval(intervalId);
           resolve({ video });
         }
-      }, 500);
+      }, 1000);
     });
   }
 
