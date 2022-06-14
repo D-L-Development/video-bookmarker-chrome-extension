@@ -105,10 +105,16 @@
 .modalButton.submit:hover {
   background-color: #c26e41b3;
 }
+.modalButton.btnDisabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: rgb(190, 190, 190);
+}
 .textFieldSection {
   margin: 0.5rem 0;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .textFieldSection label {
   font-size: 0.6rem;
@@ -133,11 +139,22 @@
 }
 .textFieldSection input:focus,
 .textFieldSection textarea:focus {
-  outline: 0.5px solid rgb(200, 200, 255);
+  outline: 0.5px solid rgb(255, 200, 200);
   box-shadow: 0px 0px 5px 1px rgb(200, 200, 255);
+}
+.textFieldSection input:focus.error,
+.textFieldSection textarea:focus.error {
+  outline: 0.5px solid rgb(228, 62, 62);
+  box-shadow: 0px 0px 5px 1px rgb(228, 62, 62);
 }
 .textFieldSection textarea {
   resize: vertical;
   max-height: 200px;
   min-height: 50px;
+}
+.secondaryText {
+  font-size: 0.5rem;
+  color: rgb(231, 40, 40);
+  position: absolute;
+  bottom: -12px;
 }

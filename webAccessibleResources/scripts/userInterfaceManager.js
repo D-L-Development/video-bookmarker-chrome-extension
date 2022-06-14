@@ -261,6 +261,29 @@ class userInterfaceManager {
     );
   }
 
+  #handleNewBookmarkBtnClick = (e) => {
+    const modal = new ModalBuilder(
+      ModalBuilder.TYPES.modal_type.FORM,
+      "Create a bookmark"
+    )
+      .addInputField("Title:", "title", false, "", 15)
+      .addInputField(
+        "Bookmark text:",
+        "bookmarkText",
+        true,
+        "Type the description",
+        30
+      )
+      .addActionButton(ModalBuilder.TYPES.btn_type.CANCEL, "Cancel", () => {
+        modal.remove();
+      })
+      .addActionButton(ModalBuilder.TYPES.btn_type.SUBMIT, "Create", () => {
+        console.log(modal.getFormValues());
+      })
+      .build()
+      .show();
+  };
+
   /**
    * Messages the content script to close the sidebarIframe
    *

@@ -19,6 +19,8 @@ class ModalBuilder {
     this.modal = null;
     this.buttons = [];
     this.bodyElements = [];
+    this.preventSubmitConditions = {};
+    this.preventSubmission = true;
   }
 
   addActionButton(type, text, clickHandler) {
@@ -26,12 +28,22 @@ class ModalBuilder {
       this.modalButtonTemplate.content.firstElementChild.cloneNode(true);
     newButton.innerText = text;
     newButton.classList.add(type);
-    newButton.addEventListener("click", clickHandler);
+    newButton.addEventListener("click", () => {
+      if (!this.preventSubmission) {
+        clickHandler();
+      }
+    });
     this.buttons.push(newButton);
     return this;
   }
 
-  addInputField(label, id, isTextArea, placeholder = "") {
+  addInputField(
+    label,
+    id,
+    isTextArea,
+    placeholder = "",
+    maxCharCount = Infinity
+  ) {
     // grab the template
     const textInputFieldTemplate = document.querySelector(
       `${isTextArea ? ".textAreaField" : ".textInputField"}`
@@ -39,6 +51,8 @@ class ModalBuilder {
     // clone the template
     const newInput =
       textInputFieldTemplate.content.firstElementChild.cloneNode(true);
+    // give it an attribute for getting form values
+    newInput.setAttribute("name", id);
     // set the content for the label
     const labelElem = newInput.firstElementChild;
     labelElem.innerText = label;
@@ -47,9 +61,73 @@ class ModalBuilder {
     const textInputElem = labelElem.nextElementSibling;
     textInputElem.setAttribute("placeholder", placeholder);
     textInputElem.setAttribute("id", id);
+    // set the content for secondary text
+    const secondaryText = textInputElem.nextElementSibling;
+    // add condition for char count
+    if (maxCharCount !== Infinity) {
+      this.preventSubmitConditions[id] = false;
+    }
+    // wire event on change event
+    textInputElem.addEventListener("input", (e) => {
+      // change css and add text label to warn that there are too many chars
+      if (e.target.value.length > maxCharCount) {
+        secondaryText.innerText = `Exceeds ${maxCharCount} characters!`;
+        textInputElem.classList.add("error");
+        this.preventSubmitConditions[id] = true;
+      } else {
+        secondaryText.innerText = "";
+        textInputElem.classList.remove("error");
+        this.preventSubmitConditions[id] = false;
+      }
+      this.#updateSubmissonState();
+    });
+
     // push it onto the array
     this.bodyElements.push(newInput);
     return this;
+  }
+
+  #updateSubmissonState() {
+    this.preventSubmission = false;
+    if (!Object.keys(this.preventSubmitConditions).length) {
+      return;
+    }
+    for (const key in this.preventSubmitConditions) {
+      if (this.preventSubmitConditions[key]) {
+        this.preventSubmission = true;
+        break;
+      }
+    }
+
+    this.#updateSubmissionButton();
+  }
+
+  #updateSubmissionButton() {
+    // disable the submission button in css
+    const submissionBtn = document.querySelector(
+      `.${ModalBuilder.TYPES.btn_type.SUBMIT}`
+    );
+    if (submissionBtn) {
+      if (this.preventSubmission) {
+        submissionBtn.classList.add("btnDisabled");
+      } else {
+        submissionBtn.classList.remove("btnDisabled");
+      }
+    }
+  }
+
+  getFormValues() {
+    const data = {};
+    for (const element of this.bodyElements) {
+      const name = element.getAttribute("name");
+      if (name) {
+        const inputField = element.querySelector(".textField");
+        if (inputField) {
+          data[name] = inputField.value;
+        }
+      }
+    }
+    return data;
   }
 
   addBodyText(text, css_class = "") {
