@@ -12,6 +12,15 @@ const MSG = {
   ADD_BOOKMARK: "addBookmark",
 };
 
+class Bookmark {
+  constructor(title, text, timestamp = null) {
+    this.title = title;
+    this.text = text;
+    this.timestamp = timestamp;
+    this.isNested = false;
+  }
+}
+
 function copyStringToClipboard(str) {
   // Create new element
   var el = document.createElement("textarea");

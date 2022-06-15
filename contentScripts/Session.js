@@ -181,6 +181,27 @@ class Session {
   }
 
   /**
+   * returns the timestamp of the current video time and the current bookmark if there is one
+   *
+   * @returns {Object} - with properties timestamp and bookmark
+   */
+  getCurrentTimestamp() {
+    if (this.video) {
+      const timestamp = this.video.getCurrentTimestamp();
+      const bookmark = this.video.storage.getBookmarkAtTimestamp(timestamp);
+      return { timestamp, bookmark };
+    } else {
+      return null;
+    }
+  }
+
+  async addBookmark(bookmark) {
+    if (this.video) {
+      await this.video.addBookmark(bookmark);
+    }
+  }
+
+  /**
    * takes a timestamp and skips in the video until that timestamp
    *
    * @param {String} timestamp - the desired HH:MM:SS timestamp in which the video should jump to

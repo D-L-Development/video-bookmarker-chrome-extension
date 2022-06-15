@@ -52,7 +52,8 @@ class ModalBuilder {
     id,
     isTextArea,
     placeholder = "",
-    maxCharCount = Infinity
+    maxCharCount = Infinity,
+    initialValue = ""
   ) {
     // grab the template
     const textInputFieldTemplate = document.querySelector(
@@ -71,6 +72,7 @@ class ModalBuilder {
     const textInputElem = labelElem.nextElementSibling;
     textInputElem.setAttribute("placeholder", placeholder);
     textInputElem.setAttribute("id", id);
+    textInputElem.value = initialValue;
     // set the content for secondary text
     const secondaryText = textInputElem.nextElementSibling;
     // if a max char is specified, then set a condition in the array

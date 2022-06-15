@@ -24,30 +24,12 @@ class Video {
     return new Date(currentVideoTime * 1000).toISOString().substr(11, 8);
   }
 
-  addBookmark() {
+  async addBookmark(bookmark) {
     this.pause();
-    const currentTimestamp = this.getCurrentTimestamp();
-    const currentBookmark =
-      this.storage.getBookmarkAtTimestamp(currentTimestamp);
+    const { title, text, timestamp, isNested } = bookmark;
 
-    let placeholder = "";
+    await this.storage.addBookmark(timestamp, text, isNested);
 
-    // if there's already a bookmark
-    if (currentBookmark) {
-      placeholder = currentBookmark.text;
-    }
-
-    const newBookmarkText = prompt(
-      `Add a bookmark at ${currentTimestamp}`,
-      placeholder
-    );
-
-    // if text input is not empty, then add bookmark
-    if (newBookmarkText) {
-      // TODO: let the user decide when they add a bookmark if it's nested or not
-      this.storage.addBookmark(currentTimestamp, newBookmarkText, false);
-      this.storage.printBookmarksPretty();
-    }
     this.play();
   }
 

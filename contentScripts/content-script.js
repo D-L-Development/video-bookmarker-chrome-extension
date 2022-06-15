@@ -69,6 +69,38 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         });
       // indicate that the response is asynchrounus
       return true;
+    case MSG.GET_CURRENT_TIMESTAMP:
+      // pause the video if asked for
+      if (msg?.payload.pauseVideo && session.video) {
+        session.video.pause();
+      }
+      // send the current timestamp, or failure
+      const data = session.getCurrentTimestamp();
+      if (data) {
+        const { timestamp, bookmark } = data;
+        sendResponse({
+          status: MSG.SUCCESS,
+          payload: { timestamp, bookmark },
+        });
+      } else {
+        sendResponse({
+          status: MSG.FAILURE,
+          payload: "Failed to get current bookmark",
+        });
+      }
+      break;
+    case MSG.ADD_BOOKMARK:
+      session
+        .addBookmark(msg.payload.bookmark)
+        .then(() => {
+          sendResponse({ status: MSG.SUCCESS });
+        })
+        .catch((e) => {
+          sendResponse({ status: MSG.FAILURE });
+          console.log(e);
+          alert("Failed in content script");
+        });
+      return true;
     case MSG.JUMP_TO_TIMESTAMP:
       session.jumpToTimestamp(msg.payload);
       sendResponse({ status: MSG.SUCCESS });

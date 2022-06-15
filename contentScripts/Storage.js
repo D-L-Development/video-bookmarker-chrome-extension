@@ -116,11 +116,14 @@ class Storage {
     });
   }
 
-  syncToLocalStorage() {
-    chrome.storage.sync.set(this.videoSession, () => {
+  async syncToLocalStorage() {
+    try {
+      await chrome.storage.sync.set(this.videoSession);
       console.log("value set to");
       console.log(this.videoSession);
-    });
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**
@@ -155,7 +158,7 @@ class Storage {
     });
   }
 
-  addBookmark(currentTimestamp, bookmarkText, isNested) {
+  async addBookmark(currentTimestamp, bookmarkText, isNested) {
     const { bookmarks } = this.videoSession[this.STORAGE_KEY];
 
     bookmarks[currentTimestamp] = {
@@ -163,7 +166,7 @@ class Storage {
       text: bookmarkText,
       isNested,
     };
-    this.syncToLocalStorage();
+    await this.syncToLocalStorage();
   }
 
   removeBookmark(timestamp) {

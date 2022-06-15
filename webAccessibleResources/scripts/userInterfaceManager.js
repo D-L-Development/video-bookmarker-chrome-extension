@@ -267,42 +267,86 @@ class userInterfaceManager {
   }
 
   #handleNewBookmarkBtnClick = (e) => {
-    const modal = new ModalBuilder(
-      ModalBuilder.TYPES.modal_type.FORM,
-      "Create a bookmark",
-      true
-    )
-      .addInputField("Title:", "title", false, "", 15)
-      .addInputField(
-        "Bookmark text:",
-        "bookmarkText",
-        true,
-        "Type the description",
-        30
-      )
-      .addActionButton(ModalBuilder.TYPES.btn_type.CANCEL, "Cancel", () => {
-        modal.remove();
-      })
-      .addActionButton(ModalBuilder.TYPES.btn_type.SUBMIT, "Create", () => {
-        const { title, bookmarkText } = modal.getFormValues();
-        sendMessageToActiveTab(
-          {
-            action: MSG.ADD_BOOKMARK,
-            payload: { title, bookmarkText },
-          },
-          (response) => {
-            modal.remove();
-            if (response.status === MSG.SUCCESS) {
-              // TODO: create a bookmark class
-              // You left here
-              this.#appendBookmarkItem();
-            } else {
-            }
-          }
-        );
-      })
-      .build()
-      .show();
+    const { btn_type, modal_type } = ModalBuilder.TYPES;
+    sendMessageToActiveTab(
+      {
+        action: MSG.GET_CURRENT_TIMESTAMP,
+        payload: { pauseVideo: true },
+      },
+      (response) => {
+        if (response.status === MSG.SUCCESS) {
+          // grab the data from the content script msg
+          const { timestamp, bookmark } = response.payload;
+          const formModal = new ModalBuilder(
+            ModalBuilder.TYPES.modal_type.FORM,
+            `Create a bookmark at ${timestamp}`,
+            true
+          )
+            .addInputField(
+              "Title:",
+              "title",
+              false,
+              "Enter the title:",
+              15,
+              bookmark?.title || ""
+            )
+            .addInputField(
+              "Bookmark text:",
+              "bookmarkText",
+              true,
+              "Type the description:",
+              30,
+              bookmark?.text || ""
+            )
+            .addActionButton(
+              ModalBuilder.TYPES.btn_type.CANCEL,
+              "Cancel",
+              () => {
+                formModal.remove();
+              }
+            )
+            .addActionButton(
+              ModalBuilder.TYPES.btn_type.SUBMIT,
+              "Create",
+              () => {
+                const { title, bookmarkText } = formModal.getFormValues();
+                const newBookmark = new Bookmark(
+                  title,
+                  bookmarkText,
+                  timestamp
+                );
+                sendMessageToActiveTab(
+                  {
+                    action: MSG.ADD_BOOKMARK,
+                    payload: { bookmark: newBookmark },
+                  },
+                  (response) => {
+                    formModal.remove();
+                    if (response.status === MSG.SUCCESS) {
+                      // TODO: create a bookmark class
+                      // You left here
+                      this.#appendBookmarkItem(newBookmark);
+                    } else {
+                      alert("failed to add bookmark in userInterface");
+                    }
+                  }
+                );
+              }
+            )
+            .build()
+            .show();
+        } else {
+          // render failed modal
+          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed!")
+            .addBodyText(response.payload, "alignCenter")
+            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+              failedModal.remove();
+            })
+            .build()
+            .show();
+        }
+      }
+    );
   };
 
   /**
