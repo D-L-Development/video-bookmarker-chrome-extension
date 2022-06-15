@@ -17,6 +17,7 @@ class userInterfaceManager {
     this.newSessionButton = document.getElementById("newSessionButton");
     this.closeBtnIcon = document.getElementById("closeIcon");
     this.backArrowIcon = document.getElementById("backArrowIcon");
+    this.addBookmarkBtn = document.querySelector(".addBookmarkBtn");
     this.videoBookmarksPageContentLoading = document.getElementById(
       "videoBookmarksPageContentLoading"
     );
@@ -240,6 +241,10 @@ class userInterfaceManager {
       "click",
       this.#handleBackArrowIconClick
     );
+    this.addBookmarkBtn.addEventListener(
+      "click",
+      this.#handleNewBookmarkBtnClick
+    );
 
     // TODO: fix copy all bookmarks button
     // // wire copy event for button
@@ -264,7 +269,8 @@ class userInterfaceManager {
   #handleNewBookmarkBtnClick = (e) => {
     const modal = new ModalBuilder(
       ModalBuilder.TYPES.modal_type.FORM,
-      "Create a bookmark"
+      "Create a bookmark",
+      true
     )
       .addInputField("Title:", "title", false, "", 15)
       .addInputField(
@@ -278,7 +284,22 @@ class userInterfaceManager {
         modal.remove();
       })
       .addActionButton(ModalBuilder.TYPES.btn_type.SUBMIT, "Create", () => {
-        console.log(modal.getFormValues());
+        const { title, bookmarkText } = modal.getFormValues();
+        sendMessageToActiveTab(
+          {
+            action: MSG.ADD_BOOKMARK,
+            payload: { title, bookmarkText },
+          },
+          (response) => {
+            modal.remove();
+            if (response.status === MSG.SUCCESS) {
+              // TODO: create a bookmark class
+              // You left here
+              this.#appendBookmarkItem();
+            } else {
+            }
+          }
+        );
       })
       .build()
       .show();

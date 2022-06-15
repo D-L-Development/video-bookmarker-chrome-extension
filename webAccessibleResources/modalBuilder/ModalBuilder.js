@@ -1,4 +1,5 @@
 class ModalBuilder {
+  // possible types to be used in the class for styles and logic handling
   static TYPES = {
     btn_type: {
       DISMISS: "dismiss",
@@ -11,7 +12,7 @@ class ModalBuilder {
       FORM: "form",
     },
   };
-  constructor(type, title) {
+  constructor(type, title, preventEmptyFieldSubmission = false) {
     this.type = type;
     this.title = title;
     this.modalWrapperTemplate = document.querySelector(".modalWrapper");
@@ -19,19 +20,28 @@ class ModalBuilder {
     this.modal = null;
     this.buttons = [];
     this.bodyElements = [];
+    // members to keep track of form submission disabling
+    this.preventEmptyFieldSubmission = preventEmptyFieldSubmission;
     this.preventSubmitConditions = {};
-    this.preventSubmission = true;
+    this.submitButtonDisabled = preventEmptyFieldSubmission;
   }
 
   addActionButton(type, text, clickHandler) {
+    // clone the btn template
     const newButton =
       this.modalButtonTemplate.content.firstElementChild.cloneNode(true);
+    // set content and attributes
     newButton.innerText = text;
     newButton.classList.add(type);
+
+    // check if btn is type submit, if so prevent the modal from being sub
+    const isSubmitBtn = type === ModalBuilder.TYPES.btn_type.SUBMIT;
+
     newButton.addEventListener("click", () => {
-      if (!this.preventSubmission) {
-        clickHandler();
+      if (isSubmitBtn && this.submitButtonDisabled) {
+        return;
       }
+      clickHandler();
     });
     this.buttons.push(newButton);
     return this;
@@ -63,22 +73,26 @@ class ModalBuilder {
     textInputElem.setAttribute("id", id);
     // set the content for secondary text
     const secondaryText = textInputElem.nextElementSibling;
-    // add condition for char count
+    // if a max char is specified, then set a condition in the array
     if (maxCharCount !== Infinity) {
-      this.preventSubmitConditions[id] = false;
+      this.preventSubmitConditions[id] = true;
     }
     // wire event on change event
     textInputElem.addEventListener("input", (e) => {
+      const userInputLength = e.target.value.length;
+
       // change css and add text label to warn that there are too many chars
-      if (e.target.value.length > maxCharCount) {
+      if (userInputLength > maxCharCount) {
         secondaryText.innerText = `Exceeds ${maxCharCount} characters!`;
         textInputElem.classList.add("error");
         this.preventSubmitConditions[id] = true;
       } else {
         secondaryText.innerText = "";
         textInputElem.classList.remove("error");
-        this.preventSubmitConditions[id] = false;
+        // add prevent condition if the text length is 0
+        this.preventSubmitConditions[id] = userInputLength === 0;
       }
+
       this.#updateSubmissonState();
     });
 
@@ -88,13 +102,13 @@ class ModalBuilder {
   }
 
   #updateSubmissonState() {
-    this.preventSubmission = false;
+    this.submitButtonDisabled = false;
     if (!Object.keys(this.preventSubmitConditions).length) {
       return;
     }
     for (const key in this.preventSubmitConditions) {
       if (this.preventSubmitConditions[key]) {
-        this.preventSubmission = true;
+        this.submitButtonDisabled = true;
         break;
       }
     }
@@ -108,7 +122,7 @@ class ModalBuilder {
       `.${ModalBuilder.TYPES.btn_type.SUBMIT}`
     );
     if (submissionBtn) {
-      if (this.preventSubmission) {
+      if (this.submitButtonDisabled) {
         submissionBtn.classList.add("btnDisabled");
       } else {
         submissionBtn.classList.remove("btnDisabled");
@@ -176,6 +190,9 @@ class ModalBuilder {
     }
     // add modal to document
     document.body.appendChild(this.modal);
+
+    // update the submission button state
+    this.#updateSubmissonState();
 
     return this;
   }

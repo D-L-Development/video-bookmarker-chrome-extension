@@ -9,6 +9,7 @@ const MSG = {
   JUMP_TO_TIMESTAMP: "jumpToTimestamp",
   DELETE_BOOKMARK: "deleteBookmark",
   TOGGLE_BOOKMARK_NESTING: "toggleBookmarkNesting",
+  ADD_BOOKMARK: "addBookmark",
 };
 
 function copyStringToClipboard(str) {
