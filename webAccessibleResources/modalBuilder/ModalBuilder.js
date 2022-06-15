@@ -178,7 +178,7 @@ class ModalBuilder {
     if (!this.closeIconHandler) {
       closeIcon.addEventListener("click", this.remove.bind(this));
     } else {
-      closeIcon.addEventListener("click", this.closeIcon);
+      closeIcon.addEventListener("click", this.closeIconHandler);
     }
     // set body content
     const modalBody = this.modal.querySelector(".modalBody");

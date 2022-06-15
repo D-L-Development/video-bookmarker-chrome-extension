@@ -493,6 +493,7 @@ class userInterfaceManager {
         "alignCenter"
       )
       .setCloseIconClickHandler(() => {
+        console.log("cancel");
         this.#removeSpinnerFromSessionItem(sessionWrapper);
         areYouSureModal.remove();
       })
