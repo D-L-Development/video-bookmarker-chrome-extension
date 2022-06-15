@@ -26,9 +26,8 @@ class Video {
 
   async addBookmark(bookmark) {
     this.pause();
-    const { title, text, timestamp, isNested } = bookmark;
 
-    await this.storage.addBookmark(timestamp, text, isNested);
+    await this.storage.addBookmark(bookmark);
 
     this.play();
   }

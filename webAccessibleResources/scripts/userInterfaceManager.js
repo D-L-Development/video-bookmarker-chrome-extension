@@ -205,7 +205,7 @@ class userInterfaceManager {
    * @param {Object} bookmark - bookmark object data to be rendered as a UI item
    */
   #appendBookmarkItem(bookmark) {
-    const { isNested, text, timestamp } = bookmark;
+    const { isNested, text, title, timestamp } = bookmark;
     const bookmarkElem =
       this.bookmarkTemplate.content.firstElementChild.cloneNode(true);
     // add or remove the nested class
@@ -214,7 +214,7 @@ class userInterfaceManager {
       : bookmarkElem.classList.remove("nested");
     // set the content
     bookmarkElem.querySelector(".timestampText").innerText = timestamp;
-    bookmarkElem.querySelector(".title").innerText = "Default Title";
+    bookmarkElem.querySelector(".title").innerText = title;
     bookmarkElem.querySelector(".bookmarkBodyText").innerText = text;
     // set the timestamp attribute
     bookmarkElem

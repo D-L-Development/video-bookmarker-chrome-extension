@@ -158,14 +158,9 @@ class Storage {
     });
   }
 
-  async addBookmark(currentTimestamp, bookmarkText, isNested) {
+  async addBookmark(bookmark) {
     const { bookmarks } = this.videoSession[this.STORAGE_KEY];
-
-    bookmarks[currentTimestamp] = {
-      timestamp: currentTimestamp,
-      text: bookmarkText,
-      isNested,
-    };
+    bookmarks[bookmark.timestamp] = bookmark;
     await this.syncToLocalStorage();
   }
 
