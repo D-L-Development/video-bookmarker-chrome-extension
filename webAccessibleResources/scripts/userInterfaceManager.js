@@ -13,7 +13,7 @@ class userInterfaceManager {
     // get the DOM elements
     this.scrollablePagesContainer = document.getElementById("pageScroller");
     this.sessionName = document.querySelector("h1");
-    this.copyTableBtn = document.getElementById("copyTableBtn");
+    this.copyTableBtn = document.querySelector(".copyTableBtn");
     this.newSessionButton = document.getElementById("newSessionButton");
     this.closeBtnIcon = document.getElementById("closeIcon");
     this.backArrowIcon = document.getElementById("backArrowIcon");
@@ -246,18 +246,8 @@ class userInterfaceManager {
       this.#handleNewBookmarkBtnClick
     );
 
-    // TODO: fix copy all bookmarks button
-    // // wire copy event for button
-    // this.copyTableBtn.addEventListener("click", (e) => {
-    //   chrome.storage.sync.get(userInterfaceManager.STORAGE_KEY, (response) => {
-    //     if (Object.keys(response).length > 0) {
-    //       // create UI
-    //       const { bookmarks } = response[userInterfaceManager.STORAGE_KEY];
-    //       // send message to client script
-    //       copyTableToClipboard(bookmarks);
-    //     }
-    //   });
-    // });
+    // wire copy event for button
+    this.copyTableBtn.addEventListener("click", this.#handleCopyTableBtn);
 
     // wire event handler for create new session click
     this.newSessionButton.addEventListener(
@@ -265,6 +255,56 @@ class userInterfaceManager {
       this.#handleNewSessionButtonClick
     );
   }
+
+  /**
+   * Triggered when the copy table button is clicked. It sends a msg to the content script to copy all bookmarks
+   *
+   * @param {Event} e - click event object
+   */
+  #handleCopyTableBtn = (e) => {
+    sendMessageToActiveTab(
+      {
+        action: MSG.COPY_TABLE,
+        payload: { sessionName: this.sessionName.innerText },
+      },
+      (response) => {
+        if (response.status === MSG.SUCCESS) {
+          const successModal = new ModalBuilder(
+            ModalBuilder.TYPES.modal_type.WARNING,
+            "Success!"
+          )
+            .addBodyText(
+              "Bookmarks copied as a table format to your clipboard!",
+              "alignCenter"
+            )
+            .addActionButton(
+              ModalBuilder.TYPES.btn_type.DISMISS,
+              "Okay",
+              () => {
+                successModal.remove();
+              }
+            )
+            .build()
+            .show();
+        } else {
+          const failedModal = new ModalBuilder(
+            ModalBuilder.TYPES.modal_type.WARNING,
+            "Failure!"
+          )
+            .addBodyText(response.payload, "alignCenter")
+            .addActionButton(
+              ModalBuilder.TYPES.btn_type.DISMISS,
+              "Dismiss",
+              () => {
+                failedModal.remove();
+              }
+            )
+            .build()
+            .show();
+        }
+      }
+    );
+  };
 
   #handleNewBookmarkBtnClick = (e) => {
     const { btn_type, modal_type } = ModalBuilder.TYPES;

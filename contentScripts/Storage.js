@@ -70,6 +70,31 @@ class Storage {
   }
 
   /**
+   * Returns the desired bookmarks object for a particular session name
+   *
+   * @param {String} sessionName - the desired session name for the bookmarks needed from chrome.storage
+   * @returns {Object} - a map with each timestamp associated with a bookmark object
+   */
+  static async getSessionBookmarks(sessionName) {
+    try {
+      const response = await chrome.storage.sync.get(sessionName);
+      if (Object.keys(response).length > 0) {
+        console.log(response);
+        const { bookmarks } = response[sessionName];
+        if (Object.keys(bookmarks).length > 0) {
+          return { bookmarks };
+        } else {
+          throw "There are no bookmarks to copy";
+        }
+      } else {
+        throw `Failed to get bookmarks for ${sessionName}`;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * Searches chrome.storage for session by sessionName as the key
    *
    * @param {String} sessionName - session name to be searched for in chrome.storage

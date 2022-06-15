@@ -191,12 +191,13 @@ h1 {
 
 .pageHeader.videoBookmarksPage.header button {
   border-radius: 0.2rem;
-  height: 65%;
+  height: 70%;
+  width: 25%;
   display: flex;
   align-items: center;
   border: none;
   background-color: rgb(88, 88, 116);
-  outline: 2px solid rgb(88, 88, 116);
+  outline: 1.5px solid rgb(88, 88, 116);
   color: white;
   transition: 0.2s;
   margin-left: 0.5rem;
@@ -207,11 +208,12 @@ h1 {
 }
 
 .pageHeader.videoBookmarksPage.header button .headerBtnIcon {
-  width: 20%;
-  margin-left: 0.2rem;
+  width: 15%;
+  margin: 0 0.2rem;
 }
 .pageHeader.videoBookmarksPage.header button .headerBtnText {
   width: 80%;
-  margin-left: 0.2rem;
-  font-size: 0.7rem;
+  margin-right: 0.2rem;
+  font-size: 0.65rem;
+  font-weight: 400;
 }

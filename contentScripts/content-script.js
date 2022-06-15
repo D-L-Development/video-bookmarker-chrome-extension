@@ -35,6 +35,16 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         });
       // indicate that the response is asynchrounus
       return true;
+    case MSG.COPY_TABLE:
+      session
+        .copyBookmarksAsTable(msg.payload.sessionName)
+        .then(() => {
+          sendResponse({ status: MSG.SUCCESS });
+        })
+        .catch((error) => {
+          sendResponse({ status: MSG.FAILURE, payload: error });
+        });
+      return true;
     case MSG.SELECT_SESSION:
       session
         .selectSession(msg.payload)

@@ -163,6 +163,19 @@ class Session {
     this.sidebarIframe = null;
   }
 
+  async copyBookmarksAsTable(sessionName) {
+    try {
+      if (this.video) {
+        const response = await Storage.getSessionBookmarks(sessionName);
+        copyTableToClipboard(response.bookmarks);
+      } else {
+        throw "No video in the document";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
    * toggels the visiblity of the sidemeny iframe
    */
