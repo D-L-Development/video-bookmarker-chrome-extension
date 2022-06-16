@@ -321,7 +321,7 @@ class userInterfaceManager {
               "title",
               false,
               "Enter the title:",
-              15,
+              18,
               bookmark?.title || ""
             )
             .addInputField(
@@ -329,7 +329,7 @@ class userInterfaceManager {
               "bookmarkText",
               true,
               "Type the description:",
-              30,
+              200,
               bookmark?.text || ""
             )
             .addActionButton(
