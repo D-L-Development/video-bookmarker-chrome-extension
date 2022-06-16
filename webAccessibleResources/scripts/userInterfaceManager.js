@@ -90,11 +90,8 @@ class userInterfaceManager {
     // wait for all sessions to be retreived from chrome.storage
     this.#getAllSessionNamesFromChromeStorage()
       .then((response) => {
-        // TODO: remove the interval it's only here to simulate slow connection
-        setTimeout(() => {
-          this.#renderNavSessionsUI(response.sessions);
-          this.#setNavPageIsLoading(false);
-        }, 500);
+        this.#renderNavSessionsUI(response.sessions);
+        this.#setNavPageIsLoading(false);
       })
       .catch((e) => {
         // TODO: render empty page
@@ -122,11 +119,8 @@ class userInterfaceManager {
     // get the video session from chrome.storage
     this.#getSessionFromChromeStorage(sessionName)
       .then((response) => {
-        // TODO: remove the interval it's only here to simulate slow connection
-        setTimeout(() => {
-          this.#renderVideoSessionUI(response.bookmarks);
-          this.#setVideoPageIsLoading(false);
-        }, 500);
+        this.#renderVideoSessionUI(response.bookmarks);
+        this.#setVideoPageIsLoading(false);
       })
       .catch((e) => {
         // TODO: render empty page
