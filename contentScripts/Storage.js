@@ -79,7 +79,6 @@ class Storage {
     try {
       const response = await chrome.storage.sync.get(sessionName);
       if (Object.keys(response).length > 0) {
-        console.log(response);
         const { bookmarks } = response[sessionName];
         if (Object.keys(bookmarks).length > 0) {
           return { bookmarks };
@@ -144,8 +143,6 @@ class Storage {
   async syncToLocalStorage() {
     try {
       await chrome.storage.sync.set(this.videoSession);
-      console.log("value set to");
-      console.log(this.videoSession);
     } catch (e) {
       throw e;
     }
@@ -220,9 +217,7 @@ class Storage {
   }
 
   reset() {
-    chrome.storage.sync.remove(this.STORAGE_KEY, () => {
-      console.log("Session removed!");
-    });
+    chrome.storage.sync.remove(this.STORAGE_KEY, () => {});
   }
 
   printBookmarksPretty() {

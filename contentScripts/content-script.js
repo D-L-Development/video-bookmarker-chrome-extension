@@ -138,7 +138,6 @@ document.addEventListener("keydown", (e) => {
     // print bookmarks pretty
     session.video.storage.printBookmarksPretty();
     session.video.copyStringToClipboard(video.formatMapToTableString());
-    console.log("I copied the table to your clipboard!");
   }
 });
 
