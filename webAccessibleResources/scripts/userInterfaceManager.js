@@ -123,7 +123,6 @@ class userInterfaceManager {
         this.#setVideoPageIsLoading(false);
       })
       .catch((e) => {
-        // TODO: render empty page
         console.log(e);
         this.#renderVideoSessionUI(null);
         this.#setVideoPageIsLoading(false);
@@ -162,7 +161,6 @@ class userInterfaceManager {
       sessionElem
         .querySelector(".sessionItemIcons")
         .setAttribute("sessionName", sessionName);
-      // TODO: wire event listeners
       sessionElem
         .querySelector(".sessionConfirmIcon")
         .addEventListener("click", this.#handleSessionItemEditionConfirm);
@@ -309,6 +307,12 @@ class userInterfaceManager {
     );
   };
 
+  /**
+   * Triggered when the new bookmark button is clicked. It sends a msg to the content script to get the current timestamp
+   * then another msg to create the new bookmark
+   *
+   * @param {Event} e - click event object
+   */
   #handleNewBookmarkBtnClick = (e) => {
     const { btn_type, modal_type } = ModalBuilder.TYPES;
     sendMessageToActiveTab(
@@ -576,6 +580,7 @@ class userInterfaceManager {
    * @param {Event} e - event object
    */
   #handleSessionItemEdition = (e) => {
+    // TODO: allow one box to be edited at a time
     const iconGroupDiv = e.target.parentElement;
     // hide the session name span
     const currentSessionNameElem = iconGroupDiv.previousElementSibling;
@@ -595,6 +600,12 @@ class userInterfaceManager {
     this.#showEditIcon(iconGroupDiv, false);
   };
 
+  /**
+   * Triggered when the check icon is clicked after modifying a session name. It confirms the edit
+   *
+   * @param {Event} e - click event object
+   * @returns
+   */
   #handleSessionItemEditionConfirm = (e) => {
     const iconGroupDiv = e.target.parentElement;
     const sessionWrapper = iconGroupDiv.parentElement;
