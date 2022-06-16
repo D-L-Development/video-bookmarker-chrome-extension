@@ -852,7 +852,22 @@ class userInterfaceManager {
     );
   };
 
+  /**
+   * toggles the CSS "nested" class, and changes the src of the nest icon
+   *
+   * @param {HTML Element} bookmarkElem - bookmark element to be nested
+   */
   #toggleBookmarkNesting(bookmarkElem) {
     bookmarkElem.classList.toggle("nested");
+    const BASE_SRC = "../images/icons/";
+    const NEST_ICON = "list-nested.svg";
+    const UNNEST_ICON = "list.svg";
+
+    const nestingIcon = bookmarkElem.querySelector(".nestIcon");
+    if (bookmarkElem.classList.contains("nested")) {
+      nestingIcon.setAttribute("src", BASE_SRC + UNNEST_ICON);
+    } else {
+      nestingIcon.setAttribute("src", BASE_SRC + NEST_ICON);
+    }
   }
 }
