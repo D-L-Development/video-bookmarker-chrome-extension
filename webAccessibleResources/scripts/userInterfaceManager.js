@@ -138,11 +138,15 @@ class userInterfaceManager {
    * @returns
    */
   #renderNavSessionsUI(sessions) {
-    // TODO: remove the copy table button
-    // TODO: remove the back button
+    this.mainNavPageContent.innerHTML = "";
     // if there are no sessions in storage, then render a simple msg
     if (!sessions) {
-      this.mainNavPageContent.innerHTML = `<p>No sessions available!</p>`;
+      const emptyPageElem = document
+        .querySelector(".emptyPageTemplate")
+        .content.firstElementChild.cloneNode(true);
+      emptyPageElem.firstElementChild.innerText =
+        "Create your first session by clicking the add session button";
+      this.mainNavPageContent.appendChild(emptyPageElem);
       return;
     }
 
@@ -183,8 +187,13 @@ class userInterfaceManager {
     // remove current content
     this.videoBookmarksPageContent.innerHTML = "";
     if (!bookmarks) {
-      // TODO: render empty video page
-      this.videoBookmarksPageContent.innerHTML = `<p>No bookmarks present!</p>`;
+      const emptyPageElem = document
+        .querySelector(".emptyPageTemplate")
+        .content.firstElementChild.cloneNode(true);
+      emptyPageElem.firstElementChild.innerText =
+        "Create your first bookmark by clicking the add bookmark button";
+      this.videoBookmarksPageContent.appendChild(emptyPageElem);
+
       return;
     }
     // render the bookmarks
@@ -357,8 +366,14 @@ class userInterfaceManager {
                   (response) => {
                     formModal.remove();
                     if (response.status === MSG.SUCCESS) {
-                      // TODO: create a bookmark class
-                      // You left here
+                      // if there's no bookmark, remove the empty page element
+                      if (
+                        this.videoBookmarksPageContent.querySelectorAll(
+                          ".bookmark"
+                        ).length === 0
+                      ) {
+                        this.videoBookmarksPageContent.innerHTML = "";
+                      }
                       this.#appendBookmarkItem(newBookmark);
                     } else {
                       alert("failed to add bookmark in userInterface");
@@ -502,7 +517,12 @@ class userInterfaceManager {
             areYouSureModal.remove();
             if (response.status === MSG.SUCCESS) {
               sessionWrapper.remove();
-              // TODO: if there are no more sessions, render an empty page
+              if (
+                this.mainNavPageContent.querySelectorAll(".sessionWrapper")
+                  .length === 0
+              ) {
+                this.renderNavPage();
+              }
             } else {
               // render a modal with the error
               const failedToDeleteModal = new ModalBuilder(
