@@ -214,7 +214,9 @@ class userInterfaceManager {
       ? bookmarkElem.classList.add("nested")
       : bookmarkElem.classList.remove("nested");
     // set the content
-    bookmarkElem.querySelector(".timestampText").innerText = timestamp;
+    const bookmarkText = bookmarkElem.querySelector(".timestampText");
+    bookmarkText.innerText = timestamp;
+    bookmarkText.addEventListener("click", this.#handleBookmarkTimestampClick);
     bookmarkElem.querySelector(".title").innerText = title;
     bookmarkElem.querySelector(".bookmarkBodyText").innerText = text;
     // set the timestamp attribute
@@ -782,6 +784,14 @@ class userInterfaceManager {
       (response) => {
         if (response.status === MSG.SUCCESS) {
           console.log(`Jumped to timestamp!`);
+        } else {
+          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
+            .addBodyText(response.payload, "alignCenter")
+            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+              failedModal.remove();
+            })
+            .build()
+            .show();
         }
       }
     );
