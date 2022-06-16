@@ -428,28 +428,44 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    */
   #handleNewSessionButtonClick = (e) => {
-    // TODO: render popup here instead of prompt
-    // TODO: add spinner
-    const userResponse = prompt("Enter the session name:", "Session Name");
-    if (userResponse !== "") {
-      sendMessageToActiveTab(
-        { action: MSG.CREATE_NEW_SESSION, payload: userResponse },
-        (response) => {
-          if (response.status === MSG.SUCCESS) {
-            this.renderVideoPage(userResponse);
-          } else {
-            const { modal_type, btn_type } = ModalBuilder.TYPES;
-            const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
-              .addBodyText(response.payload)
-              .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-                modal.remove();
-              })
-              .build()
-              .show();
+    const { btn_type, modal_type } = ModalBuilder.TYPES;
+    const newSessionModal = new ModalBuilder(
+      modal_type.FORM,
+      "New session",
+      true
+    )
+      .addActionButton(btn_type.CANCEL, "Cancel", () => {
+        newSessionModal.remove();
+      })
+      .addActionButton(btn_type.SUBMIT, "Create", () => {
+        const { sessionNameText } = newSessionModal.getFormValues();
+        sendMessageToActiveTab(
+          { action: MSG.CREATE_NEW_SESSION, payload: sessionNameText },
+          (response) => {
+            newSessionModal.remove();
+            if (response.status === MSG.SUCCESS) {
+              this.renderVideoPage(sessionNameText);
+            } else {
+              const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
+                .addBodyText(response.payload)
+                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+                  modal.remove();
+                })
+                .build()
+                .show();
+            }
           }
-        }
-      );
-    }
+        );
+      })
+      .addInputField(
+        "Enter the session name:",
+        "sessionNameText",
+        false,
+        "Session name",
+        15
+      )
+      .build()
+      .show();
   };
 
   /**
