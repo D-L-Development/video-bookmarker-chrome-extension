@@ -222,10 +222,7 @@ class Session {
   jumpToTimestamp(timestamp) {
     if (this.video) {
       this.video.jumpToTimestamp(timestampToSeconds(timestamp));
-      return;
     }
-
-    alert("Can't jump to timestamp. No video found on the current page!");
   }
 
   /**
@@ -233,13 +230,16 @@ class Session {
    *
    * @param {String} timestamp - the desired HH:MM:SS timestamp to be deleted
    */
-  deleteBookmark(timestamp) {
-    if (this.video) {
-      this.video.removeBookmark(timestamp);
-      return;
+  async deleteBookmark(timestamp) {
+    try {
+      if (this.video) {
+        await this.video.removeBookmark(timestamp);
+      } else {
+        throw "No video is found";
+      }
+    } catch (error) {
+      throw error;
     }
-
-    alert("Can't delete bookmark. No video found on the current page!");
   }
 
   /**
@@ -247,11 +247,15 @@ class Session {
    *
    * @param {String} timestamp - the desired HH:MM:SS timestamp in which the nesting for should be toggled
    */
-  toggleBookmarkNesting(timestamp) {
-    if (this.video) {
-      this.video.toggleBookmarkNesting(timestamp);
-      return;
+  async toggleBookmarkNesting(timestamp) {
+    try {
+      if (this.video) {
+        await this.video.toggleBookmarkNesting(timestamp);
+      } else {
+        throw "No video is found";
+      }
+    } catch (error) {
+      throw error;
     }
-    alert("Can't toggle bookmark nesting. No video found on the current page!");
   }
 }

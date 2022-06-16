@@ -224,8 +224,12 @@ class userInterfaceManager {
     // wire event listeners for header icons
     bookmarkElem.querySelector(".confirmIcon");
     bookmarkElem.querySelector(".editIcon");
-    bookmarkElem.querySelector(".nestIcon");
-    bookmarkElem.querySelector(".headerIcon");
+    bookmarkElem
+      .querySelector(".nestIcon")
+      .addEventListener("click", this.#handleBookmarkNestIconClick);
+    bookmarkElem
+      .querySelector(".trashIcon")
+      .addEventListener("click", this.#handleBookmarkTrashIconClick);
     // append the new bookmark
     this.videoBookmarksPageContent.appendChild(bookmarkElem);
   }
@@ -770,4 +774,71 @@ class userInterfaceManager {
   #setBackArrowIconVisibility(isShown) {
     this.backArrowIcon.style.display = isShown ? "block" : "none";
   }
+
+  #handleBookmarkTimestampClick = (e) => {
+    const timestamp = e.target.innerText;
+    sendMessageToActiveTab(
+      { action: MSG.JUMP_TO_TIMESTAMP, payload: timestamp },
+      (response) => {
+        if (response.status === MSG.SUCCESS) {
+          console.log(`Jumped to timestamp!`);
+        }
+      }
+    );
+  };
+
+  #handleBookmarkTrashIconClick = (e) => {
+    const timestamp = e.target.parentElement.getAttribute("timestamp");
+    const { btn_type, modal_type } = ModalBuilder.TYPES;
+    const areYouSureModal = new ModalBuilder(modal_type.WARNING, "Warning")
+      .addBodyText(
+        `Are you sure you'd like to delete bookmark at ${timestamp}?`
+      )
+      .addActionButton(btn_type.CANCEL, "No", () => {
+        areYouSureModal.remove();
+      })
+      .addActionButton(btn_type.SUBMIT, "Yes", () => {
+        this.setDocumentLoadingState(true);
+        sendMessageToActiveTab(
+          { action: MSG.DELETE_BOOKMARK, payload: timestamp },
+          (response) => {
+            this.setDocumentLoadingState(false);
+            areYouSureModal.remove();
+
+            if (response.status === MSG.SUCCESS) {
+              e.target.parentElement.parentElement.parentElement.remove();
+              // if the bookmark deleted is the last one
+              if (
+                this.videoBookmarksPageContent.querySelectorAll(".bookmark")
+                  .length === 0
+              ) {
+                this.#renderVideoSessionUI(null);
+              }
+            } else {
+              const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
+                .addBodyText(response.payload, "alignCenter")
+                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+                  failedModal.remove();
+                })
+                .build()
+                .show();
+            }
+          }
+        );
+      })
+      .build()
+      .show();
+  };
+
+  #handleBookmarkNestIconClick = (e) => {
+    const timestamp = e.target.parentElement.getAttribute("timestamp");
+    sendMessageToActiveTab(
+      { action: MSG.TOGGLE_BOOKMARK_NESTING, payload: timestamp },
+      (response) => {
+        if (response.status === MSG.SUCCESS) {
+          console.log(`Nest toggle timestamp!`);
+        }
+      }
+    );
+  };
 }

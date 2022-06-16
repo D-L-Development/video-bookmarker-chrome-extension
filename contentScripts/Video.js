@@ -32,8 +32,8 @@ class Video {
     this.play();
   }
 
-  removeBookmark(timestamp) {
-    this.storage.removeBookmark(timestamp);
+  async removeBookmark(timestamp) {
+    await this.storage.removeBookmark(timestamp);
   }
 
   toggleBookmarkNesting(timestamp) {

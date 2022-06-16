@@ -37,6 +37,7 @@
   width: 1rem;
   height: 1rem;
   border-radius: 0.2rem;
+  cursor: pointer;
 }
 .bookmark .bookmarkBodyText {
   background-color: var(--bookmark-body);

@@ -116,13 +116,25 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sendResponse({ status: MSG.SUCCESS });
       break;
     case MSG.DELETE_BOOKMARK:
-      session.deleteBookmark(msg.payload);
-      sendResponse({ status: MSG.SUCCESS });
-      break;
+      session
+        .deleteBookmark(msg.payload)
+        .then(() => {
+          sendResponse({ status: MSG.SUCCESS });
+        })
+        .catch((error) => {
+          sendResponse({ status: MSG.FAILURE, payload: error });
+        });
+      return true;
     case MSG.TOGGLE_BOOKMARK_NESTING:
-      session.toggleBookmarkNesting(msg.payload);
-      sendResponse({ status: MSG.SUCCESS });
-      break;
+      session
+        .toggleBookmarkNesting(msg.payload)
+        .then(() => {
+          sendResponse({ status: MSG.SUCCESS });
+        })
+        .catch((error) => {
+          sendResponse({ status: MSG.FAILURE, payload: error });
+        });
+      return true;
   }
 });
 

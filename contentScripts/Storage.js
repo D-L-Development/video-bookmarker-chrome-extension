@@ -186,28 +186,32 @@ class Storage {
     await this.syncToLocalStorage();
   }
 
-  removeBookmark(timestamp) {
-    const { bookmarks } = this.videoSession[this.STORAGE_KEY];
-    if (bookmarks[timestamp]) {
-      delete bookmarks[timestamp];
-      this.syncToLocalStorage();
-    } else {
-      console.log(
-        `Can't remove bookmark at ${timestamp} because it doesn't exist`
-      );
+  async removeBookmark(timestamp) {
+    try {
+      const { bookmarks } = this.videoSession[this.STORAGE_KEY];
+      if (bookmarks[timestamp]) {
+        delete bookmarks[timestamp];
+        await this.syncToLocalStorage();
+      } else {
+        throw `Can't remove bookmark at ${timestamp} because it doesn't exist`;
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
-  toggleBookmarkNesting(timestamp) {
-    const { bookmarks } = this.videoSession[this.STORAGE_KEY];
-    const targetBookmark = bookmarks[timestamp];
-    if (targetBookmark) {
-      targetBookmark.isNested = !targetBookmark.isNested;
-      this.syncToLocalStorage();
-    } else {
-      console.log(
-        `Can't toggle bookmark nesting at ${timestamp} because it doesn't exist`
-      );
+  async toggleBookmarkNesting(timestamp) {
+    try {
+      const { bookmarks } = this.videoSession[this.STORAGE_KEY];
+      const targetBookmark = bookmarks[timestamp];
+      if (targetBookmark) {
+        targetBookmark.isNested = !targetBookmark.isNested;
+        await this.syncToLocalStorage();
+      } else {
+        throw `Can't toggle bookmark nesting at ${timestamp} because it doesn't exist`;
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
