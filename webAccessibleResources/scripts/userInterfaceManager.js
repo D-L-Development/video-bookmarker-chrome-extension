@@ -836,9 +836,23 @@ class userInterfaceManager {
       { action: MSG.TOGGLE_BOOKMARK_NESTING, payload: timestamp },
       (response) => {
         if (response.status === MSG.SUCCESS) {
-          console.log(`Nest toggle timestamp!`);
+          this.#toggleBookmarkNesting(
+            e.target.parentElement.parentElement.parentElement
+          );
+        } else {
+          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
+            .addBodyText(response.payload, "alignCenter")
+            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+              failedModal.remove();
+            })
+            .build()
+            .show();
         }
       }
     );
   };
+
+  #toggleBookmarkNesting(bookmarkElem) {
+    bookmarkElem.classList.toggle("nested");
+  }
 }
