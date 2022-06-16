@@ -291,7 +291,7 @@ class userInterfaceManager {
             .show();
         } else {
           const failedModal = new ModalBuilder(
-            ModalBuilder.TYPES.modal_type.WARNING,
+            ModalBuilder.TYPES.modal_type.ALERT,
             "Failure!"
           )
             .addBodyText(response.payload, "alignCenter")
@@ -422,6 +422,15 @@ class userInterfaceManager {
   };
 
   /**
+   * Makes the cursor a spinning icon on all elements
+   *
+   * @param {Boolean} isLoading - whether the cursor on the page should be a loading icon
+   */
+  setDocumentLoadingState(isLoading) {
+    document.body.style.cursor = isLoading ? "wait" : "";
+  }
+
+  /**
    * triggered when the createNewSession Button is clicked. It messages the content script to create a new session,
    * and renders the video page, or an alert msg depending on the response from the content script
    *
@@ -439,10 +448,12 @@ class userInterfaceManager {
       })
       .addActionButton(btn_type.SUBMIT, "Create", () => {
         const { sessionNameText } = newSessionModal.getFormValues();
+        this.setDocumentLoadingState(true);
         sendMessageToActiveTab(
           { action: MSG.CREATE_NEW_SESSION, payload: sessionNameText },
           (response) => {
             newSessionModal.remove();
+            this.setDocumentLoadingState(false);
             if (response.status === MSG.SUCCESS) {
               this.renderVideoPage(sessionNameText);
             } else {
