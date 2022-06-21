@@ -79,18 +79,10 @@
 }
 
 .pageHeader.videoBookmarksPage.header button {
-  border-radius: 0.2rem;
-  height: 70%;
-  width: 25%;
-  display: flex;
-  align-items: center;
-  border: none;
   background-color: rgb(88, 88, 116);
   outline: 1.5px solid rgb(88, 88, 116);
-  color: white;
-  transition: 0.2s;
-  margin-left: 0.5rem;
 }
+
 .pageHeader.videoBookmarksPage.header button:hover {
   background-color: transparent;
   cursor: pointer;

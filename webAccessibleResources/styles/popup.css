@@ -113,3 +113,24 @@ h1 {
 .emptyPage .emptyPageText {
   color: lightgray;
 }
+
+.btn-primary {
+  border-radius: 0.2rem;
+  height: 70%;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: rgb(116, 99, 88);
+  outline: 1.5px solid rgb(116, 99, 88);
+  color: white;
+  transition: 0.2s;
+  margin-left: 0.5rem;
+  font-size: 0.65rem;
+  justify-content: space-around;
+}
+
+button.btn-primary:hover {
+  background-color: transparent;
+  cursor: pointer;
+}
