@@ -21,6 +21,7 @@
   background-color: rgb(205, 92, 92);
   position: relative;
   display: flex;
+  align-items: center;
 }
 
 .sessionItemIcons {
