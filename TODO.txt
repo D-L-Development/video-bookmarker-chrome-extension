@@ -1,11 +1,14 @@
-// TODO: enable clicks on the timestamps
-// TODO: add a button to open the sidebar
-// TODO: make the table header float
-// TODO: add a box shadow under the header
-// TODO: add the icons and other buttons
-// TODO: add functionality to add button
-// TODO: add functionality to copy button
-// TODO: add functionality to reset button
-// TODO: add functionality to print button
-// TODO: add functionality to save button
-// TODO: add a navigation page for other sessions
+// TODO: pick better fonts
+// TODO: change close icon to plain X
+// TODO: change styles of the create new session button
+// TODO: decide on colors and themes
+// TODO: style the scroller for video page and navigation page
+// TODO: allow user to edit bookmarks
+// TODO: test the extension extensively and report problems
+// TODO: add shortcuts
+// TODO: complete options page
+// TODO: publish extension
+// TODO: update READ.ME file on github with screenshots
+// TODO: copy bookmark button should offset nested bookmarks
+// TODO: add button to save session as a .txt file (.pdf if ambitious)
+// TODO: limit the amount of data saved to chrome.storage

@@ -94,7 +94,6 @@ class userInterfaceManager {
         this.#setNavPageIsLoading(false);
       })
       .catch((e) => {
-        // TODO: render empty page
         console.log(e);
         this.#renderNavSessionsUI(null);
         this.#setNavPageIsLoading(false);
