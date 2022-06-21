@@ -1,6 +1,4 @@
 // TODO: pick better fonts
-// TODO: change close icon to plain X
-// TODO: change styles of the create new session button
 // TODO: decide on colors and themes
 // TODO: style the scroller for video page and navigation page
 // TODO: allow user to edit bookmarks
