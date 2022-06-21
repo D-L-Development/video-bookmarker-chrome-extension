@@ -223,8 +223,9 @@ class userInterfaceManager {
       .querySelector(".headerIcons")
       .setAttribute("timestamp", timestamp);
     // wire event listeners for header icons
-    bookmarkElem.querySelector(".confirmIcon");
-    bookmarkElem.querySelector(".editIcon");
+    bookmarkElem
+      .querySelector(".editIcon")
+      .addEventListener("click", this.#handleBookmarkEditIconClick);
     bookmarkElem
       .querySelector(".nestIcon")
       .addEventListener("click", this.#handleBookmarkNestIconClick);
@@ -850,6 +851,81 @@ class userInterfaceManager {
           );
         } else {
           const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
+            .addBodyText(response.payload, "alignCenter")
+            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+              failedModal.remove();
+            })
+            .build()
+            .show();
+        }
+      }
+    );
+  };
+
+  /**
+   * Triggered when the edit icon is clicked for each bookmark item. It renders a prepopulated
+   * modal from chrome.storage
+   *
+   * @param {Event} e - click event object
+   */
+  #handleBookmarkEditIconClick = (e) => {
+    // TODO: ask content script to pause video
+    const timestamp = e.target.parentElement.getAttribute("timestamp");
+    sendMessageToActiveTab(
+      { action: MSG.GET_BOOKMARK_AT_TIMESTAMP, payload: timestamp },
+      (response) => {
+        if (response.status === MSG.SUCCESS) {
+          const { btn_type, modal_type } = ModalBuilder.TYPES;
+          const bookmark = response.payload;
+
+          const formModal = new ModalBuilder(
+            modal_type.FORM,
+            `Edit bookmark at ${timestamp}`,
+            true
+          )
+            .addInputField(
+              "Title:",
+              "title",
+              false,
+              "Enter the title:",
+              18,
+              bookmark?.title || ""
+            )
+            .addInputField(
+              "Bookmark text:",
+              "bookmarkText",
+              true,
+              "Type the description:",
+              200,
+              bookmark?.text || ""
+            )
+            .addActionButton(btn_type.CANCEL, "Cancel", () => {
+              formModal.remove();
+              // TODO: play video back
+            })
+            .addActionButton(btn_type.SUBMIT, "Confirm", () => {
+              const { title, bookmarkText } = formModal.getFormValues();
+              const newBookmark = new Bookmark(title, bookmarkText, timestamp);
+              sendMessageToActiveTab(
+                {
+                  action: MSG.ADD_BOOKMARK,
+                  payload: { bookmark: newBookmark },
+                },
+                (response) => {
+                  formModal.remove();
+                  if (response.status === MSG.SUCCESS) {
+                    // TODO: edit HTML bookmark
+                  } else {
+                    alert("failed to add bookmark in userInterface");
+                  }
+                }
+              );
+            })
+            .build()
+            .show();
+        } else {
+          // render failed modal
+          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed!")
             .addBodyText(response.payload, "alignCenter")
             .addActionButton(btn_type.DISMISS, "Dismiss", () => {
               failedModal.remove();

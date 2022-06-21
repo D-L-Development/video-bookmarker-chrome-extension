@@ -135,6 +135,15 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           sendResponse({ status: MSG.FAILURE, payload: error });
         });
       return true;
+    case MSG.GET_BOOKMARK_AT_TIMESTAMP:
+      const bookmark = session.getBookmarkAtTimestamp(msg.payload);
+      bookmark
+        ? sendResponse({ status: MSG.SUCCESS, payload: bookmark })
+        : sendResponse({
+            status: MSG.FAILURE,
+            payload: `No bookmark at ${msg.payload}`,
+          });
+      break;
   }
 });
 

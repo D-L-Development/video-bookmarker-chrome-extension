@@ -258,4 +258,14 @@ class Session {
       throw error;
     }
   }
+
+  /**
+   * Gets the bookmark object from the storage class for the current session
+   *
+   * @param {String} timestamp - formatted hh:mm:ss timestamp to be retrieved from the storage class
+   * @returns {Object} - bookmark object asscosiated with the timestamp, or undefined
+   */
+  getBookmarkAtTimestamp(timestamp) {
+    return this.video.storage.getBookmarkAtTimestamp(timestamp);
+  }
 }

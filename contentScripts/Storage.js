@@ -215,7 +215,12 @@ class Storage {
     }
   }
 
-  // return whether a timestamp has a bookmark or not
+  /**
+   * Returns the associated bookmark with the timestamp, or undefined
+   *
+   * @param {String} currentTimestamp - format hh:mm:ss timestamp
+   * @returns {Object} - the bookmakr object from the current session
+   */
   getBookmarkAtTimestamp(currentTimestamp) {
     return this.videoSession[this.STORAGE_KEY].bookmarks[currentTimestamp];
   }

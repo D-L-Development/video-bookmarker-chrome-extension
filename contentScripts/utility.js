@@ -11,6 +11,7 @@ const MSG = {
   TOGGLE_BOOKMARK_NESTING: "toggleBookmarkNesting",
   ADD_BOOKMARK: "addBookmark",
   COPY_TABLE: "copyTable",
+  GET_BOOKMARK_AT_TIMESTAMP: "getBookmarkAtTimestamp",
 };
 
 class Bookmark {
