@@ -29,7 +29,8 @@
   margin-left: auto;
   display: flex;
   width: 30%;
-  justify-content: space-around;
+  justify-content: flex-end;
+  gap: 0.5rem;
   align-items: center;
 }
 .headerIcon {

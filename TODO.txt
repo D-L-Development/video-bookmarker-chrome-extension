@@ -11,3 +11,4 @@
 // TODO: limit the amount of data saved to chrome.storage
 // TODO: limit char count when editing a session name
 // TODO: pause video when bookmarks are added, edited and play when done
+// TODO: add soft drop shadow to modal

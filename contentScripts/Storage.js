@@ -130,8 +130,6 @@ class Storage {
             (session) => session === sessionName
           );
 
-          console.log("sessionFound", sessionFound);
-
           sessionFound ? resolve() : reject("Selected session is not found!");
         } else {
           reject("There are no sessions!");
