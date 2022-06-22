@@ -11,3 +11,4 @@
 // TODO: add button to save session as a .txt file (.pdf if ambitious)
 // TODO: limit the amount of data saved to chrome.storage
 // TODO: play video when the user cancels adding a bookmark
+// TODO: limit char count when editing a session name

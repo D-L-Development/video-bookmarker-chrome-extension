@@ -908,7 +908,10 @@ class userInterfaceManager {
                 (response) => {
                   formModal.remove();
                   if (response.status === MSG.SUCCESS) {
-                    // TODO: edit HTML bookmark
+                    this.#updateBookmarkUI(
+                      e.target.parentElement.parentElement.parentElement,
+                      newBookmark
+                    );
                   } else {
                     alert("failed to add bookmark in userInterface");
                   }
@@ -930,6 +933,19 @@ class userInterfaceManager {
       }
     );
   };
+
+  /**
+   * Takes an HTML bookmark element and modifies it's contents
+   *
+   * @param {HTML Element} bookmarkElem - the bookmark element to be modified
+   * @param {Object} bookmark - contains bookmark information
+   */
+  #updateBookmarkUI(bookmarkElem, bookmark) {
+    const titleElem = bookmarkElem.querySelector(".title");
+    const bodyTextElem = bookmarkElem.querySelector(".bookmarkBodyText");
+    titleElem.innerText = bookmark.title;
+    bodyTextElem.innerText = bookmark.text;
+  }
 
   /**
    * toggles the CSS "nested" class, and changes the src of the nest icon
