@@ -415,7 +415,6 @@ class userInterfaceManager {
   #handleCloseIconClick(e) {
     sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
       if (response.status === MSG.SUCCESS) {
-        console.log(`Side menu closed!`);
       }
     });
   }
@@ -777,9 +776,7 @@ class userInterfaceManager {
     sendMessageToActiveTab(
       { action: MSG.JUMP_TO_TIMESTAMP, payload: timestamp },
       (response) => {
-        if (response.status === MSG.SUCCESS) {
-          console.log(`Jumped to timestamp!`);
-        } else {
+        if (response.status !== MSG.SUCCESS) {
           const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
             .addBodyText(response.payload, "alignCenter")
             .addActionButton(btn_type.DISMISS, "Dismiss", () => {
