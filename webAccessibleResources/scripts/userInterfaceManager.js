@@ -332,8 +332,7 @@ class userInterfaceManager {
           const { timestamp, bookmark } = response.payload;
           const formModal = new ModalBuilder(
             ModalBuilder.TYPES.modal_type.FORM,
-            `Create a bookmark at ${timestamp}`,
-            true
+            `Create a bookmark at ${timestamp}`
           )
             .addInputField(
               "Title:",
@@ -448,11 +447,7 @@ class userInterfaceManager {
    */
   #handleNewSessionButtonClick = (e) => {
     const { btn_type, modal_type } = ModalBuilder.TYPES;
-    const newSessionModal = new ModalBuilder(
-      modal_type.FORM,
-      "New session",
-      true
-    )
+    const newSessionModal = new ModalBuilder(modal_type.FORM, "New session")
       .addActionButton(btn_type.CANCEL, "Cancel", () => {
         newSessionModal.remove();
       })
@@ -880,8 +875,7 @@ class userInterfaceManager {
 
           const formModal = new ModalBuilder(
             modal_type.FORM,
-            `Edit bookmark at ${timestamp}`,
-            true
+            `Edit bookmark at ${timestamp}`
           )
             .addInputField(
               "Title:",

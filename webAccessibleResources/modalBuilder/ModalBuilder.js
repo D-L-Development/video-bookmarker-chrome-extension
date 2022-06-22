@@ -12,7 +12,7 @@ class ModalBuilder {
       FORM: "form",
     },
   };
-  constructor(type, title, preventEmptyFieldSubmission = false) {
+  constructor(type, title) {
     this.type = type;
     this.title = title;
     this.modalWrapperTemplate = document.querySelector(".modalWrapper");
@@ -21,9 +21,8 @@ class ModalBuilder {
     this.buttons = [];
     this.bodyElements = [];
     // members to keep track of form submission disabling
-    this.preventEmptyFieldSubmission = preventEmptyFieldSubmission;
     this.preventSubmitConditions = {};
-    this.submitButtonDisabled = preventEmptyFieldSubmission;
+    this.submitButtonDisabled = false;
   }
 
   addActionButton(type, text, clickHandler) {
@@ -53,7 +52,8 @@ class ModalBuilder {
     isTextArea,
     placeholder = "",
     maxCharCount = Infinity,
-    initialValue = ""
+    initialValue = "",
+    required = true
   ) {
     // grab the template
     const textInputFieldTemplate = document.querySelector(
@@ -75,9 +75,15 @@ class ModalBuilder {
     textInputElem.value = initialValue;
     // set the content for secondary text
     const secondaryText = textInputElem.nextElementSibling;
-    // if a max char is specified, then set a condition in the array
-    if (maxCharCount !== Infinity) {
+    // if the initial string length is longer than the specified mas char count,
+    //  or the field is empty and required, then set a condition in the array to prevent submission
+    if (
+      initialValue.length > maxCharCount ||
+      (initialValue.length === 0 && required)
+    ) {
       this.preventSubmitConditions[id] = true;
+    } else if (maxCharCount !== Infinity || required) {
+      this.preventSubmitConditions[id] = false;
     }
     // wire event on change event
     textInputElem.addEventListener("input", (e) => {
@@ -88,11 +94,14 @@ class ModalBuilder {
         secondaryText.innerText = `Exceeds ${maxCharCount} characters!`;
         textInputElem.classList.add("error");
         this.preventSubmitConditions[id] = true;
+      } else if (userInputLength === 0 && required) {
+        secondaryText.innerText = "Missing field";
+        textInputElem.classList.add("error");
+        this.preventSubmitConditions[id] = true;
       } else {
         secondaryText.innerText = "";
         textInputElem.classList.remove("error");
-        // add prevent condition if the text length is 0
-        this.preventSubmitConditions[id] = userInputLength === 0;
+        this.preventSubmitConditions[id] = false;
       }
 
       this.#updateSubmissonState();
