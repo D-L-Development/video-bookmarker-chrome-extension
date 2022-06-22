@@ -25,12 +25,16 @@
 }
 
 .sessionItemIcons {
-  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
 }
 
 .sessionName {
   margin-left: 0.7rem;
   font-size: 0.7rem;
+  width: 50%;
+  border: 1px solid transparent;
 }
 .sessionName:hover {
   cursor: pointer;
@@ -62,6 +66,7 @@
 /* Hide the confirm edit icon by default */
 .sessionConfirmIcon {
   display: none;
+  margin-right: auto;
 }
 
 input.sessionItemEditTextInput {
@@ -70,6 +75,7 @@ input.sessionItemEditTextInput {
   background: none;
   border: none;
   border-bottom: 1px solid rgb(68, 67, 67);
-  margin-left: 0.2rem;
+  margin-left: 0.7rem;
   color: white;
+  width: 50%;
 }

@@ -1,7 +1,6 @@
 // TODO: pick better fonts
 // TODO: decide on colors and themes
 // TODO: style the scroller for video page and navigation page
-// TODO: allow user to edit bookmarks
 // TODO: test the extension extensively and report problems
 // TODO: add shortcuts
 // TODO: complete options page
@@ -10,5 +9,5 @@
 // TODO: copy bookmark button should offset nested bookmarks
 // TODO: add button to save session as a .txt file (.pdf if ambitious)
 // TODO: limit the amount of data saved to chrome.storage
-// TODO: play video when the user cancels adding a bookmark
 // TODO: limit char count when editing a session name
+// TODO: pause video when bookmarks are added, edited and play when done
