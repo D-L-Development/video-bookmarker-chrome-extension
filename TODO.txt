@@ -1,8 +1,3 @@
-// TODO: pick better fonts
-// TODO: decide on colors and themes
-// TODO: style the scroller for video page and navigation page
-// TODO: test the extension extensively and report problems
-// TODO: add shortcuts
 // TODO: complete options page
 // TODO: publish extension
 // TODO: update READ.ME file on github with screenshots
