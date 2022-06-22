@@ -27,6 +27,7 @@
 }
 .headerIcons {
   margin-left: auto;
+  margin-right: 0.2rem;
   display: flex;
   width: 30%;
   justify-content: flex-end;
