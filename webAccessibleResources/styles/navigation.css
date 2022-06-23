@@ -94,13 +94,20 @@ input.sessionItemEditTextInput {
   position: absolute;
   left: 0.8rem;
 }
+.clearSearchIcon {
+  width: 8%;
+  position: absolute;
+  padding: 0 0.2rem;
+  right: 0;
+  cursor: pointer;
+}
 #searchSessions {
   border: none;
   border-radius: 0.4rem;
   outline: 1px solid gray;
   width: 100%;
   margin-left: 0.5rem;
-  padding-left: 1.4rem;
+  padding: 0 1.4rem;
   height: 70%;
   position: relative;
   background-color: transparent;
