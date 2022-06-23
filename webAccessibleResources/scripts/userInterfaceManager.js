@@ -8,6 +8,13 @@ class userInterfaceManager {
   static NAV_PAGE = "navPage";
   static VIDEO_PAGE = "videoPage";
   static ALL_SESSIONS = "All Sessions";
+  static DISPLAY = {
+    BLOCK: "block",
+    INLINE: "inline",
+    INLINE_BLOCK: "inline-block",
+    FLEX: "flex",
+    NONE: "none",
+  };
 
   constructor() {
     // get the DOM elements
@@ -52,6 +59,9 @@ class userInterfaceManager {
    */
   #handleSearchSessionOnChange = (e) => {
     const { value } = e.target;
+    // update the session items UI
+    this.#filterSessionsByName(value);
+    // add or remove the clear icon
     if (value.length === 0) {
       this.#setClearSearchBoxIconVisiblity(false);
     } else {
@@ -288,6 +298,7 @@ class userInterfaceManager {
     this.clearSearchIcon.addEventListener("click", () => {
       this.searchSessions.value = "";
       this.#setClearSearchBoxIconVisiblity(false);
+      this.#filterSessionsByName("");
     });
   }
 
@@ -347,7 +358,27 @@ class userInterfaceManager {
    * @param {Boolean} show
    */
   #setClearSearchBoxIconVisiblity(show) {
-    this.clearSearchIcon.style.display = show ? "inline-block" : "none";
+    const { INLINE_BLOCK, NONE } = userInterfaceManager.DISPLAY;
+    this.clearSearchIcon.style.display = show ? INLINE_BLOCK : NONE;
+  }
+
+  /**
+   * Loops over all session wrapper items and hides that ones that dont'
+   * contain the desired string.
+   *
+   * @param {String} match - takes a string to match session names against
+   */
+  #filterSessionsByName(match) {
+    const { NONE, FLEX } = userInterfaceManager.DISPLAY;
+    const allSessions = document.querySelectorAll(".sessionWrapper");
+    allSessions.forEach((session) => {
+      const currSessionName = session
+        .querySelector(".sessionName")
+        .innerText.toLowerCase();
+
+      session.style.display =
+        currSessionName.indexOf(match.toLowerCase()) === -1 ? NONE : FLEX;
+    });
   }
 
   /**
@@ -621,7 +652,7 @@ class userInterfaceManager {
     const iconGroupDiv = e.target.parentElement;
     // hide the session name span
     const currentSessionNameElem = iconGroupDiv.previousElementSibling;
-    currentSessionNameElem.style.display = "none";
+    currentSessionNameElem.style.display = userInterfaceManager.DISPLAY.NONE;
     // create a text input field
     const textInputField = document.createElement("input");
     textInputField.setAttribute("type", "text");
@@ -655,7 +686,7 @@ class userInterfaceManager {
     if (newValue === "" || newValue === oldValue) {
       this.#showEditIcon(iconGroupDiv, true);
       textInput.remove();
-      sessionName.style.display = "inline";
+      sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
       return;
     }
 
@@ -669,7 +700,7 @@ class userInterfaceManager {
           textInput.remove();
           sessionName.innerText = newValue;
           iconGroupDiv.setAttribute("sessionName", newValue);
-          sessionName.style.display = "inline";
+          sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
         } else {
           // render a modal with the error
           const { modal_type, btn_type } = ModalBuilder.TYPES;
@@ -699,13 +730,13 @@ class userInterfaceManager {
       ".sessionConfirmIcon"
     );
     const sessionEditIcon = sessionItemIcons.querySelector(".sessionEditIcon");
-
+    const { INLINE_BLOCK, NONE } = userInterfaceManager.DISPLAY;
     if (show) {
-      sessionEditIcon.style.display = "inline-block";
-      sessionConfirmIcon.style.display = "none";
+      sessionEditIcon.style.display = INLINE_BLOCK;
+      sessionConfirmIcon.style.display = NONE;
     } else {
-      sessionEditIcon.style.display = "none";
-      sessionConfirmIcon.style.display = "inline-block";
+      sessionEditIcon.style.display = NONE;
+      sessionConfirmIcon.style.display = INLINE_BLOCK;
     }
   };
 
@@ -777,11 +808,10 @@ class userInterfaceManager {
    * @param {Boolean} isLoadingNav - whether the nav page is loading or not
    */
   #setNavPageIsLoading(isLoadingNav) {
-    this.mainNavPageContentLoading.style.display = isLoadingNav
-      ? "flex"
-      : "none";
+    const { NONE, FLEX, BLOCK } = userInterfaceManager.DISPLAY;
+    this.mainNavPageContentLoading.style.display = isLoadingNav ? FLEX : NONE;
     // hide or show the content
-    this.mainNavPageContent.style.display = isLoadingNav ? "none" : "block";
+    this.mainNavPageContent.style.display = isLoadingNav ? NONE : BLOCK;
   }
 
   /**
@@ -790,13 +820,14 @@ class userInterfaceManager {
    * @param {Boolean} isLoadingVideo - whether the video page is loading or not
    */
   #setVideoPageIsLoading(isLoadingVideo) {
+    const { NONE, FLEX, BLOCK } = userInterfaceManager.DISPLAY;
     this.videoBookmarksPageContentLoading.style.display = isLoadingVideo
-      ? "flex"
-      : "none";
+      ? FLEX
+      : NONE;
     // hide or show the content
     this.videoBookmarksPageContent.style.display = isLoadingVideo
-      ? "none"
-      : "block";
+      ? NONE
+      : BLOCK;
   }
 
   /**
