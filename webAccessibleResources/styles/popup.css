@@ -132,3 +132,31 @@ button.btn-primary:hover {
   background-color: transparent;
   cursor: pointer;
 }
+
+.pageHeader {
+  background: rgb(37, 49, 116);
+  height: 5%;
+  display: flex;
+  align-items: center;
+}
+
+.pageHeader button {
+  background-color: rgb(88, 88, 116);
+  outline: 1.5px solid rgb(88, 88, 116);
+}
+
+.pageHeader button:hover {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.pageHeader button .headerBtnIcon {
+  width: 15%;
+  margin: 0 0.2rem;
+}
+.pageHeader button .headerBtnText {
+  width: 80%;
+  margin-right: 0.2rem;
+  font-size: 0.65rem;
+  font-weight: 400;
+}

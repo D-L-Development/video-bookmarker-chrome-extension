@@ -79,3 +79,35 @@ input.sessionItemEditTextInput {
   color: white;
   width: 50%;
 }
+
+.searchBoxWrapper {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.searchBoxIcon {
+  width: 6%;
+  height: 100%;
+  position: absolute;
+  left: 0.8rem;
+}
+#searchSessions {
+  border: none;
+  border-radius: 0.4rem;
+  outline: 1px solid gray;
+  width: 100%;
+  margin-left: 0.5rem;
+  padding-left: 1.4rem;
+  height: 70%;
+  position: relative;
+  background-color: transparent;
+  transition: 0.2s;
+  color: white;
+  font-size: 0.75rem;
+}
+#searchSessions:focus {
+  background-color: rgba(0, 0, 0, 0.2);
+}

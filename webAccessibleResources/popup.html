@@ -128,9 +128,6 @@
       <template class="bodyTextTemplate">
         <div class="modalBodyText">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
-          perspiciatis, ratione commodi alias exercitationem excepturi saepe
-          mollitia soluta? Maxime cupiditate vitae aliquid natus cumque eligendi
-          enim omnis ab sequi error.
         </div>
       </template>
       <template class="emptyPageTemplate">
@@ -140,6 +137,16 @@
       </template>
       <div id="pageScroller" class="">
         <div id="mainNavPage" class="page">
+          <div class="pageHeader">
+            <div class="searchBoxWrapper">
+              <input type="text" name="searchSessions" id="searchSessions" />
+              <img
+                src="../images/icons/search.svg"
+                alt="search icon"
+                class="searchBoxIcon"
+              />
+            </div>
+          </div>
           <div
             id="mainNavPageContent"
             class="pageContent"
@@ -162,7 +169,7 @@
           </div>
         </div>
         <div id="videoBookmarksPage" class="page">
-          <div class="pageHeader videoBookmarksPage header">
+          <div class="pageHeader">
             <button type="button" class="addBookmarkBtn btn-primary">
               <img
                 src="../images/icons/bookmark-plus.svg"
