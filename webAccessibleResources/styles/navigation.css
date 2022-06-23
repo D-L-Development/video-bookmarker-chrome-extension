@@ -109,5 +109,5 @@ input.sessionItemEditTextInput {
 }
 #searchSessions:focus {
   background-color: rgba(0, 0, 0, 0.2);
-  outline: 1.3px solid gray;
+  outline: 1.5px solid gray;
 }
