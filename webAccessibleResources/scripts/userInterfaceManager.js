@@ -18,6 +18,8 @@ class userInterfaceManager {
     this.closeBtnIcon = document.getElementById("closeIcon");
     this.backArrowIcon = document.getElementById("backArrowIcon");
     this.addBookmarkBtn = document.querySelector(".addBookmarkBtn");
+    this.clearSearchIcon = document.querySelector(".clearSearchIcon");
+    this.searchSessions = document.getElementById("searchSessions");
     this.videoBookmarksPageContentLoading = document.getElementById(
       "videoBookmarksPageContentLoading"
     );
@@ -41,6 +43,21 @@ class userInterfaceManager {
     this.#wireEventListeners();
     this.renderNavPage();
   }
+
+  /**
+   * Triggered when the user types in the search box. It shows or hides the clear
+   * X icon, and handles showing or hiding the sessions based on name
+   *
+   * @param {Event} e - input event object
+   */
+  #handleSearchSessionOnChange = (e) => {
+    const { value } = e.target;
+    if (value.length === 0) {
+      this.#setClearSearchBoxIconVisiblity(false);
+    } else {
+      this.#setClearSearchBoxIconVisiblity(true);
+    }
+  };
 
   /**
    * adds or removes the CSS class "videoPage" to slide the scrollerPage div right, or left
@@ -261,6 +278,17 @@ class userInterfaceManager {
       "click",
       this.#handleNewSessionButtonClick
     );
+    // wire event listener for search box
+    this.searchSessions.addEventListener(
+      "input",
+      this.#handleSearchSessionOnChange
+    );
+
+    // wire event listener for search input field to clear any text
+    this.clearSearchIcon.addEventListener("click", () => {
+      this.searchSessions.value = "";
+      this.#setClearSearchBoxIconVisiblity(false);
+    });
   }
 
   /**
@@ -312,6 +340,15 @@ class userInterfaceManager {
       }
     );
   };
+
+  /**
+   * Shows or hides the clear icon (X) in search input field
+   *
+   * @param {Boolean} show
+   */
+  #setClearSearchBoxIconVisiblity(show) {
+    this.clearSearchIcon.style.display = show ? "inline-block" : "none";
+  }
 
   /**
    * Triggered when the new bookmark button is clicked. It sends a msg to the content script to get the current timestamp
