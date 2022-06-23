@@ -102,6 +102,14 @@ class userInterfaceManager {
   }
 
   /**
+   * Clears the search box and removes the clear icons
+   */
+  #resetSearchBox() {
+    this.searchSessions.value = "";
+    this.#setClearSearchBoxIconVisiblity(false);
+  }
+
+  /**
    * responsible for sliding the nav page into frame, and loading it's content from chrome.storage
    * through the use of a couple of helper functions.
    */
@@ -114,6 +122,8 @@ class userInterfaceManager {
     this.#setBackArrowIconVisibility(false);
     // drag the nav page in frame if it's not already
     this.togglePage(userInterfaceManager.NAV_PAGE);
+    // reset the search box
+    this.#resetSearchBox();
     // wait for all sessions to be retreived from chrome.storage
     this.#getAllSessionNamesFromChromeStorage()
       .then((response) => {
@@ -296,8 +306,7 @@ class userInterfaceManager {
 
     // wire event listener for search input field to clear any text
     this.clearSearchIcon.addEventListener("click", () => {
-      this.searchSessions.value = "";
-      this.#setClearSearchBoxIconVisiblity(false);
+      this.#resetSearchBox();
       this.#filterSessionsByName("");
     });
   }
