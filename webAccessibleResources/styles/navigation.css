@@ -1,16 +1,6 @@
 #mainNavPageContent {
 }
 
-.pageContent {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .sessionWrapper {
   width: 85%;
   padding: 1rem;
@@ -119,4 +109,5 @@ input.sessionItemEditTextInput {
 }
 #searchSessions:focus {
   background-color: rgba(0, 0, 0, 0.2);
+  outline: 1.3px solid gray;
 }
