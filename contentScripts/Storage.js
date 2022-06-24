@@ -125,23 +125,15 @@ class Storage {
    * @param {String} sessionName - represents the session name that is being searched in chrome.storage
    * @returns {Promise} - resolved or rejected depending on if the session name for the session is already in storage
    */
-  static sessionExists(sessionName) {
-    return new Promise((resolve, reject) => {
-      chrome.storage.sync.get(Storage.ALL_SESSIONS, (response) => {
-        // if there is a session in storage, then return it
-        if (Object.keys(response).length > 0) {
-          const sessions = response[Storage.ALL_SESSIONS];
+  static async sessionExists(sessionName) {
+    const allSessions = await Storage.getAllSessionNamesFromStorage();
+    for (let i = 0; i < allSessions.length; i++) {
+      if (allSessions[i].sessionName === sessionName) {
+        return allSessions[i];
+      }
+    }
 
-          const sessionFound = sessions.some(
-            (session) => session === sessionName
-          );
-
-          sessionFound ? resolve() : reject("Selected session is not found!");
-        } else {
-          reject("There are no sessions!");
-        }
-      });
-    });
+    throw new Error("Selected session is not found!");
   }
 
   async syncToLocalStorage() {
