@@ -1,3 +1,8 @@
+/**
+ * Video class manages the HTML video found in the DOM. It instantiates
+ * a Storage class instance which holds the bookmarks relating to the
+ * currently loaded video based on the provided session name
+ */
 class Video {
   constructor(videoElement, sessionName) {
     this.video = videoElement;
@@ -26,9 +31,7 @@ class Video {
 
   async addBookmark(bookmark) {
     this.pause();
-
     await this.storage.addBookmark(bookmark);
-
     this.play();
   }
 

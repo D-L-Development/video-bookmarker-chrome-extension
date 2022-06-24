@@ -92,8 +92,7 @@ class ModalBuilder {
     // clone the template
     const newInput =
       textInputFieldTemplate.content.firstElementChild.cloneNode(true);
-    // give it an attribute for getting form values
-    newInput.setAttribute("name", id);
+
     // set the content for the label
     const labelElem = newInput.firstElementChild;
     labelElem.innerText = label;
@@ -102,6 +101,8 @@ class ModalBuilder {
     const textInputElem = labelElem.nextElementSibling;
     textInputElem.setAttribute("placeholder", placeholder);
     textInputElem.setAttribute("id", id);
+    // give it an attribute for getting form values
+    textInputElem.setAttribute("name", id);
     textInputElem.value = initialValue;
     // set the content for secondary text
     const secondaryText = textInputElem.nextElementSibling;
@@ -139,6 +140,20 @@ class ModalBuilder {
 
     // push it onto the array
     this.bodyElements.push(newInput);
+    return this;
+  }
+
+  addDatePicker(id) {
+    const datePickerWrapper = document
+      .querySelector(".datePickerTemplate")
+      .content.firstElementChild.cloneNode(true);
+    const labelElem = datePickerWrapper.querySelector("label");
+    labelElem.setAttribute("for", id);
+    const datePicker = datePickerWrapper.querySelector("input");
+    datePicker.setAttribute("name", id);
+    datePicker.setAttribute("id", id);
+
+    this.bodyElements.push(datePickerWrapper);
     return this;
   }
 
@@ -189,12 +204,10 @@ class ModalBuilder {
   getFormValues() {
     const data = {};
     for (const element of this.bodyElements) {
-      const name = element.getAttribute("name");
-      if (name) {
-        const inputField = element.querySelector(".textField");
-        if (inputField) {
-          data[name] = inputField.value;
-        }
+      const formItem = element.querySelector(".formItem");
+      if (formItem) {
+        const name = formItem.getAttribute("name");
+        data[name] = formItem.value;
       }
     }
     return data;

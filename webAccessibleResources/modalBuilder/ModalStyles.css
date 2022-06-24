@@ -60,6 +60,13 @@
   margin: 0.6rem 1rem;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+}
+.modalBodyItem {
+  width: 100%;
+}
+.modalBodyItemHalf {
+  width: 50%;
 }
 .modalBodyText {
   font-size: 0.8rem;
@@ -117,13 +124,16 @@
   flex-direction: column;
   position: relative;
 }
-.textFieldSection label {
+.textFieldSection label,
+.datePickerLabel {
   font-size: 0.6rem;
   margin-bottom: 0.2rem;
   color: rgb(59, 57, 57);
+  display: block;
 }
 .textFieldSection input,
-.textFieldSection textarea {
+.textFieldSection textarea,
+.datePickerWrapper input {
   outline: none;
   padding: 0.2rem 0.2rem;
   caret-color: black;

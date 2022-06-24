@@ -529,6 +529,8 @@ class userInterfaceManager {
       })
       .addActionButton(btn_type.SUBMIT, "Create", () => {
         const { sessionNameText } = newSessionModal.getFormValues();
+        const data = newSessionModal.getFormValues();
+        console.log(data);
         this.setDocumentLoadingState(true);
         sendMessageToActiveTab(
           { action: MSG.CREATE_NEW_SESSION, payload: sessionNameText },
@@ -556,6 +558,7 @@ class userInterfaceManager {
         "Session name",
         15
       )
+      .addDatePicker("datePicker")
       .build()
       .show();
   };

@@ -104,19 +104,24 @@
         </div>
       </template>
       <template class="textInputField">
-        <div class="textFieldSection">
+        <div class="textFieldSection modalBodyItem">
           <label for="bookmark">Enter a bookmark</label>
-          <input type="text" name="bookmark" id="bookmark" class="textField" />
+          <input
+            type="text"
+            name="bookmark"
+            id="bookmark"
+            class="textField formItem"
+          />
           <p class="secondaryText"></p>
         </div>
       </template>
       <template class="textAreaField">
-        <div class="textFieldSection">
+        <div class="textFieldSection modalBodyItem">
           <label for="bookmarkText">Enter a bookmark text</label>
           <textarea
             name="bookmarkText"
             id="bookmarkText"
-            class="textField"
+            class="textField formItem"
           ></textarea>
           <p class="secondaryText"></p>
         </div>
@@ -126,7 +131,7 @@
         <button class="modalButton" type="button">Button Text</button>
       </template>
       <template class="bodyTextTemplate">
-        <div class="modalBodyText">
+        <div class="modalBodyText modalBodyItem">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
         </div>
       </template>
@@ -135,6 +140,13 @@
           <span class="emptyPageText">No centent here</span>
         </div>
       </template>
+      <template class="datePickerTemplate">
+        <div class="datePickerWrapper modalBodyItemHalf">
+          <label class="datePickerLabel">Pick a date:</label>
+          <input type="date" class="formItem" />
+        </div>
+      </template>
+
       <div id="pageScroller" class="">
         <div id="mainNavPage" class="page">
           <div class="pageHeader">
