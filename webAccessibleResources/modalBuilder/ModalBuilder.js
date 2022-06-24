@@ -143,7 +143,7 @@ class ModalBuilder {
     return this;
   }
 
-  addDatePicker(id) {
+  addDatePicker(id, required = true) {
     const datePickerWrapper = document
       .querySelector(".datePickerTemplate")
       .content.firstElementChild.cloneNode(true);
@@ -152,6 +152,26 @@ class ModalBuilder {
     const datePicker = datePickerWrapper.querySelector("input");
     datePicker.setAttribute("name", id);
     datePicker.setAttribute("id", id);
+
+    if (required) {
+      const secondaryText = datePickerWrapper.querySelector(".secondaryText");
+      this.preventSubmitConditions[id] = true;
+      datePicker.addEventListener("input", () => {
+        if (datePicker.value === "") {
+          // set error
+          this.preventSubmitConditions[id] = true;
+          secondaryText.innerText = "Missing field";
+          datePicker.classList.add("error");
+        } else {
+          // remove error
+          this.preventSubmitConditions[id] = false;
+          secondaryText.innerText = "";
+          datePicker.classList.remove("error");
+        }
+
+        this.#updateSubmissonState();
+      });
+    }
 
     this.bodyElements.push(datePickerWrapper);
     return this;

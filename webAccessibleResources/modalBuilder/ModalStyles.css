@@ -68,6 +68,10 @@
 .modalBodyItemHalf {
   width: 50%;
 }
+.modalBodyItem,
+.modalBodyItemHalf {
+  margin-bottom: 1rem;
+}
 .modalBodyText {
   font-size: 0.8rem;
   margin: 0.5rem 0;
@@ -119,7 +123,6 @@
   color: rgb(190, 190, 190);
 }
 .textFieldSection {
-  margin: 0.5rem 0;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -130,6 +133,9 @@
   margin-bottom: 0.2rem;
   color: rgb(59, 57, 57);
   display: block;
+}
+.datePickerWrapper {
+  position: relative;
 }
 .textFieldSection input,
 .textFieldSection textarea,
@@ -143,22 +149,25 @@
   transition: 0.1s;
   font-family: "Roboto", sans-serif;
 }
-.textFieldSection input::placeholder,
-.textFieldSection textarea::placeholder {
+input.formItem::placeholder,
+textarea.formItem::placeholder {
   color: lightgray;
   font-size: 0.6rem;
 }
-.textFieldSection input:focus,
-.textFieldSection textarea:focus {
+input.formItem:focus,
+textarea:focus {
   outline: 0.5px solid rgb(255, 200, 200);
   box-shadow: 0px 0px 5px 1px rgb(200, 200, 255);
 }
-.textFieldSection input:focus.error,
-.textFieldSection textarea:focus.error {
-  outline: 0.5px solid rgb(228, 62, 62);
+input.formItem:focus.error,
+textarea:focus.error {
   box-shadow: 0px 0px 5px 1px rgb(228, 62, 62);
 }
-.textFieldSection textarea {
+input.formItem.error,
+textarea.error {
+  outline: 0.5px solid rgb(228, 62, 62);
+}
+textarea.formItem {
   resize: vertical;
   max-height: 200px;
   min-height: 50px;
