@@ -173,6 +173,22 @@ class ModalBuilder {
     return this;
   }
 
+  /**
+   * Loops over all body elements and focuses the cursor on the first
+   * input field
+   *
+   * @returns
+   */
+  #focusOnFirstInput() {
+    for (let bodyItem of this.bodyElements) {
+      const textInputElem = bodyItem.querySelector(".textField");
+      if (textInputElem) {
+        textInputElem.focus();
+        return;
+      }
+    }
+  }
+
   build() {
     this.modal =
       this.modalWrapperTemplate.content.firstElementChild.cloneNode(true);
@@ -210,6 +226,7 @@ class ModalBuilder {
 
   show() {
     this.modal.classList.remove("hide");
+    this.#focusOnFirstInput();
     return this;
   }
   hide() {
