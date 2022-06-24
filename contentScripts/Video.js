@@ -4,10 +4,10 @@
  * currently loaded video based on the provided session name
  */
 class Video {
-  constructor(videoElement, sessionName) {
+  constructor(videoElement, sessionName, date) {
     this.video = videoElement;
     this.sessionName = sessionName;
-    this.storage = new Storage(sessionName);
+    this.storage = new Storage(sessionName, date);
   }
 
   play() {

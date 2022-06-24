@@ -143,6 +143,13 @@ class ModalBuilder {
     return this;
   }
 
+  /**
+   * Adds a date picker in the modal
+   *
+   * @param {String} id - the id used for the date picker and the name attribute for it
+   * @param {*} required - whether the form can be submitted without this
+   * @returns
+   */
   addDatePicker(id, required = true) {
     const datePickerWrapper = document
       .querySelector(".datePickerTemplate")

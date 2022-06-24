@@ -187,7 +187,7 @@ class userInterfaceManager {
 
     // otherwise, render all the sessions
     this.mainNavPageContent.innerHTML = "";
-    sessions.forEach((sessionName) => {
+    sessions.forEach(({ sessionName, date }) => {
       const sessionElem =
         this.sessionItemTemplate.content.firstElementChild.cloneNode(true);
       const sessionNameElem = sessionElem.querySelector(".sessionName");
@@ -528,12 +528,13 @@ class userInterfaceManager {
         newSessionModal.remove();
       })
       .addActionButton(btn_type.SUBMIT, "Create", () => {
-        const { sessionNameText } = newSessionModal.getFormValues();
-        const data = newSessionModal.getFormValues();
-        console.log(data);
+        const { sessionNameText, datePicker } = newSessionModal.getFormValues();
         this.setDocumentLoadingState(true);
         sendMessageToActiveTab(
-          { action: MSG.CREATE_NEW_SESSION, payload: sessionNameText },
+          {
+            action: MSG.CREATE_NEW_SESSION,
+            payload: { sessionName: sessionNameText, date: datePicker },
+          },
           (response) => {
             newSessionModal.remove();
             this.setDocumentLoadingState(false);

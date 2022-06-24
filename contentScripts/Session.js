@@ -22,11 +22,12 @@ class Session {
   /**
    * creates a new session with an HTML video if it doesn't already exist
    *
-   * @param {String} sessionName - the current session name from the user
+   * @param {Object} sessionInfo - the current session name and date
    * @returns {Promise} - resolved or rejected with a msg depending on the status
    */
-  createNewSession(sessionName) {
+  createNewSession(sessionInfo) {
     return new Promise((resolve, reject) => {
+      const { sessionName, date } = sessionInfo;
       Storage.sessionExists(sessionName)
         .then(() => {
           reject(
@@ -36,8 +37,8 @@ class Session {
         .catch(() => {
           this.#getVideoElement()
             .then((res) => {
-              Storage.addSessionNameToStorage(sessionName);
-              this.video = new Video(res.video, sessionName);
+              Storage.addSessionNameToStorage(sessionName, date);
+              this.video = new Video(res.video, sessionName, date);
               resolve();
             })
             .catch((error) => {
@@ -100,6 +101,7 @@ class Session {
       // TODO: figure out if these events needs to wait on eachother
       await Storage.removeSessionFromStorage(currentSessionName);
       // save the new object to storage
+      // TODO: make sure you pass the date here
       await Storage.addSessionNameToStorage(newSessionName);
       await Storage.writeObjToStorage(foundSession);
     } catch (error) {

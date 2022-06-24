@@ -25,8 +25,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sendResponse({ status: MSG.SUCCESS });
       break;
     case MSG.CREATE_NEW_SESSION:
+      const { sessionName, date } = msg.payload;
       session
-        .createNewSession(msg.payload)
+        .createNewSession({ sessionName, date })
         .then(() => {
           sendResponse({ status: MSG.SUCCESS });
         })

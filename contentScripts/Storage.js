@@ -7,20 +7,20 @@ class Storage {
     this.#setVideoSessionFromLocalStorage();
   }
 
-  // ? maybe change to this to be async
   /**
    * adds the passed in session name under the - ALL SESSIONS - key in storage which is an array
    *
    * @param {String} sessionName - session name for current video session
+   * @param {String} date - the date of the session
    */
-  static async addSessionNameToStorage(sessionName) {
+  static async addSessionNameToStorage(sessionName, date) {
     const { ALL_SESSIONS } = Storage;
     let currentSessions = [];
     // get all the session URL's from storage
     try {
       currentSessions = await Storage.getAllSessionNamesFromStorage();
       // add the new session name to array
-      currentSessions.push(sessionName);
+      currentSessions.push({ sessionName, date });
       // save all sessions to chrome.storage
       await chrome.storage.sync.set({ [ALL_SESSIONS]: currentSessions });
     } catch (error) {
@@ -56,10 +56,16 @@ class Storage {
   static async removeSessionFromStorage(sessionName) {
     try {
       const sessions = await Storage.getAllSessionNamesFromStorage();
-      const index = sessions.indexOf(sessionName);
-      if (index > -1) {
-        sessions.splice(index, 1);
-      } else {
+      let found = false;
+      for (let i = 0; i < sessions.length; i++) {
+        if (sessions[i].sessionName === sessionName) {
+          sessions.splice(i, 1);
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
         throw "Couldn't find session name under all sessions";
       }
       await chrome.storage.sync.set({ [Storage.ALL_SESSIONS]: sessions });
