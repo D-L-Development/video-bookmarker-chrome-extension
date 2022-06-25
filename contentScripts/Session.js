@@ -58,8 +58,10 @@ class Session {
   async selectSession(selectedSession) {
     try {
       // TODO: an assumption is made here that the session is under "ALL_SESSIONS" key, and is found under its name key
-      const session = await Storage.sessionExists(selectedSession);
-      const { sessionName, date } = await this.#getVideoElement();
+      const { sessionName, date } = await Storage.sessionExists(
+        selectedSession
+      );
+      const result = await this.#getVideoElement();
       this.video = new Video(result.video, sessionName, date);
     } catch (error) {
       throw error;

@@ -4,6 +4,7 @@
 .sessionWrapper {
   width: 85%;
   padding: 1rem;
+  padding-left: 1.5rem;
   margin: 0 auto;
   margin-top: 1rem;
   border-radius: 0.2rem;
@@ -12,6 +13,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .sessionItemIcons {
@@ -21,10 +23,14 @@
 }
 
 .sessionName {
-  margin-left: 0.7rem;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   width: 50%;
   border-bottom: 1px solid transparent;
+  font-weight: 600;
+}
+.sessionItemDate {
+  color: #d9d7d7;
+  font-size: 0.7rem;
 }
 .sessionName:hover {
   cursor: pointer;
@@ -50,7 +56,7 @@
   width: 1.2rem;
   height: 1.2rem;
   position: absolute;
-  left: 0.4rem;
+  left: 0.2rem;
 }
 
 /* Hide the confirm edit icon by default */
