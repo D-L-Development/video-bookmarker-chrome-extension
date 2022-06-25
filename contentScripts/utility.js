@@ -113,3 +113,13 @@ function removeFormatDatePicker(date) {
   const [month, day, year] = date.split("/");
   return [year, month, day].join("-");
 }
+
+/**
+ * Returns the error message from an error object, or the string msg itself
+ *
+ * @param {Object | String} error - the error that contains the msg, or is the msg
+ * @returns
+ */
+function getErrorMsg(error) {
+  return typeof error === "object" ? error.message : error;
+}

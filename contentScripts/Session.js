@@ -84,27 +84,30 @@ class Session {
   /**
    * Removes the current session and adds a new one with the provided details
    *
-   * @param {String} currentSessionName - session name to be edited
-   * @param {String} newSessionName - new session name to be set for session
+   * @param {String} oldValue - session name to be edited
+   * @param {String} newValue - new session name to be set for session
    */
-  async updateSessionName(currentSessionName, newSessionName) {
+  async updateSessionName(oldValue, newValue) {
     // TODO: the currently saved object in local storage isn't saving all the info. Revisit this at some point
     try {
+      const { currentSessionName, currentSessionDate } = oldValue;
+      const { newNameVal, newDateVal } = newValue;
+
       const foundSession = await Storage.getSessionFromStorage(
         currentSessionName
       );
       // update the storage key
-      foundSession[newSessionName] = foundSession[currentSessionName];
+      foundSession[newNameVal] = foundSession[currentSessionName];
       // remove the old key
       delete foundSession[currentSessionName];
       // update the inner session name
-      foundSession[newSessionName].sessionName = newSessionName;
+      foundSession[newNameVal].sessionName = newNameVal;
       // remove the previous object
       // TODO: figure out if these events needs to wait on eachother
       await Storage.removeSessionFromStorage(currentSessionName);
       // save the new object to storage
       // TODO: make sure you pass the date here
-      await Storage.addSessionNameToStorage(newSessionName);
+      await Storage.addSessionNameToStorage(newNameVal, newDateVal);
       await Storage.writeObjToStorage(foundSession);
     } catch (error) {
       throw error;

@@ -347,7 +347,7 @@ class userInterfaceManager {
             ModalBuilder.TYPES.modal_type.ALERT,
             "Failure!"
           )
-            .addBodyText(response.payload, "alignCenter")
+            .addBodyText(getErrorMsg(response.payload), "alignCenter")
             .addActionButton(
               ModalBuilder.TYPES.btn_type.DISMISS,
               "Dismiss",
@@ -474,7 +474,7 @@ class userInterfaceManager {
         } else {
           // render failed modal
           const failedModal = new ModalBuilder(modal_type.ALERT, "Failed!")
-            .addBodyText(response.payload, "alignCenter")
+            .addBodyText(getErrorMsg(response.payload), "alignCenter")
             .addActionButton(btn_type.DISMISS, "Dismiss", () => {
               failedModal.remove();
             })
@@ -543,7 +543,7 @@ class userInterfaceManager {
               this.renderVideoPage(sessionNameText);
             } else {
               const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
-                .addBodyText(response.payload)
+                .addBodyText(getErrorMsg(response.payload))
                 .addActionButton(btn_type.DISMISS, "Dismiss", () => {
                   modal.remove();
                 })
@@ -584,7 +584,7 @@ class userInterfaceManager {
         } else {
           const { btn_type, modal_type } = ModalBuilder.TYPES;
           const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
-            .addBodyText(response.payload, "alignCenter")
+            .addBodyText(getErrorMsg(response.payload), "alignCenter")
             .addActionButton(btn_type.DISMISS, "Dismiss", () => {
               modal.remove();
             })
@@ -645,7 +645,7 @@ class userInterfaceManager {
                 .addActionButton(btn_type.DISMISS, "Dismiss", () => {
                   failedToDeleteModal.remove();
                 })
-                .addBodyText(response.payload, "alignCenter")
+                .addBodyText(getErrorMsg(response.payload), "alignCenter")
                 .build()
                 .show();
             }
@@ -664,8 +664,12 @@ class userInterfaceManager {
   #handleSessionItemEdition = (e) => {
     const iconGroupDiv = e.target.parentElement;
     // get the session name
+    const sessionNameElem = iconGroupDiv.previousElementSibling;
     const currentSessionName = iconGroupDiv.getAttribute("sessionname");
-    const currentSessionDate = iconGroupDiv.nextElementSibling.innerText;
+    const dateContainerElem = iconGroupDiv.nextElementSibling;
+    const currentSessionDate = removeFormatDatePicker(
+      dateContainerElem.innerText
+    );
     const { btn_type, modal_type } = ModalBuilder.TYPES;
     const editSessionModal = new ModalBuilder(modal_type.FORM, "Edit session")
       .addActionButton(btn_type.CANCEL, "Cancel", () => {
@@ -674,23 +678,45 @@ class userInterfaceManager {
       .addActionButton(btn_type.SUBMIT, "Confirm", () => {
         const { sessionNameText, datePicker } =
           editSessionModal.getFormValues();
+        const newNameVal = sessionNameText;
+        const newDateVal = datePicker;
+        // // if the value provided is nothing, or the value hasn't changed,
+        // // go with the old value
+        if (
+          (newNameVal === "" && newDateVal === "") ||
+          (newNameVal === currentSessionName &&
+            newDateVal === currentSessionDate)
+        ) {
+          editSessionModal.remove();
+          return;
+        }
+
         this.setDocumentLoadingState(true);
         sendMessageToActiveTab(
           {
             action: MSG.EDIT_SESSION,
-            payload: { sessionName: sessionNameText, date: datePicker },
+            payload: {
+              oldValue: { currentSessionName, currentSessionDate },
+              newValue: { newNameVal, newDateVal },
+            },
           },
           (response) => {
-            editSessionModal.remove();
             this.setDocumentLoadingState(false);
+            editSessionModal.remove();
             if (response.status === MSG.SUCCESS) {
-              this.renderVideoPage(sessionNameText);
+              sessionNameElem.innerText = newNameVal;
+              dateContainerElem.innerText = formatDatePickerStamp(newDateVal);
+              iconGroupDiv.setAttribute("sessionName", newNameVal);
             } else {
-              const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
-                .addBodyText(response.payload)
+              // render a modal with the error
+              const failedToEditModal = new ModalBuilder(
+                modal_type.ALERT,
+                "Failed!"
+              )
                 .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-                  modal.remove();
+                  failedToEditModal.remove();
                 })
+                .addBodyText(getErrorMsg(response.payload), "alignCenter")
                 .build()
                 .show();
             }
@@ -704,63 +730,11 @@ class userInterfaceManager {
         "Session name",
         21,
         currentSessionName
-        // TODO: you left off here. Change the addDatePicker to allow default values. Give it the write format, then modify the UI based on the new session and make sure the storage is taking the date
       )
-      .addDatePicker("datePicker", removeFormatDatePicker(currentSessionDate))
+      .addDatePicker("datePicker", currentSessionDate)
       .build()
       .show();
   };
-
-  /**
-   * Triggered when the check icon is clicked after modifying a session name. It confirms the edit
-   *
-   * @param {Event} e - click event object
-   * @returns
-   */
-  // #handleSessionItemEditionConfirm = (e) => {
-  //   const iconGroupDiv = e.target.parentElement;
-  //   const sessionWrapper = iconGroupDiv.parentElement;
-  //   const sessionName = sessionWrapper.querySelector(".sessionName");
-  //   const textInput = sessionWrapper.querySelector(".sessionItemEditTextInput");
-  //   const oldValue = sessionName.innerText;
-  //   const newValue = textInput.value;
-  //   // if the value provided is nothing, or the value hasn't changed,
-  //   // go with the old value
-  //   if (newValue === "" || newValue === oldValue) {
-  //     this.#showEditIcon(iconGroupDiv, true);
-  //     textInput.remove();
-  //     sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
-  //     return;
-  //   }
-
-  //   this.#addSpinnerToSessionItem(sessionWrapper);
-  //   sendMessageToActiveTab(
-  //     { action: MSG.EDIT_SESSION, payload: { oldValue, newValue } },
-  //     (response) => {
-  //       this.#removeSpinnerFromSessionItem(sessionWrapper);
-  //       if (response.status === MSG.SUCCESS) {
-  //         this.#showEditIcon(iconGroupDiv, true);
-  //         textInput.remove();
-  //         sessionName.innerText = newValue;
-  //         iconGroupDiv.setAttribute("sessionName", newValue);
-  //         sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
-  //       } else {
-  //         // render a modal with the error
-  //         const { modal_type, btn_type } = ModalBuilder.TYPES;
-  //         const failedToEditModal = new ModalBuilder(
-  //           modal_type.ALERT,
-  //           "Failed!"
-  //         )
-  //           .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-  //             failedToEditModal.remove();
-  //           })
-  //           .addBodyText(response.payload, "alignCenter")
-  //           .build()
-  //           .show();
-  //       }
-  //     }
-  //   );
-  // };
 
   /**
    * sets the the session item into a loading state. Adds the spinner // TODO: prevent other clicks
@@ -868,7 +842,7 @@ class userInterfaceManager {
       (response) => {
         if (response.status !== MSG.SUCCESS) {
           const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
-            .addBodyText(response.payload, "alignCenter")
+            .addBodyText(getErrorMsg(response.payload), "alignCenter")
             .addActionButton(btn_type.DISMISS, "Dismiss", () => {
               failedModal.remove();
             })
@@ -908,7 +882,7 @@ class userInterfaceManager {
               }
             } else {
               const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
-                .addBodyText(response.payload, "alignCenter")
+                .addBodyText(getErrorMsg(response.payload), "alignCenter")
                 .addActionButton(btn_type.DISMISS, "Dismiss", () => {
                   failedModal.remove();
                 })
@@ -933,7 +907,7 @@ class userInterfaceManager {
           );
         } else {
           const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
-            .addBodyText(response.payload, "alignCenter")
+            .addBodyText(getErrorMsg(response.payload), "alignCenter")
             .addActionButton(btn_type.DISMISS, "Dismiss", () => {
               failedModal.remove();
             })
@@ -1010,7 +984,7 @@ class userInterfaceManager {
         } else {
           // render failed modal
           const failedModal = new ModalBuilder(modal_type.ALERT, "Failed!")
-            .addBodyText(response.payload, "alignCenter")
+            .addBodyText(getErrorMsg(response.payload), "alignCenter")
             .addActionButton(btn_type.DISMISS, "Dismiss", () => {
               failedModal.remove();
             })
