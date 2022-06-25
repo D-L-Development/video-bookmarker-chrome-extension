@@ -560,7 +560,7 @@ class userInterfaceManager {
         "Session name",
         21
       )
-      .addDatePicker("datePicker", "")
+      .addDatePicker("datePicker", getCurrentDate())
       .build()
       .show();
   };

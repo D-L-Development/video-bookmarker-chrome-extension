@@ -123,3 +123,12 @@ function removeFormatDatePicker(date) {
 function getErrorMsg(error) {
   return typeof error === "object" ? error.message : error;
 }
+
+/**
+ * Returns the current date
+ *
+ * @returns {String} - the current date formatted as "yyyy-mm-dd"
+ */
+function getCurrentDate() {
+  return new Date().toISOString().split("T")[0];
+}
