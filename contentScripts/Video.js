@@ -3,6 +3,7 @@
  * a Storage class instance which holds the bookmarks relating to the
  * currently loaded video based on the provided session name
  */
+// TODO: passing the date to this constructor might not be necessary
 class Video {
   constructor(videoElement, sessionName, date) {
     this.video = videoElement;

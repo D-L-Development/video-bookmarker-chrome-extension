@@ -91,3 +91,14 @@ const sendMessageToActiveTab = (payload, callback) => {
     chrome.tabs.sendMessage(tabs[0].id, payload, callback);
   });
 };
+
+/**
+ * Converts a date from the format yyyy-mm-dd to mm/dd/yyyy
+ *
+ * @param {String} date - date in the format yyyy-mm-dd
+ * @returns
+ */
+function formatDatePickerStamp(date) {
+  const [year, month, day] = date.split("-");
+  return [month, day, year].join("/");
+}

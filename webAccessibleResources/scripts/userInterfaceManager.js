@@ -125,7 +125,7 @@ class userInterfaceManager {
     // reset the search box
     this.#resetSearchBox();
     // wait for all sessions to be retreived from chrome.storage
-    this.#getAllSessionNamesFromChromeStorage()
+    this.#getAllSessionsFromChromeStorage()
       .then((response) => {
         this.#renderNavSessionsUI(response.sessions);
         this.#setNavPageIsLoading(false);
@@ -193,6 +193,9 @@ class userInterfaceManager {
       const sessionNameElem = sessionElem.querySelector(".sessionName");
       sessionNameElem.innerText = sessionName;
       sessionNameElem.addEventListener("click", this.#handleSessionItemClick);
+      // set the date element
+      sessionElem.querySelector(".sessionItemDate").innerText =
+        formatDatePickerStamp(date);
       // set attibute so the icons can delete the session item
       sessionElem
         .querySelector(".sessionItemIcons")
@@ -557,7 +560,7 @@ class userInterfaceManager {
         "sessionNameText",
         false,
         "Session name",
-        15
+        21
       )
       .addDatePicker("datePicker")
       .build()
@@ -780,7 +783,7 @@ class userInterfaceManager {
    *
    * @returns {Promise} - resolved with a sessions array from chrome.storage, or rejected
    */
-  #getAllSessionNamesFromChromeStorage() {
+  #getAllSessionsFromChromeStorage() {
     return new Promise((resolve, reject) => {
       chrome.storage.sync.get(userInterfaceManager.ALL_SESSIONS, (response) => {
         // if there is a session in storage, then return it
