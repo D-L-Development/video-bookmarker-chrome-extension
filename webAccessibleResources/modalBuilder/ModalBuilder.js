@@ -147,10 +147,11 @@ class ModalBuilder {
    * Adds a date picker in the modal
    *
    * @param {String} id - the id used for the date picker and the name attribute for it
-   * @param {*} required - whether the form can be submitted without this
+   * @param {String} initialValue - the initial date for the date picker
+   * @param {Boolean} required - whether the form can be submitted without this
    * @returns
    */
-  addDatePicker(id, required = true) {
+  addDatePicker(id, initialValue, required = true) {
     const datePickerWrapper = document
       .querySelector(".datePickerTemplate")
       .content.firstElementChild.cloneNode(true);
@@ -159,10 +160,11 @@ class ModalBuilder {
     const datePicker = datePickerWrapper.querySelector("input");
     datePicker.setAttribute("name", id);
     datePicker.setAttribute("id", id);
+    datePicker.value = initialValue;
 
     if (required) {
       const secondaryText = datePickerWrapper.querySelector(".secondaryText");
-      this.preventSubmitConditions[id] = true;
+      if (initialValue === "") this.preventSubmitConditions[id] = true;
       datePicker.addEventListener("input", () => {
         if (datePicker.value === "") {
           // set error

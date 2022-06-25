@@ -200,9 +200,7 @@ class userInterfaceManager {
       sessionElem
         .querySelector(".sessionItemIcons")
         .setAttribute("sessionName", sessionName);
-      sessionElem
-        .querySelector(".sessionConfirmIcon")
-        .addEventListener("click", this.#handleSessionItemEditionConfirm);
+      // wire event listeners
       sessionElem
         .querySelector(".sessionEditIcon")
         .addEventListener("click", this.#handleSessionItemEdition);
@@ -562,7 +560,7 @@ class userInterfaceManager {
         "Session name",
         21
       )
-      .addDatePicker("datePicker")
+      .addDatePicker("datePicker", "")
       .build()
       .show();
   };
@@ -664,24 +662,53 @@ class userInterfaceManager {
    * @param {Event} e - event object
    */
   #handleSessionItemEdition = (e) => {
-    // TODO: allow one box to be edited at a time
     const iconGroupDiv = e.target.parentElement;
-    // hide the session name span
-    const currentSessionNameElem = iconGroupDiv.previousElementSibling;
-    currentSessionNameElem.style.display = userInterfaceManager.DISPLAY.NONE;
-    // create a text input field
-    const textInputField = document.createElement("input");
-    textInputField.setAttribute("type", "text");
-    textInputField.classList.add("sessionItemEditTextInput");
-    textInputField.value = currentSessionNameElem.innerText;
-    // append the text box to the session wrapper
-    const sessionWrapper = iconGroupDiv.parentElement;
-    sessionWrapper.insertBefore(
-      textInputField,
-      sessionWrapper.firstElementChild
-    );
-    // toggle the edit icons
-    this.#showEditIcon(iconGroupDiv, false);
+    // get the session name
+    const currentSessionName = iconGroupDiv.getAttribute("sessionname");
+    const currentSessionDate = iconGroupDiv.nextElementSibling.innerText;
+    const { btn_type, modal_type } = ModalBuilder.TYPES;
+    const editSessionModal = new ModalBuilder(modal_type.FORM, "Edit session")
+      .addActionButton(btn_type.CANCEL, "Cancel", () => {
+        editSessionModal.remove();
+      })
+      .addActionButton(btn_type.SUBMIT, "Confirm", () => {
+        const { sessionNameText, datePicker } =
+          editSessionModal.getFormValues();
+        this.setDocumentLoadingState(true);
+        sendMessageToActiveTab(
+          {
+            action: MSG.EDIT_SESSION,
+            payload: { sessionName: sessionNameText, date: datePicker },
+          },
+          (response) => {
+            editSessionModal.remove();
+            this.setDocumentLoadingState(false);
+            if (response.status === MSG.SUCCESS) {
+              this.renderVideoPage(sessionNameText);
+            } else {
+              const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
+                .addBodyText(response.payload)
+                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+                  modal.remove();
+                })
+                .build()
+                .show();
+            }
+          }
+        );
+      })
+      .addInputField(
+        "Enter the session name:",
+        "sessionNameText",
+        false,
+        "Session name",
+        21,
+        currentSessionName
+        // TODO: you left off here. Change the addDatePicker to allow default values. Give it the write format, then modify the UI based on the new session and make sure the storage is taking the date
+      )
+      .addDatePicker("datePicker", removeFormatDatePicker(currentSessionDate))
+      .build()
+      .show();
   };
 
   /**
@@ -690,71 +717,50 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    * @returns
    */
-  #handleSessionItemEditionConfirm = (e) => {
-    const iconGroupDiv = e.target.parentElement;
-    const sessionWrapper = iconGroupDiv.parentElement;
-    const sessionName = sessionWrapper.querySelector(".sessionName");
-    const textInput = sessionWrapper.querySelector(".sessionItemEditTextInput");
-    const oldValue = sessionName.innerText;
-    const newValue = textInput.value;
-    // if the value provided is nothing, or the value hasn't changed,
-    // go with the old value
-    if (newValue === "" || newValue === oldValue) {
-      this.#showEditIcon(iconGroupDiv, true);
-      textInput.remove();
-      sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
-      return;
-    }
+  // #handleSessionItemEditionConfirm = (e) => {
+  //   const iconGroupDiv = e.target.parentElement;
+  //   const sessionWrapper = iconGroupDiv.parentElement;
+  //   const sessionName = sessionWrapper.querySelector(".sessionName");
+  //   const textInput = sessionWrapper.querySelector(".sessionItemEditTextInput");
+  //   const oldValue = sessionName.innerText;
+  //   const newValue = textInput.value;
+  //   // if the value provided is nothing, or the value hasn't changed,
+  //   // go with the old value
+  //   if (newValue === "" || newValue === oldValue) {
+  //     this.#showEditIcon(iconGroupDiv, true);
+  //     textInput.remove();
+  //     sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
+  //     return;
+  //   }
 
-    this.#addSpinnerToSessionItem(sessionWrapper);
-    sendMessageToActiveTab(
-      { action: MSG.EDIT_SESSION, payload: { oldValue, newValue } },
-      (response) => {
-        this.#removeSpinnerFromSessionItem(sessionWrapper);
-        if (response.status === MSG.SUCCESS) {
-          this.#showEditIcon(iconGroupDiv, true);
-          textInput.remove();
-          sessionName.innerText = newValue;
-          iconGroupDiv.setAttribute("sessionName", newValue);
-          sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
-        } else {
-          // render a modal with the error
-          const { modal_type, btn_type } = ModalBuilder.TYPES;
-          const failedToEditModal = new ModalBuilder(
-            modal_type.ALERT,
-            "Failed!"
-          )
-            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-              failedToEditModal.remove();
-            })
-            .addBodyText(response.payload, "alignCenter")
-            .build()
-            .show();
-        }
-      }
-    );
-  };
-
-  /**
-   * Sets the visiblity of the edit icon, and confirm edit icon for each session item
-   *
-   * @param {HTML Element} sessionItemIcons - div containing all the icons for a session item
-   * @param {Boolean} show - true if the edit icon should be shown, false otherwise
-   */
-  #showEditIcon = (sessionItemIcons, show) => {
-    const sessionConfirmIcon = sessionItemIcons.querySelector(
-      ".sessionConfirmIcon"
-    );
-    const sessionEditIcon = sessionItemIcons.querySelector(".sessionEditIcon");
-    const { INLINE_BLOCK, NONE } = userInterfaceManager.DISPLAY;
-    if (show) {
-      sessionEditIcon.style.display = INLINE_BLOCK;
-      sessionConfirmIcon.style.display = NONE;
-    } else {
-      sessionEditIcon.style.display = NONE;
-      sessionConfirmIcon.style.display = INLINE_BLOCK;
-    }
-  };
+  //   this.#addSpinnerToSessionItem(sessionWrapper);
+  //   sendMessageToActiveTab(
+  //     { action: MSG.EDIT_SESSION, payload: { oldValue, newValue } },
+  //     (response) => {
+  //       this.#removeSpinnerFromSessionItem(sessionWrapper);
+  //       if (response.status === MSG.SUCCESS) {
+  //         this.#showEditIcon(iconGroupDiv, true);
+  //         textInput.remove();
+  //         sessionName.innerText = newValue;
+  //         iconGroupDiv.setAttribute("sessionName", newValue);
+  //         sessionName.style.display = userInterfaceManager.DISPLAY.INLINE;
+  //       } else {
+  //         // render a modal with the error
+  //         const { modal_type, btn_type } = ModalBuilder.TYPES;
+  //         const failedToEditModal = new ModalBuilder(
+  //           modal_type.ALERT,
+  //           "Failed!"
+  //         )
+  //           .addActionButton(btn_type.DISMISS, "Dismiss", () => {
+  //             failedToEditModal.remove();
+  //           })
+  //           .addBodyText(response.payload, "alignCenter")
+  //           .build()
+  //           .show();
+  //       }
+  //     }
+  //   );
+  // };
 
   /**
    * sets the the session item into a loading state. Adds the spinner // TODO: prevent other clicks

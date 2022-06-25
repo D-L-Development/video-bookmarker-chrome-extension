@@ -102,3 +102,14 @@ function formatDatePickerStamp(date) {
   const [year, month, day] = date.split("-");
   return [month, day, year].join("/");
 }
+
+/**
+ * Converts a date from the format mm/dd/yyyy to yyyy-mm-dd
+ *
+ * @param {String} date - date in the format mm/dd/yyyy
+ * @returns
+ */
+function removeFormatDatePicker(date) {
+  const [month, day, year] = date.split("/");
+  return [year, month, day].join("-");
+}
