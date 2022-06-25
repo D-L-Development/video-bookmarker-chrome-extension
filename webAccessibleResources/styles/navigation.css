@@ -117,3 +117,7 @@ input.sessionItemEditTextInput {
   background-color: rgba(0, 0, 0, 0.2);
   outline: 1.5px solid gray;
 }
+
+#searchSessions::placeholder {
+  color: rgb(166, 166, 166);
+}
