@@ -14,6 +14,7 @@
   height: 95%;
   width: 100%;
   overflow: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   align-items: center;
