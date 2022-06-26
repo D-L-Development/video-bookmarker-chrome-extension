@@ -88,28 +88,39 @@ class Session {
    * @param {String} newValue - new session name to be set for session
    */
   async updateSessionName(oldValue, newValue) {
-    // TODO: the currently saved object in local storage isn't saving all the info. Revisit this at some point
     try {
-      const { currentSessionName, currentSessionDate } = oldValue;
+      const { currentSessionName } = oldValue;
       const { newNameVal, newDateVal } = newValue;
 
       const foundSession = await Storage.getSessionFromStorage(
         currentSessionName
       );
-      // update the storage key
-      foundSession[newNameVal] = foundSession[currentSessionName];
-      // remove the old key
-      delete foundSession[currentSessionName];
-      // update the inner session name
-      foundSession[newNameVal].sessionName = newNameVal;
-      // remove the previous object
-      // TODO: figure out if these events needs to wait on eachother
-      await Storage.removeSessionFromStorage(currentSessionName);
+
+      const sessionNameChanged = newNameVal !== currentSessionName;
+      // update session name if it has changed
+      if (sessionNameChanged) {
+        // update the storage key
+        foundSession[newNameVal] = foundSession[currentSessionName];
+        // remove the old key
+        delete foundSession[currentSessionName];
+        // update the inner session name
+        foundSession[newNameVal].sessionName = newNameVal;
+      }
+
+      // only remove the session under its own key when the session name has changed
+      await Storage.removeSessionFromStorage(
+        currentSessionName,
+        sessionNameChanged
+      );
+      if (sessionNameChanged) {
+        // remove the previous object
+        await Storage.writeObjToStorage(foundSession);
+      }
+
       // save the new object to storage
-      // TODO: make sure you pass the date here
       await Storage.addSessionNameToStorage(newNameVal, newDateVal);
-      await Storage.writeObjToStorage(foundSession);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }

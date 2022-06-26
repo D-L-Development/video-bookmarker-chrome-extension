@@ -52,8 +52,12 @@ class Storage {
    * and remove the session from all session names array
    *
    * @param {String} sessionName - session to be deleted
+   * @param {Boolean} shouldRemoveSession - decides if the session should be removed from under its own key
    */
-  static async removeSessionFromStorage(sessionName) {
+  static async removeSessionFromStorage(
+    sessionName,
+    shouldRemoveSession = true
+  ) {
     try {
       const sessions = await Storage.getAllSessionNamesFromStorage();
       let found = false;
@@ -69,7 +73,9 @@ class Storage {
         throw "Couldn't find session name under all sessions";
       }
       await chrome.storage.sync.set({ [Storage.ALL_SESSIONS]: sessions });
-      await chrome.storage.sync.remove(sessionName);
+      if (shouldRemoveSession) {
+        await chrome.storage.sync.remove(sessionName);
+      }
     } catch (error) {
       throw error;
     }

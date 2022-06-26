@@ -683,9 +683,8 @@ class userInterfaceManager {
         // // if the value provided is nothing, or the value hasn't changed,
         // // go with the old value
         if (
-          (newNameVal === "" && newDateVal === "") ||
-          (newNameVal === currentSessionName &&
-            newDateVal === currentSessionDate)
+          newNameVal === currentSessionName &&
+          newDateVal === currentSessionDate
         ) {
           editSessionModal.remove();
           return;
@@ -704,6 +703,7 @@ class userInterfaceManager {
             this.setDocumentLoadingState(false);
             editSessionModal.remove();
             if (response.status === MSG.SUCCESS) {
+              // update ui
               sessionNameElem.innerText = newNameVal;
               dateContainerElem.innerText = formatDatePickerStamp(newDateVal);
               iconGroupDiv.setAttribute("sessionName", newNameVal);
