@@ -66,24 +66,24 @@ const getBookmarksDocDef = (session) => {
       },
       bookmarkHeaderStamp: {
         bold: true,
-        fillColor: "#B7B7B7",
+        fillColor: "#808776",
         margin: [0, 4, 0, 4],
         aligment: "center",
       },
       bookmarkHeader: {
         bold: true,
-        fillColor: "#B7B7B7",
+        fillColor: "#808776",
         margin: [0, 4, 0, 4],
       },
       nestedBookmarkHeaderStamp: {
         bold: true,
-        fillColor: "#D9D9D9",
+        fillColor: "#a2a69c",
         margin: [0, 4, 0, 4],
         aligment: "center",
       },
       nestedBookmarkHeader: {
         bold: true,
-        fillColor: "#D9D9D9",
+        fillColor: "#a2a69c",
         margin: [0, 4, 0, 4],
       },
       bookmarkText: {
@@ -227,6 +227,8 @@ const dumbData = {
 
 downloadBtnElem.addEventListener("click", () => {
   const dd = getBookmarksDocDef(dumbData);
+
+  console.log(JSON.stringify(dd));
 
   pdfMake.createPdf(dd).download("newVariation");
 });
