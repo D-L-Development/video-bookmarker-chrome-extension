@@ -228,7 +228,5 @@ const dumbData = {
 downloadBtnElem.addEventListener("click", () => {
   const dd = getBookmarksDocDef(dumbData);
 
-  console.log(JSON.stringify(dd));
-
   pdfMake.createPdf(dd).download("newVariation");
 });
