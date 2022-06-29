@@ -121,3 +121,43 @@ input.sessionItemEditTextInput {
 #searchSessions::placeholder {
   color: rgb(166, 166, 166);
 }
+
+/* ******************************************** */
+/* STYLES FOR THE HAMBURGER (MORE) CONTEXT MENU */
+/* ******************************************** */
+
+.moreIcon {
+  cursor: pointer;
+}
+
+.moreIconWrapper {
+  position: relative;
+}
+.options {
+  position: absolute;
+  width: fit-content;
+  list-style: none;
+  background-color: #363c44;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border-radius: 0.2rem;
+  box-shadow: 0px 9px 22px 7px rgba(0, 0, 0, 0.31);
+  left: -86px;
+  top: -130px;
+}
+.option-item {
+  padding: 0.3rem 0.4rem;
+  border-radius: inherit;
+  transition: 0.2s;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.option-item:hover {
+  background-color: #818b98;
+}
+.hidden {
+  display: none;
+}

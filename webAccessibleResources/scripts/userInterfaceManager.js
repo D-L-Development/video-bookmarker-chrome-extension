@@ -207,6 +207,9 @@ class userInterfaceManager {
       sessionElem
         .querySelector(".sessionDeleteIcon")
         .addEventListener("click", this.#handleSessionItemDeletion);
+      sessionElem
+        .querySelector(".moreIcon")
+        .addEventListener("click", this.#handleMoreIconClick);
 
       this.mainNavPageContent.appendChild(sessionElem);
     });
@@ -1026,4 +1029,10 @@ class userInterfaceManager {
       nestingIcon.setAttribute("src", BASE_SRC + NEST_ICON);
     }
   }
+  // TODO: add comments here
+  #handleMoreIconClick = (e) => {
+    const contextMenuElem = e.target.nextElementSibling;
+    console.log(contextMenuElem);
+    contextMenuElem.classList.toggle("hidden");
+  };
 }
