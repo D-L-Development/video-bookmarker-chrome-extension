@@ -213,6 +213,11 @@ class userInterfaceManager {
       sessionElem
         .querySelector(".moreIcon")
         .addEventListener("click", this.#handleMoreIconClick);
+      // set the session name attribute on each option item in each context menu
+      sessionElem.querySelectorAll(".option-item").forEach((optionItem) => {
+        optionItem.setAttribute("sessionName", sessionName);
+        optionItem.addEventListener("click", this.#handleCtxMenuOptionClick);
+      });
 
       this.mainNavPageContent.appendChild(sessionElem);
     });
@@ -1077,5 +1082,31 @@ class userInterfaceManager {
       contextMenuElem.style.top = `${moreIcon.clientHeight - offset}px`;
     }
     contextMenuElem.style.left = `${-contextMenuElem.clientWidth + offset}px`;
+  };
+
+  /**
+   * Triggered when a context menu item is clicked
+   * from the hamburger icon on each session
+   *
+   * @param {Event} e - click event object
+   * @returns
+   */
+  #handleCtxMenuOptionClick = (e) => {
+    const action = e.currentTarget.getAttribute("action");
+    const sessionName = e.currentTarget.getAttribute("sessionName");
+    console.log(sessionName);
+    switch (action) {
+      case "downloadBtn":
+        console.log("downloadBtn");
+        break;
+      case "downloadAsBtn":
+        console.log("downloadAsBtn");
+        break;
+      case "printBtn":
+        console.log("printBtn");
+        break;
+      default:
+        return;
+    }
   };
 }
