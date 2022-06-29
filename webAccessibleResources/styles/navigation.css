@@ -159,6 +159,9 @@ input.sessionItemEditTextInput {
   color: white;
   cursor: pointer;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 .option-item:hover {
   background-color: #818b98;
