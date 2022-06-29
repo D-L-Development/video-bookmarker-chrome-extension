@@ -1032,7 +1032,14 @@ class userInterfaceManager {
       nestingIcon.setAttribute("src", BASE_SRC + NEST_ICON);
     }
   }
-  // TODO: add comments here
+  /**
+   * Handles the UI updates for context menu showing and hidding when
+   * one of the hamburger icons is clicked. It shows the clicked
+   * context menu, and hides any previously shown one if there is one
+   *
+   * @param {Event} e - click event object
+   * @returns
+   */
   #handleMoreIconClick = (e) => {
     // to prevent the dom click event below from firing on the icon click
     e.stopPropagation();
