@@ -1091,19 +1091,50 @@ class userInterfaceManager {
    * @param {Event} e - click event object
    * @returns
    */
-  #handleCtxMenuOptionClick = (e) => {
+  #handleCtxMenuOptionClick = async (e) => {
+    // define callbacks for each option-item
+    const handleDownloadBtnClick = async () => {
+      console.log("downloadBtn");
+      try {
+        const { bookmarks } = await this.#getSessionFromChromeStorage(
+          sessionName
+        );
+      } catch (error) {
+        const failedModal = new ModalBuilder(
+          ModalBuilder.TYPES.modal_type.ALERT,
+          "Failure!"
+        )
+          .addBodyText(getErrorMsg(error), "alignCenter")
+          .addActionButton(
+            ModalBuilder.TYPES.btn_type.DISMISS,
+            "Dismiss",
+            () => {
+              failedModal.remove();
+            }
+          )
+          .build()
+          .show();
+      }
+    };
+    const handleDownloadAsBtnClick = async () => {
+      console.log("downloadAsBtn");
+    };
+    const handlePrintBtnClick = async () => {
+      console.log("printBtn");
+    };
+
     const action = e.currentTarget.getAttribute("action");
     const sessionName = e.currentTarget.getAttribute("sessionName");
-    console.log(sessionName);
+
     switch (action) {
       case "downloadBtn":
-        console.log("downloadBtn");
+        handleDownloadBtnClick();
         break;
       case "downloadAsBtn":
-        console.log("downloadAsBtn");
+        handleDownloadAsBtnClick();
         break;
       case "printBtn":
-        console.log("printBtn");
+        handlePrintBtnClick();
         break;
       default:
         return;
