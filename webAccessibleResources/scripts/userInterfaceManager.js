@@ -1061,8 +1061,14 @@ class userInterfaceManager {
     // show the clicked context menu
     contextMenuElem.classList.remove("hidden");
     // update context menu position based on mouse pos
-    const offset = 4;
-    contextMenuElem.style.top = `${-contextMenuElem.clientHeight + offset}px`;
+    const offset = 5;
+    // render the menu on top or bottom of the icon, dynamically
+    const renderOnTop = e.clientY > window.innerHeight / 2;
+    if (renderOnTop) {
+      contextMenuElem.style.top = `${-contextMenuElem.clientHeight + offset}px`;
+    } else {
+      contextMenuElem.style.top = `${moreIcon.clientHeight - offset}px`;
+    }
     contextMenuElem.style.left = `${-contextMenuElem.clientWidth + offset}px`;
   };
 }
