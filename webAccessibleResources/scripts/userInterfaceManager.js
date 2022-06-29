@@ -354,20 +354,7 @@ class userInterfaceManager {
             .build()
             .show();
         } else {
-          const failedModal = new ModalBuilder(
-            ModalBuilder.TYPES.modal_type.ALERT,
-            "Failure!"
-          )
-            .addBodyText(getErrorMsg(response.payload), "alignCenter")
-            .addActionButton(
-              ModalBuilder.TYPES.btn_type.DISMISS,
-              "Dismiss",
-              () => {
-                failedModal.remove();
-              }
-            )
-            .build()
-            .show();
+          this.#renderDismissibleModal(response.payload);
         }
       }
     );
@@ -484,13 +471,7 @@ class userInterfaceManager {
             .show();
         } else {
           // render failed modal
-          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed!")
-            .addBodyText(getErrorMsg(response.payload), "alignCenter")
-            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-              failedModal.remove();
-            })
-            .build()
-            .show();
+          this.#renderDismissibleModal(response.payload);
         }
       }
     );
@@ -553,13 +534,7 @@ class userInterfaceManager {
             if (response.status === MSG.SUCCESS) {
               this.renderVideoPage(sessionNameText);
             } else {
-              const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
-                .addBodyText(getErrorMsg(response.payload))
-                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-                  modal.remove();
-                })
-                .build()
-                .show();
+              this.#renderDismissibleModal(response.payload);
             }
           }
         );
@@ -594,13 +569,7 @@ class userInterfaceManager {
           this.renderVideoPage(innerText);
         } else {
           const { btn_type, modal_type } = ModalBuilder.TYPES;
-          const modal = new ModalBuilder(modal_type.ALERT, "Failed!")
-            .addBodyText(getErrorMsg(response.payload), "alignCenter")
-            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-              modal.remove();
-            })
-            .build()
-            .show();
+          this.#renderDismissibleModal(response.payload);
         }
       }
     );
@@ -649,16 +618,7 @@ class userInterfaceManager {
               }
             } else {
               // render a modal with the error
-              const failedToDeleteModal = new ModalBuilder(
-                modal_type.ALERT,
-                "Failed!"
-              )
-                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-                  failedToDeleteModal.remove();
-                })
-                .addBodyText(getErrorMsg(response.payload), "alignCenter")
-                .build()
-                .show();
+              this.#renderDismissibleModal(response.payload);
             }
           }
         );
@@ -720,16 +680,7 @@ class userInterfaceManager {
               iconGroupDiv.setAttribute("sessionName", newNameVal);
             } else {
               // render a modal with the error
-              const failedToEditModal = new ModalBuilder(
-                modal_type.ALERT,
-                "Failed!"
-              )
-                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-                  failedToEditModal.remove();
-                })
-                .addBodyText(getErrorMsg(response.payload), "alignCenter")
-                .build()
-                .show();
+              this.#renderDismissibleModal(response.payload);
             }
           }
         );
@@ -852,13 +803,7 @@ class userInterfaceManager {
       { action: MSG.JUMP_TO_TIMESTAMP, payload: timestamp },
       (response) => {
         if (response.status !== MSG.SUCCESS) {
-          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
-            .addBodyText(getErrorMsg(response.payload), "alignCenter")
-            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-              failedModal.remove();
-            })
-            .build()
-            .show();
+          this.#renderDismissibleModal(response.payload);
         }
       }
     );
@@ -892,13 +837,7 @@ class userInterfaceManager {
                 this.#renderVideoSessionUI(null);
               }
             } else {
-              const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
-                .addBodyText(getErrorMsg(response.payload), "alignCenter")
-                .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-                  failedModal.remove();
-                })
-                .build()
-                .show();
+              this.#renderDismissibleModal(response.payload);
             }
           }
         );
@@ -917,13 +856,7 @@ class userInterfaceManager {
             e.target.parentElement.parentElement.parentElement
           );
         } else {
-          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed")
-            .addBodyText(getErrorMsg(response.payload), "alignCenter")
-            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-              failedModal.remove();
-            })
-            .build()
-            .show();
+          this.#renderDismissibleModal(response.payload);
         }
       }
     );
@@ -994,13 +927,7 @@ class userInterfaceManager {
             .show();
         } else {
           // render failed modal
-          const failedModal = new ModalBuilder(modal_type.ALERT, "Failed!")
-            .addBodyText(getErrorMsg(response.payload), "alignCenter")
-            .addActionButton(btn_type.DISMISS, "Dismiss", () => {
-              failedModal.remove();
-            })
-            .build()
-            .show();
+          this.#renderDismissibleModal(response.payload);
         }
       }
     );
@@ -1100,10 +1027,7 @@ class userInterfaceManager {
           sessionName
         );
       } catch (error) {
-        this.#renderDismissibleModal(
-          ModalBuilder.TYPES.modal_type.ALERT,
-          error
-        );
+        this.#renderDismissibleModal(error);
       }
     };
     const handleDownloadAsBtnClick = async () => {
@@ -1134,11 +1058,13 @@ class userInterfaceManager {
   /**
    * Renders a simple modal with text of desired type
    *
-   * @param {String} type - the type of modal (static member from ModalBuilder class)
    * @param {Object | String} msg - error object, or string to be rendered within modal
    */
-  #renderDismissibleModal(type, msg) {
-    const failedModal = new ModalBuilder(type, "Failure!")
+  #renderDismissibleModal(msg) {
+    const failedModal = new ModalBuilder(
+      ModalBuilder.TYPES.modal_type.ALERT,
+      "Failure!"
+    )
       .addBodyText(getErrorMsg(msg), "alignCenter")
       .addActionButton(ModalBuilder.TYPES.btn_type.DISMISS, "Dismiss", () => {
         failedModal.remove();
