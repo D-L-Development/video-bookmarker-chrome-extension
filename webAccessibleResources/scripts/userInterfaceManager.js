@@ -42,6 +42,9 @@ class userInterfaceManager {
     this.bookmarkTemplate = document.getElementById("bookmarkTemplate");
     this.sessionItemTemplate = document.getElementById("sessionItemTemplate");
 
+    // member to keep of track of the opened context menu
+    this.openContextMenu = null;
+
     // memeber to keep track of the currently rendered page
     // gets updated by the togglePage function
     // TODO: make sure to prevent modifiying sessions or bookmarks when going in between pages. This variable should always be updated. You know what I mean
@@ -1031,12 +1034,35 @@ class userInterfaceManager {
   }
   // TODO: add comments here
   #handleMoreIconClick = (e) => {
+    // to prevent the dom click event below from firing on the icon click
+    e.stopPropagation();
     const moreIcon = e.target;
     const contextMenuElem = moreIcon.nextElementSibling;
 
-    contextMenuElem.classList.toggle("hidden");
+    // exit the function if the menu is already shown
+    if (!contextMenuElem.classList.contains("hidden")) {
+      return;
+    }
+
+    if (this.openContextMenu) {
+      // hide the currently open context menu
+      this.openContextMenu.classList.add("hidden");
+    } else {
+      // or add a one time event listener to remove the currently opened context menu
+      // if any other element is clicked
+      const contextMenuClickAway = (event) => {
+        this.openContextMenu.classList.add("hidden");
+        this.openContextMenu = null;
+      };
+      document.addEventListener("click", contextMenuClickAway, { once: true });
+    }
+    // update the currently open context menu
+    this.openContextMenu = contextMenuElem;
+    // show the clicked context menu
+    contextMenuElem.classList.remove("hidden");
     // update context menu position based on mouse pos
-    contextMenuElem.style.top = `${-contextMenuElem.clientHeight}px`;
-    contextMenuElem.style.left = `${-contextMenuElem.clientWidth}px`;
+    const offset = 4;
+    contextMenuElem.style.top = `${-contextMenuElem.clientHeight + offset}px`;
+    contextMenuElem.style.left = `${-contextMenuElem.clientWidth + offset}px`;
   };
 }
