@@ -1031,8 +1031,12 @@ class userInterfaceManager {
   }
   // TODO: add comments here
   #handleMoreIconClick = (e) => {
-    const contextMenuElem = e.target.nextElementSibling;
-    console.log(contextMenuElem);
+    const moreIcon = e.target;
+    const contextMenuElem = moreIcon.nextElementSibling;
+
     contextMenuElem.classList.toggle("hidden");
+    // update context menu position based on mouse pos
+    contextMenuElem.style.top = `${-contextMenuElem.clientHeight}px`;
+    contextMenuElem.style.left = `${-contextMenuElem.clientWidth}px`;
   };
 }

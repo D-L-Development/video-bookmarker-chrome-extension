@@ -144,8 +144,9 @@ input.sessionItemEditTextInput {
   gap: 0.3rem;
   border-radius: 0.2rem;
   box-shadow: 0px 9px 22px 7px rgba(0, 0, 0, 0.31);
-  left: -86px;
-  top: -130px;
+  /* The position will be updated through js */
+  left: 0;
+  top: 0;
 }
 .option-item {
   padding: 0.3rem 0.4rem;
