@@ -1100,20 +1100,10 @@ class userInterfaceManager {
           sessionName
         );
       } catch (error) {
-        const failedModal = new ModalBuilder(
+        this.#renderDismissibleModal(
           ModalBuilder.TYPES.modal_type.ALERT,
-          "Failure!"
-        )
-          .addBodyText(getErrorMsg(error), "alignCenter")
-          .addActionButton(
-            ModalBuilder.TYPES.btn_type.DISMISS,
-            "Dismiss",
-            () => {
-              failedModal.remove();
-            }
-          )
-          .build()
-          .show();
+          error
+        );
       }
     };
     const handleDownloadAsBtnClick = async () => {
@@ -1140,4 +1130,20 @@ class userInterfaceManager {
         return;
     }
   };
+
+  /**
+   * Renders a simple modal with text of desired type
+   *
+   * @param {String} type - the type of modal (static member from ModalBuilder class)
+   * @param {Object | String} msg - error object, or string to be rendered within modal
+   */
+  #renderDismissibleModal(type, msg) {
+    const failedModal = new ModalBuilder(type, "Failure!")
+      .addBodyText(getErrorMsg(msg), "alignCenter")
+      .addActionButton(ModalBuilder.TYPES.btn_type.DISMISS, "Dismiss", () => {
+        failedModal.remove();
+      })
+      .build()
+      .show();
+  }
 }
