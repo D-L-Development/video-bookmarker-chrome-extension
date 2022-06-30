@@ -1019,41 +1019,30 @@ class userInterfaceManager {
    * @returns
    */
   #handleCtxMenuOptionClick = async (e) => {
-    // define callbacks for each option-item
-    const handleDownloadBtnClick = async () => {
-      console.log("downloadBtn");
-      try {
-        const { bookmarks } = await this.#getSessionFromChromeStorage(
-          sessionName
-        );
-        const dd = getBookmarksDocDef({ bookmarks, sessionName });
-        pdfMake.createPdf(dd).download(sessionName);
-      } catch (error) {
-        this.#renderDismissibleModal(error);
-      }
-    };
-    const handleDownloadAsBtnClick = async () => {
-      console.log("downloadAsBtn");
-    };
-    const handlePrintBtnClick = async () => {
-      console.log("printBtn");
-    };
-
     const action = e.currentTarget.getAttribute("action");
     const sessionName = e.currentTarget.getAttribute("sessionName");
 
-    switch (action) {
-      case "downloadBtn":
-        handleDownloadBtnClick();
-        break;
-      case "downloadAsBtn":
-        handleDownloadAsBtnClick();
-        break;
-      case "printBtn":
-        handlePrintBtnClick();
-        break;
-      default:
-        return;
+    try {
+      const { bookmarks } = await this.#getSessionFromChromeStorage(
+        sessionName
+      );
+      const dd = getBookmarksDocDef({ bookmarks, sessionName });
+
+      switch (action) {
+        case "downloadBtn":
+          pdfMake.createPdf(dd).download(sessionName);
+          break;
+        case "downloadAsBtn":
+          console.log("downloadAsBtn");
+          break;
+        case "printBtn":
+          pdfMake.createPdf(dd).print();
+          break;
+        default:
+          return;
+      }
+    } catch (error) {
+      this.#renderDismissibleModal(error);
     }
   };
 
