@@ -1026,6 +1026,8 @@ class userInterfaceManager {
         const { bookmarks } = await this.#getSessionFromChromeStorage(
           sessionName
         );
+        const dd = getBookmarksDocDef({ bookmarks, sessionName });
+        pdfMake.createPdf(dd).download(sessionName);
       } catch (error) {
         this.#renderDismissibleModal(error);
       }

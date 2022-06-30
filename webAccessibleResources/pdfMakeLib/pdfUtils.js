@@ -1,6 +1,3 @@
-pdfMake.vfs = vfs;
-const downloadBtnElem = document.querySelector("#saveFile");
-
 const getBookmarksDocDef = (session) => {
   // nested bookmark format
   const m_nestedBookmarkHeaderStamp = [
@@ -224,9 +221,3 @@ const dumbData = {
   },
   sessionName: "Lecture Title",
 };
-
-downloadBtnElem.addEventListener("click", () => {
-  const dd = getBookmarksDocDef(dumbData);
-
-  pdfMake.createPdf(dd).download("newVariation");
-});
