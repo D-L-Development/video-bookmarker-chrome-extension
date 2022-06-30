@@ -16,7 +16,7 @@ class Session {
     // ? TODO: there's probably a better way to do this below
     setTimeout(() => {
       this.toggleSidemenuVisiblity(true);
-    }, 50);
+    }, 200);
   }
 
   /**
