@@ -270,9 +270,22 @@ class ModalBuilder {
    * @param {Function} callback - function to be invoked when the close icon is clicked
    * @returns {ModalBuilder} - this
    */
-  setCloseIconClickHandler(callback) {
+  #setCloseIconClickHandler(callback) {
     this.closeIconHandler = callback;
     return this;
+  }
+
+  /**
+   * When the modal wrapper is clicked, the modal should be closed, or it should
+   * perform the provided behavior for the X close icon
+   *
+   */
+  #setModalClickAwayEvent() {
+    this.modal.addEventListener("click", (e) => {
+      if (e.target === this.modal) {
+        this.closeIconHandler ? this.closeIconHandler() : this.remove();
+      }
+    });
   }
 
   /**
@@ -289,6 +302,20 @@ class ModalBuilder {
         return;
       }
     }
+  }
+
+  /**
+   * Adds an keydown event listener to the dom to submit the modal
+   *
+   */
+  #addOnEnterSubmitEvent() {
+    this.modal.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        this.modal
+          .querySelector(`.${ModalBuilder.TYPES.btn_type.SUBMIT}`)
+          ?.click();
+      }
+    });
   }
 
   /**
@@ -326,6 +353,12 @@ class ModalBuilder {
     }
     // add modal to document
     document.body.appendChild(this.modal);
+
+    // wire Enter key for submission
+    this.#addOnEnterSubmitEvent();
+
+    // wire event for when the user clicks away
+    this.#setModalClickAwayEvent();
 
     // update the submission button state
     this.#updateSubmissonState();

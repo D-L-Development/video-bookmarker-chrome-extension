@@ -407,7 +407,7 @@ class userInterfaceManager {
           // grab the data from the content script msg
           const { timestamp, bookmark } = response.payload;
           const formModal = new ModalBuilder(
-            ModalBuilder.TYPES.modal_type.FORM,
+            modal_type.FORM,
             `Create a bookmark at ${timestamp}`
           )
             .addInputField(
@@ -426,47 +426,35 @@ class userInterfaceManager {
               200,
               bookmark?.text || ""
             )
-            .addActionButton(
-              ModalBuilder.TYPES.btn_type.CANCEL,
-              "Cancel",
-              () => {
-                formModal.remove();
-              }
-            )
-            .addActionButton(
-              ModalBuilder.TYPES.btn_type.SUBMIT,
-              "Create",
-              () => {
-                const { title, bookmarkText } = formModal.getFormValues();
-                const newBookmark = new Bookmark(
-                  title,
-                  bookmarkText,
-                  timestamp
-                );
-                sendMessageToActiveTab(
-                  {
-                    action: MSG.ADD_BOOKMARK,
-                    payload: { bookmark: newBookmark },
-                  },
-                  (response) => {
-                    formModal.remove();
-                    if (response.status === MSG.SUCCESS) {
-                      // if there's no bookmark, remove the empty page element
-                      if (
-                        this.videoBookmarksPageContent.querySelectorAll(
-                          ".bookmark"
-                        ).length === 0
-                      ) {
-                        this.videoBookmarksPageContent.innerHTML = "";
-                      }
-                      this.#appendBookmarkItem(newBookmark);
-                    } else {
-                      alert("failed to add bookmark in userInterface");
+            .addActionButton(btn_type.CANCEL, "Cancel", () => {
+              formModal.remove();
+            })
+            .addActionButton(btn_type.SUBMIT, "Create", () => {
+              const { title, bookmarkText } = formModal.getFormValues();
+              const newBookmark = new Bookmark(title, bookmarkText, timestamp);
+              sendMessageToActiveTab(
+                {
+                  action: MSG.ADD_BOOKMARK,
+                  payload: { bookmark: newBookmark },
+                },
+                (response) => {
+                  formModal.remove();
+                  if (response.status === MSG.SUCCESS) {
+                    // if there's no bookmark, remove the empty page element
+                    if (
+                      this.videoBookmarksPageContent.querySelectorAll(
+                        ".bookmark"
+                      ).length === 0
+                    ) {
+                      this.videoBookmarksPageContent.innerHTML = "";
                     }
+                    this.#appendBookmarkItem(newBookmark);
+                  } else {
+                    alert("failed to add bookmark in userInterface");
                   }
-                );
-              }
-            )
+                }
+              );
+            })
             .build()
             .show();
         } else {
