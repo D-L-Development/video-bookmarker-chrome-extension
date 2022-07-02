@@ -1033,7 +1033,7 @@ class userInterfaceManager {
           pdfMake.createPdf(dd).download(sessionName);
           break;
         case "downloadAsBtn":
-          console.log("downloadAsBtn");
+          pdfMake.createPdf(dd).open();
           break;
         case "printBtn":
           pdfMake.createPdf(dd).print();
