@@ -91,9 +91,9 @@ input.sessionItemEditTextInput {
   left: 0.8rem;
 }
 .clearSearchIcon {
-  width: 8%;
+  width: 6%;
   position: absolute;
-  padding: 0 0.2rem;
+  padding: 0 0.3rem;
   right: 0;
   cursor: pointer;
   /* hide by default */

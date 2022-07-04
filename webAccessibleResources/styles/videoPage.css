@@ -56,6 +56,7 @@
 .bookmark .bookmarkHeader .title {
   margin-left: 0.5rem;
   font-size: 1rem;
+  white-space: nowrap;
 }
 .bookmark .bookmarkHeader .timestampText {
   background-color: rgb(194, 66, 66);
