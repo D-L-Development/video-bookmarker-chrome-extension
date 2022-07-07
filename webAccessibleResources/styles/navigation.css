@@ -1,6 +1,3 @@
-#mainNavPageContent {
-}
-
 .sessionWrapper {
   width: 85%;
   padding: 1rem;
@@ -47,9 +44,6 @@
 
 .sessionWrapper:last-of-type {
   margin-bottom: 1rem;
-}
-
-.pageContentLoading {
 }
 
 .sessionItemSpinner {
