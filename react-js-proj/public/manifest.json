@@ -26,7 +26,7 @@
     {
       "matches": ["https://*/*", "http://*/*"],
       "css": ["content-script.css"],
-      "js": ["content-script.js"]
+      "js": ["contentScript.js"]
     }
   ],
   "web_accessible_resources": [

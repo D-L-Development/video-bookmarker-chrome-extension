@@ -3,9 +3,7 @@ import { Storage } from "./Storage";
 import { copyTableToClipboard, timestampToSeconds } from "./utility";
 
 export class Session {
-  static SIDEBAR_PAGE_URL = chrome.runtime.getURL(
-    "../webAccessibleResources/popup.html"
-  );
+  static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
 
   /**
    * @param {String} sessionName - takes the session name and initializes the class member
@@ -14,6 +12,8 @@ export class Session {
     this.video = null;
     this.sidebarIframe = null;
     this.sessionName = sessionName;
+
+    console.log("Session()", Session.SIDEBAR_PAGE_URL);
 
     // create the side menu for found video
     this.#createSideMenu(Session.SIDEBAR_PAGE_URL);

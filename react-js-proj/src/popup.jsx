@@ -1,12 +1,14 @@
 import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
 const Popup = () => {
   return (
     <div>
-      <h1>{sunshine()}</h1>
+      <h1>Hello</h1>
     </div>
   );
 };
 
-render(<Popup />, document.getElementById("react-popup-root"));
+const container = document.getElementById("react-popup-root");
+const root = createRoot(container);
+root.render(<Popup tab="home" />);
