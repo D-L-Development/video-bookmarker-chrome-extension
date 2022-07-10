@@ -4,7 +4,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
-    popup: "./src/popup.jsx",
+    popup: "./src/popup.js",
+    options: "./src/options.js",
     contentScript: "./src/contentScripts/content-script.js",
   },
   output: {
@@ -30,6 +31,11 @@ module.exports = {
       template: "./src/popup.html",
       filename: "popup.html",
       chunks: ["popup"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/options.html",
+      filename: "options.html",
+      chunks: ["options"],
     }),
     new CopyPlugin({
       patterns: [{ from: "public" }],
