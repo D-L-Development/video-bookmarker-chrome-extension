@@ -1,0 +1,19 @@
+.web-sidebar {
+  height: 100%;
+  width: 400px;
+  position: fixed;
+  top: 0;
+  right: -420px;
+  z-index: 9000000000000000000;
+  border: none;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-box-shadow: -2px 0px 11px 1px rgba(0, 0, 0, 0.89);
+  box-shadow: -2px 0px 11px 1px rgba(0, 0, 0, 0.89);
+}
+
+.web-sidebar.on {
+  right: 0;
+}
