@@ -1,12 +1,14 @@
 import React from "react";
-import { StyledPopup } from "./popup.styles";
+import { StyledCloseIcon } from "../../icons/close-icon/close.icon.styles";
+import { Header, StyledMainHeader, StyledPopup } from "./popup.styles";
 
 const PopupComponent = () => {
   return (
     <StyledPopup>
-      <header>
-        <h1>First Lecture</h1>
-        <span id="backArrowIconWrapper">
+      <Header>
+        <StyledMainHeader>Header</StyledMainHeader>
+        <StyledCloseIcon />
+        {/* <span id="backArrowIconWrapper">
           <img
             src="../images/icons/arrow-left-short.svg"
             alt="back arrow icon"
@@ -19,8 +21,8 @@ const PopupComponent = () => {
           alt="close icon"
           id="closeIcon"
           class="navIcon"
-        />
-      </header>
+        /> */}
+      </Header>
     </StyledPopup>
   );
 };
