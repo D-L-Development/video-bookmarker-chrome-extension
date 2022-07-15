@@ -7,7 +7,9 @@ import {
   StyledMainHeader,
   StyledPopup,
   BackArrowIconWrapper,
+  Footer,
 } from "./popup.styles";
+import Button from "./shared/button/button.component";
 
 const PopupComponent = () => {
   return (
@@ -21,6 +23,11 @@ const PopupComponent = () => {
           <CloseIcon width="24px" height="24px" color="white" />
         </CloseIconWrapper>
       </Header>
+      <Footer>
+        <Button type="filled" color="white" bgColor="teal">
+          New Session
+        </Button>
+      </Footer>
     </StyledPopup>
   );
 };

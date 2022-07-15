@@ -5,6 +5,8 @@ export const StyledPopup = styled.div`
   height: 100%;
   width: 100%;
   background-color: white;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Header = styled.header`
@@ -36,4 +38,13 @@ export const BackArrowIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 10%;
+`;
+
+export const Footer = styled.footer`
+  height: 3rem;
+  width: 100%;
+  background-color: ${primary_c};
+  display: flex;
+  align-items: center;
+  margin-top: auto;
 `;
