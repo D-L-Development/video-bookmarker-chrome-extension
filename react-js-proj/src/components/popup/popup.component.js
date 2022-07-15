@@ -9,16 +9,24 @@ import {
   StyledPopup,
   BackArrowIconWrapper,
   Footer,
+  AddSessionButton,
 } from "./popup.styles";
 import Button from "./shared/button/button.component";
+import AddCircleIcon from "../../icons/add-circle-icon/add-circle.icon";
+import { Content, StyledViewPager } from "./view-pager/view-pager.styles";
+import ViewPagerComponent from "./view-pager/view-pager.component";
 
 const PopupComponent = () => {
   const handleCloseIconClick = (e) => {
-    console.log("Clicked");
     sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
-      if (response.status === MSG.SUCCESS) {
+      if (response.status !== MSG.SUCCESS) {
+        alert("Failed to close side menu");
       }
     });
+  };
+
+  const handleNewSessionBtnClick = (e) => {
+    console.log("New session click");
   };
 
   return (
@@ -32,10 +40,12 @@ const PopupComponent = () => {
           <CloseIcon width="24px" height="24px" color="white" />
         </CloseIconWrapper>
       </Header>
+      <ViewPagerComponent pageNum="first" />
       <Footer>
-        <Button type="filled" color="white" bgColor="teal">
+        <AddSessionButton onClick={handleNewSessionBtnClick}>
+          <AddCircleIcon width="20px" height="20px" color="white" />
           New Session
-        </Button>
+        </AddSessionButton>
       </Footer>
     </StyledPopup>
   );

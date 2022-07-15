@@ -5,3 +5,4 @@ export const secondaryFaded_c = "rgba(228, 87, 65, 0.708)";
 export const bookmarkHeader_c = "rgb(54, 51, 117)";
 export const bookmarkBody_c = "lightblue";
 export const bookmarkIcon_c = "rgb(60, 59, 59)";
+export const pageHeader_c = "rgb(37, 49, 116)";

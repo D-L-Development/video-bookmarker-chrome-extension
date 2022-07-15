@@ -10,7 +10,7 @@ export const StyledButton = styled.button`
   padding: 0.4rem 0.5rem;
   border: none;
   transition: 0.15s;
-  border-radius: 0.1rem;
+  border-radius: 0.2rem;
   font-size: 0.8rem;
   outline: ${(props) =>
     props.type === "outline" ? `1px solid ${props.bgColor}` : "none"};

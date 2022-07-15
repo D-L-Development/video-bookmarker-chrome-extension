@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { primary_c } from "../../constants/styles";
+import { StyledButton } from "./shared/button/button.styles";
 
 export const StyledPopup = styled.div`
   height: 100%;
@@ -47,4 +48,19 @@ export const Footer = styled.footer`
   display: flex;
   align-items: center;
   margin-top: auto;
+`;
+
+{
+  /* <Button type="filled" color="white" bgColor="teal">
+          <AddCircleIcon width="20px" height="20px" color="white" />
+          New Session
+        </Button> */
+}
+
+export const AddSessionButton = styled(StyledButton).attrs((props) => ({
+  type: "filled",
+  color: "white",
+  bgColor: "teal",
+}))`
+  margin-left: 0.5rem;
 `;
