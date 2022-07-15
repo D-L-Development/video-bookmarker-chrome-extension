@@ -1,6 +1,7 @@
 import React from "react";
 import LeftArrowIcon from "../../icons/left-arrow-icon/left-arrow-icon";
 import CloseIcon from "../../icons/close-icon/close.icon";
+import { sendMessageToActiveTab, MSG } from "../../contentScripts/utility";
 import {
   CloseIconWrapper,
   Header,
@@ -12,6 +13,14 @@ import {
 import Button from "./shared/button/button.component";
 
 const PopupComponent = () => {
+  const handleCloseIconClick = (e) => {
+    console.log("Clicked");
+    sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
+      if (response.status === MSG.SUCCESS) {
+      }
+    });
+  };
+
   return (
     <StyledPopup>
       <Header>
@@ -19,7 +28,7 @@ const PopupComponent = () => {
           <LeftArrowIcon width="24px" height="24px" color="white" />
         </BackArrowIconWrapper>
         <StyledMainHeader>Header</StyledMainHeader>
-        <CloseIconWrapper>
+        <CloseIconWrapper onClick={handleCloseIconClick}>
           <CloseIcon width="24px" height="24px" color="white" />
         </CloseIconWrapper>
       </Header>
