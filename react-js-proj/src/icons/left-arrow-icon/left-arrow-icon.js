@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyledCloseIcon } from "./close.icon.styles";
+import { StyledLeftArrowIcon } from "./left-arrow.icon.styles";
 
-const CloseIcon = (props) => {
+const LeftArrowIcon = (props) => {
   return (
-    <StyledCloseIcon
+    <StyledLeftArrowIcon
       width={props.width}
       height={props.height}
       color={props.color}
@@ -12,10 +12,10 @@ const CloseIcon = (props) => {
   );
 };
 
-CloseIcon.propTypes = {
+LeftArrowIcon.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 };
 
-export default CloseIcon;
+export default LeftArrowIcon;

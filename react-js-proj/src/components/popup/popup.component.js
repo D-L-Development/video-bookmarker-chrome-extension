@@ -1,27 +1,25 @@
 import React from "react";
-import { StyledCloseIcon } from "../../icons/close-icon/close.icon.styles";
-import { Header, StyledMainHeader, StyledPopup } from "./popup.styles";
+import LeftArrowIcon from "../../icons/left-arrow-icon/left-arrow-icon";
+import CloseIcon from "../../icons/close-icon/close.icon";
+import {
+  CloseIconWrapper,
+  Header,
+  StyledMainHeader,
+  StyledPopup,
+  BackArrowIconWrapper,
+} from "./popup.styles";
 
 const PopupComponent = () => {
   return (
     <StyledPopup>
       <Header>
+        <BackArrowIconWrapper>
+          <LeftArrowIcon width="24px" height="24px" color="white" />
+        </BackArrowIconWrapper>
         <StyledMainHeader>Header</StyledMainHeader>
-        <StyledCloseIcon />
-        {/* <span id="backArrowIconWrapper">
-          <img
-            src="../images/icons/arrow-left-short.svg"
-            alt="back arrow icon"
-            id="backArrowIcon"
-            class="navIcon"
-          />
-        </span>
-        <img
-          src="../images/icons/x-lg.svg"
-          alt="close icon"
-          id="closeIcon"
-          class="navIcon"
-        /> */}
+        <CloseIconWrapper>
+          <CloseIcon width="24px" height="24px" color="white" />
+        </CloseIconWrapper>
       </Header>
     </StyledPopup>
   );

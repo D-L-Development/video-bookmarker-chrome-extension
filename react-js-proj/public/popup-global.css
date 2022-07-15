@@ -7,3 +7,7 @@ body {
   height: 100vh;
   background-color: white;
 }
+#react-popup-root {
+  height: 100%;
+  width: 100%;
+}
