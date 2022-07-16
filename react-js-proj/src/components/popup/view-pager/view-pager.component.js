@@ -1,36 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  ClearIconWrapper,
-  Content,
-  PageHeader,
-  SearchBox,
-  SearchBoxWrapper,
-  SearchIconWrapper,
-  StyledViewPager,
-} from "./view-pager.styles";
-import PageComponent from "../page/page.component";
-import SearchIcon from "../../../icons/search-icon/search.icon";
-import ClearIcon from "../../../icons/clear-icon/clear.icon";
+import { Content, StyledViewPager } from "./view-pager.styles";
+
+import { StyledPage } from "../pages/page.styles";
+import FileSystemPageComponent from "../pages/file-system-page/file-system-page.component";
 
 const ViewPagerComponent = (props) => {
   return (
-    <Content>
-      <StyledViewPager pageNum={props.pageNum}>
-        <PageComponent>
-          <PageHeader>
-            <SearchBoxWrapper>
-              <SearchBox placeholder="Search sessions" />
-              <SearchIconWrapper>
-                <SearchIcon width="15px" height="15px" color="#9BA0A5" />
-              </SearchIconWrapper>
-              <ClearIconWrapper>
-                <ClearIcon width="15px" height="15px" color="white" />
-              </ClearIconWrapper>
-            </SearchBoxWrapper>
-          </PageHeader>
-        </PageComponent>
-        <PageComponent>Second</PageComponent>
+    <Content className="Content">
+      <StyledViewPager pageNum={props.pageNum} className="StyledViewPager">
+        {/* file system page */}
+        <FileSystemPageComponent />
+        {/* video bookmakrks page */}
+        <StyledPage className="StyledPage">Second</StyledPage>
       </StyledViewPager>
     </Content>
   );
