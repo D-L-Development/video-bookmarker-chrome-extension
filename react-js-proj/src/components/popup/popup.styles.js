@@ -50,13 +50,6 @@ export const Footer = styled.footer`
   margin-top: auto;
 `;
 
-{
-  /* <Button type="filled" color="white" bgColor="teal">
-          <AddCircleIcon width="20px" height="20px" color="white" />
-          New Session
-        </Button> */
-}
-
 export const AddSessionButton = styled(StyledButton).attrs((props) => ({
   type: "filled",
   color: "white",
@@ -64,3 +57,5 @@ export const AddSessionButton = styled(StyledButton).attrs((props) => ({
 }))`
   margin-left: 0.5rem;
 `;
+
+export const AddFolderButton = styled(AddSessionButton)``;

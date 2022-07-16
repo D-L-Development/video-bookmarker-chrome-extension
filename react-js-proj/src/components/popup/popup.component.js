@@ -10,10 +10,10 @@ import {
   BackArrowIconWrapper,
   Footer,
   AddSessionButton,
+  AddFolderButton,
 } from "./popup.styles";
-import Button from "./shared/button/button.component";
 import AddCircleIcon from "../../icons/add-circle-icon/add-circle.icon";
-import { Content, StyledViewPager } from "./view-pager/view-pager.styles";
+import FolderPlusIcon from "../../icons/folder-plus-icon/folder-plus.icon";
 import ViewPagerComponent from "./view-pager/view-pager.component";
 
 const PopupComponent = () => {
@@ -27,6 +27,10 @@ const PopupComponent = () => {
 
   const handleNewSessionBtnClick = (e) => {
     console.log("New session click");
+  };
+
+  const handleNewFolderBtnClick = (e) => {
+    console.log("New folder click");
   };
 
   return (
@@ -46,6 +50,10 @@ const PopupComponent = () => {
           <AddCircleIcon width="20px" height="20px" color="white" />
           New Session
         </AddSessionButton>
+        <AddFolderButton onClick={handleNewFolderBtnClick}>
+          <FolderPlusIcon width="20px" height="20px" color="white" />
+          Create Folder
+        </AddFolderButton>
       </Footer>
     </StyledPopup>
   );
