@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { primary_c } from "../../constants/styles";
+import { primary_c } from "../../constants/theme";
 import { StyledButton } from "./shared/button/button.styles";
 
 export const StyledPopup = styled.div`

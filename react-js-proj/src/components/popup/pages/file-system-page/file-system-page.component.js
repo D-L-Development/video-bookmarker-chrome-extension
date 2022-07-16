@@ -11,17 +11,18 @@ import {
   SearchIconWrapper,
   FileSystemContent,
 } from "./file-system-page.styles";
-import SessionComponent from "./session/session.component";
+import FolderComponent from "./folder/folder.component";
+import FileComponent from "./file/file.component";
 
 // TODO: remove this
 const getFakeData = () => {
   const data = [];
-  for (let i = 0; i < 30; i++) {
-    data.push(
-      <SessionComponent key={i}>
-        <p>This is some text</p>
-      </SessionComponent>
-    );
+  for (let i = 0; i < 12; i++) {
+    data.push(<FolderComponent key={i} name={"Session name"} />);
+  }
+
+  for (let i = 0; i < 11; i++) {
+    data.push(<FileComponent key={i + 12} name={"Session name"} />);
   }
 
   return data;

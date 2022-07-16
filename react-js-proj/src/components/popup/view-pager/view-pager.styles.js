@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { pageHeader_c } from "../../../constants/styles";
+import { pageHeader_c } from "../../../constants/theme";
 
 export const Content = styled.div`
   flex-grow: 1;
