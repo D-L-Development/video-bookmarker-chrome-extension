@@ -4,6 +4,7 @@ import { Content, StyledViewPager } from "./view-pager.styles";
 
 import { StyledPage } from "../pages/page.styles";
 import FileSystemPageComponent from "../pages/file-system-page/file-system-page.component";
+import BookmarksPageComponent from "../pages/bookmarks-page/bookmarks-page.component";
 
 const ViewPagerComponent = (props) => {
   return (
@@ -12,7 +13,7 @@ const ViewPagerComponent = (props) => {
         {/* file system page */}
         <FileSystemPageComponent />
         {/* video bookmakrks page */}
-        <StyledPage className="StyledPage">Second</StyledPage>
+        <BookmarksPageComponent />
       </StyledViewPager>
     </Content>
   );

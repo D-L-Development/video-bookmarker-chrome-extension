@@ -44,7 +44,7 @@ const PopupComponent = () => {
           <CloseIcon width="24px" height="24px" color="white" />
         </CloseIconWrapper>
       </Header>
-      <ViewPagerComponent pageNum="first" />
+      <ViewPagerComponent pageNum="second" />
       <Footer>
         <AddSessionButton onClick={handleNewSessionBtnClick}>
           <AddCircleIcon width="20px" height="20px" color="white" />

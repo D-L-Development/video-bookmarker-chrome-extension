@@ -83,15 +83,6 @@ h1 {
   color: white;
 }
 
-#closeIcon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 1.2rem;
-  height: 1.2rem;
-  transition: 0.2s;
-}
-
 .navIcon:hover {
   cursor: pointer;
 }
