@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { bookmarkHeader_c } from "../../../../../constants/theme";
 
 export const Bookmark = styled.div`
   height: fit-content;
@@ -11,7 +12,7 @@ export const Bookmark = styled.div`
 `;
 
 export const BookmarkHeader = styled.div`
-  background-color: red;
+  background-color: ${bookmarkHeader_c};
   display: flex;
   padding: 0.25rem;
   border-top-left-radius: 0.2rem;

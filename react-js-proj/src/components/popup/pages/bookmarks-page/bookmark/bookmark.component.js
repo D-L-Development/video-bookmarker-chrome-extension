@@ -15,8 +15,8 @@ const BookmarkComponent = ({ title, timestamp, text, isNested }) => {
           <Styled.BookmarkIconWrapper></Styled.BookmarkIconWrapper>
           <Styled.BookmarkIconWrapper></Styled.BookmarkIconWrapper>
         </Styled.BookmarkHeaderIconGroup>
-        <Styled.BookmarkBodyText>{text}</Styled.BookmarkBodyText>
       </Styled.BookmarkHeader>
+      <Styled.BookmarkBodyText>{text}</Styled.BookmarkBodyText>
     </Styled.Bookmark>
   );
 };
