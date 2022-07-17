@@ -51,7 +51,7 @@ export const BookmarkHeaderIconGroup = styled.div`
   display: flex;
   width: 30%;
   justify-content: flex-end;
-  gap: 0.5rem;
+  gap: 0.1rem;
   align-items: center;
 `;
 export const BookmarkBodyText = styled.div`

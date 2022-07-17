@@ -1,6 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as Styled from "./bookmark.styles";
+import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
+import EditIcon from "../../../../../icons/edit-icon/edit.icon";
+
+const IconProps = {
+  width: "20px",
+  height: "20px",
+  color: "white",
+};
 
 const BookmarkComponent = ({ title, timestamp, text, isNested }) => {
   return (
@@ -12,8 +20,12 @@ const BookmarkComponent = ({ title, timestamp, text, isNested }) => {
         </Styled.BookmarkHeaderText>
         <Styled.BookmarkHeaderIconGroup>
           <Styled.BookmarkIconWrapper></Styled.BookmarkIconWrapper>
-          <Styled.BookmarkIconWrapper></Styled.BookmarkIconWrapper>
-          <Styled.BookmarkIconWrapper></Styled.BookmarkIconWrapper>
+          <Styled.BookmarkIconWrapper>
+            <EditIcon {...IconProps} />
+          </Styled.BookmarkIconWrapper>
+          <Styled.BookmarkIconWrapper>
+            <TrashIcon {...IconProps} />
+          </Styled.BookmarkIconWrapper>
         </Styled.BookmarkHeaderIconGroup>
       </Styled.BookmarkHeader>
       <Styled.BookmarkBodyText>{text}</Styled.BookmarkBodyText>
