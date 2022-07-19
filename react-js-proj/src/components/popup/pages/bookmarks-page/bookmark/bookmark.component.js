@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import * as Styled from "./bookmark.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
+import IndentIcon from "../../../../../icons/indent-icon/indent.icon";
 
 const IconProps = {
   width: "20px",
@@ -19,7 +20,9 @@ const BookmarkComponent = ({ title, timestamp, text, isNested }) => {
           <Styled.BookmarkTitle>{title}</Styled.BookmarkTitle>
         </Styled.BookmarkHeaderText>
         <Styled.BookmarkHeaderIconGroup>
-          <Styled.BookmarkIconWrapper></Styled.BookmarkIconWrapper>
+          <Styled.BookmarkIconWrapper>
+            <IndentIcon {...IconProps} type="decrease" />
+          </Styled.BookmarkIconWrapper>
           <Styled.BookmarkIconWrapper>
             <EditIcon {...IconProps} />
           </Styled.BookmarkIconWrapper>
