@@ -1,18 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { StyledPage } from "../page.styles";
-import SearchIcon from "../../../../icons/search-icon/search.icon";
-import ClearIcon from "../../../../icons/clear-icon/clear.icon";
 import { PageHeader } from "../../view-pager/view-pager.styles";
-import {
-  SearchBoxWrapper,
-  SearchBox,
-  ClearIconWrapper,
-  SearchIconWrapper,
-  FileSystemContent,
-} from "./file-system-page.styles";
+import * as Styled from "./file-system-page.styles";
 import FolderComponent from "./folder/folder.component";
 import FileComponent from "./file/file.component";
+import InputComponent from "../../shared/input/input.component";
 
 // TODO: remove this
 const getFakeData = () => {
@@ -32,19 +25,11 @@ const FileSystemPageComponent = (props) => {
   return (
     <StyledPage className="StyledPage">
       <PageHeader className="PageHeader">
-        <SearchBoxWrapper className="SearchBoxWrapper">
-          <SearchBox placeholder="Search sessions" />
-          <SearchIconWrapper>
-            <SearchIcon width="15px" height="15px" color="#9BA0A5" />
-          </SearchIconWrapper>
-          <ClearIconWrapper>
-            <ClearIcon width="15px" height="15px" color="white" />
-          </ClearIconWrapper>
-        </SearchBoxWrapper>
+        <InputComponent placeholder="Search sessions" />
       </PageHeader>
-      <FileSystemContent className="FileSystemContent">
+      <Styled.FileSystemContent className="FileSystemContent">
         {getFakeData()}
-      </FileSystemContent>
+      </Styled.FileSystemContent>
     </StyledPage>
   );
 };
