@@ -13,15 +13,18 @@ const IconProps = {
 
 const BookmarkComponent = ({ title, timestamp, text, isNested }) => {
   return (
-    <Styled.Bookmark>
-      <Styled.BookmarkHeader>
+    <Styled.Bookmark isNested={isNested}>
+      <Styled.BookmarkHeader isNested={isNested}>
         <Styled.BookmarkHeaderText>
           <Styled.BookmarkTimestamp>{timestamp}</Styled.BookmarkTimestamp>
           <Styled.BookmarkTitle>{title}</Styled.BookmarkTitle>
         </Styled.BookmarkHeaderText>
         <Styled.BookmarkHeaderIconGroup>
           <Styled.BookmarkIconWrapper>
-            <IndentIcon {...IconProps} type="decrease" />
+            <IndentIcon
+              {...IconProps}
+              type={isNested ? "decrease" : "increase"}
+            />
           </Styled.BookmarkIconWrapper>
           <Styled.BookmarkIconWrapper>
             <EditIcon {...IconProps} />

@@ -17,5 +17,7 @@ yarn-error.log*
 # VSCode Settings
 /.vscode
 
+/.idea
+
 # Docs
 /docs

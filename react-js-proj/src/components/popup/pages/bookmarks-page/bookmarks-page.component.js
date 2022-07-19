@@ -15,7 +15,7 @@ const getFakeData = () => {
         key={i}
         text="lorem lorem lorem"
         title="bookmark"
-        isNested={false}
+        isNested={i % 2 === 0}
         timestamp="33:54:12"
       />
     );

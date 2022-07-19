@@ -1,9 +1,13 @@
 import styled from "styled-components";
-import { bookmarkHeader_c } from "../../../../../constants/theme";
+import {
+  bookmarkHeader_c,
+  bookmarkHeaderNested_c,
+} from "../../../../../constants/theme";
 
 export const Bookmark = styled.div`
   height: fit-content;
   margin: 0.5rem;
+  margin-left: ${(props) => props.isNested && "2rem"};
   -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
   &:first-of-type {
@@ -12,7 +16,8 @@ export const Bookmark = styled.div`
 `;
 
 export const BookmarkHeader = styled.div`
-  background-color: ${bookmarkHeader_c};
+  background-color: ${(props) =>
+    props.isNested ? bookmarkHeaderNested_c : bookmarkHeader_c};
   display: flex;
   padding: 0.25rem;
   border-top-left-radius: 0.2rem;
