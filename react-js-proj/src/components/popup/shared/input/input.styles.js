@@ -6,6 +6,8 @@ export const SearchBoxWrapper = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  margin-right: ${(props) => props.marginRight || 0};
+  margin-left: ${(props) => props.marginLeft || 0};
 `;
 
 export const SearchBox = styled.input.attrs(() => ({
