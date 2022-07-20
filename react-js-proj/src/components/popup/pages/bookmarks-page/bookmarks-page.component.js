@@ -11,7 +11,7 @@ import CopyIcon from "../../../../icons/copy-icon/copy.icon";
 // TODO: remove this
 const getFakeData = () => {
   const data = [];
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 20; i++) {
     data.push(
       <BookmarkComponent
         key={i}
