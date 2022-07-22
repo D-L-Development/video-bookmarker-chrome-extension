@@ -16,6 +16,7 @@ import AddCircleIcon from "../../icons/add-circle-icon/add-circle.icon";
 import FolderPlusIcon from "../../icons/folder-plus-icon/folder-plus.icon";
 import ViewPagerComponent from "./view-pager/view-pager.component";
 import { ModalContext } from "../../contexts/modal-context";
+import { modalTypes } from "../../constants/theme";
 
 const PopupComponent = () => {
   const { setModalProps, show, hide } = useContext(ModalContext);
@@ -42,11 +43,11 @@ const PopupComponent = () => {
         console.log("Submit dude");
         hide();
       },
-      title: "This is my custom title",
-      type: "Alert",
+      title: "Simple yes, or no question",
+      type: modalTypes.FORM,
       message: "Choose what to do!",
-      closeBtnText: "Decrement",
-      submitBtnText: "Increment",
+      closeBtnText: "No",
+      submitBtnText: "Yes",
     });
 
     show();

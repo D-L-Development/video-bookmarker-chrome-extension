@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { modalColors as colors } from "../../../constants/theme";
 
 export const ModalWrapper = styled.div`
   width: 100%;
@@ -29,8 +30,8 @@ export const ModalHeader = styled.div`
   padding: 0.4rem 0;
   display: flex;
   align-items: center;
-  color: red;
-  background-color: rgb(231, 67, 67);
+  background-color: ${(props) =>
+    colors.typeColors[props.$modalType] || colors.typeColors.alert};
 `;
 
 export const CloseIconWrapper = styled.div`
@@ -42,11 +43,13 @@ export const CloseIconWrapper = styled.div`
 
 export const ModalTitle = styled.span`
   margin-left: 1rem;
+  color: white;
 `;
 
 export const ModalBodyText = styled.div`
   font-size: 0.8rem;
-  margin: 0.5rem 0;
+  margin: 0.5rem;
+  text-align: center;
 `;
 
 export const ModalActionButtons = styled.div`
@@ -69,4 +72,13 @@ export const ModalButton = styled.button`
   color: white;
   transition: 0.1s ease-in-out;
   font-size: 0.7rem;
+  background-color: ${(props) =>
+    props.$btnType === "cancel" ? colors.cancelBtn_c : colors.submitBtn_c};
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$btnType === "cancel"
+        ? colors.cancelBtnHover_c
+        : colors.submitBtnHover_c};
+  }
 `;

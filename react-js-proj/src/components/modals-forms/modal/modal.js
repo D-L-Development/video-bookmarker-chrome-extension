@@ -21,7 +21,7 @@ const Modal = (props) => {
       }}
     >
       <StyledModal onClick={(e) => e.stopPropagation()}>
-        <ModalHeader>
+        <ModalHeader $modalType={props.type}>
           <ModalTitle>{props.title}</ModalTitle>
           <CloseIconWrapper
             onClick={(e) => {
@@ -37,6 +37,7 @@ const Modal = (props) => {
           <ModalButton
             className="modalButton cancel"
             type="button"
+            $btnType={"cancel"}
             onClick={(e) => {
               e.stopPropagation();
               props.onClose();
@@ -48,6 +49,7 @@ const Modal = (props) => {
             <ModalButton
               className="modalButton submit"
               type="button"
+              $btnType={"submit"}
               onClick={(e) => {
                 e.stopPropagation();
                 props.onSubmit();
