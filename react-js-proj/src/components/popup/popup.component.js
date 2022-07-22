@@ -1,16 +1,16 @@
 import React from "react";
 import LeftArrowIcon from "../../icons/left-arrow-icon/left-arrow-icon";
 import CloseIcon from "../../icons/close-icon/close.icon";
-import { sendMessageToActiveTab, MSG } from "../../contentScripts/utility";
+import { MSG, sendMessageToActiveTab } from "../../contentScripts/utility";
 import {
+  AddFolderButton,
+  AddSessionButton,
+  BackArrowIconWrapper,
   CloseIconWrapper,
+  Footer,
   Header,
   StyledMainHeader,
   StyledPopup,
-  BackArrowIconWrapper,
-  Footer,
-  AddSessionButton,
-  AddFolderButton,
 } from "./popup.styles";
 import AddCircleIcon from "../../icons/add-circle-icon/add-circle.icon";
 import FolderPlusIcon from "../../icons/folder-plus-icon/folder-plus.icon";
@@ -44,7 +44,7 @@ const PopupComponent = () => {
           <CloseIcon width="24px" height="24px" color="white" />
         </CloseIconWrapper>
       </Header>
-      <ViewPagerComponent pageNum="second" />
+      <ViewPagerComponent pageNum="first" />
       <Footer>
         <AddSessionButton onClick={handleNewSessionBtnClick}>
           <AddCircleIcon width="20px" height="20px" color="white" />
