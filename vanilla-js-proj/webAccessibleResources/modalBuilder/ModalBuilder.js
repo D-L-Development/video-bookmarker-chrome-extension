@@ -1,5 +1,5 @@
 /**
- * Class implements the builder pattern to create ui modals
+ * Class implements the builder pattern to create ui modals-forms
  * Each class instance contains a modal HTML element, with the ability to
  * embed more elements within. There are 3 sections within the modal:
  * the header, which contains the title and close icon (the behavior of the close icon can be overridden)
@@ -20,6 +20,7 @@ class ModalBuilder {
       FORM: "form",
     },
   };
+
   constructor(type, title) {
     this.type = type;
     this.title = title;

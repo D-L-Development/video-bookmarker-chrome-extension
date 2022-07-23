@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import LeftArrowIcon from "../../icons/left-arrow-icon/left-arrow-icon";
 import CloseIcon from "../../icons/close-icon/close.icon";
 import { MSG, sendMessageToActiveTab } from "../../contentScripts/utility";
@@ -15,8 +15,11 @@ import {
 import AddCircleIcon from "../../icons/add-circle-icon/add-circle.icon";
 import FolderPlusIcon from "../../icons/folder-plus-icon/folder-plus.icon";
 import ViewPagerComponent from "./view-pager/view-pager.component";
+import { ModalContext } from "../../contexts/modal-context";
+import { modalTypes } from "../../constants/theme";
 
 const PopupComponent = () => {
+  const { setModalProps, show, hide } = useContext(ModalContext);
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
       if (response.status !== MSG.SUCCESS) {
@@ -31,6 +34,23 @@ const PopupComponent = () => {
 
   const handleNewFolderBtnClick = (e) => {
     console.log("New folder click");
+    setModalProps({
+      onClose: () => {
+        console.log("Cancel dude");
+        hide();
+      },
+      onSubmit: () => {
+        console.log("Submit dude");
+        hide();
+      },
+      title: "Simple yes, or no question",
+      type: modalTypes.FORM,
+      message: "Choose what to do!",
+      closeBtnText: "No",
+      submitBtnText: "Yes",
+    });
+
+    show();
   };
 
   return (

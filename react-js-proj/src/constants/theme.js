@@ -8,3 +8,20 @@ export const bookmarkBody_c = "lightblue";
 export const bookmarkIcon_c = "rgb(60, 59, 59)";
 export const pageHeader_c = "rgb(37, 49, 116)";
 export const file_c = "#b64e4e";
+export const modalColors = {
+  cancelBtn_c: "#abb8bd",
+  submitBtn_c: "#c26e41",
+  cancelBtnHover_c: "rgba(108, 108, 206, 0.724)",
+  submitBtnHover_c: "#c26e41b3",
+  disabledBtn_c: "rgb(190, 190, 190)",
+  typeColors: {
+    alert: "rgb(176, 53, 53)",
+    form: "rgb(71, 102, 225)",
+    warning: "rgb(182, 179, 24)",
+  },
+};
+export const modalTypes = {
+  ALERT: "alert",
+  FORM: "form",
+  WARNING: "warning",
+};
