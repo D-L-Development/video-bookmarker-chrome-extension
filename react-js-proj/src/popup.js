@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import PopupComponent from "./components/popup/popup.component";
 import { fakeDB } from "./constants/fake-db";
+import { ModalProvider } from "./contexts/modal-context";
 
 // TODO: remove this (just for testing)
 document.addEventListener("keydown", (e) => {
@@ -17,4 +18,8 @@ document.addEventListener("keydown", (e) => {
 
 const container = document.getElementById("react-popup-root");
 const root = createRoot(container);
-root.render(<PopupComponent tab="home" />);
+root.render(
+  <ModalProvider>
+    <PopupComponent tab="home" />
+  </ModalProvider>
+);
