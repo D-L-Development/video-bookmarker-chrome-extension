@@ -15,7 +15,7 @@ import {
 import AddCircleIcon from "../../icons/add-circle-icon/add-circle.icon";
 import FolderPlusIcon from "../../icons/folder-plus-icon/folder-plus.icon";
 import ViewPagerComponent from "./view-pager/view-pager.component";
-import { ModalContext } from "../../contexts/modal-context";
+import { ModalContext } from "../../contexts/modal.context";
 import { modalTypes } from "../../constants/theme";
 
 const PopupComponent = () => {
