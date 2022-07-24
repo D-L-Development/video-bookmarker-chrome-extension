@@ -20,6 +20,9 @@ export const modalColors = {
     warning: "rgb(182, 179, 24)",
   },
 };
+export const inputGlow_c = "rgb(200, 200, 255)";
+export const inputOutline_c = "rgb(255, 200, 200)";
+export const error_c = "rgb(228, 62, 62)";
 export const modalTypes = {
   ALERT: "alert",
   FORM: "form",

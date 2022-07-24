@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {
   CloseIconWrapper,
   ModalActionButtons,
+  ModalBody,
   ModalBodyText,
   ModalButton,
   ModalHeader,
@@ -34,7 +35,7 @@ const ModalComponent = (props) => {
         </ModalHeader>
         {props.message && <ModalBodyText>{props.message}</ModalBodyText>}
         {/* Children can be embedded here */}
-        <div>{props.children}</div>
+        <ModalBody>{props.children}</ModalBody>
         <ModalActionButtons>
           <ModalButton
             className="modalButton cancel"
@@ -68,7 +69,7 @@ const ModalComponent = (props) => {
 
 ModalComponent.propTypes = {
   title: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["alert", "form", "warning"]).isRequired,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
   message: PropTypes.string,

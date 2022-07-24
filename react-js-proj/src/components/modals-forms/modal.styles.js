@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { modalColors as colors } from "../../constants/theme";
+import {
+  error_c,
+  inputGlow_c,
+  inputOutline_c,
+  modalColors as colors,
+} from "../../constants/theme";
 
 export const ModalWrapper = styled.div`
   width: 100%;
@@ -81,4 +86,49 @@ export const ModalButton = styled.button`
         ? colors.cancelBtnHover_c
         : colors.submitBtnHover_c};
   }
+`;
+
+export const ModalBody = styled.div`
+  margin: 0.6rem 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+`;
+
+export const FormSection = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const TextInput = styled.input.attrs((props) => ({
+  type: "text",
+}))`
+  outline: ${(props) => (props.error ? error_c : "none")};
+  padding: 0.2rem 0.2rem;
+  caret-color: black;
+  font-size: 0.6rem;
+  border-radius: 2px;
+  border: 1px solid gray;
+  transition: 0.1s;
+  font-family: "Roboto", sans-serif;
+
+  &::placeholder {
+    color: lightgray;
+    font-size: 0.6rem;
+  }
+
+  &:focus {
+    outline: 0.5px solid ${inputOutline_c};
+    box-shadow: 0 0 5px 1px ${(props) => (props.error ? error_c : inputGlow_c)};
+  }
+`;
+
+export const Label = styled.label`
+  font-size: 0.75rem;
+  margin-bottom: 0.2rem;
+`;
+
+export const SecondaryInputText = styled.p`
+  font-size: 0.6rem;
+  color: ${error_c};
 `;
