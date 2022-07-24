@@ -7,4 +7,5 @@ export const FileSystemContent = styled(PageContent)`
   flex-wrap: wrap;
   justify-content: start;
   height: 90%;
+  align-content: start;
 `;

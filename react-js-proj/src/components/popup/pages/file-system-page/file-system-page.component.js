@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import { StyledPage } from "../page.styles";
 import { PageHeader } from "../../view-pager/view-pager.styles";
 import * as Styled from "./file-system-page.styles";
 import FolderComponent from "./folder/folder.component";
 import FileComponent from "./file/file.component";
 import InputComponent from "../../shared/input/input.component";
+import { FileSystemContext } from "../../../../contexts/file-system.context";
 
 // TODO: remove this
 const getFakeData = () => {
@@ -22,13 +22,22 @@ const getFakeData = () => {
 };
 
 const FileSystemPageComponent = (props) => {
+  const fs = useContext(FileSystemContext);
+
   return (
     <StyledPage className="StyledPage">
       <PageHeader className="PageHeader">
         <InputComponent placeholder="Search sessions" />
       </PageHeader>
       <Styled.FileSystemContent className="FileSystemContent">
-        {getFakeData()}
+        {fs &&
+          fs.folders.map((folder) => (
+            <FolderComponent
+              name={folder.name}
+              uuid={folder.uuid}
+              key={folder.uuid}
+            />
+          ))}
       </Styled.FileSystemContent>
     </StyledPage>
   );

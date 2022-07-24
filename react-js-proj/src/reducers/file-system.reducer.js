@@ -6,6 +6,7 @@
 // };
 
 export const fsActions = {
+  INIT: "initialize",
   ADD_FILE: "add file",
   REMOVE_FILE: "remove file",
   EDIT_FILE: "edit file",
@@ -30,6 +31,8 @@ export const fsActions = {
 };
 const FileSystemReducer = (state, action) => {
   switch (action.type) {
+    case fsActions.INIT:
+      return action.payload;
     case fsActions.ADD_FILE:
       return { ...state, files: [...state.files, action.payload.file] };
     case fsActions.REMOVE_FILE:
@@ -37,6 +40,7 @@ const FileSystemReducer = (state, action) => {
         ...state,
         files: state.files.filter((file) => file.uuid !== action.payload.uuid),
       };
+
     case fsActions.EDIT_FILE:
       const { file } = action.payload;
       return {
