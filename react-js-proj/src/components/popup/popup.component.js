@@ -17,9 +17,12 @@ import FolderPlusIcon from "../../icons/folder-plus-icon/folder-plus.icon";
 import ViewPagerComponent from "./view-pager/view-pager.component";
 import { ModalContext } from "../../contexts/modal.context";
 import { modalTypes } from "../../constants/theme";
+import { fsDispatchContext } from "../../contexts/file-system.context";
+import { fsActions } from "../../reducers/file-system.reducer";
 
 const PopupComponent = () => {
   const { setModalProps, show, hide } = useContext(ModalContext);
+  const fsDispatch = useContext(fsDispatchContext);
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
       if (response.status !== MSG.SUCCESS) {
@@ -30,10 +33,7 @@ const PopupComponent = () => {
 
   const handleNewSessionBtnClick = (e) => {
     console.log("New session click");
-  };
 
-  const handleNewFolderBtnClick = (e) => {
-    console.log("New folder click");
     setModalProps({
       onClose: () => {
         console.log("Cancel dude");
@@ -51,6 +51,20 @@ const PopupComponent = () => {
     });
 
     show();
+  };
+
+  const handleNewFolderBtnClick = (e) => {
+    console.log("New folder click");
+
+    fsDispatch({
+      type: fsActions.ADD_FOLDER,
+      payload: {
+        folder: {
+          uuid: "5432-kjlg-12fg",
+          name: "New Folder",
+        },
+      },
+    });
   };
 
   return (
