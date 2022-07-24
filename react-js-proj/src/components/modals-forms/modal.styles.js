@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { modalColors as colors } from "../../../constants/theme";
+import { modalColors as colors } from "../../constants/theme";
 
 export const ModalWrapper = styled.div`
   width: 100%;

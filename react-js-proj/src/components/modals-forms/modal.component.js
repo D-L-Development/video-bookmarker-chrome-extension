@@ -10,9 +10,9 @@ import {
   ModalWrapper,
   StyledModal,
 } from "./modal.styles";
-import CloseIcon from "../../../icons/close-icon/close.icon";
+import CloseIcon from "../../icons/close-icon/close.icon";
 
-const Modal = (props) => {
+const ModalComponent = (props) => {
   return (
     <ModalWrapper
       onClick={(e) => {
@@ -33,6 +33,8 @@ const Modal = (props) => {
           </CloseIconWrapper>
         </ModalHeader>
         {props.message && <ModalBodyText>{props.message}</ModalBodyText>}
+        {/* Children can be embedded here */}
+        <div>{props.children}</div>
         <ModalActionButtons>
           <ModalButton
             className="modalButton cancel"
@@ -64,7 +66,7 @@ const Modal = (props) => {
   );
 };
 
-Modal.propTypes = {
+ModalComponent.propTypes = {
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   onClose: PropTypes.func,
@@ -74,4 +76,4 @@ Modal.propTypes = {
   submitBtnText: PropTypes.string,
 };
 
-export default Modal;
+export default ModalComponent;

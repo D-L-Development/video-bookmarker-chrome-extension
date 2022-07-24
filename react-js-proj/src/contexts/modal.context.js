@@ -1,5 +1,5 @@
 import React, { createContext, useRef, useState } from "react";
-import Modal from "../components/modals-forms/modal/modal";
+import ModalComponent from "../components/modals-forms/modal.component";
 
 export const ModalContext = createContext(null);
 
@@ -36,7 +36,7 @@ export const ModalProvider = (props) => {
   return (
     <ModalContext.Provider value={{ setModalProps, show, hide }}>
       {props.children}
-      {isShown && <Modal {...modalProps.current} />}
+      {isShown && <ModalComponent {...modalProps.current} />}
     </ModalContext.Provider>
   );
 };

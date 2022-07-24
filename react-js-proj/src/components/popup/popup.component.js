@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import LeftArrowIcon from "../../icons/left-arrow-icon/left-arrow-icon";
 import CloseIcon from "../../icons/close-icon/close.icon";
 import { MSG, sendMessageToActiveTab } from "../../contentScripts/utility";
@@ -18,11 +18,12 @@ import ViewPagerComponent from "./view-pager/view-pager.component";
 import { ModalContext } from "../../contexts/modal.context";
 import { modalTypes } from "../../constants/theme";
 import { fsDispatchContext } from "../../contexts/file-system.context";
-import { fsActions } from "../../reducers/file-system.reducer";
+import FolderModalComponent from "../modals-forms/folder-modal/folder-modal.component";
 
 const PopupComponent = () => {
   const { setModalProps, show, hide } = useContext(ModalContext);
   const fsDispatch = useContext(fsDispatchContext);
+  const [showFolderModal, setShowFolderModal] = useState(false);
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
       if (response.status !== MSG.SUCCESS) {
@@ -55,16 +56,17 @@ const PopupComponent = () => {
 
   const handleNewFolderBtnClick = (e) => {
     console.log("New folder click");
+    setShowFolderModal(true);
 
-    fsDispatch({
-      type: fsActions.ADD_FOLDER,
-      payload: {
-        folder: {
-          uuid: "5432-kjlg-12fg",
-          name: "New Folder",
-        },
-      },
-    });
+    // fsDispatch({
+    //   type: fsActions.ADD_FOLDER,
+    //   payload: {
+    //     folder: {
+    //       uuid: "5432-kjlg-12fg",
+    //       name: "New Folder",
+    //     },
+    //   },
+    // });
   };
 
   return (
@@ -89,6 +91,10 @@ const PopupComponent = () => {
           Create Folder
         </AddFolderButton>
       </Footer>
+
+      {showFolderModal && (
+        <FolderModalComponent hideModal={() => setShowFolderModal(false)} />
+      )}
     </StyledPopup>
   );
 };
