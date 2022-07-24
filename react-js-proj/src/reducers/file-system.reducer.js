@@ -44,7 +44,6 @@ const FileSystemReducer = (state, action) => {
         ...state,
         files: state.files.filter((file) => file.uuid !== action.payload.uuid),
       };
-
     case fsActions.EDIT_FILE:
       const { file } = action.payload;
       return {
@@ -86,7 +85,7 @@ const FileSystemReducer = (state, action) => {
     case fsActions.OPEN_FOLDER:
       return state;
     default:
-      console.log("Default case hit");
+      throw new Error("SYNC dispatch type not recognized");
       return state;
   }
 };

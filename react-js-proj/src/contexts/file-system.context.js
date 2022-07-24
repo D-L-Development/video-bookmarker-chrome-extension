@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { useFileSystemHook } from "../hooks/useFileSystem.hook";
+import { useFileSystemHook } from "../hooks/use-file-system.hook";
 
 export const FileSystemContext = createContext(null);
 export const fsDispatchContext = createContext(null);

@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import fileSystemReducer, { fsActions } from "../reducers/file-system.reducer";
+import { useFileSystemMW } from "./use-file-system-mw.hook";
 
 /**
  * the state has the format below
@@ -32,11 +33,20 @@ const rootDir = {
  * @returns {[S,(() => void)]}
  */
 export const useFileSystemHook = () => {
-  const [fileSystemState, fileSystemDispatch] = useReducer(
+  const [fileSystemState, syncFileSystemDispatch] = useReducer(
     fileSystemReducer,
     null
   );
 
+  /**
+   * Custom hook acts as a middle where for the dispatch function, by finishing
+   * all async operations then calling the sync dispatch function
+   */
+  const [asyncFileSystemDispatch] = useFileSystemMW(syncFileSystemDispatch);
+
+  /**
+   * Runs only one time. It calls the sync dispatch with the data from chrome.storage
+   */
   useEffect(() => {
     const fetchStorage = async () => {
       try {
@@ -47,12 +57,12 @@ export const useFileSystemHook = () => {
         // if not found, use the default value and save it to chrome.storage
         if (storedRootFolder[ROOT]) {
           const { current, parent } = rootDir;
-          fileSystemDispatch({
+          syncFileSystemDispatch({
             type: fsActions.INIT,
             payload: { ...storedRootFolder[ROOT], current, parent },
           });
         } else {
-          fileSystemDispatch({
+          syncFileSystemDispatch({
             type: fsActions.INIT,
             payload: rootDir,
           });
@@ -64,6 +74,9 @@ export const useFileSystemHook = () => {
     fetchStorage();
   }, []);
 
+  /**
+   * Updates the current folder's key in chrome.storage when there's an update to the state
+   */
   useEffect(() => {
     console.log("File system state changed");
     console.log(fileSystemState);
@@ -80,5 +93,5 @@ export const useFileSystemHook = () => {
     fileSystemState && saveStateToStorage();
   }, [fileSystemState]);
 
-  return [fileSystemState, fileSystemDispatch];
+  return [fileSystemState, asyncFileSystemDispatch];
 };

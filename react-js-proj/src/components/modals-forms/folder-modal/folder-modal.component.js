@@ -8,7 +8,7 @@ import {
   SecondaryInputText,
   TextInput,
 } from "../modal.styles";
-import { useInputState } from "../../../hooks/useInputState.hook";
+import { useInputState } from "../../../hooks/use-input-state.hook";
 import { fsDispatchContext } from "../../../contexts/file-system.context";
 import { fsActions } from "../../../reducers/file-system.reducer";
 
