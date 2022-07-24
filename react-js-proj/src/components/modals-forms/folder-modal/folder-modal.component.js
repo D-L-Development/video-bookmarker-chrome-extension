@@ -8,8 +8,13 @@ import {
   SecondaryInputText,
   TextInput,
 } from "../modal.styles";
+import { useInputState } from "../../../hooks/useInputState.hook";
 
-const FolderModalComponent = ({ hideModal }) => {
+const FolderModalComponent = ({ hideModal, initVal = "" }) => {
+  const [folderName, handleFolderNameChange, error] = useInputState(
+    initVal,
+    15
+  );
   return (
     <ModalComponent
       title={"Create new folder"}
@@ -32,10 +37,12 @@ const FolderModalComponent = ({ hideModal }) => {
           placeholder={"Folder name"}
           name="folderName"
           id="folderName"
-          error={true}
+          value={folderName}
+          onChange={handleFolderNameChange}
+          error={error !== ""}
         />
         <SecondaryInputText className="secondaryText">
-          Error above
+          {error}
         </SecondaryInputText>
       </FormSection>
     </ModalComponent>

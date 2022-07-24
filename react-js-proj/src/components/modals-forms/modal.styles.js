@@ -131,4 +131,10 @@ export const Label = styled.label`
 export const SecondaryInputText = styled.p`
   font-size: 0.6rem;
   color: ${error_c};
+
+  // this makes it to where the p tag stays the same size when empty
+  &:empty::before {
+    content: "";
+    display: inline-block;
+  }
 `;
