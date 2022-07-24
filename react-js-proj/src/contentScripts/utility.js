@@ -62,21 +62,8 @@ export function guid() {
       .toString(16)
       .substring(1);
   };
-  //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
-  return (
-    s4() +
-    s4() +
-    "-" +
-    s4() +
-    "-" +
-    s4() +
-    "-" +
-    s4() +
-    "-" +
-    s4() +
-    s4() +
-    s4()
-  );
+  //return id of format 'aaaaaaaaaaaaaaaa-aaaa'
+  return s4() + s4() + s4() + s4() + "-" + s4();
 }
 
 export function timestampToSeconds(timestamp) {

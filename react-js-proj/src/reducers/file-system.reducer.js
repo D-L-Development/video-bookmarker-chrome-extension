@@ -1,3 +1,5 @@
+import { guid } from "../contentScripts/utility";
+
 // const rootDir = {
 //   folders: [{uuid: ROOT, name: "Root Folder", date: null}],
 //   files: [{uuid: ROOT, name: "Root Folder", date: null}],
@@ -8,9 +10,11 @@
 export const fsActions = {
   INIT: "initialize",
   ADD_FILE: "add file",
+  // step | make sure you create a key in storage with empty arrays
   REMOVE_FILE: "remove file",
   EDIT_FILE: "edit file",
   ADD_FOLDER: "add folder",
+  // step | make sure you create a key in storage with empty arrays
   EDIT_FOLDER: "edit folder",
   REMOVE_FOLDER: "remove folder",
   // TODO: those don't work yet
@@ -55,7 +59,13 @@ const FileSystemReducer = (state, action) => {
     case fsActions.OPEN_FILE:
       return state;
     case fsActions.ADD_FOLDER:
-      return { ...state, folders: [...state.folders, action.payload.folder] };
+      return {
+        ...state,
+        folders: [
+          ...state.folders,
+          { name: action.payload.name, uuid: guid() },
+        ],
+      };
     case fsActions.REMOVE_FOLDER:
       return {
         ...state,
