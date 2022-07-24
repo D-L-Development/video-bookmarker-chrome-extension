@@ -52,10 +52,6 @@ export const useFileSystemHook = () => {
             payload: { ...storedRootFolder[ROOT], current, parent },
           });
         } else {
-          const { folders, files } = rootDir;
-          await chrome.storage.sync.set({
-            [ROOT]: { folders, files },
-          });
           fileSystemDispatch({
             type: fsActions.INIT,
             payload: rootDir,
@@ -71,6 +67,17 @@ export const useFileSystemHook = () => {
   useEffect(() => {
     console.log("File system state changed");
     console.log(fileSystemState);
+    const saveStateToStorage = async () => {
+      const { current, files, folders } = fileSystemState;
+      await chrome.storage.sync.set({
+        [current.uuid]: {
+          folders,
+          files,
+        },
+      });
+    };
+
+    fileSystemState && saveStateToStorage();
   }, [fileSystemState]);
 
   return [fileSystemState, fileSystemDispatch];
