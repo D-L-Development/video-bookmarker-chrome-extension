@@ -78,8 +78,10 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
 
       if (index > -1) {
         storage[current.uuid].folders.splice(index, 1);
-        await chrome.storage.sync.set(storage);
-        await chrome.storage.sync.remove(payload.uuid);
+        await Promise.all([
+          chrome.storage.sync.set(storage),
+          chrome.storage.sync.remove(payload.uuid),
+        ]);
         syncFileSystemDispatch({ type, payload });
       }
     } catch (e) {
