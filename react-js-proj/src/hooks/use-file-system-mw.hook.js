@@ -68,6 +68,25 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     }
   };
 
+  async function removeFolder({ type, payload }) {
+    const { current } = fileSystemState;
+    try {
+      const storage = await chrome.storage.sync.get(current.uuid);
+      const index = storage[current.uuid].folders.findIndex(
+        (folder) => folder.uuid === payload.uuid
+      );
+
+      if (index > -1) {
+        storage[current.uuid].folders.splice(index, 1);
+        await chrome.storage.sync.set(storage);
+        await chrome.storage.sync.remove(payload.uuid);
+        syncFileSystemDispatch({ type, payload });
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
   const asyncDispatch = async (action) => {
     switch (action.type) {
       case fsActions.INIT:
@@ -87,6 +106,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         await addFolder(action);
         break;
       case fsActions.REMOVE_FOLDER:
+        await removeFolder(action);
         break;
       case fsActions.EDIT_FOLDER:
         break;
