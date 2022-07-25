@@ -1,5 +1,3 @@
-import { guid } from "../contentScripts/utility";
-
 // const rootDir = {
 //   folders: [{uuid: ROOT, name: "Root Folder", date: null}],
 //   files: [{uuid: ROOT, name: "Root Folder", date: null}],
@@ -60,10 +58,7 @@ const FileSystemReducer = (state, action) => {
     case fsActions.ADD_FOLDER:
       return {
         ...state,
-        folders: [
-          ...state.folders,
-          { name: action.payload.name, uuid: guid() },
-        ],
+        folders: [...state.folders, action.payload.folder],
       };
     case fsActions.REMOVE_FOLDER:
       return {
