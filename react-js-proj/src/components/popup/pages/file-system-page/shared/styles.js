@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const DIMEN_PERCENT = "33.3333%";
+const DIMEN_PERCENT = "25%";
 
 export const Square = styled.div`
   width: ${DIMEN_PERCENT};
@@ -19,7 +19,7 @@ export const StretchContainer = styled.div`
 
 export const SessionNameText = styled.span`
   position: absolute;
-  bottom: 3%;
+  bottom: 6%;
   font-size: 0.7rem;
   left: 0;
   width: 100%;

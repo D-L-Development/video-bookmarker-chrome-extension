@@ -32,6 +32,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         files: [],
       };
       await chrome.storage.sync.set(storage);
+      folder.selected = false;
       syncFileSystemDispatch({ type, payload: { folder } });
     } catch (e) {
       throw e;

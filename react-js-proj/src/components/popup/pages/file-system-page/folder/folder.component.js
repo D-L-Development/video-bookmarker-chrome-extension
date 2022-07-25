@@ -20,7 +20,7 @@ const FolderComponent = ({ name, uuid }) => {
       }}
     >
       <SharedStyles.StretchContainer>
-        <FolderIcon width="100%" height="100%" color="#fec" />
+        <FolderIcon width="100%" height="90%" color="#fec" />
         <SharedStyles.SessionNameText>{name}</SharedStyles.SessionNameText>
       </SharedStyles.StretchContainer>
     </SharedStyles.Square>
