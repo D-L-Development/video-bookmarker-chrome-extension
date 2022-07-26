@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
-const DIMEN_PERCENT = "25%";
+const DIMEN_PERCENT = "22.5%";
+const MARGIN_PERCENT = "2%";
 
 export const Square = styled.div`
   width: ${DIMEN_PERCENT};
   padding-bottom: ${DIMEN_PERCENT};
+  margin-left: ${MARGIN_PERCENT};
+  margin-top: ${MARGIN_PERCENT};
   position: relative;
   ${(props) =>
     props.selected &&
