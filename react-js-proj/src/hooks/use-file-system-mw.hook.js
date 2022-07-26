@@ -21,7 +21,42 @@ const rootDir = {
  *                       by react components through the context
  */
 export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
-  async function addFolder({ type, payload }) {
+  const asyncDispatch = async (action) => {
+    switch (action.type) {
+      case fsActions.INIT:
+        await initStateAndStorage();
+        break;
+      case fsActions.ADD_FILE:
+        await addFile(action);
+        break;
+      case fsActions.REMOVE_FILE:
+        break;
+      case fsActions.EDIT_FILE:
+        break;
+      case fsActions.OPEN_FILE:
+        break;
+      case fsActions.MOVE_FILE:
+        break;
+      case fsActions.ADD_FOLDER:
+        await addFolder(action);
+        break;
+      case fsActions.REMOVE_FOLDER:
+        await removeFolder(action);
+        break;
+      case fsActions.EDIT_FOLDER:
+        break;
+      case fsActions.OPEN_FOLDER:
+        break;
+      case fsActions.MOVE_FOLDER:
+        break;
+      default:
+        // any action that isn't async will be passed to the async
+        // dispatch function to handle.
+        syncFileSystemDispatch(action);
+    }
+  };
+
+  const addFolder = async ({ type, payload }) => {
     const { current } = fileSystemState;
     try {
       const storage = await chrome.storage.sync.get(current.uuid);
@@ -37,7 +72,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
   const initStateAndStorage = async () => {
     try {
@@ -72,7 +107,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     }
   };
 
-  async function removeFolder({ type, payload }) {
+  const removeFolder = async ({ type, payload }) => {
     const { current } = fileSystemState;
     try {
       const storage = await chrome.storage.sync.get(current.uuid);
@@ -91,39 +126,22 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  const asyncDispatch = async (action) => {
-    switch (action.type) {
-      case fsActions.INIT:
-        await initStateAndStorage();
-        break;
-      case fsActions.ADD_FILE:
-        break;
-      case fsActions.REMOVE_FILE:
-        break;
-      case fsActions.EDIT_FILE:
-        break;
-      case fsActions.OPEN_FILE:
-        break;
-      case fsActions.MOVE_FILE:
-        break;
-      case fsActions.ADD_FOLDER:
-        await addFolder(action);
-        break;
-      case fsActions.REMOVE_FOLDER:
-        await removeFolder(action);
-        break;
-      case fsActions.EDIT_FOLDER:
-        break;
-      case fsActions.OPEN_FOLDER:
-        break;
-      case fsActions.MOVE_FOLDER:
-        break;
-      default:
-        // any action that isn't async will be passed to the async
-        // dispatch function to handle.
-        syncFileSystemDispatch(action);
+  const addFile = async ({ type, payload }) => {
+    const { current } = fileSystemState;
+    try {
+      const storage = await chrome.storage.sync.get(current.uuid);
+      const file = new FS_Item(guid(), payload.name, payload.date);
+      storage[current.uuid].files.push(file);
+      storage[file.uuid] = {
+        bookmarks: {},
+      };
+      await chrome.storage.sync.set(storage);
+      file.selected = false;
+      syncFileSystemDispatch({ type, payload: { file } });
+    } catch (e) {
+      throw e;
     }
   };
 
