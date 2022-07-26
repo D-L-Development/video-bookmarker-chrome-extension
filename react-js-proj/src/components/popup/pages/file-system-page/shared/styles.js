@@ -1,17 +1,19 @@
 import styled from "styled-components";
 
 const DIMEN_PERCENT = "22.5%";
-const MARGIN_PERCENT = "2%";
+export const FS_MARGIN_PERCENT = "2%";
 
 export const Square = styled.div`
   width: ${DIMEN_PERCENT};
   padding-bottom: ${DIMEN_PERCENT};
-  margin-left: ${MARGIN_PERCENT};
-  margin-top: ${MARGIN_PERCENT};
+  margin-left: ${FS_MARGIN_PERCENT};
+  margin-top: ${FS_MARGIN_PERCENT};
   position: relative;
+
   ${(props) =>
     props.selected &&
-    `outline: 1px solid #0300ff;
+    `
+    outline: 1px solid #0300ff;
     background-color: rgb(191, 181, 209);
   `}
 `;

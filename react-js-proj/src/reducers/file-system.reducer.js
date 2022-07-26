@@ -128,10 +128,9 @@ const FileSystemReducer = (state, action) => {
         ),
       };
     case fsActions.TOGGLE_SELECTION_RANGE:
-      const { firstId, secondId } = action.payload;
-      console.log(firstId, secondId);
       let reachedOutOfRange = false;
       let inRange = false;
+      const { firstId, secondId } = action.payload;
       return {
         ...state,
         folders: state.folders.map((folder) => {
