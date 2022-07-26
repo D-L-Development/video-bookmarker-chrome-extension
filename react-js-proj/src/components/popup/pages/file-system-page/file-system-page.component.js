@@ -45,8 +45,18 @@ const FileSystemPageComponent = (props) => {
       });
     } else if (e.shiftKey) {
       // if SHIFT is held, select up to the most recently selected item
-      // iterate through the array until you find the id of the last selection
-      // or the id of the clicked item. Send both id in order
+
+      // if the current is the same as last clicked, then just select it
+      if (lastSelectedId.current === clickedId) {
+        fsDispatch({
+          type: fsActions.DESELECT_ALL,
+          payload: { uuid: clickedId },
+        });
+        return;
+      }
+
+      // find the id of the last selection or the id of the clicked item.
+      // Send both id's in order depending on index
       let firstId;
       let secondId;
       for (let i = 0; i < fs.folders.length; i++) {
