@@ -110,16 +110,28 @@ const FileSystemPageComponent = (props) => {
         />
       </PageHeader>
       <Styled.FileSystemContent className="FileSystemContent">
-        {fs &&
-          fs.folders.map((folder) => (
-            <FolderComponent
-              name={folder.name}
-              uuid={folder.uuid}
-              key={folder.uuid}
-              selected={folder.selected}
-              handleClick={handleSelection}
-            />
-          ))}
+        {fs && (
+          <>
+            {fs.folders.map((folder) => (
+              <FolderComponent
+                name={folder.name}
+                uuid={folder.uuid}
+                key={folder.uuid}
+                selected={folder.selected}
+                handleClick={handleSelection}
+              />
+            ))}
+            {fs.files.map((file) => (
+              <FileComponent
+                name={file.name}
+                uuid={file.uuid}
+                key={file.uuid}
+                selected={file.selected}
+                handleClick={handleSelection}
+              />
+            ))}
+          </>
+        )}
       </Styled.FileSystemContent>
     </StyledPage>
   );
