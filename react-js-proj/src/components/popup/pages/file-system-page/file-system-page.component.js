@@ -31,6 +31,7 @@ const FileSystemPageComponent = (props) => {
   const lastSelectedId = useRef(null);
 
   const handleSelection = (e) => {
+    e.stopPropagation();
     const ids = fs.folders.map((folder) => folder.uuid);
     // if CTRL + A, select all
     // check for CTRL | SHIFT keys. NOT both
@@ -55,7 +56,12 @@ const FileSystemPageComponent = (props) => {
   };
 
   return (
-    <StyledPage className="StyledPage">
+    <StyledPage
+      className="StyledPage"
+      onClick={() => {
+        fsDispatch({ type: fsActions.DESELECT_ALL });
+      }}
+    >
       <PageHeader className="PageHeader">
         <InputComponent placeholder="Search sessions" />
       </PageHeader>

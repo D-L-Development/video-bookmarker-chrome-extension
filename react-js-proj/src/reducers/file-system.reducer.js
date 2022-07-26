@@ -91,7 +91,8 @@ const FileSystemReducer = (state, action) => {
         ),
       };
     case fsActions.DESELECT_ALL:
-      const toBeSelectedId = action.payload.uuid;
+      const toBeSelectedId = action.payload?.uuid;
+
       return {
         ...state,
         files: state.files.map((file) => ({
@@ -100,7 +101,7 @@ const FileSystemReducer = (state, action) => {
         })),
         folders: state.folders.map((folder) => ({
           ...folder,
-          selected: toBeSelectedId && toBeSelectedId === folder.uuid,
+          selected: Boolean(toBeSelectedId && toBeSelectedId === folder.uuid),
         })),
       };
     default:
