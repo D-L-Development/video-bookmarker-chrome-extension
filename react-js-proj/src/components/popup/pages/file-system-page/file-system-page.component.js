@@ -59,30 +59,16 @@ const FileSystemPageComponent = (props) => {
       // Send both id's in order depending on index
       let firstId;
       let secondId;
-      for (let i = 0; i < fs.folders.length; i++) {
-        if (fs.folders[i].uuid === lastSelectedId.current) {
+      const allFiles = [...fs.folders, ...fs.files];
+      for (let i = 0; i < allFiles.length; i++) {
+        if (allFiles[i].uuid === lastSelectedId.current) {
           firstId = lastSelectedId.current;
           secondId = clickedId;
           break;
-        } else if (fs.folders[i].uuid === clickedId) {
+        } else if (allFiles[i].uuid === clickedId) {
           firstId = clickedId;
           secondId = lastSelectedId.current;
           break;
-        }
-      }
-
-      if (firstId && secondId) {
-      } else {
-        for (let i = 0; i < fs.files.length; i++) {
-          if (fs.files[i].uuid === lastSelectedId.current) {
-            firstId = lastSelectedId.current;
-            secondId = clickedId;
-            break;
-          } else if (fs.files[i].uuid === clickedId) {
-            firstId = clickedId;
-            secondId = lastSelectedId.current;
-            break;
-          }
         }
       }
 
@@ -114,6 +100,7 @@ const FileSystemPageComponent = (props) => {
         }
       }}
       tabIndex="0"
+      style={{ userSelect: "none" }}
     >
       <PageHeader className="PageHeader">
         <InputComponent placeholder="Search sessions" />
