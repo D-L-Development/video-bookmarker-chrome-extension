@@ -11,20 +11,6 @@ import {
 } from "../../../../contexts/file-system.context";
 import { fsActions } from "../../../../reducers/file-system.reducer";
 
-// TODO: remove this
-const getFakeData = () => {
-  const data = [];
-  for (let i = 0; i < 12; i++) {
-    data.push(<FolderComponent key={i} name={"Session name"} />);
-  }
-
-  for (let i = 0; i < 11; i++) {
-    data.push(<FileComponent key={i + 12} name={"Session name"} />);
-  }
-
-  return data;
-};
-
 const FileSystemPageComponent = (props) => {
   const fs = useContext(FileSystemContext);
   const fsDispatch = useContext(fsDispatchContext);

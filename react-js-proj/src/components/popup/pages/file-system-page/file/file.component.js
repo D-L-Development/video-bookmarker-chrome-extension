@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import * as SharedStyles from "../shared/styles";
 import BookmarksIcon from "../../../../../icons/bookmarks-icon/bookmarks.icon";
 import { file_c } from "../../../../../constants/theme";
-const FileComponent = (props) => {
+
+const FileComponent = ({ name, uuid, selected, handleClick }) => {
   return (
-    <SharedStyles.Square>
+    <SharedStyles.Square id={uuid} selected={selected} onClick={handleClick}>
       <SharedStyles.StretchContainer>
-        <BookmarksIcon width="100%" height="90%" color={file_c} />
-        <SharedStyles.SessionNameText>
-          {props.name}
-        </SharedStyles.SessionNameText>
+        <BookmarksIcon width="100%" height="80%" color={file_c} />
+        <SharedStyles.SessionNameText>{name}</SharedStyles.SessionNameText>
       </SharedStyles.StretchContainer>
     </SharedStyles.Square>
   );

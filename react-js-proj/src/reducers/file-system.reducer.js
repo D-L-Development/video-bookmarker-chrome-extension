@@ -30,7 +30,6 @@ export const fsActions = {
   // step | create a new state with: previous = current; current = theOneFromTheState; update files[] and folders[] from storage
   OPEN_FOLDER: "open folder",
   // step | similar to above
-  SELECT_FOLDER: "select folder",
   DESELECT_ALL: "deselect all",
   TOGGLE_SELECTION: "toggle selection",
   TOGGLE_SELECTION_RANGE: "toggle selection range",
@@ -84,15 +83,6 @@ const FileSystemReducer = (state, action) => {
       return state;
     case fsActions.OPEN_FOLDER:
       return state;
-    case fsActions.SELECT_FOLDER:
-      return {
-        ...state,
-        folders: state.folders.map((folder) =>
-          folder.uuid === action.payload.uuid
-            ? { ...folder, selected: true }
-            : folder
-        ),
-      };
     case fsActions.DESELECT_ALL:
       const toBeSelectedId = action.payload?.uuid;
 
