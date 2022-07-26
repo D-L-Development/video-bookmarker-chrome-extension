@@ -103,7 +103,11 @@ const FileSystemPageComponent = (props) => {
       style={{ userSelect: "none" }}
     >
       <PageHeader className="PageHeader">
-        <InputComponent placeholder="Search sessions" />
+        <InputComponent
+          placeholder="Search files..."
+          marginRight={"0.5rem"}
+          marginLeft={"auto"}
+        />
       </PageHeader>
       <Styled.FileSystemContent className="FileSystemContent">
         {fs &&
