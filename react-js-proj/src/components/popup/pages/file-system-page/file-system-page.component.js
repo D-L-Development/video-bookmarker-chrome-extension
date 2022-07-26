@@ -32,25 +32,61 @@ const FileSystemPageComponent = (props) => {
 
   const handleSelection = (e) => {
     e.stopPropagation();
-    const ids = fs.folders.map((folder) => folder.uuid);
-    // if CTRL + A, select all
-    // check for CTRL | SHIFT keys. NOT both
-    // if CTRL is held, toggle selection of item clicked
-    // if SHIFT is held, select up to the most recently selected item
+    e.preventDefault();
+    const clickedId = e.currentTarget.id;
     // clicking with no buttons held, ALWAYS selects
     if (e.ctrlKey && e.shiftKey) {
+      // check for CTRL | SHIFT keys. NOT both
     } else if (e.ctrlKey) {
-      // step | toggle the selection
+      // if CTRL is held, toggle selection of item clicked
+      fsDispatch({
+        type: fsActions.TOGGLE_SELECTION,
+        payload: { uuid: clickedId },
+      });
     } else if (e.shiftKey) {
-      // step | iterate through the array until you find the id of the last selection
-      // step | or the id of the clicked item. Send both id in order
-    } else {
-      // step | un select all except for the selected
-      // step | updated the last selected
+      // if SHIFT is held, select up to the most recently selected item
+      // iterate through the array until you find the id of the last selection
+      // or the id of the clicked item. Send both id in order
+      let firstId;
+      let secondId;
+      for (let i = 0; i < fs.folders.length; i++) {
+        if (fs.folders[i].uuid === lastSelectedId.current) {
+          firstId = lastSelectedId.current;
+          secondId = clickedId;
+          break;
+        } else if (fs.folders[i].uuid === clickedId) {
+          firstId = clickedId;
+          secondId = lastSelectedId.current;
+          break;
+        }
+      }
+
+      if (firstId && secondId) {
+      } else {
+        for (let i = 0; i < fs.files.length; i++) {
+          if (fs.files[i].uuid === lastSelectedId.current) {
+            firstId = lastSelectedId.current;
+            secondId = clickedId;
+            break;
+          } else if (fs.files[i].uuid === clickedId) {
+            firstId = clickedId;
+            secondId = lastSelectedId.current;
+            break;
+          }
+        }
+      }
 
       fsDispatch({
+        type: fsActions.TOGGLE_SELECTION_RANGE,
+        payload: { firstId, secondId },
+      });
+    } else {
+      // un select all except for the selected
+      // updated the last selected
+      lastSelectedId.current = clickedId;
+      fsDispatch({
         type: fsActions.DESELECT_ALL,
-        payload: { uuid: e.currentTarget.id },
+        payload: { uuid: clickedId },
       });
     }
   };
@@ -61,6 +97,13 @@ const FileSystemPageComponent = (props) => {
       onClick={() => {
         fsDispatch({ type: fsActions.DESELECT_ALL });
       }}
+      onKeyDown={(e) => {
+        if (e.key === "a" && e.ctrlKey) {
+          e.preventDefault();
+          fsDispatch({ type: fsActions.SELECT_ALL });
+        }
+      }}
+      tabIndex="0"
     >
       <PageHeader className="PageHeader">
         <InputComponent placeholder="Search sessions" />

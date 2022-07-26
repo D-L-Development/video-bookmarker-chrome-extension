@@ -32,6 +32,9 @@ export const fsActions = {
   // step | similar to above
   SELECT_FOLDER: "select folder",
   DESELECT_ALL: "deselect all",
+  TOGGLE_SELECTION: "toggle selection",
+  TOGGLE_SELECTION_RANGE: "toggle selection range",
+  SELECT_ALL: "select all",
 };
 const FileSystemReducer = (state, action) => {
   switch (action.type) {
@@ -103,6 +106,68 @@ const FileSystemReducer = (state, action) => {
           ...folder,
           selected: Boolean(toBeSelectedId && toBeSelectedId === folder.uuid),
         })),
+      };
+    case fsActions.TOGGLE_SELECTION:
+      return {
+        ...state,
+        folders: state.folders.map((folder) =>
+          folder.uuid === action.payload.uuid
+            ? {
+                ...folder,
+                selected: !folder.selected,
+              }
+            : folder
+        ),
+        files: state.files.map((file) =>
+          file.uuid === action.payload.uuid
+            ? {
+                ...file,
+                selected: !file.selected,
+              }
+            : file
+        ),
+      };
+    case fsActions.TOGGLE_SELECTION_RANGE:
+      const { firstId, secondId } = action.payload;
+      console.log(firstId, secondId);
+      let reachedOutOfRange = false;
+      let inRange = false;
+      return {
+        ...state,
+        folders: state.folders.map((folder) => {
+          if (reachedOutOfRange) {
+            inRange = false;
+          } else if (folder.uuid === firstId) {
+            inRange = true;
+          } else if (folder.uuid === secondId) {
+            reachedOutOfRange = true;
+          }
+
+          return {
+            ...folder,
+            selected: inRange,
+          };
+        }),
+        files: state.files.map((file) => {
+          if (reachedOutOfRange) {
+            inRange = false;
+          } else if (file.uuid === firstId) {
+            inRange = true;
+          } else if (file.uuid === secondId) {
+            reachedOutOfRange = true;
+          }
+
+          return {
+            ...file,
+            selected: inRange,
+          };
+        }),
+      };
+    case fsActions.SELECT_ALL:
+      return {
+        ...state,
+        files: state.files.map((file) => ({ ...file, selected: true })),
+        folders: state.folders.map((folder) => ({ ...folder, selected: true })),
       };
     default:
       throw new Error("SYNC dispatch type not recognized");
