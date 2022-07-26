@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import ModalComponent from "../modal.component";
 import { modalTypes } from "../../../constants/theme";
@@ -14,11 +14,13 @@ import { fsActions } from "../../../reducers/file-system.reducer";
 import { getCurrentDate } from "../../../contentScripts/utility";
 
 const FileModalComponent = (props) => {
-  const [fileName, handleFolderNameChange, error] = useInputState(
+  const [fileName, handleFolderNameChange, nameError] = useInputState(
     props.fileName || "",
     15
   );
-  const [date, setDate] = useState(props.date || getCurrentDate());
+  const [date, handleDateChange, dateError] = useInputState(
+    props.date || getCurrentDate()
+  );
   const fsDispatch = useContext(fsDispatchContext);
   return (
     <ModalComponent
@@ -27,7 +29,7 @@ const FileModalComponent = (props) => {
       submitBtnText={props.submitBtnText}
       closeBtnText={"Cancel"}
       onSubmit={() => {
-        if (fileName.trim().length && error === "" && date !== "") {
+        if (fileName.trim().length && nameError === "" && date !== "") {
           fsDispatch({
             type: fsActions.ADD_FILE,
             payload: { name: fileName.trim(), date },
@@ -46,10 +48,10 @@ const FileModalComponent = (props) => {
           id="fileName"
           value={fileName}
           onChange={handleFolderNameChange}
-          error={error !== ""}
+          nameError={nameError !== ""}
         />
         <SecondaryInputText className="secondaryText">
-          {error}
+          {nameError}
         </SecondaryInputText>
       </FormSection>
       <FormSection>
@@ -58,8 +60,9 @@ const FileModalComponent = (props) => {
           id={"dataPicker"}
           type={"date"}
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={handleDateChange}
         />
+        <SecondaryInputText>{dateError}</SecondaryInputText>
       </FormSection>
     </ModalComponent>
   );
