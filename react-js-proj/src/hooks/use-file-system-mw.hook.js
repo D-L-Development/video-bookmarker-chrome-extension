@@ -6,7 +6,7 @@ const ROOT = "ROOT";
 const rootDir = {
   folders: [],
   files: [],
-  current: { uuid: ROOT, name: "Root Folder", date: null },
+  current: { uuid: ROOT, name: "Files", date: null },
   parent: null,
 };
 
@@ -47,6 +47,9 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       }
       // if not found, use the default value and save it to chrome.storage
       if (storage[ROOT]) {
+        // the storage doesn't contain the selected key, so we add it
+        storage[ROOT].files.forEach((file) => (file.selected = false));
+        storage[ROOT].folders.forEach((folder) => (folder.selected = false));
         const { current, parent } = rootDir;
         syncFileSystemDispatch({
           type: fsActions.INIT,
@@ -118,7 +121,9 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       case fsActions.MOVE_FOLDER:
         break;
       default:
-        throw new Error("ASYNC dispatch type not recognized");
+        // any action that isn't async will be passed to the async
+        // dispatch function to handle.
+        syncFileSystemDispatch(action);
     }
   };
 

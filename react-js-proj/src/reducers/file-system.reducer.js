@@ -30,6 +30,8 @@ export const fsActions = {
   // step | create a new state with: previous = current; current = theOneFromTheState; update files[] and folders[] from storage
   OPEN_FOLDER: "open folder",
   // step | similar to above
+  SELECT_FOLDER: "select folder",
+  DESELECT_ALL: "deselect all",
 };
 const FileSystemReducer = (state, action) => {
   switch (action.type) {
@@ -79,6 +81,28 @@ const FileSystemReducer = (state, action) => {
       return state;
     case fsActions.OPEN_FOLDER:
       return state;
+    case fsActions.SELECT_FOLDER:
+      return {
+        ...state,
+        folders: state.folders.map((folder) =>
+          folder.uuid === action.payload.uuid
+            ? { ...folder, selected: true }
+            : folder
+        ),
+      };
+    case fsActions.DESELECT_ALL:
+      const toBeSelectedId = action.payload.uuid;
+      return {
+        ...state,
+        files: state.files.map((file) => ({
+          ...file,
+          selected: toBeSelectedId && toBeSelectedId === file.uuid,
+        })),
+        folders: state.folders.map((folder) => ({
+          ...folder,
+          selected: toBeSelectedId && toBeSelectedId === folder.uuid,
+        })),
+      };
     default:
       throw new Error("SYNC dispatch type not recognized");
       return state;

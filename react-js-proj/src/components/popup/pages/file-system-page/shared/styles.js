@@ -6,7 +6,11 @@ export const Square = styled.div`
   width: ${DIMEN_PERCENT};
   padding-bottom: ${DIMEN_PERCENT};
   position: relative;
-  outline: 1px solid white;
+  ${(props) =>
+    props.selected &&
+    `outline: 1px solid #0300ff;
+    background-color: rgb(191, 181, 209);
+  `}
 `;
 
 export const StretchContainer = styled.div`
