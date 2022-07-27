@@ -50,6 +50,9 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         break;
       case fsActions.MOVE_FOLDER:
         break;
+      case fsActions.GO_BACK:
+        await goBack(action);
+        break;
       default:
         // any action that isn't async will be passed to the async
         // dispatch function to handle.
@@ -143,6 +146,34 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       await chrome.storage.sync.set(storage);
       file.selected = false;
       syncFileSystemDispatch({ type, payload: { file } });
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const goBack = async ({ type }) => {
+    try {
+      const destination = fileSystemState.history.at(-2);
+      const storage = await chrome.storage.sync.get(destination.uuid);
+
+      if (storage[destination.uuid]) {
+        fileSystemState.history.pop();
+        const { files, folders } = storage[destination.uuid];
+        files.forEach((file) => (file.selected = false));
+        folders.forEach((folder) => (folder.selected = false));
+        storage[destination.uuid] = {
+          ...fileSystemState,
+          files,
+          folders,
+        };
+
+        syncFileSystemDispatch({
+          type,
+          payload: storage[destination.uuid],
+        });
+      } else {
+        throw new Error("Id not found in storage");
+      }
     } catch (e) {
       throw e;
     }

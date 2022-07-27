@@ -34,6 +34,7 @@ export const fsActions = {
   TOGGLE_SELECTION: "toggle selection",
   TOGGLE_SELECTION_RANGE: "toggle selection range",
   SELECT_ALL: "select all",
+  GO_BACK: "go back",
 };
 const FileSystemReducer = (state, action) => {
   switch (action.type) {
@@ -158,6 +159,8 @@ const FileSystemReducer = (state, action) => {
         files: state.files.map((file) => ({ ...file, selected: true })),
         folders: state.folders.map((folder) => ({ ...folder, selected: true })),
       };
+    case fsActions.GO_BACK:
+      return action.payload;
     default:
       throw new Error("SYNC dispatch type not recognized");
       return state;

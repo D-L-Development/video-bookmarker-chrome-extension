@@ -1,18 +1,30 @@
 import React, { useContext } from "react";
-import { FileSystemContext } from "../../../../../contexts/file-system.context";
+import {
+  FileSystemContext,
+  fsDispatchContext,
+} from "../../../../../contexts/file-system.context";
 import ArrowIcon from "../../../../../icons/arrow-icon/arrow.icon";
 import * as Styled from "./path.styles";
 import { FolderIconWrapper } from "./path.styles";
 import LeftArrowIcon from "../../../../../icons/left-arrow-icon/left-arrow-icon";
 import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
 import { folder_c } from "../../../../../constants/theme";
+import { fsActions } from "../../../../../reducers/file-system.reducer";
 
 const PathComponent = (props) => {
   const fs = useContext(FileSystemContext);
+  const fsDispatch = useContext(fsDispatchContext);
 
   return fs.isLoading ? null : (
     <Styled.PathWrapper>
-      <Styled.BackArrowIconButton>
+      <Styled.BackArrowIconButton
+        onClick={(e) => {
+          if (fs.history.length > 1) {
+            e.stopPropagation();
+            fsDispatch({ type: fsActions.GO_BACK });
+          }
+        }}
+      >
         <LeftArrowIcon
           width={"20px"}
           height={"20px"}
