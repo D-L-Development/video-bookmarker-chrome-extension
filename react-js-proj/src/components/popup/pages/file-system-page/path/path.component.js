@@ -6,22 +6,23 @@ import LeftArrowIcon from "../../../../../icons/left-arrow-icon/left-arrow-icon"
 
 const PathComponent = (props) => {
   const fs = useContext(FileSystemContext);
+  const test = "Game";
   return fs.isLoading ? null : (
     <Styled.PathWrapper>
-      {fs.parent && (
+      {test && (
         <>
-          <span>
-            <LeftArrowIcon width={"24px"} height={"24px"} color={"white"} />
-          </span>
-          <Styled.Path>{fs.parent.name}</Styled.Path>
-          <span>
+          <Styled.BackArrowIconButton>
+            <LeftArrowIcon width={"20px"} height={"20px"} color={"white"} />
+          </Styled.BackArrowIconButton>
+          <Styled.Path>{test}</Styled.Path>
+          <Styled.ArrowIconWrapper>
             <ArrowIcon
-              width={"24px"}
-              height={"24px"}
+              width={"18px"}
+              height={"18px"}
               color={"white"}
               direction={"right"}
             />
-          </span>
+          </Styled.ArrowIconWrapper>
         </>
       )}
       <Styled.Path>{fs.current.name}</Styled.Path>
