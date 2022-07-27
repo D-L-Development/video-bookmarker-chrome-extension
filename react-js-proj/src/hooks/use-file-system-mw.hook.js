@@ -8,6 +8,7 @@ const rootDir = {
   files: [],
   current: { uuid: ROOT, name: "Files", date: null },
   parent: null,
+  isLoading: false,
 };
 
 /**
@@ -88,7 +89,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         const { current, parent } = rootDir;
         syncFileSystemDispatch({
           type: fsActions.INIT,
-          payload: { ...storage[ROOT], current, parent },
+          payload: { ...storage[ROOT], current, parent, isLoading: false },
         });
       } else {
         await chrome.storage.sync.set({

@@ -104,7 +104,7 @@ const FileSystemPageComponent = (props) => {
         />
       </PageHeader>
       <Styled.FileSystemContent className="FileSystemContent">
-        {fs && (
+        {!fs.isLoading && (
           <>
             {fs.folders.map(
               (folder) =>

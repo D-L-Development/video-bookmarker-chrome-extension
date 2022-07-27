@@ -20,7 +20,7 @@ import { useFileSystemMW } from "./use-file-system-mw.hook";
 export const useFileSystemHook = () => {
   const [fileSystemState, syncFileSystemDispatch] = useReducer(
     fileSystemReducer,
-    null
+    { isLoading: true }
   );
 
   /**
