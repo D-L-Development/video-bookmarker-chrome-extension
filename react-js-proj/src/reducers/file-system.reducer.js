@@ -82,7 +82,7 @@ const FileSystemReducer = (state, action) => {
     case fsActions.MOVE_FOLDER:
       return state;
     case fsActions.OPEN_FOLDER:
-      return state;
+      return action.payload;
     case fsActions.DESELECT_ALL:
       const toBeSelectedId = action.payload?.uuid;
 

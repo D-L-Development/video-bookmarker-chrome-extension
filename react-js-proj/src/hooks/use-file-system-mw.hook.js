@@ -47,6 +47,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       case fsActions.EDIT_FOLDER:
         break;
       case fsActions.OPEN_FOLDER:
+        await openFolder(action);
         break;
       case fsActions.MOVE_FOLDER:
         break;
@@ -141,6 +142,44 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       await chrome.storage.sync.set(storage);
       file.selected = false;
       syncFileSystemDispatch({ type, payload: { file } });
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  /**
+   * Fetches chrome.storage for the new folder, and updates the state of the app
+   *
+   * @param type
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  const openFolder = async ({ type, payload }) => {
+    try {
+      const clickedId = payload.uuid;
+      const clickedFolder = fileSystemState.folders.find(
+        (folder) => folder.uuid === clickedId
+      );
+      const storage = await chrome.storage.sync.get(clickedId);
+      if (storage[clickedId] && clickedFolder) {
+        storage[clickedId].files.forEach((file) => (file.selected = false));
+        storage[clickedId].folders.forEach(
+          (folder) => (folder.selected = false)
+        );
+        // update the current and parent folders
+        storage[clickedId].parent = fileSystemState.current;
+        storage[clickedId].current = clickedFolder;
+        storage[clickedId].isLoading = false;
+
+        syncFileSystemDispatch({
+          type,
+          payload: {
+            ...storage[clickedId],
+          },
+        });
+      } else {
+        throw new Error("Folder is not found!");
+      }
     } catch (e) {
       throw e;
     }

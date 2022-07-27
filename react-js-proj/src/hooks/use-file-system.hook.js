@@ -44,7 +44,7 @@ export const useFileSystemHook = () => {
    */
   useEffect(() => {
     console.log("STATE");
-    console.log(fileSystemState && fileSystemState.files);
+    console.log(fileSystemState && fileSystemState);
   }, [fileSystemState]);
 
   return [fileSystemState, asyncFileSystemDispatch];

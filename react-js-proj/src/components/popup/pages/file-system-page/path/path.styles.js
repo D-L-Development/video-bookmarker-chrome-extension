@@ -4,10 +4,14 @@ export const PathWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+  width: 55%;
 `;
 
 export const Path = styled.span`
   color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:first-of-type {
     margin-left: 0.3rem;

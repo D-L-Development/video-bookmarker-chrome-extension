@@ -81,6 +81,23 @@ const FileSystemPageComponent = (props) => {
     }
   };
 
+  const handleFolderClick = (e) => {
+    e.stopPropagation();
+    switch (e.detail) {
+      case 1:
+        handleSelection(e);
+        break;
+      case 2:
+        fsDispatch({
+          type: fsActions.OPEN_FOLDER,
+          payload: { uuid: e.currentTarget.id },
+        });
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
     <StyledPage
       className="StyledPage"
@@ -116,7 +133,7 @@ const FileSystemPageComponent = (props) => {
                     uuid={folder.uuid}
                     key={folder.uuid}
                     selected={folder.selected}
-                    handleClick={handleSelection}
+                    handleClick={handleFolderClick}
                   />
                 )
             )}
