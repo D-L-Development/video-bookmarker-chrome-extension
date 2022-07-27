@@ -17,7 +17,7 @@ const PathComponent = (props) => {
           width={"20px"}
           height={"20px"}
           color={"white"}
-          disabled={fs.parent === null}
+          disabled={fs.history.length <= 1}
         />
       </Styled.BackArrowIconButton>
 
@@ -30,9 +30,9 @@ const PathComponent = (props) => {
         color={"white"}
         direction={"right"}
       />
-      {fs.parent && (
+      {fs.history.length > 1 && (
         <>
-          <Styled.Path>{fs.parent.name}</Styled.Path>
+          <Styled.Path>{fs.history.at(-2).name}</Styled.Path>
           <ArrowIcon
             width={"18px"}
             height={"18px"}
@@ -41,7 +41,7 @@ const PathComponent = (props) => {
           />
         </>
       )}
-      <Styled.Path>{fs.current.name}</Styled.Path>
+      <Styled.Path>{fs.history.at(-1).name}</Styled.Path>
     </Styled.PathWrapper>
   );
 };

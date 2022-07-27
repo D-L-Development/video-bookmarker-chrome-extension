@@ -6,8 +6,7 @@ const ROOT = "ROOT";
 const rootDir = {
   folders: [],
   files: [],
-  current: { uuid: ROOT, name: "Files", date: null },
-  parent: null,
+  history: [{ uuid: ROOT, name: "Files", date: null }],
   isLoading: false,
 };
 
@@ -59,7 +58,8 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
   };
 
   const addFolder = async ({ type, payload }) => {
-    const { current } = fileSystemState;
+    const current = fileSystemState.history.at(-1);
+
     try {
       const storage = await chrome.storage.sync.get(current.uuid);
       const folder = new FS_Item(guid(), payload.name);
@@ -87,10 +87,10 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         // the storage doesn't contain the selected key, so we add it
         storage[ROOT].files.forEach((file) => (file.selected = false));
         storage[ROOT].folders.forEach((folder) => (folder.selected = false));
-        const { current, parent } = rootDir;
+        const { history, isLoading } = rootDir;
         syncFileSystemDispatch({
           type: fsActions.INIT,
-          payload: { ...storage[ROOT], current, parent, isLoading: false },
+          payload: { ...storage[ROOT], history, isLoading },
         });
       } else {
         await chrome.storage.sync.set({
@@ -110,28 +110,29 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
   };
 
   const removeFolder = async ({ type, payload }) => {
-    const { current } = fileSystemState;
-    try {
-      const storage = await chrome.storage.sync.get(current.uuid);
-      const index = storage[current.uuid].folders.findIndex(
-        (folder) => folder.uuid === payload.uuid
-      );
-
-      if (index > -1) {
-        storage[current.uuid].folders.splice(index, 1);
-        await Promise.all([
-          chrome.storage.sync.set(storage),
-          chrome.storage.sync.remove(payload.uuid),
-        ]);
-        syncFileSystemDispatch({ type, payload });
-      }
-    } catch (e) {
-      throw e;
-    }
+    // TODO: account for history change
+    // const { current } = fileSystemState;
+    // try {
+    //   const storage = await chrome.storage.sync.get(current.uuid);
+    //   const index = storage[current.uuid].folders.findIndex(
+    //     (folder) => folder.uuid === payload.uuid
+    //   );
+    //
+    //   if (index > -1) {
+    //     storage[current.uuid].folders.splice(index, 1);
+    //     await Promise.all([
+    //       chrome.storage.sync.set(storage),
+    //       chrome.storage.sync.remove(payload.uuid),
+    //     ]);
+    //     syncFileSystemDispatch({ type, payload });
+    //   }
+    // } catch (e) {
+    //   throw e;
+    // }
   };
 
   const addFile = async ({ type, payload }) => {
-    const { current } = fileSystemState;
+    const current = fileSystemState.history.at(-1);
     try {
       const storage = await chrome.storage.sync.get(current.uuid);
       const file = new FS_Item(guid(), payload.name, payload.date);
@@ -166,9 +167,9 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         storage[clickedId].folders.forEach(
           (folder) => (folder.selected = false)
         );
-        // update the current and parent folders
-        storage[clickedId].parent = fileSystemState.current;
-        storage[clickedId].current = clickedFolder;
+        // update the file history
+        storage[clickedId].history = fileSystemState.history;
+        storage[clickedId].history.push(clickedFolder);
         storage[clickedId].isLoading = false;
 
         syncFileSystemDispatch({
