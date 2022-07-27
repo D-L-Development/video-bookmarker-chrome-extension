@@ -12,6 +12,7 @@ import { useInputState } from "../../../hooks/use-input-state.hook";
 import { fsDispatchContext } from "../../../contexts/file-system.context";
 import { fsActions } from "../../../reducers/file-system.reducer";
 import { getCurrentDate } from "../../../contentScripts/utility";
+import { DatePicker } from "./file-modal.styles";
 
 const FileModalComponent = (props) => {
   const [fileName, handleFolderNameChange, nameError] = useInputState(
@@ -56,9 +57,8 @@ const FileModalComponent = (props) => {
       </FormSection>
       <FormSection>
         <Label htmlFor="dataPicker">Pick a date:</Label>
-        <input
+        <DatePicker
           id={"dataPicker"}
-          type={"date"}
           value={date}
           onChange={handleDateChange}
         />
