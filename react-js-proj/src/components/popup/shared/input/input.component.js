@@ -4,20 +4,23 @@ import * as Styled from "./input.styles";
 import ClearIcon from "../../../../icons/clear-icon/clear.icon";
 import SearchIcon from "../../../../icons/search-icon/search.icon";
 
-const InputComponent = ({ placeholder, marginLeft, marginRight }) => {
+const InputComponent = ({ placeholder, marginLeft, marginRight, setQuery }) => {
   const [text, setText] = useState("");
   const [showClearIcon, setShowClearIcon] = useState(false);
   const inputElem = useRef(null);
 
   const handleChange = (e) => {
-    setText(e.target.value);
-    setShowClearIcon(e.target.value !== "");
+    const { value } = e.target;
+    setText(value);
+    setShowClearIcon(value !== "");
+    setQuery && setQuery(value);
   };
 
   const handleClear = (e) => {
     setText("");
     setShowClearIcon(false);
     inputElem.current.focus();
+    setQuery && setQuery("");
   };
 
   return (
@@ -30,6 +33,7 @@ const InputComponent = ({ placeholder, marginLeft, marginRight }) => {
         placeholder={placeholder}
         value={text}
         onChange={handleChange}
+        onKeyDown={(e) => e.stopPropagation()}
         ref={inputElem}
       />
       <Styled.SearchIconWrapper>

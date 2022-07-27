@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { StyledPage } from "../page.styles";
 import { PageHeader } from "../../view-pager/view-pager.styles";
 import * as Styled from "./file-system-page.styles";
@@ -15,6 +15,13 @@ const FileSystemPageComponent = (props) => {
   const fs = useContext(FileSystemContext);
   const fsDispatch = useContext(fsDispatchContext);
   const lastSelectedId = useRef(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {}, [searchQuery]);
+
+  const shouldShow = (name) => {
+    return name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1;
+  };
 
   const handleSelection = (e) => {
     e.stopPropagation();
@@ -93,29 +100,36 @@ const FileSystemPageComponent = (props) => {
           placeholder="Search files..."
           marginRight={"0.5rem"}
           marginLeft={"auto"}
+          setQuery={setSearchQuery}
         />
       </PageHeader>
       <Styled.FileSystemContent className="FileSystemContent">
         {fs && (
           <>
-            {fs.folders.map((folder) => (
-              <FolderComponent
-                name={folder.name}
-                uuid={folder.uuid}
-                key={folder.uuid}
-                selected={folder.selected}
-                handleClick={handleSelection}
-              />
-            ))}
-            {fs.files.map((file) => (
-              <FileComponent
-                name={file.name}
-                uuid={file.uuid}
-                key={file.uuid}
-                selected={file.selected}
-                handleClick={handleSelection}
-              />
-            ))}
+            {fs.folders.map(
+              (folder) =>
+                shouldShow(folder.name) && (
+                  <FolderComponent
+                    name={folder.name}
+                    uuid={folder.uuid}
+                    key={folder.uuid}
+                    selected={folder.selected}
+                    handleClick={handleSelection}
+                  />
+                )
+            )}
+            {fs.files.map(
+              (file) =>
+                shouldShow(file.name) && (
+                  <FileComponent
+                    name={file.name}
+                    uuid={file.uuid}
+                    key={file.uuid}
+                    selected={file.selected}
+                    handleClick={handleSelection}
+                  />
+                )
+            )}
           </>
         )}
       </Styled.FileSystemContent>
