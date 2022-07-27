@@ -18,6 +18,7 @@ const PathComponent = (props) => {
   return fs.isLoading ? null : (
     <Styled.PathWrapper>
       <Styled.BackArrowIconButton
+        disabled={fs.history.length <= 1}
         onClick={(e) => {
           if (fs.history.length > 1) {
             e.stopPropagation();
@@ -28,8 +29,7 @@ const PathComponent = (props) => {
         <LeftArrowIcon
           width={"20px"}
           height={"20px"}
-          color={"white"}
-          disabled={fs.history.length <= 1}
+          color={fs.history.length <= 1 ? "grey" : "white"}
         />
       </Styled.BackArrowIconButton>
 
