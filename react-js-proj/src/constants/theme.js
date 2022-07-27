@@ -8,6 +8,7 @@ export const bookmarkBody_c = "lightblue";
 export const bookmarkIcon_c = "rgb(60, 59, 59)";
 export const pageHeader_c = "rgb(37, 49, 116)";
 export const file_c = "#b64e4e";
+export const folder_c = "#FFEECCFF";
 export const modalColors = {
   cancelBtn_c: "#abb8bd",
   submitBtn_c: "#c26e41",

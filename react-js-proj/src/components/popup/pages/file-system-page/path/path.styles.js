@@ -26,6 +26,7 @@ export const BackArrowIconButton = styled.button`
   padding-inline: 0.3rem;
 `;
 
-export const ArrowIconWrapper = styled.span`
+export const FolderIconWrapper = styled.span`
+  margin-left: 0.4rem;
   display: flex;
 `;

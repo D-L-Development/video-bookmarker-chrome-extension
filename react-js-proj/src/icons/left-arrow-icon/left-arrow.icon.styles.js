@@ -8,6 +8,12 @@ export const StyledLeftArrowIcon = styled(LeftArrowIconComponent).attrs(
     viewBox: "0 0 24 24",
   })
 )`
-  fill: ${(props) => props.color || "white"};
   cursor: pointer;
+  fill: ${(props) => props.color || "white"};
+  ${(props) =>
+    props.disabled &&
+    `
+    fill: #a3a3a3;
+    cursor: not-allowed;
+  `}
 `;

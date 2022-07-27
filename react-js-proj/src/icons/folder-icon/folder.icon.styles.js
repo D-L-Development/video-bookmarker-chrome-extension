@@ -7,5 +7,4 @@ export const StyledFolderIcon = styled(FolderIconComponent).attrs((props) => ({
   viewBox: "0 0 24 24",
 }))`
   fill: ${(props) => props.color || "white"};
-  cursor: pointer;
 `;

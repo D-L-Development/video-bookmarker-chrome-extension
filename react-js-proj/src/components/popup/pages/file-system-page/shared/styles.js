@@ -9,6 +9,7 @@ export const Square = styled.div`
   margin-left: ${FS_MARGIN_PERCENT};
   margin-top: ${FS_MARGIN_PERCENT};
   position: relative;
+  cursor: pointer;
 
   ${(props) =>
     props.selected &&
