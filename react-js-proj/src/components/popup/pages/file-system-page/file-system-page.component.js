@@ -10,6 +10,7 @@ import {
   fsDispatchContext,
 } from "../../../../contexts/file-system.context";
 import { fsActions } from "../../../../reducers/file-system.reducer";
+import PathComponent from "./path/path.component";
 
 const FileSystemPageComponent = (props) => {
   const fs = useContext(FileSystemContext);
@@ -96,6 +97,7 @@ const FileSystemPageComponent = (props) => {
       style={{ userSelect: "none" }}
     >
       <PageHeader className="PageHeader">
+        <PathComponent />
         <InputComponent
           placeholder="Search files..."
           marginRight={"0.5rem"}
