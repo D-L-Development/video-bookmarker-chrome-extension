@@ -2,10 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { StyledPage } from "../page.styles";
 import { PageHeader } from "../../view-pager/view-pager.styles";
 import * as Styled from "./file-system-page.styles";
-import {
-  ActionIconWrapper,
-  PageHeaderControls,
-} from "./file-system-page.styles";
 import FolderComponent from "./folder/folder.component";
 import FileComponent from "./file/file.component";
 import InputComponent from "../../shared/input/input.component";
@@ -15,10 +11,7 @@ import {
 } from "../../../../contexts/file-system.context";
 import { fsActions } from "../../../../reducers/file-system.reducer";
 import PathComponent from "./path/path.component";
-import TrashIcon from "../../../../icons/trash-icon/trash.icon";
-import EditIcon from "../../../../icons/edit-icon/edit.icon";
-import MoveIcon from "../../../../icons/move-icon/move.icon";
-import { controlPageHeader_c } from "../../../../constants/theme";
+import FileSystemControlsComponent from "./file-system-controls/file-system-controls.component";
 
 const FileSystemPageComponent = (props) => {
   const fs = useContext(FileSystemContext);
@@ -121,17 +114,7 @@ const FileSystemPageComponent = (props) => {
       tabIndex="0"
       style={{ userSelect: "none" }}
     >
-      <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
-        <ActionIconWrapper>
-          <TrashIcon width={"20px"} height={"20px"} color={"white"} />
-        </ActionIconWrapper>
-        <ActionIconWrapper>
-          <EditIcon width={"20px"} height={"20px"} color={"white"} />
-        </ActionIconWrapper>
-        <ActionIconWrapper>
-          <MoveIcon width={"20px"} height={"20px"} color={"white"} />
-        </ActionIconWrapper>
-      </PageHeaderControls>
+      <FileSystemControlsComponent />
       <PageHeader className="PageHeader">
         <PathComponent />
         <InputComponent

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { PageContent } from "../page.styles";
 import { FS_MARGIN_PERCENT } from "./shared/styles";
 import { PageHeader } from "../../view-pager/view-pager.styles";
-import { controlPageHeader_c } from "../../../../constants/theme";
 
 export const FileSystemContent = styled(PageContent)`
   display: flex;
@@ -21,19 +20,18 @@ export const ActionIconWrapper = styled.button`
   background: none;
   padding: 0.2rem;
   display: flex;
-  cursor: pointer;
+  cursor: ${(props) => (props.enabled ? "pointer" : "")};
 
   &:first-of-type {
     margin-left: 0.5rem;
   }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: ${(props) => props.enabled && "rgba(255, 255, 255, 0.2)"};
   }
 `;
 
 export const PageHeaderControls = styled(PageHeader)`
-  // background: ${controlPageHeader_c};
   background: rgb(42, 42, 111);
   background: linear-gradient(
     90deg,
@@ -43,5 +41,5 @@ export const PageHeaderControls = styled(PageHeader)`
   );
   height: 6%;
   z-index: 2;
-  box-shadow: 0px 0.5px 21px 1px rgb(0 0 0 / 70%);
+  box-shadow: 0px 0.5px 21px 1px rgb(0 0 0 / 40%);
 `;

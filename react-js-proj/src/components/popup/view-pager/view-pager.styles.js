@@ -24,4 +24,5 @@ export const PageHeader = styled.div`
   height: 5%;
   display: flex;
   align-items: center;
+  box-shadow: 0px 0.5px 21px 1px rgb(0 0 0 / 40%);
 `;
