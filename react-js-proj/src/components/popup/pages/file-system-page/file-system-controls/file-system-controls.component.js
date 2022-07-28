@@ -13,6 +13,7 @@ import {
 } from "../../../../../contexts/file-system.context";
 import FileModalComponent from "../../../../modals-forms/file-modal/file-modal.component";
 import FolderModalComponent from "../../../../modals-forms/folder-modal/folder-modal.component";
+import { fsActions } from "../../../../../reducers/file-system.reducer";
 
 const iconActionType = {
   DELETE: "delete",
@@ -35,6 +36,13 @@ const FileSystemControlsComponent = (props) => {
       case iconActionType.MOVE:
         break;
       case iconActionType.DELETE:
+        if (anySelected()) {
+          const { fileIds, folderIds } = getSelectedItemsIds();
+          fsDispatch({
+            type: fsActions.REMOVE,
+            payload: { fileIds, folderIds },
+          });
+        }
         break;
       case iconActionType.EDIT:
         if (onlyOneSelected()) {
@@ -54,6 +62,24 @@ const FileSystemControlsComponent = (props) => {
     const files = fs.files.filter((file) => file.selected);
     const folders = fs.folders.filter((folder) => folder.selected);
     return { files, folders };
+  };
+
+  const getSelectedItemsIds = () => {
+    // const fileIds = selections.files.map((file) => file.uuid);
+    // const folderIds = selections.folders.map((folder) => folder.uuid);
+
+    const folderIds = selections.folders.reduce(
+      (array, value) => ({ ...array, [value.uuid]: true }),
+      {}
+    );
+
+    const fileIds = selections.files.reduce(
+      (array, value) => ({ ...array, [value.uuid]: true }),
+      {}
+    );
+
+    console.log(fileIds, folderIds);
+    return { fileIds, folderIds };
   };
 
   useEffect(() => {

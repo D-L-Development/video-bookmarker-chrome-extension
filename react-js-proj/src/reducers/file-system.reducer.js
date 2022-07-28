@@ -9,12 +9,10 @@ export const fsActions = {
   INIT: "initialize",
   ADD_FILE: "add file",
   // step | make sure you create a key in storage with empty arrays
-  REMOVE_FILE: "remove file",
   EDIT_FILE: "edit file",
   ADD_FOLDER: "add folder",
   // step | make sure you create a key in storage with empty arrays
   EDIT_FOLDER: "edit folder",
-  REMOVE_FOLDER: "remove folder",
   // TODO: those don't work yet
   MOVE_FILE: "move file",
   // step | receive an id for the moved file, and an id for the destination
@@ -35,6 +33,8 @@ export const fsActions = {
   TOGGLE_SELECTION_RANGE: "toggle selection range",
   SELECT_ALL: "select all",
   GO_BACK: "go back",
+  REMOVE: "remove",
+  SET_STATE: "set state",
 };
 const FileSystemReducer = (state, action) => {
   switch (action.type) {
@@ -42,11 +42,6 @@ const FileSystemReducer = (state, action) => {
       return action.payload;
     case fsActions.ADD_FILE:
       return { ...state, files: [...state.files, action.payload.file] };
-    case fsActions.REMOVE_FILE:
-      return {
-        ...state,
-        files: state.files.filter((file) => file.uuid !== action.payload.uuid),
-      };
     case fsActions.EDIT_FILE:
       return {
         ...state,
@@ -64,13 +59,7 @@ const FileSystemReducer = (state, action) => {
         ...state,
         folders: [...state.folders, action.payload.folder],
       };
-    case fsActions.REMOVE_FOLDER:
-      return {
-        ...state,
-        folders: state.folders.filter(
-          (folder) => folder.uuid !== action.payload.uuid
-        ),
-      };
+
     case fsActions.EDIT_FOLDER:
       const { uuid, name } = action.payload;
       return {
@@ -159,6 +148,15 @@ const FileSystemReducer = (state, action) => {
         folders: state.folders.map((folder) => ({ ...folder, selected: true })),
       };
     case fsActions.GO_BACK:
+      return action.payload;
+    case fsActions.REMOVE:
+      const { fileIds, folderIds } = action.payload;
+      return {
+        ...state,
+        folders: state.folders.filter((folder) => folderIds[folder.uuid]),
+        files: state.files.filter((file) => fileIds[file.uuid]),
+      };
+    case fsActions.SET_STATE:
       return action.payload;
     default:
       throw new Error("SYNC dispatch type not recognized");

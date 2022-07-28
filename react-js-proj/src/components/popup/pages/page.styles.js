@@ -13,6 +13,7 @@ export const PageContent = styled.div`
   flex-grow: 1;
   width: 100%;
   overflow-y: scroll;
+  overscroll-behavior: contain;
 
   &::-webkit-scrollbar {
     width: 7px;
