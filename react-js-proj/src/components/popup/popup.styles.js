@@ -13,7 +13,7 @@ export const StyledPopup = styled.div`
 export const Header = styled.header`
   position: relative;
   width: 100%;
-  height: 10%;
+  height: 5%;
   display: flex;
   align-items: center;
   background-color: ${primary_c};

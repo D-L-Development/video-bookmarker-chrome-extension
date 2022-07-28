@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { pageHeader_c } from "../../../constants/theme";
+import { body_c, pageHeader_c } from "../../../constants/theme";
 
 export const Content = styled.div`
   flex-grow: 1;
@@ -13,7 +13,7 @@ export const StyledViewPager = styled.div`
   position: absolute;
   top: 0;
   display: flex;
-  background-color: #b3b3b3;
+  background-color: ${body_c};
   /* scrolls the view to the left */
   left: ${(props) => (props.pageNum === "first" ? "0" : "-100%")};
   transition: all 0.5s ease-in-out;

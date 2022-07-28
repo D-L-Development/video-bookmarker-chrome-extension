@@ -7,8 +7,12 @@ export const bookmarkHeaderNested_c = "rgba(75, 72, 117, 0.5)";
 export const bookmarkBody_c = "lightblue";
 export const bookmarkIcon_c = "rgb(60, 59, 59)";
 export const pageHeader_c = "rgb(37, 49, 116)";
+export const controlPageHeader_c = "#2a2a6f";
+export const body_c = "#b3b3b3";
 export const file_c = "#b64e4e";
 export const folder_c = "#FFEECCFF";
+export const scroller_c = "#8f8f8f";
+export const scrollerHover_c = "#676767";
 export const modalColors = {
   cancelBtn_c: "#abb8bd",
   submitBtn_c: "#c26e41",

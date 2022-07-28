@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react";
-import LeftArrowIcon from "../../icons/left-arrow-icon/left-arrow-icon";
 import CloseIcon from "../../icons/close-icon/close.icon";
 import { MSG, sendMessageToActiveTab } from "../../contentScripts/utility";
 import {
   AddFolderButton,
   AddSessionButton,
-  BackArrowIconWrapper,
   CloseIconWrapper,
   Footer,
   Header,
@@ -62,10 +60,7 @@ const PopupComponent = () => {
   return (
     <StyledPopup>
       <Header>
-        <BackArrowIconWrapper>
-          <LeftArrowIcon width="24px" height="24px" color="white" />
-        </BackArrowIconWrapper>
-        <StyledMainHeader>Header</StyledMainHeader>
+        <StyledMainHeader></StyledMainHeader>
         <CloseIconWrapper onClick={handleCloseIconClick}>
           <CloseIcon width="24px" height="24px" color="white" />
         </CloseIconWrapper>
