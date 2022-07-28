@@ -83,8 +83,7 @@ const PopupComponent = () => {
       {showSessionModal && (
         <FileModalComponent
           hideModal={() => setShowSessionModal(false)}
-          title={"Create new session"}
-          submitBtnText={"Create"}
+          isEditing={false}
         />
       )}
     </StyledPopup>

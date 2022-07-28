@@ -32,6 +32,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       case fsActions.REMOVE_FILE:
         break;
       case fsActions.EDIT_FILE:
+        await editFile(action);
         break;
       case fsActions.OPEN_FILE:
         break;
@@ -58,6 +59,34 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         // any action that isn't async will be passed to the async
         // dispatch function to handle.
         syncFileSystemDispatch(action);
+    }
+  };
+
+  const editFile = async ({ type, payload }) => {
+    try {
+      const currentFolder = fileSystemState.history.at(-1);
+      const storage = await chrome.storage.sync.get(currentFolder.uuid);
+      if (storage[currentFolder.uuid]) {
+        storage[currentFolder.uuid].files = storage[
+          currentFolder.uuid
+        ].files.map((file) =>
+          file.uuid === payload.uuid
+            ? {
+                ...file,
+                name: payload.name,
+                date: payload.date,
+              }
+            : file
+        );
+
+        await chrome.storage.sync.set(storage);
+
+        syncFileSystemDispatch({ type, payload });
+      } else {
+        throw new Error("Failed to find file in storage");
+      }
+    } catch (e) {
+      throw e;
     }
   };
 

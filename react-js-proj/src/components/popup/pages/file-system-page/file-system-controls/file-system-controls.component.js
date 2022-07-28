@@ -11,7 +11,7 @@ import {
   FileSystemContext,
   fsDispatchContext,
 } from "../../../../../contexts/file-system.context";
-import { fsActions } from "../../../../../reducers/file-system.reducer";
+import FileModalComponent from "../../../../modals-forms/file-modal/file-modal.component";
 
 const iconActionType = {
   DELETE: "delete",
@@ -23,6 +23,8 @@ const FileSystemControlsComponent = (props) => {
   const fsDispatch = useContext(fsDispatchContext);
   const fs = useContext(FileSystemContext);
   const [selections, setSelections] = useState({});
+  const [showEditFileModal, setShowEditFileModal] = useState(false);
+  const [showEditFolderModal, setShowEditFolderModal] = useState(false);
 
   const handleClick = (e, iconType) => {
     console.log("Icon Click");
@@ -35,13 +37,11 @@ const FileSystemControlsComponent = (props) => {
         break;
       case iconActionType.EDIT:
         if (onlyOneSelected()) {
-          fsDispatch({
-            type: fsActions.EDIT_FOLDER,
-            payload: {
-              uuid: selections.foldersIds.at(0),
-              name: "CHANGED",
-            },
-          });
+          if (selections.files.length === 1) {
+            setShowEditFileModal(true);
+          } else {
+            setShowEditFolderModal(true);
+          }
         }
         break;
       default:
@@ -50,17 +50,9 @@ const FileSystemControlsComponent = (props) => {
   };
 
   const getSelectedItems = () => {
-    const filesIds = fs.files.reduce((filtered, file) => {
-      file.selected && filtered.push(file.uuid);
-      return filtered;
-    }, []);
-
-    const foldersIds = fs.folders.reduce((filtered, folder) => {
-      folder.selected && filtered.push(folder.uuid);
-      return filtered;
-    }, []);
-
-    return { filesIds, foldersIds };
+    const files = fs.files.filter((file) => file.selected);
+    const folders = fs.folders.filter((folder) => folder.selected);
+    return { files, folders };
   };
 
   useEffect(() => {
@@ -72,12 +64,12 @@ const FileSystemControlsComponent = (props) => {
   // TODO: use a hook here to avoid calling this twice
   const onlyOneSelected = () =>
     Object.keys(selections).length &&
-    [...selections.filesIds, ...selections.foldersIds].length === 1;
+    [...selections.files, ...selections.folders].length === 1;
 
   // TODO: use a hook here to avoid calling this twice
   const anySelected = () =>
     Object.keys(selections).length &&
-    [...selections.filesIds, ...selections.foldersIds].length >= 1;
+    [...selections.files, ...selections.folders].length >= 1;
 
   return fs.isLoading ? null : (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
@@ -111,6 +103,16 @@ const FileSystemControlsComponent = (props) => {
           color={anySelected() ? "white" : "grey"}
         />
       </ActionIconWrapper>
+
+      {showEditFileModal && (
+        <FileModalComponent
+          hideModal={() => setShowEditFileModal(false)}
+          isEditing={true}
+          fileName={selections.files.at(0).name}
+          date={selections.files.at(0).date}
+          uuid={selections.files.at(0).uuid}
+        />
+      )}
     </PageHeaderControls>
   );
 };

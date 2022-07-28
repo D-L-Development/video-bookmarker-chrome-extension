@@ -25,16 +25,28 @@ const FileModalComponent = (props) => {
   const fsDispatch = useContext(fsDispatchContext);
   return (
     <ModalComponent
-      title={props.title}
+      title={props.isEditing ? "Edit file:" : "Create file:"}
       type={modalTypes.FORM}
-      submitBtnText={props.submitBtnText}
+      submitBtnText={props.isEditing ? "Edit" : "Create"}
       closeBtnText={"Cancel"}
       onSubmit={() => {
         if (fileName.trim().length && nameError === "" && date !== "") {
-          fsDispatch({
-            type: fsActions.ADD_FILE,
-            payload: { name: fileName.trim(), date },
-          });
+          if (props.isEditing) {
+            fsDispatch({
+              type: fsActions.EDIT_FILE,
+              payload: {
+                uuid: props.uuid,
+                name: fileName.trim(),
+                date,
+              },
+            });
+          } else {
+            fsDispatch({
+              type: fsActions.ADD_FILE,
+              payload: { name: fileName.trim(), date },
+            });
+          }
+
           props.hideModal();
         }
       }}
@@ -70,10 +82,10 @@ const FileModalComponent = (props) => {
 
 FileModalComponent.propTypes = {
   hideModal: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  submitBtnText: PropTypes.string.isRequired,
+  isEditing: PropTypes.bool.isRequired,
   fileName: PropTypes.string,
   date: PropTypes.string,
+  uuid: PropTypes.string,
 };
 
 export default FileModalComponent;

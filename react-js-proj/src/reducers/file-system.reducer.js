@@ -48,11 +48,10 @@ const FileSystemReducer = (state, action) => {
         files: state.files.filter((file) => file.uuid !== action.payload.uuid),
       };
     case fsActions.EDIT_FILE:
-      const { file } = action.payload;
       return {
         ...state,
         files: state.files.map((file) =>
-          file.uuid === file.uuid ? file : file
+          file.uuid === action.payload.uuid ? { ...action.payload } : file
         ),
       };
     case fsActions.MOVE_FILE:
