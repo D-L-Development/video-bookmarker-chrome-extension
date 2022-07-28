@@ -12,6 +12,7 @@ import {
   fsDispatchContext,
 } from "../../../../../contexts/file-system.context";
 import FileModalComponent from "../../../../modals-forms/file-modal/file-modal.component";
+import FolderModalComponent from "../../../../modals-forms/folder-modal/folder-modal.component";
 
 const iconActionType = {
   DELETE: "delete",
@@ -111,6 +112,14 @@ const FileSystemControlsComponent = (props) => {
           fileName={selections.files.at(0).name}
           date={selections.files.at(0).date}
           uuid={selections.files.at(0).uuid}
+        />
+      )}
+      {showEditFolderModal && (
+        <FolderModalComponent
+          hideModal={() => setShowEditFolderModal(false)}
+          isEditing={true}
+          folderName={selections.folders.at(0).name}
+          uuid={selections.folders.at(0).uuid}
         />
       )}
     </PageHeaderControls>

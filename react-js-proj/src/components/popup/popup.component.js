@@ -78,7 +78,10 @@ const PopupComponent = () => {
       </Footer>
 
       {showFolderModal && (
-        <FolderModalComponent hideModal={() => setShowFolderModal(false)} />
+        <FolderModalComponent
+          hideModal={() => setShowFolderModal(false)}
+          isEditing={false}
+        />
       )}
       {showSessionModal && (
         <FileModalComponent

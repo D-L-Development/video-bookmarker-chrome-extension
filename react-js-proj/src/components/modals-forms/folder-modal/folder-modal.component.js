@@ -12,28 +12,36 @@ import { useInputState } from "../../../hooks/use-input-state.hook";
 import { fsDispatchContext } from "../../../contexts/file-system.context";
 import { fsActions } from "../../../reducers/file-system.reducer";
 
-const FolderModalComponent = ({ hideModal, initVal = "" }) => {
+const FolderModalComponent = (props) => {
   const [folderName, handleFolderNameChange, error] = useInputState(
-    initVal,
+    props.folderName || "",
     15
   );
   const fsDispatch = useContext(fsDispatchContext);
   return (
     <ModalComponent
-      title={"Create new folder"}
+      title={props.isEditing ? "Edit folder" : "Create new folder"}
       type={modalTypes.FORM}
-      submitBtnText={"Create"}
+      submitBtnText={props.isEditing ? "Edit" : "Create"}
       closeBtnText={"Cancel"}
       onSubmit={() => {
         if (folderName.trim().length && error === "") {
-          fsDispatch({
-            type: fsActions.ADD_FOLDER,
-            payload: { name: folderName.trim() },
-          });
-          hideModal();
+          if (props.isEditing) {
+            fsDispatch({
+              type: fsActions.EDIT_FOLDER,
+              payload: { name: folderName.trim(), uuid: props.uuid },
+            });
+          } else {
+            fsDispatch({
+              type: fsActions.ADD_FOLDER,
+              payload: { name: folderName.trim() },
+            });
+          }
+
+          props.hideModal();
         }
       }}
-      onClose={hideModal}
+      onClose={props.hideModal}
     >
       <FormSection>
         <Label htmlFor="folderName">Enter the folder name:</Label>
@@ -56,6 +64,9 @@ const FolderModalComponent = ({ hideModal, initVal = "" }) => {
 
 FolderModalComponent.propTypes = {
   hideModal: PropTypes.func.isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  folderName: PropTypes.string,
+  uuid: PropTypes.string,
 };
 
 export default FolderModalComponent;
