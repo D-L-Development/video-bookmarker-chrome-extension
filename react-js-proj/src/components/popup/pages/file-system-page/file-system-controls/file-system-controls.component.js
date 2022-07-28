@@ -11,6 +11,7 @@ import {
   FileSystemContext,
   fsDispatchContext,
 } from "../../../../../contexts/file-system.context";
+import { fsActions } from "../../../../../reducers/file-system.reducer";
 
 const iconActionType = {
   DELETE: "delete",
@@ -33,6 +34,15 @@ const FileSystemControlsComponent = (props) => {
       case iconActionType.DELETE:
         break;
       case iconActionType.EDIT:
+        if (onlyOneSelected()) {
+          fsDispatch({
+            type: fsActions.EDIT_FOLDER,
+            payload: {
+              uuid: selections.foldersIds.at(0),
+              name: "CHANGED",
+            },
+          });
+        }
         break;
       default:
         break;
@@ -59,36 +69,47 @@ const FileSystemControlsComponent = (props) => {
     }
   }, [fs]);
 
-  const editEnabled = () => {
-    return (
-      Object.keys(selections).length &&
-      [...selections.filesIds, ...selections.foldersIds].length === 1
-    );
-  };
+  // TODO: use a hook here to avoid calling this twice
+  const onlyOneSelected = () =>
+    Object.keys(selections).length &&
+    [...selections.filesIds, ...selections.foldersIds].length === 1;
+
+  // TODO: use a hook here to avoid calling this twice
+  const anySelected = () =>
+    Object.keys(selections).length &&
+    [...selections.filesIds, ...selections.foldersIds].length >= 1;
 
   return fs.isLoading ? null : (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.DELETE)}
-        enabled={true}
+        enabled={anySelected()}
       >
-        <TrashIcon width={"20px"} height={"20px"} color={"white"} />
+        <TrashIcon
+          width={"20px"}
+          height={"20px"}
+          color={anySelected() ? "white" : "grey"}
+        />
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.EDIT)}
-        enabled={editEnabled()}
+        enabled={onlyOneSelected()}
       >
         <EditIcon
           width={"20px"}
           height={"20px"}
-          color={editEnabled() ? "white" : "grey"}
+          color={onlyOneSelected() ? "white" : "grey"}
         />
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.MOVE)}
-        enabled={true}
+        enabled={anySelected()}
       >
-        <MoveIcon width={"20px"} height={"20px"} color={"white"} />
+        <MoveIcon
+          width={"20px"}
+          height={"20px"}
+          color={anySelected() ? "white" : "grey"}
+        />
       </ActionIconWrapper>
     </PageHeaderControls>
   );

@@ -73,11 +73,11 @@ const FileSystemReducer = (state, action) => {
         ),
       };
     case fsActions.EDIT_FOLDER:
-      const { folder } = action.payload;
+      const { uuid, name } = action.payload;
       return {
         ...state,
         folders: state.folders.map((currFolder) =>
-          currFolder.uuid === folder.uuid ? folder : currFolder
+          currFolder.uuid === uuid ? { ...currFolder, name } : currFolder
         ),
       };
     case fsActions.MOVE_FOLDER:

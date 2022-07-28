@@ -44,6 +44,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         await removeFolder(action);
         break;
       case fsActions.EDIT_FOLDER:
+        await editFolder(action);
         break;
       case fsActions.OPEN_FOLDER:
         await openFolder(action);
@@ -173,6 +174,33 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         });
       } else {
         throw new Error("Id not found in storage");
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const editFolder = async ({ type, payload }) => {
+    try {
+      const currentFolder = fileSystemState.history.at(-1);
+      const storage = await chrome.storage.sync.get(currentFolder.uuid);
+      if (storage[currentFolder.uuid]) {
+        storage[currentFolder.uuid].folders = storage[
+          currentFolder.uuid
+        ].folders.map((folder) =>
+          folder.uuid === payload.uuid
+            ? {
+                ...folder,
+                name: payload.name,
+              }
+            : folder
+        );
+
+        await chrome.storage.sync.set(storage);
+
+        syncFileSystemDispatch({ type, payload });
+      } else {
+        throw new Error("Failed to find folder in storage");
       }
     } catch (e) {
       throw e;
