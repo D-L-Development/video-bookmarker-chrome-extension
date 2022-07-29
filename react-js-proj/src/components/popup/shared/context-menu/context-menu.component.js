@@ -10,7 +10,11 @@ const ContextMenuComponent = (props) => {
   useOutside(outerRef, contextMenuRef, props.close);
 
   return (
-    <ContextMenu color={props.color} bgColor={props.bgColor}>
+    <ContextMenu
+      ref={contextMenuRef}
+      color={props.color}
+      bgColor={props.bgColor}
+    >
       {props.children}
     </ContextMenu>
   );

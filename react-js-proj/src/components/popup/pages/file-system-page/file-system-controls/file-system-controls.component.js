@@ -31,7 +31,6 @@ const FileSystemControlsComponent = (props) => {
   const [showEditFolderModal, setShowEditFolderModal] = useState(false);
 
   const handleClick = (e, iconType) => {
-    console.log("Icon Click");
     e.stopPropagation();
 
     switch (iconType) {

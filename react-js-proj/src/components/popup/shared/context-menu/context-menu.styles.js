@@ -12,6 +12,7 @@ export const ContextMenu = styled.div`
   padding: 0.2rem;
   gap: 0.1rem;
   box-shadow: -2px 2px 5px 0 rgba(0, 0, 0, 0.4);
+  z-index: 3;
 `;
 
 export const ContextMenuItem = styled.div`
