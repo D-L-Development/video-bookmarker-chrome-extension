@@ -13,6 +13,7 @@ import {
   ContextMenuItemIcon,
   ContextMenuItemText,
 } from "../../../../shared/context-menu/context-menu.styles";
+import BookmarksIcon from "../../../../../../icons/bookmarks-icon/bookmarks.icon";
 
 const NewButtonComponent = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
@@ -36,13 +37,13 @@ const NewButtonComponent = (props) => {
         >
           <ContextMenuItem>
             <ContextMenuItemIcon>
-              <FolderPlusIcon width={"15px"} height={"15px"} color={"grey"} />
+              <BookmarksIcon width={"18px"} height={"18px"} color={"grey"} />
             </ContextMenuItemIcon>
             <ContextMenuItemText>Create File</ContextMenuItemText>
           </ContextMenuItem>
           <ContextMenuItem>
             <ContextMenuItemIcon>
-              <FolderPlusIcon width={"15px"} height={"15px"} color={"grey"} />
+              <FolderPlusIcon width={"18px"} height={"18px"} color={"grey"} />
             </ContextMenuItemIcon>
             <ContextMenuItemText>Create Folder</ContextMenuItemText>
           </ContextMenuItem>

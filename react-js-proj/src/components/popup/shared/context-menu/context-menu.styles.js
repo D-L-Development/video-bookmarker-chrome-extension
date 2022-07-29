@@ -5,7 +5,7 @@ export const ContextMenu = styled.div`
   top: calc(100% + 0.5rem);
   display: flex;
   flex-direction: column;
-  width: 6rem;
+  width: fit-content;
   background: ${(props) => props.bgColor || "white"};
   color: ${(props) => props.color || "black"};
   border-radius: 0.2rem;
@@ -34,4 +34,5 @@ export const ContextMenuItemIcon = styled.div`
 
 export const ContextMenuItemText = styled.span`
   white-space: nowrap;
+  margin-right: 0.2rem;
 `;
