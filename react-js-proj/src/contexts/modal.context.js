@@ -12,7 +12,7 @@ export const modalNames = {
 export const ModalContext = createContext(null);
 
 export const ModalProvider = (props) => {
-  const [isShown, setIsShown] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [showFileModal, setShowFileModal] = useState(false);
 
@@ -25,14 +25,15 @@ export const ModalProvider = (props) => {
         setShowFolderModal(true);
         break;
       case modalNames.MESSAGE:
-        setIsShown(true);
+        setShowMessageModal(true);
         break;
       default:
         throw new Error(`Modal name ${modalName} not recognized!`);
     }
   };
+
   const hideMessageModal = () => {
-    setIsShown(false);
+    setShowMessageModal(false);
   };
 
   const modalProps = useRef({
@@ -60,7 +61,7 @@ export const ModalProvider = (props) => {
       value={{ setModalProps, showModal, hideMessageModal }}
     >
       {props.children}
-      {isShown && <ModalComponent {...modalProps.current} />}
+      {showMessageModal && <ModalComponent {...modalProps.current} />}
       {showFolderModal && (
         <FolderModalComponent
           hideModal={() => setShowFolderModal(false)}
