@@ -31,8 +31,6 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       case fsActions.ADD_FILE:
         await addFile(action);
         break;
-      case fsActions.REMOVE_FILE:
-        break;
       case fsActions.EDIT_FILE:
         await editFile(action);
         break;
@@ -42,9 +40,6 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         break;
       case fsActions.ADD_FOLDER:
         await addFolder(action);
-        break;
-      case fsActions.REMOVE_FOLDER:
-        await removeFolder(action);
         break;
       case fsActions.EDIT_FOLDER:
         await editFolder(action);
@@ -61,7 +56,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         await removeItems(action);
         break;
       default:
-        // any action that isn't async will be passed to the async
+        // any action that isn't async will be passed to the synchronous
         // dispatch function to handle.
         syncFileSystemDispatch(action);
     }

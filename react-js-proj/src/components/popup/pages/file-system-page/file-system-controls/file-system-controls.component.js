@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { controlPageHeader_c } from "../../../../../constants/theme";
 import {
   ActionIconWrapper,
+  NewButton,
+  NewButtonText,
   PageHeaderControls,
-} from "../file-system-page.styles";
+} from "./file-system-controls.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
 import MoveIcon from "../../../../../icons/move-icon/move.icon";
@@ -14,6 +16,8 @@ import {
 import FileModalComponent from "../../../../modals-forms/file-modal/file-modal.component";
 import FolderModalComponent from "../../../../modals-forms/folder-modal/folder-modal.component";
 import { fsActions } from "../../../../../reducers/file-system.reducer";
+import AddCircleIcon from "../../../../../icons/add-circle-icon/add-circle.icon";
+import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-arrow.icon";
 
 const iconActionType = {
   DELETE: "delete",
@@ -64,10 +68,12 @@ const FileSystemControlsComponent = (props) => {
     return { files, folders };
   };
 
+  /**
+   * Returns two objects with the ids for the selected items as keys
+   *
+   * @returns {{fileIds: {}, folderIds: {}}}
+   */
   const getSelectedItemsIds = () => {
-    // const fileIds = selections.files.map((file) => file.uuid);
-    // const folderIds = selections.folders.map((folder) => folder.uuid);
-
     const folderIds = selections.folders.reduce(
       (array, value) => ({ ...array, [value.uuid]: true }),
       {}
@@ -78,7 +84,6 @@ const FileSystemControlsComponent = (props) => {
       {}
     );
 
-    console.log(fileIds, folderIds);
     return { fileIds, folderIds };
   };
 
@@ -100,6 +105,16 @@ const FileSystemControlsComponent = (props) => {
 
   return fs.isLoading ? null : (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
+      <NewButton>
+        <AddCircleIcon width={"18px"} height={"18px"} color={"white"} />
+        <NewButtonText>New</NewButtonText>
+        <OutlineArrowIcon
+          width={"12px"}
+          height={"12px"}
+          color={"white"}
+          direction={"down"}
+        />
+      </NewButton>
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.DELETE)}
         enabled={anySelected()}
