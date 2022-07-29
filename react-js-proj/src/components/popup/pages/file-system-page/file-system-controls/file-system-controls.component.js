@@ -18,6 +18,7 @@ import FolderModalComponent from "../../../../modals-forms/folder-modal/folder-m
 import { fsActions } from "../../../../../reducers/file-system.reducer";
 import AddCircleIcon from "../../../../../icons/add-circle-icon/add-circle.icon";
 import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-arrow.icon";
+import { VerticalDivider } from "../../../shared/divider.styles";
 
 const iconActionType = {
   DELETE: "delete",
@@ -115,16 +116,8 @@ const FileSystemControlsComponent = (props) => {
           direction={"down"}
         />
       </NewButton>
-      <ActionIconWrapper
-        onClick={(e) => handleClick(e, iconActionType.DELETE)}
-        enabled={anySelected()}
-      >
-        <TrashIcon
-          width={"20px"}
-          height={"20px"}
-          color={anySelected() ? "white" : "grey"}
-        />
-      </ActionIconWrapper>
+      <VerticalDivider />
+
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.EDIT)}
         enabled={onlyOneSelected()}
@@ -140,6 +133,16 @@ const FileSystemControlsComponent = (props) => {
         enabled={anySelected()}
       >
         <MoveIcon
+          width={"20px"}
+          height={"20px"}
+          color={anySelected() ? "white" : "grey"}
+        />
+      </ActionIconWrapper>
+      <ActionIconWrapper
+        onClick={(e) => handleClick(e, iconActionType.DELETE)}
+        enabled={anySelected()}
+      >
+        <TrashIcon
           width={"20px"}
           height={"20px"}
           color={anySelected() ? "white" : "grey"}
