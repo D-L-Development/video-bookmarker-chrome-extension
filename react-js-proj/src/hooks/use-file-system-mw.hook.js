@@ -1,7 +1,9 @@
 import { fsActions } from "../reducers/file-system.reducer";
 import { FS_Item } from "../classes/file.class";
 import { guid } from "../contentScripts/utility";
+import { fakeDB } from "../constants/fake-db";
 
+const MODE = "dev";
 const ROOT = "ROOT";
 const rootDir = {
   folders: [],
@@ -129,16 +131,36 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
           payload: { ...storage[ROOT], history, isLoading },
         });
       } else {
-        await chrome.storage.sync.set({
-          [ROOT]: {
-            folders: [],
-            files: [],
-          },
-        });
-        syncFileSystemDispatch({
-          type: fsActions.INIT,
-          payload: rootDir,
-        });
+        // TODO: remove this. This is just for testing
+        if (MODE === "dev") {
+          await chrome.storage.sync.set(fakeDB);
+          syncFileSystemDispatch({
+            type: fsActions.INIT,
+            payload: {
+              ...rootDir,
+              files: fakeDB[ROOT].files.map((file) => ({
+                ...file,
+                selected: false,
+              })),
+              folders: fakeDB[ROOT].folders.map((folder) => ({
+                ...folder,
+                selected: false,
+              })),
+            },
+          });
+        } else {
+          await chrome.storage.sync.set({
+            [ROOT]: {
+              folders: [],
+              files: [],
+            },
+          });
+
+          syncFileSystemDispatch({
+            type: fsActions.INIT,
+            payload: rootDir,
+          });
+        }
       }
     } catch (e) {
       throw e;
@@ -217,46 +239,53 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     }
   };
 
-  const removeItems = async ({ type, payload }) => {
+  const removeItems = async (action) => {
     try {
       const currFolderId = fileSystemState.history.at(-1).uuid;
-      const { fileIds, folderIds } = payload;
+      const { fileIds, folderIds } = action.payload;
 
       const storage = await chrome.storage.sync.get(currFolderId);
 
       if (storage[currFolderId]) {
-        // storage[currFolderId].folders = storage[currFolderId].folders.filter(
-        //   (folder) => !folderIds.hasOwnProperty(folder.uuid)
-        // );
-        // storage[currFolderId].files = storage[currFolderId].files.filter(
-        //   (file) => !fileIds.hasOwnProperty(file.uuid)
-        // );
-
-        storage[currFolderId].folders.forEach((folder) => {
-          if (folderIds.hasOwnProperty(folder.uuid)) {
-            deapRemoveFolder(folder.uuid);
+        const promiseList = [];
+        // Remove the folders and files from storage
+        storage[currFolderId].folders = storage[currFolderId].folders.filter(
+          (folder) => {
+            if (folderIds.hasOwnProperty(folder.uuid)) {
+              deapRemoveFolder(folder.uuid, promiseList);
+              return false;
+            }
+            return true;
           }
-        });
+        );
+        storage[currFolderId].files = storage[currFolderId].files.filter(
+          (file) => {
+            if (fileIds.hasOwnProperty(file.uuid)) {
+              promiseList.push(chrome.storage.sync.remove(file.uuid));
+              return false;
+            }
+            return true;
+          }
+        );
+        // Remove the folder and files from parent key
+        promiseList.push(chrome.storage.sync.set(storage));
 
-        // const promises = [];
-        // // update the current folder in storage
-        // promises.push(chrome.storage.sync.set(storage));
-        // // remove each file from its own key in storage
-        // for (const [uuid] of Object.entries(fileIds)) {
-        //   promises.push(chrome.storage.sync.remove(uuid));
-        // }
-        // await Promise.all(promises);
-        //
-        // const newState = {
-        //   ...fileSystemState,
-        //   files: storage[currFolderId].files,
-        //   folders: storage[currFolderId].folders,
-        // };
-        //
-        // syncFileSystemDispatch({
-        //   type: fsActions.SET_STATE,
-        //   payload: newState,
-        // });
+        await Promise.all(promiseList);
+
+        syncFileSystemDispatch({
+          type: fsActions.SET_STATE,
+          payload: {
+            ...fileSystemState,
+            files: storage[currFolderId].files.map((file) => ({
+              ...file,
+              selected: false,
+            })),
+            folders: storage[currFolderId].folders.map((folder) => ({
+              ...folder,
+              selected: false,
+            })),
+          },
+        });
       } else {
         throw new Error("Failed to find folder");
       }
@@ -265,8 +294,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     }
   };
 
-  const deapRemoveFolder = async (uuid) => {
-    const promiseList = [];
+  const deapRemoveFolder = async (uuid, promiseList) => {
     const removeFolder = async (uuid) => {
       const storage = await chrome.storage.sync.get(uuid);
       if (storage[uuid]) {
@@ -280,12 +308,13 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         // if no more folders are nested, then exist the function
         if (folders.length === 0) return;
         // remove any nested folders recursively
-        folders.forEach((folder) => removeFolder(folder.uuid));
+        folders.forEach((folder) =>
+          promiseList.push(removeFolder(folder.uuid))
+        );
       }
     };
 
-    await removeFolder(uuid);
-    await Promise.all(promiseList);
+    promiseList.push(removeFolder(uuid));
   };
 
   /**
