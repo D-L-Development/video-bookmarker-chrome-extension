@@ -10,6 +10,7 @@ export const Square = styled.div`
   margin-top: ${FS_MARGIN_PERCENT};
   position: relative;
   cursor: pointer;
+  transition: 0.1s;
 
   ${(props) =>
     props.selected &&
@@ -17,6 +18,10 @@ export const Square = styled.div`
     outline: 1px solid #0300ff;
     background-color: rgb(191, 181, 209);
   `}
+  &:hover {
+    outline: 1px solid rgba(3, 0, 255, 0.76);
+    background-color: rgba(191, 181, 209, 0.79);
+  }
 `;
 
 export const StretchContainer = styled.div`
