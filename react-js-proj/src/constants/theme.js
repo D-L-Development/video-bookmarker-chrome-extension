@@ -13,6 +13,7 @@ export const file_c = "#b64e4e";
 export const folder_c = "#FFEECCFF";
 export const scroller_c = "#8f8f8f";
 export const scrollerHover_c = "#676767";
+export const bgHoverColor = "rgba(255, 255, 255, 0.2)";
 export const modalColors = {
   cancelBtn_c: "#abb8bd",
   submitBtn_c: "#c26e41",

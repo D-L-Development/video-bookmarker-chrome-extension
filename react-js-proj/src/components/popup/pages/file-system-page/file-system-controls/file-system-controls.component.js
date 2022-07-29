@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { controlPageHeader_c } from "../../../../../constants/theme";
 import {
   ActionIconWrapper,
-  NewButton,
-  NewButtonText,
   PageHeaderControls,
 } from "./file-system-controls.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
@@ -16,9 +14,8 @@ import {
 import FileModalComponent from "../../../../modals-forms/file-modal/file-modal.component";
 import FolderModalComponent from "../../../../modals-forms/folder-modal/folder-modal.component";
 import { fsActions } from "../../../../../reducers/file-system.reducer";
-import AddCircleIcon from "../../../../../icons/add-circle-icon/add-circle.icon";
-import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-arrow.icon";
 import { VerticalDivider } from "../../../shared/divider.styles";
+import NewButtonComponent from "./new-button/new-button.component";
 
 const iconActionType = {
   DELETE: "delete",
@@ -106,16 +103,7 @@ const FileSystemControlsComponent = (props) => {
 
   return fs.isLoading ? null : (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
-      <NewButton>
-        <AddCircleIcon width={"18px"} height={"18px"} color={"white"} />
-        <NewButtonText>New</NewButtonText>
-        <OutlineArrowIcon
-          width={"12px"}
-          height={"12px"}
-          color={"white"}
-          direction={"down"}
-        />
-      </NewButton>
+      <NewButtonComponent />
       <VerticalDivider />
 
       <ActionIconWrapper

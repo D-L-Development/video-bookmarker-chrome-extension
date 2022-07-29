@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import CloseIcon from "../../icons/close-icon/close.icon";
 import { MSG, sendMessageToActiveTab } from "../../contentScripts/utility";
 import {
@@ -17,12 +17,14 @@ import { ModalContext } from "../../contexts/modal.context";
 import { fsDispatchContext } from "../../contexts/file-system.context";
 import FolderModalComponent from "../modals-forms/folder-modal/folder-modal.component";
 import FileModalComponent from "../modals-forms/file-modal/file-modal.component";
+import { OutsideContext } from "../../contexts/outside-context";
 
 const PopupComponent = () => {
   const { setModalProps, show, hide } = useContext(ModalContext);
   const fsDispatch = useContext(fsDispatchContext);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [showSessionModal, setShowSessionModal] = useState(false);
+  const containerRef = useRef(null);
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
       if (response.status !== MSG.SUCCESS) {
@@ -58,37 +60,40 @@ const PopupComponent = () => {
   };
 
   return (
-    <StyledPopup>
-      <Header>
-        <StyledMainHeader></StyledMainHeader>
-        <CloseIconWrapper onClick={handleCloseIconClick}>
-          <CloseIcon width="24px" height="24px" color="white" />
-        </CloseIconWrapper>
-      </Header>
-      <ViewPagerComponent pageNum="first" />
-      <Footer>
-        <AddSessionButton onClick={handleNewSessionBtnClick}>
-          <AddCircleIcon width="20px" height="20px" color="white" />
-          New Session
-        </AddSessionButton>
-        <AddFolderButton onClick={handleNewFolderBtnClick}>
-          <FolderPlusIcon width="20px" height="20px" color="white" />
-          Create Folder
-        </AddFolderButton>
-      </Footer>
+    <StyledPopup ref={containerRef}>
+      {/* Context provider to detect clicks outside of a context menu */}
+      <OutsideContext.Provider value={containerRef}>
+        <Header>
+          <StyledMainHeader></StyledMainHeader>
+          <CloseIconWrapper onClick={handleCloseIconClick}>
+            <CloseIcon width="24px" height="24px" color="white" />
+          </CloseIconWrapper>
+        </Header>
+        <ViewPagerComponent pageNum="first" />
+        <Footer>
+          <AddSessionButton onClick={handleNewSessionBtnClick}>
+            <AddCircleIcon width="20px" height="20px" color="white" />
+            New Session
+          </AddSessionButton>
+          <AddFolderButton onClick={handleNewFolderBtnClick}>
+            <FolderPlusIcon width="20px" height="20px" color="white" />
+            Create Folder
+          </AddFolderButton>
+        </Footer>
 
-      {showFolderModal && (
-        <FolderModalComponent
-          hideModal={() => setShowFolderModal(false)}
-          isEditing={false}
-        />
-      )}
-      {showSessionModal && (
-        <FileModalComponent
-          hideModal={() => setShowSessionModal(false)}
-          isEditing={false}
-        />
-      )}
+        {showFolderModal && (
+          <FolderModalComponent
+            hideModal={() => setShowFolderModal(false)}
+            isEditing={false}
+          />
+        )}
+        {showSessionModal && (
+          <FileModalComponent
+            hideModal={() => setShowSessionModal(false)}
+            isEditing={false}
+          />
+        )}
+      </OutsideContext.Provider>
     </StyledPopup>
   );
 };

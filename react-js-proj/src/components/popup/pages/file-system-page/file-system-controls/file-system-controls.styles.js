@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { PageHeader } from "../../../view-pager/view-pager.styles";
-
-const bgHoverColor = "rgba(255, 255, 255, 0.2)";
+import { bgHoverColor } from "../../../../../constants/theme";
 
 export const ActionIconWrapper = styled.button`
   border: none;
@@ -32,24 +31,4 @@ export const PageHeaderControls = styled(PageHeader)`
   height: 6%;
   z-index: 2;
   box-shadow: 0 0.5px 21px 1px rgb(0 0 0 / 40%);
-`;
-
-export const NewButton = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0.2rem;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  transition: 0.2s;
-  margin-left: 0.5rem;
-
-  &:hover {
-    background-color: ${bgHoverColor};
-  }
-`;
-
-export const NewButtonText = styled.span`
-  color: white;
-  padding-right: 0.2rem;
-  padding-left: 0.3rem;
 `;
