@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { bgHoverColor } from "../../../../../../constants/theme";
 
+export const NewButtonWrapper = styled.div`
+  margin-left: 0.5rem;
+  position: relative;
+`;
+
 export const NewButton = styled.div`
   display: flex;
   align-items: center;
@@ -8,7 +13,6 @@ export const NewButton = styled.div`
   border-radius: 0.2rem;
   cursor: pointer;
   transition: 0.2s;
-  margin-left: 0.5rem;
 
   &:hover {
     background-color: ${bgHoverColor};
