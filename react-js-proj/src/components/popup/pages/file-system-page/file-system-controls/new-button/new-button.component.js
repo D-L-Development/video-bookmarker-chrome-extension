@@ -7,6 +7,12 @@ import {
 } from "./new-button.styles";
 import OutlineArrowIcon from "../../../../../../icons/outline-arrow-icon/outline-arrow.icon";
 import ContextMenuComponent from "../../../../shared/context-menu/context-menu.component";
+import FolderPlusIcon from "../../../../../../icons/folder-plus-icon/folder-plus.icon";
+import {
+  ContextMenuItem,
+  ContextMenuItemIcon,
+  ContextMenuItemText,
+} from "../../../../shared/context-menu/context-menu.styles";
 
 const NewButtonComponent = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
@@ -23,10 +29,23 @@ const NewButtonComponent = (props) => {
         />
       </NewButton>
       {showContextMenu && (
-        <ContextMenuComponent close={() => setShowContextMenu(false)}>
-          <span>item1</span>
-          <span>item2</span>
-          <span>item3</span>
+        <ContextMenuComponent
+          close={() => setShowContextMenu(false)}
+          color={"black"}
+          bgColor={"white"}
+        >
+          <ContextMenuItem>
+            <ContextMenuItemIcon>
+              <FolderPlusIcon width={"15px"} height={"15px"} color={"grey"} />
+            </ContextMenuItemIcon>
+            <ContextMenuItemText>Create File</ContextMenuItemText>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <ContextMenuItemIcon>
+              <FolderPlusIcon width={"15px"} height={"15px"} color={"grey"} />
+            </ContextMenuItemIcon>
+            <ContextMenuItemText>Create Folder</ContextMenuItemText>
+          </ContextMenuItem>
         </ContextMenuComponent>
       )}
     </NewButtonWrapper>

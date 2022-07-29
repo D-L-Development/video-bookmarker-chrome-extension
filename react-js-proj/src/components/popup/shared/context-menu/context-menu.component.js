@@ -4,16 +4,22 @@ import { useOutside } from "../../../../hooks/use-outside.hook";
 import PropTypes from "prop-types";
 import { ContextMenu } from "./context-menu.styles";
 
-const ContextMenuComponent = ({ children, close }) => {
+const ContextMenuComponent = (props) => {
   const outerRef = useContext(OutsideContext);
   const contextMenuRef = useRef(null);
-  useOutside(outerRef, contextMenuRef, close);
+  useOutside(outerRef, contextMenuRef, props.close);
 
-  return <ContextMenu>{children}</ContextMenu>;
+  return (
+    <ContextMenu color={props.color} bgColor={props.bgColor}>
+      {props.children}
+    </ContextMenu>
+  );
 };
 
 ContextMenuComponent.propTypes = {
   close: PropTypes.func.isRequired,
+  color: PropTypes.string,
+  bgColor: PropTypes.string,
 };
 
 export default ContextMenuComponent;
