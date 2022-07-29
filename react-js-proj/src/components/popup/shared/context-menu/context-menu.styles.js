@@ -9,4 +9,17 @@ export const ContextMenu = styled.div`
   background: white;
   border-radius: 0.2rem;
   padding: 0.2rem;
+  gap: 0.1rem;
+  box-shadow: -2px 2px 5px 0 rgba(0, 0, 0, 0.4);
+
+  & > * {
+    padding: 0.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: inherit;
+
+    &:hover {
+      background-color: lightgrey;
+    }
+  }
 `;
