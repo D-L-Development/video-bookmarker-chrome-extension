@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AddCircleIcon from "../../../../../../icons/add-circle-icon/add-circle.icon";
 import {
   NewButton,
@@ -14,6 +14,10 @@ import {
   ContextMenuItemText,
 } from "../../../../shared/context-menu/context-menu.styles";
 import BookmarksIcon from "../../../../../../icons/bookmarks-icon/bookmarks.icon";
+import {
+  ModalContext,
+  modalNames,
+} from "../../../../../../contexts/modal.context";
 
 const options = {
   NEW_FILE: "new file",
@@ -22,21 +26,40 @@ const options = {
 
 const NewButtonComponent = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
+  const { showModal, setModalProps, hideMessageModal } =
+    useContext(ModalContext);
 
   const handleContextMenuItemClick = (e, option) => {
+    // close context menu
+    setShowContextMenu(false);
     switch (option) {
       case options.NEW_FILE:
-        console.log("new file");
+        showModal(modalNames.FILE);
         break;
       case options.NEW_FOLDER:
-        console.log("new folder");
+        showModal(modalNames.FOLDER);
         break;
       default:
         break;
     }
 
-    // close context menu
-    setShowContextMenu(false);
+    // setModalProps({
+    //   onClose: () => {
+    //     console.log("Cancel dude");
+    //     hide();
+    //   },
+    //   onSubmit: () => {
+    //     console.log("Submit dude");
+    //     hide();
+    //   },
+    //   title: "Simple yes, or no question",
+    //   type: modalTypes.FORM,
+    //   message: "Choose what to do!",
+    //   closeBtnText: "No",
+    //   submitBtnText: "Yes",
+    // });
+    //
+    // show();
   };
 
   return (

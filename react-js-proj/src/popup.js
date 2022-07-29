@@ -20,9 +20,9 @@ document.addEventListener("keydown", (e) => {
 const container = document.getElementById("react-popup-root");
 const root = createRoot(container);
 root.render(
-  <ModalProvider>
-    <FileSystemProvider>
+  <FileSystemProvider>
+    <ModalProvider>
       <PopupComponent tab="home" />
-    </FileSystemProvider>
-  </ModalProvider>
+    </ModalProvider>
+  </FileSystemProvider>
 );

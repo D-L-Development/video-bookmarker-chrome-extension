@@ -1,20 +1,42 @@
 import React, { createContext, useRef, useState } from "react";
 import ModalComponent from "../components/modals-forms/modal.component";
+import FolderModalComponent from "../components/modals-forms/folder-modal/folder-modal.component";
+import FileModalComponent from "../components/modals-forms/file-modal/file-modal.component";
+
+export const modalNames = {
+  FILE: "file",
+  FOLDER: "folder",
+  MESSAGE: "message modal",
+};
 
 export const ModalContext = createContext(null);
 
 export const ModalProvider = (props) => {
   const [isShown, setIsShown] = useState(false);
+  const [showFolderModal, setShowFolderModal] = useState(false);
+  const [showFileModal, setShowFileModal] = useState(false);
 
-  const show = () => {
-    setIsShown(true);
+  const showModal = (modalName = modalNames.MESSAGE) => {
+    switch (modalName) {
+      case modalNames.FILE:
+        setShowFileModal(true);
+        break;
+      case modalNames.FOLDER:
+        setShowFolderModal(true);
+        break;
+      case modalNames.MESSAGE:
+        setIsShown(true);
+        break;
+      default:
+        throw new Error(`Modal name ${modalName} not recognized!`);
+    }
   };
-  const hide = () => {
+  const hideMessageModal = () => {
     setIsShown(false);
   };
 
   const modalProps = useRef({
-    onClose: hide,
+    onClose: hideMessageModal,
     onSubmit: null,
     title: "Title",
     type: "Alert",
@@ -24,7 +46,7 @@ export const ModalProvider = (props) => {
   });
 
   const setModalProps = (props) => {
-    modalProps.current.onClose = props.onClose || hide;
+    modalProps.current.onClose = props.onClose || hideMessageModal;
     modalProps.current.onSubmit = props.onSubmit || null;
     modalProps.current.title = props.title || "Unset Title";
     modalProps.current.type = props.type || "Alert";
@@ -34,9 +56,23 @@ export const ModalProvider = (props) => {
   };
 
   return (
-    <ModalContext.Provider value={{ setModalProps, show, hide }}>
+    <ModalContext.Provider
+      value={{ setModalProps, showModal, hideMessageModal }}
+    >
       {props.children}
       {isShown && <ModalComponent {...modalProps.current} />}
+      {showFolderModal && (
+        <FolderModalComponent
+          hideModal={() => setShowFolderModal(false)}
+          isEditing={false}
+        />
+      )}
+      {showFileModal && (
+        <FileModalComponent
+          hideModal={() => setShowFileModal(false)}
+          isEditing={false}
+        />
+      )}
     </ModalContext.Provider>
   );
 };
