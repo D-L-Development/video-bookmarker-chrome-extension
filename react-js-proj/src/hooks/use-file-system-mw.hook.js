@@ -289,6 +289,13 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     }
   };
 
+  /**
+   * Helper function to remove a folder and its content from storage recursively
+   *
+   * @param uuid
+   * @param promiseList
+   * @returns {Promise<void>}
+   */
   const deapRemoveFolder = async (uuid, promiseList) => {
     const removeFolder = async (uuid) => {
       const storage = await chrome.storage.sync.get(uuid);
@@ -312,13 +319,6 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     promiseList.push(removeFolder(uuid));
   };
 
-  /**
-   * Fetches chrome.storage for the new folder, and updates the state of the app
-   *
-   * @param type
-   * @param payload
-   * @returns {Promise<void>}
-   */
   const openFolder = async ({ type, payload }) => {
     try {
       const clickedId = payload.uuid;
