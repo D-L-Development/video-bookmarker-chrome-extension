@@ -13,7 +13,7 @@ export const StyledPopup = styled.div`
 export const Header = styled.header`
   position: relative;
   width: 100%;
-  height: 5%;
+  height: 2rem;
   display: flex;
   align-items: center;
   background-color: ${primary_c};
@@ -42,7 +42,7 @@ export const BackArrowIconWrapper = styled.div`
 `;
 
 export const Footer = styled.footer`
-  height: 3rem;
+  height: 2rem;
   width: 100%;
   background-color: ${primary_c};
   display: flex;

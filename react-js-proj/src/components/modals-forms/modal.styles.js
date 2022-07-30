@@ -13,6 +13,7 @@ export const ModalWrapper = styled.div`
   position: absolute;
   top: 0;
   display: flex;
+  z-index: 20;
 `;
 
 export const StyledModal = styled.div`
@@ -20,9 +21,7 @@ export const StyledModal = styled.div`
   height: fit-content;
   background-color: white;
   margin: auto;
-  border-radius: 5px;
-  border-top-left-radius: 2rem;
-  border-top-right-radius: 2rem;
+  border-radius: 2rem 2rem 5px 5px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 35px 11px rgba(0, 0, 0, 0.2);
