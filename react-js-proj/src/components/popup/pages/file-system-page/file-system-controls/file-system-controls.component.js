@@ -16,6 +16,7 @@ import FolderModalComponent from "../../../../modals-forms/folder-modal/folder-m
 import { fsActions } from "../../../../../reducers/file-system.reducer";
 import { VerticalDivider } from "../../../shared/divider.styles";
 import NewButtonComponent from "./new-button/new-button.component";
+import FilePickerComponent from "../file-picker/file-picker.component";
 
 const iconActionType = {
   DELETE: "delete",
@@ -29,12 +30,14 @@ const FileSystemControlsComponent = (props) => {
   const [selections, setSelections] = useState({});
   const [showEditFileModal, setShowEditFileModal] = useState(false);
   const [showEditFolderModal, setShowEditFolderModal] = useState(false);
+  const [showFilePicker, setShowFilePicker] = useState(false);
 
   const handleClick = (e, iconType) => {
     e.stopPropagation();
 
     switch (iconType) {
       case iconActionType.MOVE:
+        setShowFilePicker(true);
         break;
       case iconActionType.DELETE:
         if (anySelected()) {
@@ -151,6 +154,13 @@ const FileSystemControlsComponent = (props) => {
           isEditing={true}
           folderName={selections.folders.at(0).name}
           uuid={selections.folders.at(0).uuid}
+        />
+      )}
+      {showFilePicker && (
+        <FilePickerComponent
+          title={"Move file(s)"}
+          onClose={() => console.log("close")}
+          onSubmit={() => console.log("Submit")}
         />
       )}
     </PageHeaderControls>

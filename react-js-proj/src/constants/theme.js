@@ -14,6 +14,7 @@ export const folder_c = "#FFEECCFF";
 export const scroller_c = "#8f8f8f";
 export const scrollerHover_c = "#676767";
 export const bgHoverColor = "rgba(255, 255, 255, 0.2)";
+
 export const modalColors = {
   cancelBtn_c: "#abb8bd",
   submitBtn_c: "#c26e41",
@@ -34,3 +35,6 @@ export const modalTypes = {
   FORM: "form",
   WARNING: "warning",
 };
+
+// file system colors
+export const selected_folder_c = "#6271f1";

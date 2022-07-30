@@ -9,7 +9,9 @@ const FileComponent = ({ name, uuid, selected, handleClick }) => {
     <SharedStyles.Square id={uuid} selected={selected} onClick={handleClick}>
       <SharedStyles.StretchContainer>
         <BookmarksIcon width="100%" height="80%" color={file_c} />
-        <SharedStyles.SessionNameText>{name}</SharedStyles.SessionNameText>
+        <SharedStyles.FileSystemItemText>
+          {name}
+        </SharedStyles.FileSystemItemText>
       </SharedStyles.StretchContainer>
     </SharedStyles.Square>
   );

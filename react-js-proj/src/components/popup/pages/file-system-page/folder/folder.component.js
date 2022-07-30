@@ -9,7 +9,9 @@ const FolderComponent = ({ name, uuid, selected, handleClick }) => {
     <SharedStyles.Square id={uuid} selected={selected} onClick={handleClick}>
       <SharedStyles.StretchContainer>
         <FolderIcon width="100%" height="90%" color={folder_c} />
-        <SharedStyles.SessionNameText>{name}</SharedStyles.SessionNameText>
+        <SharedStyles.FileSystemItemText>
+          {name}
+        </SharedStyles.FileSystemItemText>
       </SharedStyles.StretchContainer>
     </SharedStyles.Square>
   );
