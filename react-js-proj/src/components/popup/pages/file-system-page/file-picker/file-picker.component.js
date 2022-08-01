@@ -4,7 +4,6 @@ import {
   ModalActionButtons,
   ModalButton,
   ModalHeader,
-  ModalTitle,
   ModalWrapper,
   StyledModal,
 } from "../../../../modals-forms/modal.styles";
@@ -13,9 +12,14 @@ import PropTypes from "prop-types";
 import { modalTypes } from "../../../../../constants/theme";
 import { Rectangle } from "../shared/styles";
 import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
-import { ScrollableBody } from "./file-picker.styles";
+import {
+  FilePickerBackButton,
+  FilePickerTitle,
+  ScrollableBody,
+} from "./file-picker.styles";
 import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-arrow.icon";
 import { ROOT } from "../../../../../hooks/use-file-system-mw.hook";
+import LeftArrowIcon from "../../../../../icons/left-arrow-icon/left-arrow-icon";
 
 const FilePickerComponent = (props) => {
   const [state, setState] = useState({
@@ -84,7 +88,10 @@ const FilePickerComponent = (props) => {
     >
       <StyledModal onClick={(e) => e.stopPropagation()}>
         <ModalHeader $modalType={modalTypes.FORM}>
-          <ModalTitle>{props.title}</ModalTitle>
+          <FilePickerBackButton enabled={state.history.length > 1}>
+            <LeftArrowIcon width={"18px"} height={"18px"} color={"white"} />
+          </FilePickerBackButton>
+          <FilePickerTitle>{props.title}</FilePickerTitle>
           <CloseIconWrapper
             onClick={(e) => {
               e.stopPropagation();
