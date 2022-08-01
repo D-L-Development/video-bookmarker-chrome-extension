@@ -1,25 +1,18 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { StyledPage } from "../page.styles";
-import { PageHeader } from "../../view-pager/view-pager.styles";
 import * as Styled from "./file-system-page.styles";
 import FolderComponent from "./folder/folder.component";
 import FileComponent from "./file/file.component";
-import InputComponent from "../../shared/input/input.component";
 import {
   FileSystemContext,
   fsDispatchContext,
 } from "../../../../contexts/file-system.context";
 import { fsActions } from "../../../../reducers/file-system.reducer";
-import PathComponent from "./path/path.component";
-import FileSystemControlsComponent from "./file-system-controls/file-system-controls.component";
 
-const FileSystemPageComponent = (props) => {
+const FileSystemPageComponent = ({ searchQuery }) => {
   const fs = useContext(FileSystemContext);
   const fsDispatch = useContext(fsDispatchContext);
   const lastSelectedId = useRef(null);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {}, [searchQuery]);
 
   const shouldShow = (name) => {
     return name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1;
@@ -114,16 +107,6 @@ const FileSystemPageComponent = (props) => {
       tabIndex="0"
       style={{ userSelect: "none" }}
     >
-      <FileSystemControlsComponent />
-      <PageHeader className="PageHeader">
-        <PathComponent />
-        <InputComponent
-          placeholder="Search files..."
-          marginRight={"0.5rem"}
-          marginLeft={"auto"}
-          setQuery={setSearchQuery}
-        />
-      </PageHeader>
       <Styled.FileSystemContent className="FileSystemContent">
         {!fs.isLoading && (
           <>
