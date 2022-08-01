@@ -116,7 +116,7 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
         }
       }}
       tabIndex="0"
-      style={{ userSelect: "none" }}
+      style={{ userSelect: "none", marginRight: "auto" }}
     >
       <Styled.FileSystemContent className="FileSystemContent">
         {!fs.isLoading && (

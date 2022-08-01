@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Content, StyledViewPager } from "./view-pager.styles";
 import FileSystemPageComponent from "../pages/file-system-page/file-system-page.component";
 import BookmarksPageComponent from "../pages/bookmarks-page/bookmarks-page.component";
+import { FIRST } from "../popup.component";
 
 const ViewPagerComponent = ({
   searchQuery,
@@ -12,16 +13,17 @@ const ViewPagerComponent = ({
   return (
     <Content className="Content">
       <StyledViewPager pageNum={pageInfo.current} className="StyledViewPager">
-        {/* file system page */}
-        <FileSystemPageComponent
-          searchQuery={searchQuery}
-          switchToBookmarksPage={switchToBookmarksPage}
-        />
-        {/* video bookmakrks page */}
-        <BookmarksPageComponent
-          searchQuery={searchQuery}
-          uuid={pageInfo.uuid}
-        />
+        {pageInfo.current === FIRST ? (
+          <FileSystemPageComponent
+            searchQuery={searchQuery}
+            switchToBookmarksPage={switchToBookmarksPage}
+          />
+        ) : (
+          <BookmarksPageComponent
+            searchQuery={searchQuery}
+            fileUuid={pageInfo.uuid}
+          />
+        )}
       </StyledViewPager>
     </Content>
   );
