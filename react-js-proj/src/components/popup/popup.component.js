@@ -16,12 +16,16 @@ import FileSystemControlsComponent from "./pages/file-system-page/file-system-co
 import { PageHeader } from "./view-pager/view-pager.styles";
 import PathComponent from "./pages/file-system-page/path/path.component";
 import InputComponent from "./shared/input/input.component";
+import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
+
+export const FIRST = "first";
+export const SECOND = "second";
 
 const PopupComponent = () => {
   const { setModalProps, show, hide } = useContext(ModalContext);
   const fsDispatch = useContext(fsDispatchContext);
   const [searchQuery, setSearchQuery] = useState("");
-  const [pageNum, setPageNum] = useState("first");
+  const [pageNum, setPageNum] = useState(FIRST);
 
   const containerRef = useRef(null);
   const handleCloseIconClick = (e) => {
@@ -42,12 +46,16 @@ const PopupComponent = () => {
             <CloseIcon width="24px" height="24px" color="white" />
           </CloseIconWrapper>
         </Header>
-        <FileSystemControlsComponent />
+        {pageNum === FIRST ? (
+          <FileSystemControlsComponent />
+        ) : (
+          <BookmarksControlsComponent />
+        )}
         <PageHeader className="PageHeader">
           <PathComponent />
           <InputComponent
             placeholder={`Search ${
-              pageNum === "first" ? "files" : "bookmarks"
+              pageNum === FIRST ? "files" : "bookmarks"
             }...`}
             marginRight={"0.5rem"}
             marginLeft={"auto"}
@@ -58,7 +66,7 @@ const PopupComponent = () => {
         <Footer></Footer>
         {/* TODO: remove this button */}
         <button
-          onClick={() => setPageNum(pageNum === "first" ? "second" : "first")}
+          onClick={() => setPageNum(pageNum === FIRST ? SECOND : FIRST)}
           style={{
             position: "absolute",
             top: 0,
