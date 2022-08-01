@@ -25,7 +25,7 @@ const PopupComponent = () => {
   const { setModalProps, show, hide } = useContext(ModalContext);
   const fsDispatch = useContext(fsDispatchContext);
   const [searchQuery, setSearchQuery] = useState("");
-  const [pageNum, setPageNum] = useState(FIRST);
+  const [pageInfo, setPageInfo] = useState({ current: FIRST, uuid: null });
   const containerRef = useRef(null);
 
   const handleCloseIconClick = (e) => {
@@ -34,6 +34,10 @@ const PopupComponent = () => {
         alert("Failed to close side menu");
       }
     });
+  };
+
+  const renderBookmarksPage = async (uuid) => {
+    setPageInfo({ current: SECOND, uuid });
   };
 
   return (
@@ -46,7 +50,7 @@ const PopupComponent = () => {
             <CloseIcon width="24px" height="24px" color="white" />
           </CloseIconWrapper>
         </Header>
-        {pageNum === FIRST ? (
+        {pageInfo.current === FIRST ? (
           <FileSystemControlsComponent />
         ) : (
           <BookmarksControlsComponent />
@@ -55,7 +59,7 @@ const PopupComponent = () => {
           <PathComponent />
           <InputComponent
             placeholder={`Search ${
-              pageNum === FIRST ? "files" : "bookmarks"
+              pageInfo.current === FIRST ? "files" : "bookmarks"
             }...`}
             marginRight={"0.5rem"}
             marginLeft={"auto"}
@@ -64,13 +68,18 @@ const PopupComponent = () => {
         </PageHeader>
         <ViewPagerComponent
           searchQuery={searchQuery}
-          pageNum={pageNum}
-          switchToBookmarksPage={() => setPageNum(SECOND)}
+          pageInfo={pageInfo}
+          switchToBookmarksPage={renderBookmarksPage}
         />
         <Footer></Footer>
         {/* TODO: remove this button */}
         <button
-          onClick={() => setPageNum(pageNum === FIRST ? SECOND : FIRST)}
+          onClick={() =>
+            setPageInfo({
+              ...pageInfo,
+              current: pageInfo.current === FIRST ? SECOND : FIRST,
+            })
+          }
           style={{
             position: "absolute",
             top: 0,

@@ -6,19 +6,22 @@ import BookmarksPageComponent from "../pages/bookmarks-page/bookmarks-page.compo
 
 const ViewPagerComponent = ({
   searchQuery,
-  pageNum,
+  pageInfo,
   switchToBookmarksPage,
 }) => {
   return (
     <Content className="Content">
-      <StyledViewPager pageNum={pageNum} className="StyledViewPager">
+      <StyledViewPager pageNum={pageInfo.current} className="StyledViewPager">
         {/* file system page */}
         <FileSystemPageComponent
           searchQuery={searchQuery}
           switchToBookmarksPage={switchToBookmarksPage}
         />
         {/* video bookmakrks page */}
-        <BookmarksPageComponent searchQuery={searchQuery} />
+        <BookmarksPageComponent
+          searchQuery={searchQuery}
+          uuid={pageInfo.uuid}
+        />
       </StyledViewPager>
     </Content>
   );

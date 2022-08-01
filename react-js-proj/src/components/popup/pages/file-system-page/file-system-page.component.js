@@ -93,8 +93,8 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
             payload: { uuid: e.currentTarget.id },
           });
         } else {
-          console.log("FILE DOUBLE CLICK");
-          switchToBookmarksPage();
+          console.log(`FILE DOUBLE CLICK ${e.currentTarget.id}`);
+          switchToBookmarksPage(e.currentTarget.id);
         }
 
         break;
