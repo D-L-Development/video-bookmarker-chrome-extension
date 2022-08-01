@@ -14,7 +14,7 @@ import { fsDispatchContext } from "../../contexts/file-system.context";
 import { OutsideContext } from "../../contexts/outside-context";
 import FileSystemControlsComponent from "./pages/file-system-page/file-system-controls/file-system-controls.component";
 import { PageHeader } from "./view-pager/view-pager.styles";
-import PathComponent from "./pages/file-system-page/path/path.component";
+import PathComponent from "./shared/path/path.component";
 import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
 

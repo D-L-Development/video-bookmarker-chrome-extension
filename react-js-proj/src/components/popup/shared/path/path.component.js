@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import {
   FileSystemContext,
   fsDispatchContext,
-} from "../../../../../contexts/file-system.context";
-import ArrowIcon from "../../../../../icons/arrow-icon/arrow.icon";
+} from "../../../../contexts/file-system.context";
+import ArrowIcon from "../../../../icons/arrow-icon/arrow.icon";
 import * as Styled from "./path.styles";
 import { FolderIconWrapper } from "./path.styles";
-import LeftArrowIcon from "../../../../../icons/left-arrow-icon/left-arrow-icon";
-import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
-import { folder_c } from "../../../../../constants/theme";
-import { fsActions } from "../../../../../reducers/file-system.reducer";
+import LeftArrowIcon from "../../../../icons/left-arrow-icon/left-arrow-icon";
+import FolderIcon from "../../../../icons/folder-icon/folder.icon";
+import { folder_c } from "../../../../constants/theme";
+import { fsActions } from "../../../../reducers/file-system.reducer";
 
 const PathComponent = (props) => {
   const fs = useContext(FileSystemContext);

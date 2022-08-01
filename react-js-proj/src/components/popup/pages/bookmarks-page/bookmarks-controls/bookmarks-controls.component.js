@@ -1,6 +1,6 @@
 import React from "react";
 import { controlPageHeader_c } from "../../../../../constants/theme";
-import { PageHeaderControls } from "../../file-system-page/file-system-controls/file-system-controls.styles";
+import { PageHeaderControls } from "../../page.styles";
 
 const BookmarksControlsComponent = (props) => {
   return (

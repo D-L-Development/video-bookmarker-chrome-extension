@@ -3,10 +3,7 @@ import {
   controlPageHeader_c,
   modalTypes,
 } from "../../../../../constants/theme";
-import {
-  ActionIconWrapper,
-  PageHeaderControls,
-} from "./file-system-controls.styles";
+import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
 import MoveIcon from "../../../../../icons/move-icon/move.icon";
