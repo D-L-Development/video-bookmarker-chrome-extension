@@ -46,6 +46,10 @@ export const ModalProvider = (props) => {
     submitBtnText: "Submit",
   });
 
+  /**
+   *
+   * @param {Object} props
+   */
   const setModalProps = (props) => {
     modalProps.current.onClose = props.onClose || hideMessageModal;
     modalProps.current.onSubmit = props.onSubmit || null;

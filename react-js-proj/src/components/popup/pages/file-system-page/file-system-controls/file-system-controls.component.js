@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { controlPageHeader_c } from "../../../../../constants/theme";
+import {
+  controlPageHeader_c,
+  modalTypes,
+} from "../../../../../constants/theme";
 import {
   ActionIconWrapper,
   PageHeaderControls,
@@ -17,6 +20,7 @@ import { fsActions } from "../../../../../reducers/file-system.reducer";
 import { VerticalDivider } from "../../../shared/divider.styles";
 import NewButtonComponent from "./new-button/new-button.component";
 import FilePickerComponent from "../file-picker/file-picker.component";
+import { ModalContext } from "../../../../../contexts/modal.context";
 
 const iconActionType = {
   DELETE: "delete",
@@ -27,6 +31,8 @@ const iconActionType = {
 const FileSystemControlsComponent = (props) => {
   const fsDispatch = useContext(fsDispatchContext);
   const fs = useContext(FileSystemContext);
+  const { setModalProps, showModal, hideMessageModal } =
+    useContext(ModalContext);
   const [selections, setSelections] = useState({});
   const [showEditFileModal, setShowEditFileModal] = useState(false);
   const [showEditFolderModal, setShowEditFolderModal] = useState(false);
@@ -44,10 +50,25 @@ const FileSystemControlsComponent = (props) => {
       case iconActionType.DELETE:
         if (anySelected()) {
           const { fileIds, folderIds } = getSelectedItemsIds();
-          fsDispatch({
-            type: fsActions.REMOVE,
-            payload: { fileIds, folderIds },
+          const count = getSelectedItemsCount();
+          setModalProps({
+            onClose: hideMessageModal,
+            onSubmit: () => {
+              fsDispatch({
+                type: fsActions.REMOVE,
+                payload: { fileIds, folderIds },
+              });
+              hideMessageModal();
+            },
+            title: "Warning!",
+            type: modalTypes.WARNING,
+            message: `Are you sure you want to permanently delete ${
+              count === 1 ? "this item" : "these items"
+            }?`,
+            closeBtnText: "No",
+            submitBtnText: "Yes",
           });
+          showModal();
         }
         break;
       case iconActionType.EDIT:
@@ -104,6 +125,9 @@ const FileSystemControlsComponent = (props) => {
   const anySelected = () =>
     Object.keys(selections).length &&
     [...selections.files, ...selections.folders].length >= 1;
+
+  const getSelectedItemsCount = () =>
+    [...selections.files, ...selections.folders].length;
 
   return fs.isLoading ? null : (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
