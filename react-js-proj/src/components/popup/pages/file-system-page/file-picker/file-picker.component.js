@@ -46,9 +46,24 @@ const FilePickerComponent = (props) => {
     fetchData();
   }, []);
 
+  const handleFolderClick = (e) => {
+    switch (e.detail) {
+      case 1:
+        setSelectedUuid(e.currentTarget.id);
+        return;
+      case 2:
+        return;
+    }
+  };
+
   const renderFolders = () =>
     state.folders.map((folder) => (
-      <Rectangle key={folder.uuid} selected={folder.uuid === selectedUuid}>
+      <Rectangle
+        onClick={handleFolderClick}
+        key={folder.uuid}
+        id={folder.uuid}
+        selected={folder.uuid === selectedUuid}
+      >
         <FolderIcon width={"20px"} height={"20px"} color={"grey"} />
         <span>{folder.name}</span>
         <OutlineArrowIcon
