@@ -26,8 +26,8 @@ const PopupComponent = () => {
   const fsDispatch = useContext(fsDispatchContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [pageNum, setPageNum] = useState(FIRST);
-
   const containerRef = useRef(null);
+
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ action: MSG.TOGGLE }, (response) => {
       if (response.status !== MSG.SUCCESS) {
@@ -62,7 +62,11 @@ const PopupComponent = () => {
             setQuery={setSearchQuery}
           />
         </PageHeader>
-        <ViewPagerComponent searchQuery={searchQuery} pageNum={pageNum} />
+        <ViewPagerComponent
+          searchQuery={searchQuery}
+          pageNum={pageNum}
+          switchToBookmarksPage={() => setPageNum(SECOND)}
+        />
         <Footer></Footer>
         {/* TODO: remove this button */}
         <button

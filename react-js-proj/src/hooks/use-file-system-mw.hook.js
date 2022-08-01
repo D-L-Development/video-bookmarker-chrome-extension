@@ -3,7 +3,7 @@ import { FS_Item } from "../classes/file.class";
 import { guid } from "../contentScripts/utility";
 import { fakeDB } from "../constants/fake-db";
 
-const MODE = "prod";
+const MODE = "dev";
 export const ROOT = "ROOT";
 const rootDir = {
   folders: [],

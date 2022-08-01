@@ -9,7 +9,12 @@ import {
 } from "../../../../contexts/file-system.context";
 import { fsActions } from "../../../../reducers/file-system.reducer";
 
-const FileSystemPageComponent = ({ searchQuery }) => {
+const itemType = {
+  FOLDER: "folder",
+  FILE: "file",
+};
+
+const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
   const fs = useContext(FileSystemContext);
   const fsDispatch = useContext(fsDispatchContext);
   const lastSelectedId = useRef(null);
@@ -75,17 +80,23 @@ const FileSystemPageComponent = ({ searchQuery }) => {
     }
   };
 
-  const handleFolderClick = (e) => {
+  const handleItemClick = (e, type) => {
     e.stopPropagation();
     switch (e.detail) {
       case 1:
         handleSelection(e);
         break;
       case 2:
-        fsDispatch({
-          type: fsActions.OPEN_FOLDER,
-          payload: { uuid: e.currentTarget.id },
-        });
+        if (type === itemType.FOLDER) {
+          fsDispatch({
+            type: fsActions.OPEN_FOLDER,
+            payload: { uuid: e.currentTarget.id },
+          });
+        } else {
+          console.log("FILE DOUBLE CLICK");
+          switchToBookmarksPage();
+        }
+
         break;
       default:
         return;
@@ -118,7 +129,7 @@ const FileSystemPageComponent = ({ searchQuery }) => {
                     uuid={folder.uuid}
                     key={folder.uuid}
                     selected={folder.selected}
-                    handleClick={handleFolderClick}
+                    handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
                   />
                 )
             )}
@@ -130,7 +141,7 @@ const FileSystemPageComponent = ({ searchQuery }) => {
                     uuid={file.uuid}
                     key={file.uuid}
                     selected={file.selected}
-                    handleClick={handleSelection}
+                    handleClick={(e) => handleItemClick(e, itemType.FILE)}
                   />
                 )
             )}
