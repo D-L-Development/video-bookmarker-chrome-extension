@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CloseIconWrapper,
   ModalActionButtons,
@@ -15,27 +15,50 @@ import { Rectangle } from "../shared/styles";
 import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
 import { ScrollableBody } from "./file-picker.styles";
 import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-arrow.icon";
+import { ROOT } from "../../../../../hooks/use-file-system-mw.hook";
 
 const FilePickerComponent = (props) => {
-  const getFakeData = (amount) => {
-    const data = [];
-    for (let i = 0; i < amount; i++) {
-      data.push(
-        <Rectangle key={i} selected={i === 5}>
-          <FolderIcon width={"20px"} height={"20px"} color={"grey"} />
-          <span>Folder name</span>
-          <OutlineArrowIcon
-            width={"20px"}
-            height={"20px"}
-            color={"grey"}
-            direction={"right"}
-          />
-        </Rectangle>
-      );
-    }
+  const [state, setState] = useState({
+    folders: [],
+    history: [{ uuid: ROOT, name: "Files", date: null }],
+    isLoading: true,
+  });
+  const [selectedUuid, setSelectedUuid] = useState(null);
 
-    return data;
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storage = await chrome.storage.sync.get(ROOT);
+        if (chrome.runtime.lastError) {
+          console.log(chrome.runtime.lastError);
+        }
+        if (storage[ROOT]) {
+          const { folders } = storage[ROOT];
+          setState({ ...state, folders });
+        } else {
+          throw new Error("Failed to load file system");
+        }
+      } catch (e) {
+        throw e;
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const renderFolders = () =>
+    state.folders.map((folder) => (
+      <Rectangle key={folder.uuid} selected={folder.uuid === selectedUuid}>
+        <FolderIcon width={"20px"} height={"20px"} color={"grey"} />
+        <span>{folder.name}</span>
+        <OutlineArrowIcon
+          width={"20px"}
+          height={"20px"}
+          color={"grey"}
+          direction={"right"}
+        />
+      </Rectangle>
+    ));
 
   return (
     <ModalWrapper
@@ -56,7 +79,7 @@ const FilePickerComponent = (props) => {
             <CloseIcon width={"24px"} height={"24px"} color={"white"} />
           </CloseIconWrapper>
         </ModalHeader>
-        <ScrollableBody>{getFakeData(30)}</ScrollableBody>
+        <ScrollableBody>{renderFolders()}</ScrollableBody>
         <ModalActionButtons>
           <ModalButton
             className="modalButton submit"

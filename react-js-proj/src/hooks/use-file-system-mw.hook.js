@@ -4,7 +4,7 @@ import { guid } from "../contentScripts/utility";
 import { fakeDB } from "../constants/fake-db";
 
 const MODE = "dev";
-const ROOT = "ROOT";
+export const ROOT = "ROOT";
 const rootDir = {
   folders: [],
   files: [],
