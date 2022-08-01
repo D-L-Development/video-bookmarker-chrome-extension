@@ -61,15 +61,35 @@ const FilePickerComponent = (props) => {
     }
   };
 
-  const handleBackBtnClick = (e) => {};
+  const handleBackBtnClick = async (e) => {
+    // if already at the root, don't go back
+    if (state.history.length <= 1) return;
+    try {
+      const destinationId = state.history.at(-2).uuid;
+      const storage = await chrome.storage.sync.get(destinationId);
+
+      if (storage[destinationId]) {
+        setState({
+          ...state,
+          folders: storage[destinationId].folders,
+          history: state.history.slice(0, -1),
+        });
+      } else {
+        throw new Error("Failed to go back");
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
 
   const handleFolderOpen = async (e) => {
     try {
       const { id } = e.currentTarget;
       const storage = await chrome.storage.sync.get(id);
       const clickedFolder = state.folders.find((folder) => folder.uuid === id);
-      if (storage[id]) {
+      if (storage[id] && clickedFolder) {
         setState({
+          ...state,
           folders: storage[id].folders,
           history: [...state.history, clickedFolder],
         });
@@ -114,7 +134,11 @@ const FilePickerComponent = (props) => {
             enabled={state.history.length > 1}
             onClick={handleBackBtnClick}
           >
-            <LeftArrowIcon width={"18px"} height={"18px"} color={"white"} />
+            <LeftArrowIcon
+              width={"18px"}
+              height={"18px"}
+              color={state.history.length > 1 ? "white" : "grey"}
+            />
           </FilePickerBackButton>
           <FilePickerTitle>{props.title}</FilePickerTitle>
           <CloseIconWrapper
