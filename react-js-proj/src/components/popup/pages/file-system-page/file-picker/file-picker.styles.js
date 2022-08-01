@@ -31,3 +31,9 @@ export const FilePickerTitle = styled.span`
   color: white;
   margin-left: 0.5rem;
 `;
+
+export const NoFoldersSign = styled.span`
+  margin: auto;
+  font-style: italic;
+  color: #acacac;
+`;

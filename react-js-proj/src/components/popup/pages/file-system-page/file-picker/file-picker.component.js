@@ -15,6 +15,7 @@ import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
 import {
   FilePickerBackButton,
   FilePickerTitle,
+  NoFoldersSign,
   ScrollableBody,
 } from "./file-picker.styles";
 import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-arrow.icon";
@@ -103,6 +104,7 @@ const FilePickerComponent = ({ onClose, selections, source }) => {
         ...selections,
       },
     });
+    onClose();
   };
 
   const handleFolderOpen = async (e) => {
@@ -150,7 +152,11 @@ const FilePickerComponent = ({ onClose, selections, source }) => {
       }
     });
 
-    return folders;
+    return folders.length ? (
+      folders
+    ) : (
+      <NoFoldersSign>Empty directory</NoFoldersSign>
+    );
   };
 
   return (
