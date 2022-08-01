@@ -36,8 +36,14 @@ const PopupComponent = () => {
     });
   };
 
-  const renderBookmarksPage = async (uuid) => {
+  const renderBookmarksPage = (uuid) => {
+    setSearchQuery("");
     setPageInfo({ current: SECOND, uuid });
+  };
+
+  const renderFileSystemPage = () => {
+    setSearchQuery("");
+    setPageInfo({ current: FIRST, uuid: null });
   };
 
   return (
@@ -58,9 +64,7 @@ const PopupComponent = () => {
         <PageHeader className="PageHeader">
           <PathComponent
             pageNum={pageInfo.current}
-            goBackToFileSystem={() =>
-              setPageInfo({ current: FIRST, uuid: null })
-            }
+            goBackToFileSystem={renderFileSystemPage}
           />
           <InputComponent
             placeholder={`Search ${
@@ -69,6 +73,7 @@ const PopupComponent = () => {
             marginRight={"0.5rem"}
             marginLeft={"auto"}
             setQuery={setSearchQuery}
+            query={searchQuery}
           />
         </PageHeader>
         <ViewPagerComponent

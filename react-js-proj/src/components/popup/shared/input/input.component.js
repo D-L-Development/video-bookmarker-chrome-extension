@@ -1,37 +1,34 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import * as Styled from "./input.styles";
 import ClearIcon from "../../../../icons/clear-icon/clear.icon";
 import SearchIcon from "../../../../icons/search-icon/search.icon";
 
-const InputComponent = ({ placeholder, marginLeft, marginRight, setQuery }) => {
-  const [text, setText] = useState("");
+const InputComponent = ({ placeholder, query, setQuery }) => {
   const [showClearIcon, setShowClearIcon] = useState(false);
   const inputElem = useRef(null);
 
+  useEffect(() => {
+    if (query.length === 0) setShowClearIcon(false);
+  }, [query]);
+
   const handleChange = (e) => {
     const { value } = e.target;
-    setText(value);
+    setQuery(value);
     setShowClearIcon(value !== "");
-    setQuery && setQuery(value);
   };
 
   const handleClear = (e) => {
-    setText("");
+    setQuery("");
     setShowClearIcon(false);
     inputElem.current.focus();
-    setQuery && setQuery("");
   };
 
   return (
-    <Styled.SearchBoxWrapper
-      className="SearchBoxWrapper"
-      marginLeft={marginLeft}
-      marginRight={marginRight}
-    >
+    <Styled.SearchBoxWrapper className="SearchBoxWrapper">
       <Styled.SearchBox
         placeholder={placeholder}
-        value={text}
+        value={query}
         onChange={handleChange}
         onKeyDown={(e) => e.stopPropagation()}
         ref={inputElem}
@@ -50,8 +47,6 @@ const InputComponent = ({ placeholder, marginLeft, marginRight, setQuery }) => {
 
 InputComponent.propTypes = {
   placeholder: PropTypes.string.isRequired,
-  marginLeft: PropTypes.string,
-  marginRight: PropTypes.string,
 };
 
 export default InputComponent;
