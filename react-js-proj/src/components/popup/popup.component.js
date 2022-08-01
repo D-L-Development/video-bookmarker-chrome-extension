@@ -36,7 +36,7 @@ const PopupComponent = () => {
             <CloseIcon width="24px" height="24px" color="white" />
           </CloseIconWrapper>
         </Header>
-        <ViewPagerComponent pageNum="first" />
+        <ViewPagerComponent />
         <Footer></Footer>
       </OutsideContext.Provider>
     </StyledPopup>
