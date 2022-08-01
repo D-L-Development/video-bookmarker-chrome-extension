@@ -3,7 +3,7 @@ import { FS_Item } from "../classes/file.class";
 import { guid } from "../contentScripts/utility";
 import { fakeDB } from "../constants/fake-db";
 
-const MODE = "dev";
+const MODE = "prod";
 export const ROOT = "ROOT";
 const rootDir = {
   folders: [],
@@ -36,7 +36,6 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         break;
       case fsActions.OPEN_FILE:
         break;
-      case fsActions.MOVE_FILE:
         break;
       case fsActions.ADD_FOLDER:
         await addFolder(action);
@@ -47,7 +46,8 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       case fsActions.OPEN_FOLDER:
         await openFolder(action);
         break;
-      case fsActions.MOVE_FOLDER:
+      case fsActions.MOVE:
+        await moveItems(action);
         break;
       case fsActions.GO_BACK:
         await goBack(action);
@@ -284,6 +284,52 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       } else {
         throw new Error("Failed to find folder");
       }
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const moveItems = async ({ payload }) => {
+    try {
+      const { source, destination, folderIds, fileIds } = payload;
+      const storage = await chrome.storage.sync.get([source, destination]);
+
+      // add files and folders to the destination
+      storage[destination].files = [
+        ...storage[destination].files,
+        ...storage[source].files.filter((file) =>
+          fileIds.hasOwnProperty(file.uuid)
+        ),
+      ];
+      storage[destination].folders = [
+        ...storage[destination].folders,
+        ...storage[source].folders.filter((folder) =>
+          folderIds.hasOwnProperty(folder.uuid)
+        ),
+      ];
+      // remove files and folders from the source
+      storage[source].files = storage[source].files.filter(
+        (file) => !fileIds.hasOwnProperty(file.uuid)
+      );
+      storage[source].folders = storage[source].folders.filter(
+        (folder) => !folderIds.hasOwnProperty(folder.uuid)
+      );
+
+      await chrome.storage.sync.set(storage);
+
+      syncFileSystemDispatch({
+        type: fsActions.MOVE,
+        payload: {
+          files: storage[source].files.map((file) => ({
+            ...file,
+            selected: false,
+          })),
+          folders: storage[source].folders.map((folder) => ({
+            ...folder,
+            selected: false,
+          })),
+        },
+      });
     } catch (e) {
       throw e;
     }

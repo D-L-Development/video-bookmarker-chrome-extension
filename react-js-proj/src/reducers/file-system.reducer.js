@@ -8,26 +8,11 @@
 export const fsActions = {
   INIT: "initialize",
   ADD_FILE: "add file",
-  // step | make sure you create a key in storage with empty arrays
   EDIT_FILE: "edit file",
   ADD_FOLDER: "add folder",
-  // step | make sure you create a key in storage with empty arrays
   EDIT_FOLDER: "edit folder",
-  // TODO: those don't work yet
-  MOVE_FILE: "move file",
-  // step | receive an id for the moved file, and an id for the destination
-  // step | search for the id in context state and copy the file info
-  // step | search in storage for the destination and append the file to its array
-  // step | call dispatch(MOVE_FILE)to remove file from state - state should update on its own
-  MOVE_FOLDER: "move folder",
-  // step | similar to above
   OPEN_FILE: "open file",
-  // step | receive the id for the file to be opened
-  // step | look for the id in the state
-  // step | look for the id in chrome.storage
-  // step | create a new state with: previous = current; current = theOneFromTheState; update files[] and folders[] from storage
   OPEN_FOLDER: "open folder",
-  // step | similar to above
   DESELECT_ALL: "deselect all",
   TOGGLE_SELECTION: "toggle selection",
   TOGGLE_SELECTION_RANGE: "toggle selection range",
@@ -35,6 +20,7 @@ export const fsActions = {
   GO_BACK: "go back",
   REMOVE: "remove",
   SET_STATE: "set state",
+  MOVE: "move folders and files",
 };
 const FileSystemReducer = (state, action) => {
   switch (action.type) {
@@ -49,9 +35,6 @@ const FileSystemReducer = (state, action) => {
           file.uuid === action.payload.uuid ? { ...action.payload } : file
         ),
       };
-    case fsActions.MOVE_FILE:
-      // TODO: implement move file
-      return state;
     case fsActions.OPEN_FILE:
       return state;
     case fsActions.ADD_FOLDER:
@@ -59,7 +42,6 @@ const FileSystemReducer = (state, action) => {
         ...state,
         folders: [...state.folders, action.payload.folder],
       };
-
     case fsActions.EDIT_FOLDER:
       const { uuid, name } = action.payload;
       return {
@@ -68,8 +50,12 @@ const FileSystemReducer = (state, action) => {
           currFolder.uuid === uuid ? { ...currFolder, name } : currFolder
         ),
       };
-    case fsActions.MOVE_FOLDER:
-      return state;
+    case fsActions.MOVE:
+      return {
+        ...state,
+        files: action.payload.files,
+        folders: action.payload.folders,
+      };
     case fsActions.OPEN_FOLDER:
       return action.payload;
     case fsActions.DESELECT_ALL:

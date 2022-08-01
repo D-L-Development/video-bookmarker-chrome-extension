@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   CloseIconWrapper,
   ModalActionButtons,
@@ -20,14 +20,18 @@ import {
 import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-arrow.icon";
 import { ROOT } from "../../../../../hooks/use-file-system-mw.hook";
 import LeftArrowIcon from "../../../../../icons/left-arrow-icon/left-arrow-icon";
+import { fsDispatchContext } from "../../../../../contexts/file-system.context";
+import { fsActions } from "../../../../../reducers/file-system.reducer";
 
-const FilePickerComponent = ({ onClose, onSubmit, source }) => {
+const FilePickerComponent = ({ onClose, selections, source }) => {
   const [state, setState] = useState({
     folders: [],
     history: [{ uuid: ROOT, name: "Files", date: null }],
     selectedUuid: null,
     isLoading: true,
   });
+
+  const fsDispatch = useContext(fsDispatchContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +95,14 @@ const FilePickerComponent = ({ onClose, onSubmit, source }) => {
   };
 
   const handleMoveItems = async () => {
-    console.log(source);
+    fsDispatch({
+      type: fsActions.MOVE,
+      payload: {
+        source,
+        destination: state.selectedUuid || state.history.at(-1).uuid,
+        ...selections,
+      },
+    });
   };
 
   const handleFolderOpen = async (e) => {
@@ -187,7 +198,7 @@ const FilePickerComponent = ({ onClose, onSubmit, source }) => {
 
 FilePickerComponent.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func,
+  selections: PropTypes.object.isRequired,
 };
 
 export default FilePickerComponent;

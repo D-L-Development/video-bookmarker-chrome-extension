@@ -162,7 +162,7 @@ const FileSystemControlsComponent = (props) => {
         <FilePickerComponent
           source={fs.history.at(-1).uuid}
           onClose={() => setShowFilePicker(false)}
-          onSubmit={() => console.log("Submit")}
+          selections={getSelectedItemsIds()}
         />
       )}
     </PageHeaderControls>
