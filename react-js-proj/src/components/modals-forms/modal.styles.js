@@ -71,7 +71,9 @@ export const ModalButton = styled.button`
   border: none;
   border-radius: 0.2rem;
   height: 60%;
-  width: 20%;
+  width: fit-content;
+  min-width: 20%;
+  padding-inline: 0.3rem;
   cursor: pointer;
   color: white;
   transition: 0.1s ease-in-out;

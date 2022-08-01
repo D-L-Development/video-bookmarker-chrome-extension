@@ -161,7 +161,7 @@ const FilePickerComponent = (props) => {
               props.onSubmit();
             }}
           >
-            Move
+            {selectedUuid ? "MOVE" : "MOVE HERE"}
           </ModalButton>
         </ModalActionButtons>
       </StyledModal>
