@@ -56,12 +56,33 @@ const FilePickerComponent = (props) => {
         setSelectedUuid(e.currentTarget.id);
         return;
       case 2:
+        handleFolderOpen(e);
         return;
     }
   };
 
-  const renderFolders = () =>
-    state.folders.map((folder) => (
+  const handleBackBtnClick = (e) => {};
+
+  const handleFolderOpen = async (e) => {
+    try {
+      const { id } = e.currentTarget;
+      const storage = await chrome.storage.sync.get(id);
+      const clickedFolder = state.folders.find((folder) => folder.uuid === id);
+      if (storage[id]) {
+        setState({
+          folders: storage[id].folders,
+          history: [...state.history, clickedFolder],
+        });
+      } else {
+        throw new Error("Failed to open folder");
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const renderFolders = () => {
+    return state.folders.map((folder) => (
       <Rectangle
         onClick={handleFolderClick}
         key={folder.uuid}
@@ -78,6 +99,7 @@ const FilePickerComponent = (props) => {
         />
       </Rectangle>
     ));
+  };
 
   return (
     <ModalWrapper
@@ -88,7 +110,10 @@ const FilePickerComponent = (props) => {
     >
       <StyledModal onClick={(e) => e.stopPropagation()}>
         <ModalHeader $modalType={modalTypes.FORM}>
-          <FilePickerBackButton enabled={state.history.length > 1}>
+          <FilePickerBackButton
+            enabled={state.history.length > 1}
+            onClick={handleBackBtnClick}
+          >
             <LeftArrowIcon width={"18px"} height={"18px"} color={"white"} />
           </FilePickerBackButton>
           <FilePickerTitle>{props.title}</FilePickerTitle>
