@@ -70,8 +70,6 @@ const PopupComponent = () => {
             placeholder={`Search ${
               pageInfo.current === FIRST ? "files" : "bookmarks"
             }...`}
-            marginRight={"0.5rem"}
-            marginLeft={"auto"}
             setQuery={setSearchQuery}
             query={searchQuery}
           />

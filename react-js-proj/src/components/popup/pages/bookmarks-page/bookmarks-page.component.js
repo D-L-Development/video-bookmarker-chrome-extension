@@ -46,7 +46,7 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
 
   const renderBookmarks = () => {
     if (state.isLoading) {
-      return <h1>Is loading...</h1>;
+      return null;
     } else {
       const data = [];
       for (let key in state.bookmarks) {
@@ -66,21 +66,6 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
   };
   return (
     <StyledPage className="StyledPage" style={{ marginLeft: "auto" }}>
-      {/*<PageHeader className="PageHeader">*/}
-      {/*  <AddBookmarkButton>*/}
-      {/*    <AddBookmarkIcon height={"15px"} width={"15px"} color={"white"} />*/}
-      {/*    Add Bookmark*/}
-      {/*  </AddBookmarkButton>*/}
-      {/*  <CopyTableButton>*/}
-      {/*    <CopyIcon height={"15px"} width={"15px"} color={"white"} />*/}
-      {/*    Copy Table*/}
-      {/*  </CopyTableButton>*/}
-      {/*  <InputComponent*/}
-      {/*    placeholder="Search bookmarks"*/}
-      {/*    marginLeft={"auto"}*/}
-      {/*    marginRight={"0.5rem"}*/}
-      {/*  />*/}
-      {/*</PageHeader>*/}
       <Styled.BookmarksPageContent className="FileSystemContent">
         {renderBookmarks()}
       </Styled.BookmarksPageContent>
