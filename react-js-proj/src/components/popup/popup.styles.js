@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { primary_c } from "../../constants/theme";
-import { StyledButton } from "./shared/button/button.styles";
 
 export const StyledPopup = styled.div`
   height: 100%;
@@ -31,15 +30,6 @@ export const CloseIconWrapper = styled.div`
   top: 0.2rem;
   display: flex;
 `;
-export const BackArrowIconWrapper = styled.div`
-  position: absolute;
-  left: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 10%;
-`;
 
 export const Footer = styled.footer`
   height: 2rem;
@@ -48,14 +38,8 @@ export const Footer = styled.footer`
   display: flex;
   align-items: center;
   margin-top: auto;
+  color: grey;
+  padding-left: 1rem;
+  box-sizing: border-box;
+  font-size: 0.65rem;
 `;
-
-export const AddSessionButton = styled(StyledButton).attrs((props) => ({
-  type: "filled",
-  color: "white",
-  bgColor: "teal",
-}))`
-  margin-left: 0.5rem;
-`;
-
-export const AddFolderButton = styled(AddSessionButton)``;
