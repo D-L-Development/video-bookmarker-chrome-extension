@@ -126,23 +126,31 @@ const FilePickerComponent = ({ onClose, selections, source }) => {
   };
 
   const renderFolders = () => {
-    return state.folders.map((folder) => (
-      <Rectangle
-        onClick={handleFolderClick}
-        key={folder.uuid}
-        id={folder.uuid}
-        selected={folder.uuid === state.selectedUuid}
-      >
-        <FolderIcon width={"20px"} height={"20px"} color={"grey"} />
-        <span>{folder.name}</span>
-        <OutlineArrowIcon
-          width={"20px"}
-          height={"20px"}
-          color={"grey"}
-          direction={"right"}
-        />
-      </Rectangle>
-    ));
+    const folders = [];
+    state.folders.forEach((folder) => {
+      console.log(selections);
+      if (!selections.folderIds.hasOwnProperty(folder.uuid)) {
+        folders.push(
+          <Rectangle
+            onClick={handleFolderClick}
+            key={folder.uuid}
+            id={folder.uuid}
+            selected={folder.uuid === state.selectedUuid}
+          >
+            <FolderIcon width={"20px"} height={"20px"} color={"grey"} />
+            <span>{folder.name}</span>
+            <OutlineArrowIcon
+              width={"20px"}
+              height={"20px"}
+              color={"grey"}
+              direction={"right"}
+            />
+          </Rectangle>
+        );
+      }
+    });
+
+    return folders;
   };
 
   return (
@@ -181,7 +189,8 @@ const FilePickerComponent = ({ onClose, selections, source }) => {
             type="button"
             $btnType={"submit"}
             disabled={
-              !state.selectedUuid && source === state.history.at(-1).uuid
+              state.selectedUuid === source ||
+              (!state.selectedUuid && source === state.history.at(-1).uuid)
             }
             onClick={(e) => {
               e.stopPropagation();
