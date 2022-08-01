@@ -37,7 +37,9 @@ const FileSystemControlsComponent = (props) => {
 
     switch (iconType) {
       case iconActionType.MOVE:
-        setShowFilePicker(true);
+        if (anySelected()) {
+          setShowFilePicker(true);
+        }
         break;
       case iconActionType.DELETE:
         if (anySelected()) {
@@ -159,7 +161,7 @@ const FileSystemControlsComponent = (props) => {
       {showFilePicker && (
         <FilePickerComponent
           title={"Move file(s)"}
-          onClose={() => console.log("close")}
+          onClose={() => setShowFilePicker(false)}
           onSubmit={() => console.log("Submit")}
         />
       )}
