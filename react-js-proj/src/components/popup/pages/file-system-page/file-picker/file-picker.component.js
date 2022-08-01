@@ -25,9 +25,9 @@ const FilePickerComponent = (props) => {
   const [state, setState] = useState({
     folders: [],
     history: [{ uuid: ROOT, name: "Files", date: null }],
+    selectedUuid: null,
     isLoading: true,
   });
-  const [selectedUuid, setSelectedUuid] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +53,11 @@ const FilePickerComponent = (props) => {
   const handleFolderClick = (e) => {
     switch (e.detail) {
       case 1:
-        setSelectedUuid(e.currentTarget.id);
+        const { id } = e.currentTarget;
+        setState({
+          ...state,
+          selectedUuid: id !== state.selectedUuid ? id : null,
+        });
         return;
       case 2:
         handleFolderOpen(e);
@@ -92,6 +96,7 @@ const FilePickerComponent = (props) => {
           ...state,
           folders: storage[id].folders,
           history: [...state.history, clickedFolder],
+          selectedUuid: null,
         });
       } else {
         throw new Error("Failed to open folder");
@@ -107,7 +112,7 @@ const FilePickerComponent = (props) => {
         onClick={handleFolderClick}
         key={folder.uuid}
         id={folder.uuid}
-        selected={folder.uuid === selectedUuid}
+        selected={folder.uuid === state.selectedUuid}
       >
         <FolderIcon width={"20px"} height={"20px"} color={"grey"} />
         <span>{folder.name}</span>
@@ -140,7 +145,7 @@ const FilePickerComponent = (props) => {
               color={state.history.length > 1 ? "white" : "grey"}
             />
           </FilePickerBackButton>
-          <FilePickerTitle>{props.title}</FilePickerTitle>
+          <FilePickerTitle>{state.history.at(-1).name}</FilePickerTitle>
           <CloseIconWrapper
             onClick={(e) => {
               e.stopPropagation();
@@ -161,7 +166,7 @@ const FilePickerComponent = (props) => {
               props.onSubmit();
             }}
           >
-            {selectedUuid ? "MOVE" : "MOVE HERE"}
+            {state.selectedUuid ? "MOVE" : "MOVE HERE"}
           </ModalButton>
         </ModalActionButtons>
       </StyledModal>
