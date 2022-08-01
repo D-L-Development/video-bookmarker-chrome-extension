@@ -78,12 +78,23 @@ export const ModalButton = styled.button`
   color: white;
   transition: 0.1s ease-in-out;
   font-size: 0.7rem;
-  background-color: ${(props) =>
-    props.$btnType === "cancel" ? colors.cancelBtn_c : colors.submitBtn_c};
+  ${(props) => {
+    if (props.disabled) {
+      return (
+        "background: transparent;" + "color: #e3e3e3;" + "cursor: default;"
+      );
+    } else if (props.$btnType === "cancel") {
+      return `background: ${colors.cancelBtn_c}`;
+    } else {
+      return `background: ${colors.submitBtn_c}`;
+    }
+  }};
 
   &:hover {
     background-color: ${(props) =>
-      props.$btnType === "cancel"
+      props.disabled
+        ? ""
+        : props.$btnType === "cancel"
         ? colors.cancelBtnHover_c
         : colors.submitBtnHover_c};
   }

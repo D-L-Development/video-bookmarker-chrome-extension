@@ -160,7 +160,7 @@ const FileSystemControlsComponent = (props) => {
       )}
       {showFilePicker && (
         <FilePickerComponent
-          title={"Move file(s)"}
+          source={fs.history.at(-1).uuid}
           onClose={() => setShowFilePicker(false)}
           onSubmit={() => console.log("Submit")}
         />

@@ -21,7 +21,7 @@ import OutlineArrowIcon from "../../../../../icons/outline-arrow-icon/outline-ar
 import { ROOT } from "../../../../../hooks/use-file-system-mw.hook";
 import LeftArrowIcon from "../../../../../icons/left-arrow-icon/left-arrow-icon";
 
-const FilePickerComponent = (props) => {
+const FilePickerComponent = ({ onClose, onSubmit, source }) => {
   const [state, setState] = useState({
     folders: [],
     history: [{ uuid: ROOT, name: "Files", date: null }],
@@ -50,14 +50,18 @@ const FilePickerComponent = (props) => {
     fetchData();
   }, []);
 
+  const updateSelection = (e) => {
+    const { id } = e.currentTarget;
+    setState({
+      ...state,
+      selectedUuid: id !== state.selectedUuid ? id : null,
+    });
+  };
+
   const handleFolderClick = (e) => {
     switch (e.detail) {
       case 1:
-        const { id } = e.currentTarget;
-        setState({
-          ...state,
-          selectedUuid: id !== state.selectedUuid ? id : null,
-        });
+        updateSelection(e);
         return;
       case 2:
         handleFolderOpen(e);
@@ -84,6 +88,10 @@ const FilePickerComponent = (props) => {
     } catch (e) {
       throw e;
     }
+  };
+
+  const handleMoveItems = async () => {
+    console.log(source);
   };
 
   const handleFolderOpen = async (e) => {
@@ -130,7 +138,7 @@ const FilePickerComponent = (props) => {
     <ModalWrapper
       onClick={(e) => {
         e.stopPropagation();
-        props.onClose();
+        onClose();
       }}
     >
       <StyledModal onClick={(e) => e.stopPropagation()}>
@@ -149,7 +157,7 @@ const FilePickerComponent = (props) => {
           <CloseIconWrapper
             onClick={(e) => {
               e.stopPropagation();
-              props.onClose();
+              onClose();
             }}
           >
             <CloseIcon width={"24px"} height={"24px"} color={"white"} />
@@ -161,9 +169,12 @@ const FilePickerComponent = (props) => {
             className="modalButton submit"
             type="button"
             $btnType={"submit"}
+            disabled={
+              !state.selectedUuid && source === state.history.at(-1).uuid
+            }
             onClick={(e) => {
               e.stopPropagation();
-              props.onSubmit();
+              handleMoveItems();
             }}
           >
             {state.selectedUuid ? "MOVE" : "MOVE HERE"}
@@ -175,9 +186,8 @@ const FilePickerComponent = (props) => {
 };
 
 FilePickerComponent.propTypes = {
-  title: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
 };
 
 export default FilePickerComponent;
