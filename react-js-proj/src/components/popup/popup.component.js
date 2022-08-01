@@ -56,7 +56,12 @@ const PopupComponent = () => {
           <BookmarksControlsComponent />
         )}
         <PageHeader className="PageHeader">
-          <PathComponent />
+          <PathComponent
+            pageNum={pageInfo.current}
+            goBackToFileSystem={() =>
+              setPageInfo({ current: FIRST, uuid: null })
+            }
+          />
           <InputComponent
             placeholder={`Search ${
               pageInfo.current === FIRST ? "files" : "bookmarks"
@@ -72,23 +77,6 @@ const PopupComponent = () => {
           switchToBookmarksPage={renderBookmarksPage}
         />
         <Footer></Footer>
-        {/* TODO: remove this button */}
-        <button
-          onClick={() =>
-            setPageInfo({
-              ...pageInfo,
-              current: pageInfo.current === FIRST ? SECOND : FIRST,
-            })
-          }
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 5,
-          }}
-        >
-          Toggle
-        </button>
       </OutsideContext.Provider>
     </StyledPopup>
   );

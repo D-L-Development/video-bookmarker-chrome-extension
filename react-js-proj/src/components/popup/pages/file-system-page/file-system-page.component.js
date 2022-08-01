@@ -93,10 +93,14 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
             payload: { uuid: e.currentTarget.id },
           });
         } else {
-          console.log(`FILE DOUBLE CLICK ${e.currentTarget.id}`);
+          // update the history so the path component updates
+          fsDispatch({
+            type: fsActions.OPEN_FILE,
+            payload: { uuid: e.currentTarget.id },
+          });
+          // switch to the bookmarks page
           switchToBookmarksPage(e.currentTarget.id);
         }
-
         break;
       default:
         return;

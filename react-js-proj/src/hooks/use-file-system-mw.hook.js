@@ -35,6 +35,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         await editFile(action);
         break;
       case fsActions.OPEN_FILE:
+        await openFile(action);
         break;
         break;
       case fsActions.ADD_FOLDER:
@@ -383,13 +384,37 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
         storage[clickedId].isLoading = false;
 
         syncFileSystemDispatch({
-          type,
+          type: fsActions.SET_STATE,
           payload: {
             ...storage[clickedId],
           },
         });
       } else {
         throw new Error("Folder is not found!");
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const openFile = async ({ payload }) => {
+    try {
+      const clickedId = payload.uuid;
+      const clickedFile = fileSystemState.files.find(
+        (file) => file.uuid === clickedId
+      );
+      const storage = await chrome.storage.sync.get(clickedId);
+      if (storage[clickedId] && clickedFile) {
+        // update the file history
+        syncFileSystemDispatch({
+          type: fsActions.SET_STATE,
+          payload: {
+            ...fileSystemState,
+            history: [...fileSystemState.history, clickedFile],
+          },
+        });
+      } else {
+        throw new Error("file is not found!");
       }
     } catch (e) {
       throw e;

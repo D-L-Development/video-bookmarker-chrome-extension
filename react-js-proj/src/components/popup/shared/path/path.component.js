@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import {
   FileSystemContext,
   fsDispatchContext,
@@ -10,8 +11,9 @@ import LeftArrowIcon from "../../../../icons/left-arrow-icon/left-arrow-icon";
 import FolderIcon from "../../../../icons/folder-icon/folder.icon";
 import { folder_c } from "../../../../constants/theme";
 import { fsActions } from "../../../../reducers/file-system.reducer";
+import { SECOND } from "../../popup.component";
 
-const PathComponent = (props) => {
+const PathComponent = ({ goBackToFileSystem, pageNum }) => {
   const fs = useContext(FileSystemContext);
   const fsDispatch = useContext(fsDispatchContext);
 
@@ -23,6 +25,9 @@ const PathComponent = (props) => {
           if (fs.history.length > 1) {
             e.stopPropagation();
             fsDispatch({ type: fsActions.GO_BACK });
+            if (pageNum === SECOND) {
+              goBackToFileSystem();
+            }
           }
         }}
       >
@@ -56,6 +61,11 @@ const PathComponent = (props) => {
       <Styled.Path>{fs.history.at(-1).name}</Styled.Path>
     </Styled.PathWrapper>
   );
+};
+
+PathComponent.propTypes = {
+  goBackToFileSystem: PropTypes.func.isRequired,
+  pageNum: PropTypes.string.isRequired,
 };
 
 export default PathComponent;
