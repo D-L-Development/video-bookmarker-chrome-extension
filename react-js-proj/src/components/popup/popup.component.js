@@ -46,7 +46,9 @@ const PopupComponent = () => {
         <PageHeader className="PageHeader">
           <PathComponent />
           <InputComponent
-            placeholder="Search files..."
+            placeholder={`Search ${
+              pageNum === "first" ? "files" : "bookmarks"
+            }...`}
             marginRight={"0.5rem"}
             marginLeft={"auto"}
             setQuery={setSearchQuery}

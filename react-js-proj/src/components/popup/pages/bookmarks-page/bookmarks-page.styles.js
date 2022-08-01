@@ -1,12 +1,9 @@
 import styled from "styled-components";
 import { StyledButton } from "../../shared/button/button.styles";
+import { PageContent } from "../page.styles";
 
-export const BookmarksPageContent = styled.div`
-  height: 95%;
-  width: 100%;
-  display: flex;
+export const BookmarksPageContent = styled(PageContent)`
   flex-direction: column;
-  overflow-y: scroll;
 `;
 
 export const AddBookmarkButton = styled(StyledButton).attrs((props) => ({
