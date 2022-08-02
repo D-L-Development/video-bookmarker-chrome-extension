@@ -1,17 +1,11 @@
 export const MSG = {
   SUCCESS: "success",
   FAILURE: "failure",
-  TOGGLE: "toggle",
-  CREATE_NEW_SESSION: "createNewSession",
-  SELECT_SESSION: "selectSession",
-  DELETE_SESSION: "deleteSession",
-  EDIT_SESSION: "editSession",
-  JUMP_TO_TIMESTAMP: "jumpToTimestamp",
-  DELETE_BOOKMARK: "deleteBookmark",
-  TOGGLE_BOOKMARK_NESTING: "toggleBookmarkNesting",
-  ADD_BOOKMARK: "addBookmark",
-  COPY_TABLE: "copyTable",
-  GET_BOOKMARK_AT_TIMESTAMP: "getBookmarkAtTimestamp",
+  TOGGLE_POPUP: "toggle popup",
+  JUMP_TO_TIMESTAMP: "jump to timestamp",
+  GET_CURRENT_TIMESTAMP: "get current timestamp",
+  PLAY: "play video",
+  PAUSE: "pause video",
 };
 
 export class Bookmark {
@@ -43,13 +37,13 @@ export function copyStringToClipboard(str) {
 export function formatMapToTableString(bookmarks) {
   const TAB_CHAR = String.fromCharCode(9);
   const NEWLINE_CHAR = String.fromCharCode(10);
-  let formatedString = "";
+  let formattedString = "";
   for (let key in bookmarks) {
     // timestamp + TAB + bookmark + NEWLINE
-    formatedString += key + TAB_CHAR + bookmarks[key].text + NEWLINE_CHAR;
+    formattedString += key + TAB_CHAR + bookmarks[key].text + NEWLINE_CHAR;
   }
 
-  return formatedString;
+  return formattedString;
 }
 
 export function copyTableToClipboard(bookmarks) {
@@ -73,9 +67,9 @@ export function timestampToSeconds(timestamp) {
 }
 
 // sends a message to the active tab's content script
-export const sendMessageToActiveTab = (payload, callback) => {
+export const sendMessageToActiveTab = (action, callback) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, payload, callback);
+    chrome.tabs.sendMessage(tabs[0].id, action, callback);
   });
 };
 

@@ -15,7 +15,7 @@ class Session {
     this.#createSideMenu(Session.SIDEBAR_PAGE_URL);
     // ? TODO: there's probably a better way to do this below
     setTimeout(() => {
-      this.toggleSidemenuVisiblity(true);
+      this.togglePopupVisibility(true);
     }, 200);
   }
 
@@ -197,7 +197,7 @@ class Session {
   /**
    * toggels the visiblity of the sidemeny iframe
    */
-  toggleSidemenuVisiblity(value = null) {
+  togglePopupVisibility(value = null) {
     switch (value) {
       case null:
         this.sidebarIframe.classList.toggle("on");

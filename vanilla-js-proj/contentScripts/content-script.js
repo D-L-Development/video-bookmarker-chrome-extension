@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         initialPageLoad = false;
         session = new Session();
       } else {
-        session.toggleSidemenuVisiblity();
+        session.toggleSideMenuVisibility();
       }
       sendResponse({ status: MSG.SUCCESS });
       break;
