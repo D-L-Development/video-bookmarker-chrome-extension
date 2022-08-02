@@ -79,6 +79,31 @@ export const sendMessageToActiveTab = (payload, callback) => {
   });
 };
 
+// throw an error if chrome had a last error
+export const checkChromeLastError = () => {
+  if (chrome.runtime.lastError) throw chrome.runtime.lastError;
+};
+
+/**
+ * filter method for objects
+ *
+ * @param {Object} obj
+ * @param {Function} callback
+ * @returns {{[p: string]: unknown}}
+ */
+export const filterObj = (obj, callback) => {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([key, val]) => callback(key, val))
+  );
+};
+
+export const mapObj = (obj, callback) => {
+  return Object.keys(obj).reduce(function (result, key) {
+    result[key] = callback(key, obj[key]);
+    return result;
+  }, {});
+};
+
 /**
  * Converts a date from the format yyyy-mm-dd to mm/dd/yyyy
  *
