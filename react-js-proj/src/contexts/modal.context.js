@@ -2,11 +2,13 @@ import React, { createContext, useRef, useState } from "react";
 import ModalComponent from "../components/modals-forms/modal.component";
 import FolderModalComponent from "../components/modals-forms/folder-modal/folder-modal.component";
 import FileModalComponent from "../components/modals-forms/file-modal/file-modal.component";
+import BookmarkModalComponent from "../components/modals-forms/bookmark-modal/bookmark-modal.component";
 
 export const modalNames = {
   FILE: "file",
   FOLDER: "folder",
   MESSAGE: "message modal",
+  BOOKMARK: "bookmark",
 };
 
 export const ModalContext = createContext(null);
@@ -15,6 +17,7 @@ export const ModalProvider = (props) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [showFileModal, setShowFileModal] = useState(false);
+  const [showBookmarkModal, setShowBookmarkModal] = useState(false);
 
   const showModal = (modalName = modalNames.MESSAGE) => {
     switch (modalName) {
@@ -26,6 +29,9 @@ export const ModalProvider = (props) => {
         break;
       case modalNames.MESSAGE:
         setShowMessageModal(true);
+        break;
+      case modalNames.BOOKMARK:
+        setShowBookmarkModal(true);
         break;
       default:
         throw new Error(`Modal name ${modalName} not recognized!`);
@@ -75,6 +81,12 @@ export const ModalProvider = (props) => {
       {showFileModal && (
         <FileModalComponent
           hideModal={() => setShowFileModal(false)}
+          isEditing={false}
+        />
+      )}
+      {showBookmarkModal && (
+        <BookmarkModalComponent
+          hideModal={() => setShowBookmarkModal(false)}
           isEditing={false}
         />
       )}
