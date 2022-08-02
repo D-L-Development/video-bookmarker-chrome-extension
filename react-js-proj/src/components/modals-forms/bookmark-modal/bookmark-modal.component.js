@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "../modal.styles";
 import PropTypes from "prop-types";
+import { TextArea } from "./bookmark-modal.styles";
 
 const BookmarkModalComponent = (props) => {
   const [title, handleTitleChange, titleError] = useInputState(
@@ -17,7 +18,7 @@ const BookmarkModalComponent = (props) => {
   );
   const [text, handleTextChange, textError] = useInputState(
     props.text || "",
-    15
+    200
   );
 
   return (
@@ -59,7 +60,7 @@ const BookmarkModalComponent = (props) => {
       </FormSection>
       <FormSection>
         <Label htmlFor="text">Enter some text:</Label>
-        <TextInput
+        <TextArea
           type="text"
           placeholder={"Bookmark description"}
           name="text"
