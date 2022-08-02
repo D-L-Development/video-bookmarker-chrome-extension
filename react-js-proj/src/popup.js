@@ -4,6 +4,7 @@ import PopupComponent from "./components/popup/popup.component";
 import { fakeDB } from "./constants/fake-db";
 import { ModalProvider } from "./contexts/modal.context";
 import { FileSystemProvider } from "./contexts/file-system.context";
+import { BookmarksContextProvider } from "./contexts/bookmarks.context";
 
 // TODO: remove this (just for testing)
 document.addEventListener("keydown", (e) => {
@@ -21,8 +22,10 @@ const container = document.getElementById("react-popup-root");
 const root = createRoot(container);
 root.render(
   <FileSystemProvider>
-    <ModalProvider>
-      <PopupComponent tab="home" />
-    </ModalProvider>
+    <BookmarksContextProvider>
+      <ModalProvider>
+        <PopupComponent tab="home" />
+      </ModalProvider>
+    </BookmarksContextProvider>
   </FileSystemProvider>
 );

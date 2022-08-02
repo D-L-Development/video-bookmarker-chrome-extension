@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useInputState } from "../../../hooks/use-input-state.hook";
 import ModalComponent from "../modal.component";
 import { modalTypes } from "../../../constants/theme";
@@ -10,8 +10,13 @@ import {
 } from "../modal.styles";
 import PropTypes from "prop-types";
 import { TextArea } from "./bookmark-modal.styles";
+import {
+  bookmarksActions,
+  BookmarksDispatchContext,
+} from "../../../contexts/bookmarks.context";
 
 const BookmarkModalComponent = (props) => {
+  const dispatch = useContext(BookmarksDispatchContext);
   const [title, handleTitleChange, titleError] = useInputState(
     props.title || "",
     15
@@ -36,6 +41,17 @@ const BookmarkModalComponent = (props) => {
         ) {
           if (props.isEditing) {
           } else {
+            dispatch({
+              type: bookmarksActions.ADD,
+              payload: {
+                timestamp: "23:43:34",
+                bookmark: {
+                  text,
+                  title,
+                  isNested: false,
+                },
+              },
+            });
           }
 
           props.hideModal();
