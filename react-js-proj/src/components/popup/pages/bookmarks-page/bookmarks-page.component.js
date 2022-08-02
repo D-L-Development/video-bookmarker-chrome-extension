@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyledPage } from "../page.styles";
 import * as Styled from "./bookmarks-page.styles";
 import BookmarkComponent from "./bookmark/bookmark.component";
+import {
+  bookmarksActions,
+  BookmarksContext,
+  BookmarksDispatchContext,
+} from "../../../../contexts/bookmarks.context";
 
 const fakeBookmarks = {
   "45:21:10": {
@@ -17,40 +22,20 @@ const fakeBookmarks = {
 };
 
 const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
-  const [state, setState] = useState({
-    isLoading: true,
-    bookmarks: {},
-  });
-
+  const { bookmarks, isLoading } = useContext(BookmarksContext);
+  const dispatch = useContext(BookmarksDispatchContext);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const storage = await chrome.storage.sync.get(fileUuid);
-        if (chrome.runtime.lastError) throw chrome.runtime.lastError;
-        if (storage[fileUuid]) {
-          setState({
-            bookmarks: storage[fileUuid].bookmarks,
-            isLoading: false,
-          });
-        } else {
-          setState({ ...state, isLoading: false });
-          throw new Error("Something went wrong opening file");
-        }
-      } catch (e) {
-        throw e;
-      }
-    };
-
-    fetchData();
+    console.log("BookmarksPageComponent render", fileUuid);
+    dispatch({ type: bookmarksActions.INIT, payload: { uuid: fileUuid } });
   }, []);
 
   const renderBookmarks = () => {
-    if (state.isLoading) {
+    if (isLoading) {
       return null;
     } else {
       const data = [];
-      for (let key in state.bookmarks) {
-        const { isNested, title, text } = state.bookmarks[key];
+      for (let key in bookmarks) {
+        const { isNested, title, text } = bookmarks[key];
         data.push(
           <BookmarkComponent
             key={key}

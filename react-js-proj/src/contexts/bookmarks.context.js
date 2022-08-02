@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import {
   checkChromeLastError,
   filterObj,
@@ -16,9 +16,13 @@ export const bookmarksActions = {
   INIT: "init",
 };
 
-const BookmarksContextProvider = ({ children }) => {
+export const BookmarksContextProvider = ({ children }) => {
   const [state, setState] = useState({ isLoading: true, bookmarks: {} });
-  const fileIdRef = useRef(null);
+  const fileIdRef = useRef({ uuid: null });
+
+  useEffect(() => {
+    console.log("RERENDER", state);
+  });
 
   /**
    * Updates chrome.storage, then calls the reducer to change the state
@@ -32,7 +36,7 @@ const BookmarksContextProvider = ({ children }) => {
       switch (type) {
         case bookmarksActions.INIT:
           // keep reference to storage key
-          fileIdRef.current = payload.uuid;
+          fileIdRef.current.uuid = payload.uuid;
           const storage = await chrome.storage.sync.get(payload.uuid);
           checkChromeLastError();
           if (storage[payload.uuid]) {
@@ -53,7 +57,7 @@ const BookmarksContextProvider = ({ children }) => {
               [payload.timestamp]: { ...payload.bookmark },
             },
           };
-          await updateStorageThenState();
+          await updateStorageThenState(newState);
           break;
         case bookmarksActions.DELETE:
           newState = {
@@ -105,7 +109,7 @@ const BookmarksContextProvider = ({ children }) => {
   };
 
   const updateStorageThenState = async (newState) => {
-    await chrome.storage.sync.set({ [fileIdRef.current]: newState });
+    await chrome.storage.sync.set({ [fileIdRef.current.uuid]: newState });
     checkChromeLastError();
     setState(newState);
   };

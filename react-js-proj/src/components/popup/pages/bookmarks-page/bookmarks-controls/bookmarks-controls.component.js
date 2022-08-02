@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { controlPageHeader_c } from "../../../../../constants/theme";
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import AddBookmarkIcon from "../../../../../icons/add-bookmark-icon/add-bookmark.icon";
 import CopyIcon from "../../../../../icons/copy-icon/copy.icon";
 import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
+import {
+  bookmarksActions,
+  BookmarksDispatchContext,
+} from "../../../../../contexts/bookmarks.context";
 
 const BookmarksControlsComponent = (props) => {
+  const dispatch = useContext(BookmarksDispatchContext);
   const handleDownloadIconClick = (e) => {};
-  const handleCreateBookmarkIconClick = (e) => {};
+  const handleCreateBookmarkIconClick = (e) => {
+    dispatch({
+      type: bookmarksActions.ADD,
+      payload: {
+        timestamp: "32:12:54",
+        bookmark: { text: "lorem", title: "this is a title", isNested: true },
+      },
+    });
+  };
   const handleCopyIconClick = (e) => {};
   return (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>

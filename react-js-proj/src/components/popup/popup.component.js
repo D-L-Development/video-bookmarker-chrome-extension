@@ -15,6 +15,7 @@ import { PageHeader } from "./view-pager/view-pager.styles";
 import PathComponent from "./shared/path/path.component";
 import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
+import { BookmarksContextProvider } from "../../contexts/bookmarks.context";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -52,29 +53,31 @@ const PopupComponent = () => {
             <CloseIcon width="24px" height="24px" color="white" />
           </CloseIconWrapper>
         </Header>
-        {pageInfo.current === FIRST ? (
-          <FileSystemControlsComponent />
-        ) : (
-          <BookmarksControlsComponent />
-        )}
-        <PageHeader className="PageHeader">
-          <PathComponent
-            pageNum={pageInfo.current}
-            goBackToFileSystem={renderFileSystemPage}
+        <BookmarksContextProvider>
+          {pageInfo.current === FIRST ? (
+            <FileSystemControlsComponent />
+          ) : (
+            <BookmarksControlsComponent />
+          )}
+          <PageHeader className="PageHeader">
+            <PathComponent
+              pageNum={pageInfo.current}
+              goBackToFileSystem={renderFileSystemPage}
+            />
+            <InputComponent
+              placeholder={`Search ${
+                pageInfo.current === FIRST ? "files" : "bookmarks"
+              }...`}
+              setQuery={setSearchQuery}
+              query={searchQuery}
+            />
+          </PageHeader>
+          <ViewPagerComponent
+            searchQuery={searchQuery}
+            pageInfo={pageInfo}
+            switchToBookmarksPage={renderBookmarksPage}
           />
-          <InputComponent
-            placeholder={`Search ${
-              pageInfo.current === FIRST ? "files" : "bookmarks"
-            }...`}
-            setQuery={setSearchQuery}
-            query={searchQuery}
-          />
-        </PageHeader>
-        <ViewPagerComponent
-          searchQuery={searchQuery}
-          pageInfo={pageInfo}
-          switchToBookmarksPage={renderBookmarksPage}
-        />
+        </BookmarksContextProvider>
         <Footer>Web Video Bookmarker</Footer>
       </OutsideContext.Provider>
     </StyledPopup>
