@@ -66,6 +66,11 @@ export function timestampToSeconds(timestamp) {
   return +array[0] * 60 * 60 + +array[1] * 60 + +array[2];
 }
 
+// return the converted seconds into a string timestamp HH:MM:SS
+export const secondsToTimestamp = (seconds) => {
+  return new Date(Math.floor(seconds) * 1000).toISOString().substr(11, 8);
+};
+
 // sends a message to the active tab's content script
 export const sendMessageToActiveTab = (action, callback) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {

@@ -1,4 +1,4 @@
-import { timestampToSeconds } from "./utility";
+import { MSG, secondsToTimestamp, timestampToSeconds } from "./utility";
 
 export class Session {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
@@ -6,8 +6,6 @@ export class Session {
   constructor() {
     this.video = null;
     this.sidebarIframe = null;
-
-    console.log("Session()", Session.SIDEBAR_PAGE_URL);
 
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
@@ -17,12 +15,46 @@ export class Session {
     }, 200);
   }
 
+  async dispatch(action) {
+    try {
+      await this.#canPerformVideoOperations();
+      switch (action.type) {
+        case MSG.GET_CURRENT_TIMESTAMP:
+          return this.#getCurrentTimestamp();
+        case MSG.JUMP_TO_TIMESTAMP:
+          return this.#jumpToTimestamp(action.payload.timestamp);
+        case MSG.PLAY:
+          return this.#play();
+        case MSG.PAUSE:
+          return this.#pause();
+        default:
+          throw new Error(`Action type "${action.type}" is unhandled!`);
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  /**
+   * Checks for the video member to make sure it's in the DOM
+   * it will search for it if the reference is lost or doesn't exist
+   *
+   * @returns {Promise<void>}
+   */
+  async #canPerformVideoOperations() {
+    try {
+      if (this.#isVideoInDOM()) return;
+      this.video = await this.#getVideoElement(3);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   /**
    * resets the video and current page URL
    */
   #resetVideo() {
     this.video = null;
-    this.sessionName = null;
   }
 
   /**
@@ -32,9 +64,10 @@ export class Session {
    * @returns {Promise} - resolved with an HTML video element, or rejected with an error
    */
   #getVideoElement(repeatCount = 3) {
-    // return a promise
     return new Promise((resolve, reject) => {
-      // declare time interval
+      let video = document.querySelector("video");
+      if (video) resolve(video);
+      // declare time interval to keep searching for video
       const intervalId = setInterval(() => {
         // if repeated (repeatCount) times, then reject
         if (--repeatCount <= 0) {
@@ -46,11 +79,18 @@ export class Session {
         const video = document.querySelector("video");
         if (video) {
           clearInterval(intervalId);
-          resolve({ video });
+          resolve(video);
         }
       }, 1000);
     });
   }
+
+  /**
+   * Checks to see if the video element is still in the dom
+   *
+   * @returns {boolean}
+   */
+  #isVideoInDOM = () => !!this.video?.parentNode;
 
   /**
    * creates the sidmenu iframe and sets its source to URL param
@@ -68,7 +108,7 @@ export class Session {
   /**
    * removes the sidebar element from the DOM
    */
-  removeSidemenu() {
+  removePopup() {
     this.sidebarIframe.remove();
     this.sidebarIframe = null;
   }
@@ -95,14 +135,8 @@ export class Session {
    *
    * @returns {Object} - with properties timestamp and bookmark
    */
-  getCurrentTimestamp() {
-    if (this.video) {
-      const timestamp = this.video.getCurrentTimestamp();
-      const bookmark = this.video.storage.getBookmarkAtTimestamp(timestamp);
-      return { timestamp, bookmark };
-    } else {
-      return null;
-    }
+  #getCurrentTimestamp() {
+    return secondsToTimestamp(this.video.currentTime);
   }
 
   /**
@@ -110,17 +144,15 @@ export class Session {
    *
    * @param {String} timestamp - the desired HH:MM:SS timestamp in which the video should jump to
    */
-  jumpToTimestamp(timestamp) {
-    if (this.video) {
-      this.video.jumpToTimestamp(timestampToSeconds(timestamp));
-    }
+  #jumpToTimestamp(timestamp) {
+    this.video.currentTime = timestampToSeconds(timestamp);
   }
 
-  play() {
+  #play() {
     this.video.play();
   }
 
-  pause() {
+  #pause() {
     this.video.pause();
   }
 }
