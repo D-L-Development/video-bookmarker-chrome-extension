@@ -27,6 +27,8 @@ export class Session {
           return this.#play();
         case MSG.PAUSE:
           return this.#pause();
+        case MSG.TOGGLE_PLAY:
+          return this.#togglePlay();
         default:
           throw new Error(`Action type "${action.type}" is unhandled!`);
       }
@@ -154,5 +156,9 @@ export class Session {
 
   #pause() {
     this.video.pause();
+  }
+
+  #togglePlay() {
+    this.video.paused ? this.#play() : this.#pause();
   }
 }

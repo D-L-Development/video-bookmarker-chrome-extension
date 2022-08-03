@@ -9,7 +9,7 @@ let session = null;
 
 /**
  * handles the messages sent from other scripts. It performs operations on the DOM
- * returning from the callback param tells the message port that the response will occur asynchronously
+ * returning true from the callback param tells the message port that the response will occur asynchronously
  */
 chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
   if (action.type === MSG.TOGGLE_POPUP) {

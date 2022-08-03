@@ -6,6 +6,7 @@ export const MSG = {
   GET_CURRENT_TIMESTAMP: "get current timestamp",
   PLAY: "play video",
   PAUSE: "pause video",
+  TOGGLE_PLAY: "toggle video play",
 };
 
 export class Bookmark {

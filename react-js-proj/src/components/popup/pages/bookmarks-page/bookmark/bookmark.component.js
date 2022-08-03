@@ -1,9 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import * as Styled from "./bookmark.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
-import IndentIcon from "../../../../../icons/indent-icon/indent.icon";
+import IndentIcon from "../../../../../icons/bookmarks-icons/indent-icon/indent.icon";
 
 const IconProps = {
   width: "20px",
