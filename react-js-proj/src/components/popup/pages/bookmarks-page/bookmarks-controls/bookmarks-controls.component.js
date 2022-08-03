@@ -34,13 +34,25 @@ const BookmarksControlsComponent = (props) => {
   const handleCopyIconClick = (e) => {};
   return (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
-      <ActionIconWrapper onClick={handleCreateBookmarkIconClick} enabled={true}>
+      <ActionIconWrapper
+        onClick={handleCreateBookmarkIconClick}
+        enabled={true}
+        title="Add bookmark"
+      >
         <AddBookmarkIcon width={"20px"} height={"20px"} color={"white"} />
       </ActionIconWrapper>
-      <ActionIconWrapper onClick={handleCopyIconClick} enabled={true}>
+      <ActionIconWrapper
+        onClick={handleCopyIconClick}
+        enabled={true}
+        title="Copy as Table"
+      >
         <CopyIcon width={"20px"} height={"20px"} color={"white"} />
       </ActionIconWrapper>
-      <ActionIconWrapper onClick={handleDownloadIconClick} enabled={true}>
+      <ActionIconWrapper
+        onClick={handleDownloadIconClick}
+        enabled={true}
+        title="Download"
+      >
         <SaveArrowIcon width={"20px"} height={"20px"} color={"white"} />
       </ActionIconWrapper>
       <ActionIconWrapper
