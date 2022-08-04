@@ -21,6 +21,15 @@ import PlusIcon from "../../../../../icons/bookmarks-icons/plus-icon/plus.icon";
 import { SpeedActionIcon, SpeedIconsGroup } from "./bookmarks-controls.styles";
 
 const skipSeconds = 10;
+const defaultIconDimen = {
+  width: "20px",
+  height: "20px",
+};
+
+const smallerIconDimen = {
+  width: "18px",
+  height: "18px",
+};
 
 const BookmarksControlsComponent = (props) => {
   const { showModal } = useContext(ModalContext);
@@ -58,8 +67,7 @@ const BookmarksControlsComponent = (props) => {
         title="Add bookmark"
       >
         <AddBookmarkIcon
-          width={"20px"}
-          height={"20px"}
+          {...defaultIconDimen}
           color={isIconLoading ? "grey" : "white"}
         />
       </ActionIconWrapper>
@@ -68,14 +76,14 @@ const BookmarksControlsComponent = (props) => {
         enabled={true}
         title="Copy as Table"
       >
-        <CopyIcon width={"20px"} height={"20px"} color={"white"} />
+        <CopyIcon {...defaultIconDimen} color={"white"} />
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={handleDownloadIconClick}
         enabled={true}
         title="Download"
       >
-        <SaveArrowIcon width={"20px"} height={"20px"} color={"white"} />
+        <SaveArrowIcon {...defaultIconDimen} color={"white"} />
       </ActionIconWrapper>
       <VerticalDivider />
       <ActionIconWrapper
@@ -87,8 +95,7 @@ const BookmarksControlsComponent = (props) => {
         title={`Rewind ${skipSeconds} seconds`}
       >
         <SkipIcon
-          width={"20px"}
-          height={"20px"}
+          {...defaultIconDimen}
           color={isIconLoading ? "grey" : "white"}
           direction={"left"}
         />
@@ -99,8 +106,7 @@ const BookmarksControlsComponent = (props) => {
         title="play/pause"
       >
         <PlayPauseIcon
-          width={"20px"}
-          height={"20px"}
+          {...defaultIconDimen}
           color={isIconLoading ? "grey" : "white"}
         />
       </ActionIconWrapper>
@@ -112,21 +118,20 @@ const BookmarksControlsComponent = (props) => {
         title={`Skip ${skipSeconds} seconds`}
       >
         <SkipIcon
-          width={"20px"}
-          height={"20px"}
+          {...defaultIconDimen}
           color={isIconLoading ? "grey" : "white"}
           direction={"right"}
         />
       </ActionIconWrapper>
       <SpeedIconsGroup>
-        <SpeedActionIcon enabled={true}>
-          <MinusIcon width={"20px"} height={"20px"} color={"white"} />
+        <SpeedActionIcon enabled={true} title="Decrease by 0.10x">
+          <MinusIcon {...smallerIconDimen} color={"white"} />
         </SpeedActionIcon>
-        <SpeedActionIcon enabled={false}>
-          <SpeedIcon width={"20px"} height={"20px"} color={"white"} />
+        <SpeedActionIcon enabled={false} title="Change playback speed">
+          <SpeedIcon {...smallerIconDimen} color={"white"} />
         </SpeedActionIcon>
-        <SpeedActionIcon enabled={true}>
-          <PlusIcon width={"20px"} height={"20px"} color={"white"} />
+        <SpeedActionIcon enabled={true} title="Increase by 0.10x">
+          <PlusIcon {...smallerIconDimen} color={"white"} />
         </SpeedActionIcon>
       </SpeedIconsGroup>
     </PageHeaderControls>
