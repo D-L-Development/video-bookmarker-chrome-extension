@@ -3,6 +3,10 @@ import * as Styled from "./bookmark.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
 import IndentIcon from "../../../../../icons/bookmarks-icons/indent-icon/indent.icon";
+import {
+  MSG,
+  sendMessageToActiveTab,
+} from "../../../../../contentScripts/utility";
 
 const IconProps = {
   width: "20px",
@@ -11,11 +15,24 @@ const IconProps = {
 };
 
 const BookmarkComponent = ({ title, timestamp, text, isNested }) => {
+  const handleTimestampClick = () => {
+    sendMessageToActiveTab(
+      {
+        type: MSG.JUMP_TO_TIMESTAMP,
+        payload: { timestamp },
+      },
+      (res) => {
+        if (res.status !== MSG.SUCCESS) alert(res.message);
+      }
+    );
+  };
   return (
     <Styled.Bookmark isNested={isNested}>
       <Styled.BookmarkHeader isNested={isNested}>
         <Styled.BookmarkHeaderText>
-          <Styled.BookmarkTimestamp>{timestamp}</Styled.BookmarkTimestamp>
+          <Styled.BookmarkTimestamp onClick={handleTimestampClick}>
+            {timestamp}
+          </Styled.BookmarkTimestamp>
           <Styled.BookmarkTitle>{title}</Styled.BookmarkTitle>
         </Styled.BookmarkHeaderText>
         <Styled.BookmarkHeaderIconGroup>

@@ -151,6 +151,7 @@ export class Session {
    * @param {String} timestamp - the desired HH:MM:SS timestamp in which the video should jump to
    */
   #jumpToTimestamp(timestamp) {
+    // TODO: make sure the timestamp given can be jumped to. The video can be too short for example
     this.video.currentTime = timestampToSeconds(timestamp);
   }
 
