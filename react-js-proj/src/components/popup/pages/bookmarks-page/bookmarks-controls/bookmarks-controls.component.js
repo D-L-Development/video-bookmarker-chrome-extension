@@ -13,6 +13,10 @@ import {
   MSG,
   sendMessageToActiveTab,
 } from "../../../../../contentScripts/utility";
+import { VerticalDivider } from "../../../shared/divider.styles";
+import SkipIcon from "../../../../../icons/bookmarks-icons/skip-icon/skip.icon";
+
+const skipSeconds = 10;
 
 const BookmarksControlsComponent = (props) => {
   const { showModal } = useContext(ModalContext);
@@ -21,12 +25,12 @@ const BookmarksControlsComponent = (props) => {
   const handleCreateBookmarkIconClick = (e) => {
     showModal(modalNames.BOOKMARK);
   };
-  const handlePlayPauseIconClick = (e) => {
+  const handleContentScriptIconClick = (e, type, payload = null) => {
     // dismiss the click when loading
     if (isIconLoading) return;
     // set loading to true until content script responds
     setIsIconLoading(true);
-    sendMessageToActiveTab({ type: MSG.TOGGLE_PLAY }, (res) => {
+    sendMessageToActiveTab({ type, payload }, (res) => {
       setIsIconLoading(false);
       if (res.status !== MSG.SUCCESS) alert(res.message);
     });
@@ -55,8 +59,24 @@ const BookmarksControlsComponent = (props) => {
       >
         <SaveArrowIcon width={"20px"} height={"20px"} color={"white"} />
       </ActionIconWrapper>
+      <VerticalDivider />
       <ActionIconWrapper
-        onClick={handlePlayPauseIconClick}
+        style={{ marginLeft: "0.5rem" }}
+        onClick={(e) =>
+          handleContentScriptIconClick(e, MSG.REWIND, { seconds: skipSeconds })
+        }
+        enabled={!isIconLoading}
+        title={`Rewind ${skipSeconds} seconds`}
+      >
+        <SkipIcon
+          width={"20px"}
+          height={"20px"}
+          color={isIconLoading ? "grey" : "white"}
+          direction={"left"}
+        />
+      </ActionIconWrapper>
+      <ActionIconWrapper
+        onClick={(e) => handleContentScriptIconClick(e, MSG.TOGGLE_PLAY)}
         enabled={!isIconLoading}
         title="play/pause"
       >
@@ -64,6 +84,20 @@ const BookmarksControlsComponent = (props) => {
           width={"20px"}
           height={"20px"}
           color={isIconLoading ? "grey" : "white"}
+        />
+      </ActionIconWrapper>
+      <ActionIconWrapper
+        onClick={(e) =>
+          handleContentScriptIconClick(e, MSG.SKIP, { seconds: skipSeconds })
+        }
+        enabled={!isIconLoading}
+        title={`Skip ${skipSeconds} seconds`}
+      >
+        <SkipIcon
+          width={"20px"}
+          height={"20px"}
+          color={isIconLoading ? "grey" : "white"}
+          direction={"right"}
         />
       </ActionIconWrapper>
     </PageHeaderControls>

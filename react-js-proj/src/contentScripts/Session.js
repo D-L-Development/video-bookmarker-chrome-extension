@@ -29,6 +29,10 @@ export class Session {
           return this.#pause();
         case MSG.TOGGLE_PLAY:
           return this.#togglePlay();
+        case MSG.SKIP:
+          return this.#skipBy(action.payload.seconds);
+        case MSG.REWIND:
+          return this.#skipBy(action.payload.seconds * -1);
         default:
           throw new Error(`Action type "${action.type}" is unhandled!`);
       }
@@ -160,5 +164,9 @@ export class Session {
 
   #togglePlay() {
     this.video.paused ? this.#play() : this.#pause();
+  }
+
+  #skipBy(seconds) {
+    this.video.currentTime += seconds;
   }
 }
