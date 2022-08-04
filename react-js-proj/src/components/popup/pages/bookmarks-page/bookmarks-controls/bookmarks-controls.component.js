@@ -15,6 +15,10 @@ import {
 } from "../../../../../contentScripts/utility";
 import { VerticalDivider } from "../../../shared/divider.styles";
 import SkipIcon from "../../../../../icons/bookmarks-icons/skip-icon/skip.icon";
+import MinusIcon from "../../../../../icons/bookmarks-icons/minus-icon/minus.icon";
+import SpeedIcon from "../../../../../icons/bookmarks-icons/speed-icon/speed.icon";
+import PlusIcon from "../../../../../icons/bookmarks-icons/plus-icon/plus.icon";
+import { SpeedActionIcon, SpeedIconsGroup } from "./bookmarks-controls.styles";
 
 const skipSeconds = 10;
 
@@ -114,6 +118,17 @@ const BookmarksControlsComponent = (props) => {
           direction={"right"}
         />
       </ActionIconWrapper>
+      <SpeedIconsGroup>
+        <SpeedActionIcon enabled={true}>
+          <MinusIcon width={"20px"} height={"20px"} color={"white"} />
+        </SpeedActionIcon>
+        <SpeedActionIcon enabled={false}>
+          <SpeedIcon width={"20px"} height={"20px"} color={"white"} />
+        </SpeedActionIcon>
+        <SpeedActionIcon enabled={true}>
+          <PlusIcon width={"20px"} height={"20px"} color={"white"} />
+        </SpeedActionIcon>
+      </SpeedIconsGroup>
     </PageHeaderControls>
   );
 };
