@@ -46,7 +46,7 @@ const BookmarkModalComponent = (props) => {
             dispatch({
               type: bookmarksActions.ADD,
               payload: {
-                timestamp: "23:43:34",
+                timestamp: props.timestamp,
                 bookmark: {
                   text,
                   title,

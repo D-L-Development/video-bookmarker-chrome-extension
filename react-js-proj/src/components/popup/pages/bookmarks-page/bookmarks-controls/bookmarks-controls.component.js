@@ -28,6 +28,7 @@ const BookmarksControlsComponent = (props) => {
     sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {
       setIsIconLoading(false);
       if (res.status !== MSG.SUCCESS) {
+        // TODO: here you should ask the user if they are okay with adding bookmarks without a video
         alert(res.message);
       } else {
         showModal(modalNames.BOOKMARK, { timestamp: res.payload.timestamp });
