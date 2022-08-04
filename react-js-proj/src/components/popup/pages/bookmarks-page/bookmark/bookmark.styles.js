@@ -65,7 +65,7 @@ export const BookmarkBodyText = styled.div`
   padding: 0.25rem;
   margin-bottom: 0.5rem;
 `;
-export const BookmarkIconWrapper = styled.div``;
+export const BookmarkIconWrapper = styled.button``;
 
 export const HighlightedText = styled.span`
   background-color: #ffff54;

@@ -9,10 +9,11 @@ import {
   MSG,
   sendMessageToActiveTab,
 } from "../../../../../contentScripts/utility";
+import { ActionIconWrapper } from "../../page.styles";
 
 const IconProps = {
-  width: "20px",
-  height: "20px",
+  width: "18px",
+  height: "18px",
   color: "white",
 };
 
@@ -64,18 +65,21 @@ const BookmarkComponent = ({
           </Styled.BookmarkTitle>
         </Styled.BookmarkHeaderText>
         <Styled.BookmarkHeaderIconGroup>
-          <Styled.BookmarkIconWrapper>
+          <ActionIconWrapper
+            title={isNested ? "Outdent" : "Indent"}
+            enabled={true}
+          >
             <IndentIcon
               {...IconProps}
               type={isNested ? "decrease" : "increase"}
             />
-          </Styled.BookmarkIconWrapper>
-          <Styled.BookmarkIconWrapper>
+          </ActionIconWrapper>
+          <ActionIconWrapper title="Edit Bookmark" enabled={true}>
             <EditIcon {...IconProps} />
-          </Styled.BookmarkIconWrapper>
-          <Styled.BookmarkIconWrapper>
+          </ActionIconWrapper>
+          <ActionIconWrapper title="Delete Bookmark" enabled={true}>
             <TrashIcon {...IconProps} />
-          </Styled.BookmarkIconWrapper>
+          </ActionIconWrapper>
         </Styled.BookmarkHeaderIconGroup>
       </Styled.BookmarkHeader>
       <Styled.BookmarkBodyText>
