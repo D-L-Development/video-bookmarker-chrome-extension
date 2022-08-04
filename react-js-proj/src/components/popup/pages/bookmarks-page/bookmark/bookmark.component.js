@@ -31,6 +31,7 @@ const BookmarkComponent = ({ title, timestamp, text, isNested }) => {
       <Styled.BookmarkHeader isNested={isNested}>
         <Styled.BookmarkHeaderText>
           <Styled.BookmarkTimestamp onClick={handleTimestampClick}>
+            {/* TODO: render a spinner here when loading */}
             {timestamp}
           </Styled.BookmarkTimestamp>
           <Styled.BookmarkTitle>{title}</Styled.BookmarkTitle>

@@ -10,7 +10,6 @@ export const StyledIndentIncreaseIcon = styled(
   viewBox: "0 0 24 24",
 }))`
   fill: ${(props) => props.color || "white"};
-  cursor: pointer;
 `;
 
 export const StyledIndentDecreaseIcon = styled(
@@ -21,5 +20,4 @@ export const StyledIndentDecreaseIcon = styled(
   viewBox: "0 0 24 24",
 }))`
   fill: ${(props) => props.color || "white"};
-  cursor: pointer;
 `;

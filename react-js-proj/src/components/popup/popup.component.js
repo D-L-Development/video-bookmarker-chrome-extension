@@ -78,51 +78,6 @@ const PopupComponent = () => {
         />
 
         <Footer>Web Video Bookmarker</Footer>
-
-        {/*  TODO: remove this. Just for testing */}
-        <div style={{ position: "absolute", bottom: "50%", left: "50%" }}>
-          <button
-            onClick={() => {
-              sendMessageToActiveTab({ type: MSG.PLAY }, (res) =>
-                console.log(res.status)
-              );
-            }}
-          >
-            PLAY
-          </button>
-          <button
-            onClick={() => {
-              sendMessageToActiveTab({ type: MSG.PAUSE }, (res) =>
-                console.log(res.status)
-              );
-            }}
-          >
-            PAUSE
-          </button>
-          <button
-            onClick={() => {
-              sendMessageToActiveTab(
-                { type: MSG.GET_CURRENT_TIMESTAMP },
-                (res) => console.log(res.status)
-              );
-            }}
-          >
-            GET TIMESTAMP
-          </button>
-          <button
-            onClick={() => {
-              sendMessageToActiveTab(
-                {
-                  type: MSG.JUMP_TO_TIMESTAMP,
-                  payload: { timestamp: "00:00:05" },
-                },
-                (res) => console.log(res.status)
-              );
-            }}
-          >
-            JUMP TO TIMESTAMP
-          </button>
-        </div>
       </OutsideContext.Provider>
     </StyledPopup>
   );

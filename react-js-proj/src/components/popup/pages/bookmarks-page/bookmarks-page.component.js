@@ -29,6 +29,13 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
     dispatch({ type: bookmarksActions.INIT, payload: { uuid: fileUuid } });
   }, []);
 
+  const shouldShow = (title, text) => {
+    return (
+      title.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1 ||
+      text.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+    );
+  };
+
   const renderBookmarks = () => {
     if (isLoading) {
       return null;
@@ -36,15 +43,17 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
       const data = [];
       for (let key in bookmarks) {
         const { isNested, title, text } = bookmarks[key];
-        data.push(
-          <BookmarkComponent
-            key={key}
-            isNested={isNested}
-            text={text}
-            title={title}
-            timestamp={key}
-          />
-        );
+        shouldShow(title, text) &&
+          data.push(
+            <BookmarkComponent
+              key={key}
+              isNested={isNested}
+              text={text}
+              title={title}
+              timestamp={key}
+              highlighted={searchQuery}
+            />
+          );
       }
       return data;
     }
