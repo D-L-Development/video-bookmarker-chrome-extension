@@ -51,7 +51,7 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
               text={text}
               title={title}
               timestamp={key}
-              highlighted={searchQuery}
+              searchQuery={searchQuery}
             />
           );
       }

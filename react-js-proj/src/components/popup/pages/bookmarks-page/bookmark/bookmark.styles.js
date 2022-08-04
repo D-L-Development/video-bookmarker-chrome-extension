@@ -10,6 +10,7 @@ export const Bookmark = styled.div`
   margin-left: ${(props) => props.isNested && "2rem"};
   -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
+
   &:first-of-type {
     margin-top: 1rem;
   }
@@ -36,6 +37,7 @@ export const BookmarkTimestamp = styled.span`
   border-radius: 0.6rem;
   text-align: center;
   cursor: pointer;
+
   &:hover {
     color: lightblue;
   }
@@ -64,3 +66,8 @@ export const BookmarkBodyText = styled.div`
   margin-bottom: 0.5rem;
 `;
 export const BookmarkIconWrapper = styled.div``;
+
+export const HighlightedText = styled.span`
+  background-color: #ffff54;
+  color: black;
+`;
