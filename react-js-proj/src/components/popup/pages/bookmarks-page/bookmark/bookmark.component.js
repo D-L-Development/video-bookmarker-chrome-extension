@@ -5,6 +5,7 @@ import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
 import IndentIcon from "../../../../../icons/bookmarks-icons/indent-icon/indent.icon";
 import {
+  guid,
   MSG,
   sendMessageToActiveTab,
 } from "../../../../../contentScripts/utility";
@@ -34,15 +35,17 @@ const BookmarkComponent = ({
     );
   };
   const getHighlightedText = (text, highlight) => {
+    // if the search term is nothing, then return the text
+    if (highlight.toLowerCase().trim() === "") return <span>{text}</span>;
     // Split on highlight term and include term into parts, ignore case
     const parts = text.split(new RegExp(`(${highlight})`, "gi"));
     return (
       <>
-        {parts.map((part, i) =>
+        {parts.map((part) =>
           part.toLowerCase() === highlight.toLowerCase() ? (
-            <HighlightedText>{part}</HighlightedText>
+            <HighlightedText key={guid()}>{part}</HighlightedText>
           ) : (
-            <span>{part}</span>
+            <span key={guid()}>{part}</span>
           )
         )}
       </>
