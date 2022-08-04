@@ -28,7 +28,9 @@ const BookmarkModalComponent = (props) => {
 
   return (
     <ModalComponent
-      title={props.isEditing ? "Edit bookmark" : "Create new bookmark"}
+      title={`${props.isEditing ? "Edit bookmark" : "Create new bookmark"} at ${
+        props.timestamp
+      }`}
       type={modalTypes.FORM}
       submitBtnText={props.isEditing ? "Edit" : "Create"}
       closeBtnText={"Cancel"}
@@ -96,10 +98,10 @@ const BookmarkModalComponent = (props) => {
 BookmarkModalComponent.propTypes = {
   hideModal: PropTypes.func.isRequired,
   isEditing: PropTypes.bool.isRequired,
+  timestamp: PropTypes.string.isRequired,
   // in case editing a bookmark, the props below are needed
   title: PropTypes.string,
   text: PropTypes.string,
-  timestamp: PropTypes.string,
   uuid: PropTypes.string,
 };
 

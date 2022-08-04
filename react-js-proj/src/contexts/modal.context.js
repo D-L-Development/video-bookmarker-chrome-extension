@@ -17,9 +17,18 @@ export const ModalProvider = (props) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [showFileModal, setShowFileModal] = useState(false);
-  const [showBookmarkModal, setShowBookmarkModal] = useState(false);
+  const [bookmarkModalState, setBookmarkModalState] = useState({
+    show: false,
+    timestamp: "",
+  });
 
-  const showModal = (modalName = modalNames.MESSAGE) => {
+  /**
+   * Passed down as part of the context value. Enables showing a modal by name
+   *
+   * @param modalName
+   * @param {Object} payload
+   */
+  const showModal = (modalName = modalNames.MESSAGE, payload = {}) => {
     switch (modalName) {
       case modalNames.FILE:
         setShowFileModal(true);
@@ -31,7 +40,7 @@ export const ModalProvider = (props) => {
         setShowMessageModal(true);
         break;
       case modalNames.BOOKMARK:
-        setShowBookmarkModal(true);
+        setBookmarkModalState({ show: true, timestamp: payload?.timestamp });
         break;
       default:
         throw new Error(`Modal name ${modalName} not recognized!`);
@@ -84,10 +93,13 @@ export const ModalProvider = (props) => {
           isEditing={false}
         />
       )}
-      {showBookmarkModal && (
+      {bookmarkModalState.show && (
         <BookmarkModalComponent
-          hideModal={() => setShowBookmarkModal(false)}
+          hideModal={() =>
+            setBookmarkModalState({ show: false, timestamp: "" })
+          }
           isEditing={false}
+          timestamp={bookmarkModalState.timestamp}
         />
       )}
     </ModalContext.Provider>

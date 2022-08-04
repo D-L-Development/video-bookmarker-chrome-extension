@@ -139,10 +139,10 @@ export class Session {
   /**
    * returns the timestamp of the current video time and the current bookmark if there is one
    *
-   * @returns {Object} - with properties timestamp and bookmark
+   * @returns {Object} - with properties timestamp
    */
   #getCurrentTimestamp() {
-    return secondsToTimestamp(this.video.currentTime);
+    return { timestamp: secondsToTimestamp(this.video.currentTime) };
   }
 
   /**

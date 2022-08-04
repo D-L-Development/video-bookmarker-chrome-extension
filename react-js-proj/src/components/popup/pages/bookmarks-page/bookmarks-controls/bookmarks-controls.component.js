@@ -23,7 +23,16 @@ const BookmarksControlsComponent = (props) => {
   const [isIconLoading, setIsIconLoading] = useState(false);
   const handleDownloadIconClick = (e) => {};
   const handleCreateBookmarkIconClick = (e) => {
-    showModal(modalNames.BOOKMARK);
+    if (isIconLoading) return;
+    setIsIconLoading(true);
+    sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {
+      setIsIconLoading(false);
+      if (res.status !== MSG.SUCCESS) {
+        alert(res.message);
+      } else {
+        showModal(modalNames.BOOKMARK, { timestamp: res.payload.timestamp });
+      }
+    });
   };
   const handleContentScriptIconClick = (e, type, payload = null) => {
     // dismiss the click when loading
@@ -40,10 +49,14 @@ const BookmarksControlsComponent = (props) => {
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
       <ActionIconWrapper
         onClick={handleCreateBookmarkIconClick}
-        enabled={true}
+        enabled={!isIconLoading}
         title="Add bookmark"
       >
-        <AddBookmarkIcon width={"20px"} height={"20px"} color={"white"} />
+        <AddBookmarkIcon
+          width={"20px"}
+          height={"20px"}
+          color={isIconLoading ? "grey" : "white"}
+        />
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={handleCopyIconClick}
