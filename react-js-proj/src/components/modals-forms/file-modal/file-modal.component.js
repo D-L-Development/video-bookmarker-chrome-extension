@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import ModalComponent from "../modal.component";
 import { modalTypes } from "../../../constants/theme";
@@ -10,9 +10,9 @@ import {
 } from "../modal.styles";
 import { useInputState } from "../../../hooks/use-input-state.hook";
 import { fsDispatchContext } from "../../../contexts/file-system.context";
-import { fsActions } from "../../../reducers/file-system.reducer";
 import { getCurrentDate } from "../../../contentScripts/utility";
 import { DatePicker } from "./file-modal.styles";
+import { fsActions } from "../../../reducers/file-system.reducer";
 
 const FileModalComponent = (props) => {
   const [fileName, handleFolderNameChange, nameError] = useInputState(
@@ -23,33 +23,45 @@ const FileModalComponent = (props) => {
     props.date || getCurrentDate()
   );
   const fsDispatch = useContext(fsDispatchContext);
+  const firstInputElem = useRef(null);
+
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") handleSubmitForm();
+  };
+
+  useEffect(() => {
+    firstInputElem.current.focus();
+  }, []);
+
+  const handleSubmitForm = () => {
+    if (fileName.trim().length && nameError === "" && date !== "") {
+      if (props.isEditing) {
+        fsDispatch({
+          type: fsActions.EDIT_FILE,
+          payload: {
+            uuid: props.uuid,
+            name: fileName.trim(),
+            date,
+          },
+        });
+      } else {
+        fsDispatch({
+          type: fsActions.ADD_FILE,
+          payload: { name: fileName.trim(), date },
+        });
+      }
+
+      props.hideModal();
+    }
+  };
+
   return (
     <ModalComponent
       title={props.isEditing ? "Edit file:" : "Create file:"}
       type={modalTypes.FORM}
       submitBtnText={props.isEditing ? "Edit" : "Create"}
       closeBtnText={"Cancel"}
-      onSubmit={() => {
-        if (fileName.trim().length && nameError === "" && date !== "") {
-          if (props.isEditing) {
-            fsDispatch({
-              type: fsActions.EDIT_FILE,
-              payload: {
-                uuid: props.uuid,
-                name: fileName.trim(),
-                date,
-              },
-            });
-          } else {
-            fsDispatch({
-              type: fsActions.ADD_FILE,
-              payload: { name: fileName.trim(), date },
-            });
-          }
-
-          props.hideModal();
-        }
-      }}
+      onSubmit={handleSubmitForm}
       onClose={props.hideModal}
     >
       <FormSection>
@@ -62,6 +74,8 @@ const FileModalComponent = (props) => {
           value={fileName}
           onChange={handleFolderNameChange}
           nameError={nameError !== ""}
+          ref={firstInputElem}
+          onKeyDown={handleEnterKeyPress}
         />
         <SecondaryInputText className="secondaryText">
           {nameError}
@@ -72,6 +86,7 @@ const FileModalComponent = (props) => {
         <DatePicker
           id={"dataPicker"}
           value={date}
+          onKeyDown={handleEnterKeyPress}
           onChange={handleDateChange}
         />
         <SecondaryInputText>{dateError}</SecondaryInputText>

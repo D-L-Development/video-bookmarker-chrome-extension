@@ -42,8 +42,7 @@ const smallerIconDimen = {
 };
 
 const BookmarksControlsComponent = (props) => {
-  const { showModal, setModalProps, hideMessageModal } =
-    useContext(ModalContext);
+  const { showModal, setModalProps } = useContext(ModalContext);
   const { bookmarks, isLoading } = useContext(BookmarksContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
 
@@ -99,7 +98,6 @@ const BookmarksControlsComponent = (props) => {
     if (!isLoading) {
       copyStringToClipboard(bookmarksToString(bookmarks));
       setModalProps({
-        onClose: hideMessageModal,
         title: "Success!",
         type: modalTypes.WARNING,
         message: "Bookmarks have been copied as a table to your clipboard!",
