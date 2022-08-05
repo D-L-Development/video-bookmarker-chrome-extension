@@ -74,3 +74,12 @@ export const PageHeaderControls = styled(PageHeader)`
   z-index: 2;
   box-shadow: 0 0.5px 21px 1px rgb(0 0 0 / 40%);
 `;
+
+export const NoItemsSign = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  color: grey;
+`;
