@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useInputState } from "../../../hooks/use-input-state.hook";
 import ModalComponent from "../modal.component";
 import { modalTypes } from "../../../constants/theme";
@@ -26,6 +26,41 @@ const BookmarkModalComponent = (props) => {
     200
   );
 
+  const firstInputElem = useRef(null);
+
+  useEffect(() => {
+    firstInputElem.current.focus();
+  }, []);
+
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") handleSubmitForm();
+  };
+
+  const handleSubmitForm = () => {
+    if (
+      title.trim().length &&
+      titleError === "" &&
+      text.trim().length &&
+      textError === ""
+    ) {
+      if (props.text !== text || props.title !== title) {
+        dispatch({
+          type: bookmarksActions.ADD,
+          payload: {
+            timestamp: props.timestamp,
+            bookmark: {
+              text,
+              title,
+              isNested: props.isNested,
+            },
+          },
+        });
+      }
+
+      props.hideModal();
+    }
+  };
+
   return (
     <ModalComponent
       title={`${props.isEditing ? "Edit bookmark" : "Create new bookmark"} at ${
@@ -34,30 +69,7 @@ const BookmarkModalComponent = (props) => {
       type={modalTypes.FORM}
       submitBtnText={props.isEditing ? "Edit" : "Create"}
       closeBtnText={"Cancel"}
-      onSubmit={() => {
-        if (
-          title.trim().length &&
-          titleError === "" &&
-          text.trim().length &&
-          textError === ""
-        ) {
-          if (props.text !== text || props.title !== title) {
-            dispatch({
-              type: bookmarksActions.ADD,
-              payload: {
-                timestamp: props.timestamp,
-                bookmark: {
-                  text,
-                  title,
-                  isNested: props.isNested,
-                },
-              },
-            });
-          }
-
-          props.hideModal();
-        }
-      }}
+      onSubmit={handleSubmitForm}
       onClose={props.hideModal}
     >
       <FormSection>
@@ -70,6 +82,8 @@ const BookmarkModalComponent = (props) => {
           value={title}
           onChange={handleTitleChange}
           error={titleError !== ""}
+          ref={firstInputElem}
+          onKeyDown={handleEnterKeyPress}
         />
         <SecondaryInputText className="secondaryText">
           {titleError}
@@ -85,6 +99,7 @@ const BookmarkModalComponent = (props) => {
           value={text}
           onChange={handleTextChange}
           error={textError !== ""}
+          onKeyDown={handleEnterKeyPress}
         />
         <SecondaryInputText className="secondaryText">
           {textError}

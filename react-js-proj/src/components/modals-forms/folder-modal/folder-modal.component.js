@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import ModalComponent from "../modal.component";
 import { modalTypes } from "../../../constants/theme";
@@ -18,29 +18,41 @@ const FolderModalComponent = (props) => {
     15
   );
   const fsDispatch = useContext(fsDispatchContext);
+  const firstInputElem = useRef(null);
+
+  useEffect(() => {
+    firstInputElem.current.focus();
+  }, []);
+
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") handleSubmitForm();
+  };
+
+  const handleSubmitForm = () => {
+    if (folderName.trim().length && error === "") {
+      if (props.isEditing) {
+        fsDispatch({
+          type: fsActions.EDIT_FOLDER,
+          payload: { name: folderName.trim(), uuid: props.uuid },
+        });
+      } else {
+        fsDispatch({
+          type: fsActions.ADD_FOLDER,
+          payload: { name: folderName.trim() },
+        });
+      }
+
+      props.hideModal();
+    }
+  };
+
   return (
     <ModalComponent
       title={props.isEditing ? "Edit folder" : "Create new folder"}
       type={modalTypes.FORM}
       submitBtnText={props.isEditing ? "Edit" : "Create"}
       closeBtnText={"Cancel"}
-      onSubmit={() => {
-        if (folderName.trim().length && error === "") {
-          if (props.isEditing) {
-            fsDispatch({
-              type: fsActions.EDIT_FOLDER,
-              payload: { name: folderName.trim(), uuid: props.uuid },
-            });
-          } else {
-            fsDispatch({
-              type: fsActions.ADD_FOLDER,
-              payload: { name: folderName.trim() },
-            });
-          }
-
-          props.hideModal();
-        }
-      }}
+      onSubmit={handleSubmitForm}
       onClose={props.hideModal}
     >
       <FormSection>
@@ -53,6 +65,8 @@ const FolderModalComponent = (props) => {
           value={folderName}
           onChange={handleFolderNameChange}
           error={error !== ""}
+          ref={firstInputElem}
+          onKeyDown={handleEnterKeyPress}
         />
         <SecondaryInputText className="secondaryText">
           {error}
