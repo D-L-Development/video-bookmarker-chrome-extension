@@ -41,8 +41,7 @@ const BookmarkModalComponent = (props) => {
           text.trim().length &&
           textError === ""
         ) {
-          if (props.isEditing) {
-          } else {
+          if (props.text !== text || props.title !== title) {
             dispatch({
               type: bookmarksActions.ADD,
               payload: {
@@ -50,7 +49,7 @@ const BookmarkModalComponent = (props) => {
                 bookmark: {
                   text,
                   title,
-                  isNested: false,
+                  isNested: props.isNested,
                 },
               },
             });

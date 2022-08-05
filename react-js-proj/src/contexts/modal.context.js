@@ -20,6 +20,9 @@ export const ModalProvider = (props) => {
   const [bookmarkModalState, setBookmarkModalState] = useState({
     show: false,
     timestamp: "",
+    title: "",
+    text: "",
+    isNested: false,
   });
 
   /**
@@ -40,7 +43,14 @@ export const ModalProvider = (props) => {
         setShowMessageModal(true);
         break;
       case modalNames.BOOKMARK:
-        setBookmarkModalState({ show: true, timestamp: payload?.timestamp });
+        setBookmarkModalState({
+          show: true,
+          isEditing: payload?.isEditing,
+          timestamp: payload?.timestamp,
+          title: payload?.title,
+          text: payload?.text,
+          isNested: payload?.isNested,
+        });
         break;
       default:
         throw new Error(`Modal name ${modalName} not recognized!`);
@@ -96,10 +106,17 @@ export const ModalProvider = (props) => {
       {bookmarkModalState.show && (
         <BookmarkModalComponent
           hideModal={() =>
-            setBookmarkModalState({ show: false, timestamp: "" })
+            setBookmarkModalState({
+              show: false,
+              isEditing: false,
+              timestamp: "",
+              title: "",
+              text: "",
+              isNested: false,
+            })
           }
           isEditing={false}
-          timestamp={bookmarkModalState.timestamp}
+          {...bookmarkModalState}
         />
       )}
     </ModalContext.Provider>

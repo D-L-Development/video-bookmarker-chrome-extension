@@ -50,7 +50,10 @@ const BookmarksControlsComponent = (props) => {
         // TODO: here you should ask the user if they are okay with adding bookmarks without a video
         alert(res.message);
       } else {
-        showModal(modalNames.BOOKMARK, { timestamp: res.payload.timestamp });
+        showModal(modalNames.BOOKMARK, {
+          timestamp: res.payload.timestamp,
+          isEditing: false,
+        });
       }
     });
   };

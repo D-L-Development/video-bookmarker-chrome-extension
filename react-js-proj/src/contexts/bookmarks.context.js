@@ -11,7 +11,6 @@ export const BookmarksDispatchContext = createContext(null);
 export const bookmarksActions = {
   ADD: "add",
   DELETE: "delete",
-  EDIT: "edit",
   TOGGLE_NEST: "toggle nest",
   INIT: "init",
 };
@@ -61,23 +60,6 @@ export const BookmarksContextProvider = ({ children }) => {
             bookmarks: filterObj(
               state.bookmarks,
               (key, val) => key !== payload.timestamp
-            ),
-          };
-          await updateStorageThenState(newState);
-          break;
-        case bookmarksActions.EDIT:
-          const { title, text, isNested, timestamp } = payload;
-          newState = {
-            ...state,
-            bookmarks: mapObj(state.bookmarks, (value, key) =>
-              timestamp === key
-                ? {
-                    ...state.bookmarks[key],
-                    title,
-                    text,
-                    isNested,
-                  }
-                : state.bookmarks[key]
             ),
           };
           await updateStorageThenState(newState);

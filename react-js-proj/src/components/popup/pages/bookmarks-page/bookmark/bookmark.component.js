@@ -15,7 +15,10 @@ import {
   BookmarksDispatchContext,
 } from "../../../../../contexts/bookmarks.context";
 import { modalTypes } from "../../../../../constants/theme";
-import { ModalContext } from "../../../../../contexts/modal.context";
+import {
+  ModalContext,
+  modalNames,
+} from "../../../../../contexts/modal.context";
 
 const IconProps = {
   width: "18px",
@@ -69,6 +72,16 @@ const BookmarkComponent = ({
     dispatch({ type: bookmarksActions.TOGGLE_NEST, payload: { timestamp } });
   };
 
+  const handleEditIconClick = (e) => {
+    showModal(modalNames.BOOKMARK, {
+      title,
+      text,
+      timestamp,
+      isNested,
+      isEditing: true,
+    });
+  };
+
   const getHighlightedText = (text, highlight) => {
     // if the search term is nothing, then return the text
     if (highlight.toLowerCase().trim() === "") return <span>{text}</span>;
@@ -109,7 +122,11 @@ const BookmarkComponent = ({
               type={isNested ? "decrease" : "increase"}
             />
           </ActionIconWrapper>
-          <ActionIconWrapper title="Edit Bookmark" enabled={true}>
+          <ActionIconWrapper
+            title="Edit Bookmark"
+            enabled={true}
+            onClick={handleEditIconClick}
+          >
             <EditIcon {...IconProps} />
           </ActionIconWrapper>
           <ActionIconWrapper
