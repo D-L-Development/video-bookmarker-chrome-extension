@@ -64,7 +64,7 @@ export const BookmarksContextProvider = ({ children }) => {
             ...state,
             bookmarks: filterObj(
               state.bookmarks,
-              (key, val) => key !== payload.uuid
+              (key, val) => key !== payload.timestamp
             ),
           };
           await updateStorageThenState(newState);

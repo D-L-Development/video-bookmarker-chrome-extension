@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as Styled from "./bookmark.styles";
 import { HighlightedText } from "./bookmark.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
@@ -10,6 +10,12 @@ import {
   sendMessageToActiveTab,
 } from "../../../../../contentScripts/utility";
 import { ActionIconWrapper } from "../../page.styles";
+import {
+  bookmarksActions,
+  BookmarksDispatchContext,
+} from "../../../../../contexts/bookmarks.context";
+import { modalTypes } from "../../../../../constants/theme";
+import { ModalContext } from "../../../../../contexts/modal.context";
 
 const IconProps = {
   width: "18px",
@@ -24,6 +30,10 @@ const BookmarkComponent = ({
   isNested,
   searchQuery,
 }) => {
+  const dispatch = useContext(BookmarksDispatchContext);
+  const { setModalProps, hideMessageModal, showModal } =
+    useContext(ModalContext);
+
   const handleTimestampClick = () => {
     sendMessageToActiveTab(
       {
@@ -35,6 +45,26 @@ const BookmarkComponent = ({
       }
     );
   };
+
+  const handleDeleteIconClick = (e) => {
+    setModalProps({
+      onClose: hideMessageModal,
+      onSubmit: () => {
+        dispatch({ type: bookmarksActions.DELETE, payload: { timestamp } });
+
+        hideMessageModal();
+      },
+      title: "Warning!",
+      type: modalTypes.WARNING,
+      message: `Are you sure you want to delete bookmark ${
+        timestamp && "at " + timestamp
+      }?`,
+      closeBtnText: "No",
+      submitBtnText: "Yes",
+    });
+    showModal();
+  };
+
   const getHighlightedText = (text, highlight) => {
     // if the search term is nothing, then return the text
     if (highlight.toLowerCase().trim() === "") return <span>{text}</span>;
@@ -77,7 +107,11 @@ const BookmarkComponent = ({
           <ActionIconWrapper title="Edit Bookmark" enabled={true}>
             <EditIcon {...IconProps} />
           </ActionIconWrapper>
-          <ActionIconWrapper title="Delete Bookmark" enabled={true}>
+          <ActionIconWrapper
+            title="Delete Bookmark"
+            enabled={true}
+            onClick={handleDeleteIconClick}
+          >
             <TrashIcon {...IconProps} />
           </ActionIconWrapper>
         </Styled.BookmarkHeaderIconGroup>

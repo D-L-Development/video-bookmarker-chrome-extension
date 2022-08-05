@@ -7,5 +7,5 @@ export const StyledSkipIcon = styled(SkipIconComponent).attrs((props) => ({
   viewBox: "0 0 24 24",
 }))`
   fill: ${(props) => props.color || "white"};
-  transform: rotate(${(props) => (props.direction === "right" ? 0 : 180)}deg);
+  transform: scaleX(${(props) => (props.direction === "right" ? 1 : -1)});
 `;
