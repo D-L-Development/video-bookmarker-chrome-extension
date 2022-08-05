@@ -48,6 +48,11 @@ export const ActionIconWrapper = styled.button`
   display: flex;
   cursor: ${(props) => (props.enabled ? "pointer" : "")};
 
+  & > * {
+    transition-delay: 100ms;
+    transition-property: fill;
+  }
+
   &:first-of-type {
     margin-left: 0.5rem;
   }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ActionIconWrapper } from "../../page.styles";
 
 export const SpeedIconsGroup = styled.div`
@@ -24,7 +24,23 @@ export const SpeedActionIcon = styled(ActionIconWrapper)`
   }
 `;
 
+export const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 export const SpinnerWrapper = styled.div`
   margin-left: auto;
   margin-right: 1rem;
+  opacity: 0;
+  animation-name: ${fadeIn};
+  animation-duration: 100ms;
+  animation-timing-function: ease;
+  animation-iteration-count: 1;
+  animation-delay: 100ms;
+  animation-fill-mode: forwards;
 `;

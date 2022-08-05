@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { controlPageHeader_c } from "../../../../../constants/theme";
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import AddBookmarkIcon from "../../../../../icons/bookmarks-icons/add-bookmark-icon/add-bookmark.icon";
@@ -39,6 +39,7 @@ const smallerIconDimen = {
 const BookmarksControlsComponent = (props) => {
   const { showModal } = useContext(ModalContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
+  const hasBeenLoadingForSomeTime = useRef(false);
   const handleDownloadIconClick = (e) => {};
   const handleCreateBookmarkIconClick = (e) => {
     if (isIconLoading) return;
