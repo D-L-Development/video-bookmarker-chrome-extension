@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { StyledPage } from "../page.styles";
+import { NoItemsSign, StyledPage } from "../page.styles";
 import * as Styled from "./file-system-page.styles";
 import FolderComponent from "./folder/folder.component";
 import FileComponent from "./file/file.component";
@@ -123,34 +123,39 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
       style={{ userSelect: "none", marginRight: "auto" }}
     >
       <Styled.FileSystemContent className="FileSystemContent">
-        {!fs.isLoading && (
-          <>
-            {fs.folders.map(
-              (folder) =>
-                shouldShow(folder.name) && (
-                  <FolderComponent
-                    name={folder.name}
-                    uuid={folder.uuid}
-                    key={folder.uuid}
-                    selected={folder.selected}
-                    handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
-                  />
-                )
-            )}
-            {fs.files.map(
-              (file) =>
-                shouldShow(file.name) && (
-                  <FileComponent
-                    name={file.name}
-                    uuid={file.uuid}
-                    key={file.uuid}
-                    selected={file.selected}
-                    handleClick={(e) => handleItemClick(e, itemType.FILE)}
-                  />
-                )
-            )}
-          </>
-        )}
+        {!fs.isLoading &&
+          (fs.folders.length + fs.files.length ? (
+            <>
+              {fs.folders.map(
+                (folder) =>
+                  shouldShow(folder.name) && (
+                    <FolderComponent
+                      name={folder.name}
+                      uuid={folder.uuid}
+                      key={folder.uuid}
+                      selected={folder.selected}
+                      handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
+                    />
+                  )
+              )}
+              {fs.files.map(
+                (file) =>
+                  shouldShow(file.name) && (
+                    <FileComponent
+                      name={file.name}
+                      uuid={file.uuid}
+                      key={file.uuid}
+                      selected={file.selected}
+                      handleClick={(e) => handleItemClick(e, itemType.FILE)}
+                    />
+                  )
+              )}
+            </>
+          ) : (
+            <NoItemsSign>
+              Create the "new" button to create a folder
+            </NoItemsSign>
+          ))}
       </Styled.FileSystemContent>
     </StyledPage>
   );
