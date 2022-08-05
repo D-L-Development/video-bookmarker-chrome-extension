@@ -23,3 +23,8 @@ export const SpeedActionIcon = styled(ActionIconWrapper)`
     border-radius: 0 0.2rem 0.2rem 0;
   }
 `;
+
+export const SpinnerWrapper = styled.div`
+  margin-left: auto;
+  margin-right: 1rem;
+`;

@@ -9,6 +9,8 @@ export const MSG = {
   TOGGLE_PLAY: "toggle video play",
   SKIP: "skip",
   REWIND: "rewind",
+  SPEED_UP: "speed up",
+  SLOW_DOWN: "slow down",
 };
 
 export class Bookmark {

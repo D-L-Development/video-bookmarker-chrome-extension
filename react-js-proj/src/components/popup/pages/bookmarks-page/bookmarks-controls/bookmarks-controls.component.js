@@ -18,7 +18,12 @@ import SkipIcon from "../../../../../icons/bookmarks-icons/skip-icon/skip.icon";
 import MinusIcon from "../../../../../icons/bookmarks-icons/minus-icon/minus.icon";
 import SpeedIcon from "../../../../../icons/bookmarks-icons/speed-icon/speed.icon";
 import PlusIcon from "../../../../../icons/bookmarks-icons/plus-icon/plus.icon";
-import { SpeedActionIcon, SpeedIconsGroup } from "./bookmarks-controls.styles";
+import {
+  SpeedActionIcon,
+  SpeedIconsGroup,
+  SpinnerWrapper,
+} from "./bookmarks-controls.styles";
+import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
 
 const skipSeconds = 10;
 const defaultIconDimen = {
@@ -48,7 +53,7 @@ const BookmarksControlsComponent = (props) => {
       }
     });
   };
-  const handleContentScriptIconClick = (e, type, payload = null) => {
+  const handleContentScriptIconClick = (type, payload = null) => {
     // dismiss the click when loading
     if (isIconLoading) return;
     // set loading to true until content script responds
@@ -88,8 +93,8 @@ const BookmarksControlsComponent = (props) => {
       <VerticalDivider />
       <ActionIconWrapper
         style={{ marginLeft: "0.5rem" }}
-        onClick={(e) =>
-          handleContentScriptIconClick(e, MSG.REWIND, { seconds: skipSeconds })
+        onClick={() =>
+          handleContentScriptIconClick(MSG.REWIND, { seconds: skipSeconds })
         }
         enabled={!isIconLoading}
         title={`Rewind ${skipSeconds} seconds`}
@@ -101,7 +106,7 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <ActionIconWrapper
-        onClick={(e) => handleContentScriptIconClick(e, MSG.TOGGLE_PLAY)}
+        onClick={() => handleContentScriptIconClick(MSG.TOGGLE_PLAY)}
         enabled={!isIconLoading}
         title="play/pause"
       >
@@ -111,8 +116,8 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <ActionIconWrapper
-        onClick={(e) =>
-          handleContentScriptIconClick(e, MSG.SKIP, { seconds: skipSeconds })
+        onClick={() =>
+          handleContentScriptIconClick(MSG.SKIP, { seconds: skipSeconds })
         }
         enabled={!isIconLoading}
         title={`Skip ${skipSeconds} seconds`}
@@ -124,16 +129,35 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <SpeedIconsGroup>
-        <SpeedActionIcon enabled={true} title="Decrease by 0.10x">
-          <MinusIcon {...smallerIconDimen} color={"white"} />
+        <SpeedActionIcon
+          onClick={() => handleContentScriptIconClick(MSG.SLOW_DOWN)}
+          enabled={!isIconLoading}
+          title="Decrease by 0.10x"
+        >
+          <MinusIcon
+            {...smallerIconDimen}
+            color={isIconLoading ? "grey" : "white"}
+          />
         </SpeedActionIcon>
         <SpeedActionIcon enabled={false} title="Change playback speed">
           <SpeedIcon {...smallerIconDimen} color={"white"} />
         </SpeedActionIcon>
-        <SpeedActionIcon enabled={true} title="Increase by 0.10x">
-          <PlusIcon {...smallerIconDimen} color={"white"} />
+        <SpeedActionIcon
+          onClick={() => handleContentScriptIconClick(MSG.SPEED_UP)}
+          enabled={!isIconLoading}
+          title="Increase by 0.10x"
+        >
+          <PlusIcon
+            {...smallerIconDimen}
+            color={isIconLoading ? "grey" : "white"}
+          />
         </SpeedActionIcon>
       </SpeedIconsGroup>
+      {isIconLoading && (
+        <SpinnerWrapper>
+          <SpinnerIcon width={"24px"} height={"24px"} color={"white"} />
+        </SpinnerWrapper>
+      )}
     </PageHeaderControls>
   );
 };

@@ -2,6 +2,7 @@ import { MSG, secondsToTimestamp, timestampToSeconds } from "./utility";
 
 export class Session {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
+  static SPEED_AMOUNT = 0.1;
 
   constructor() {
     this.video = null;
@@ -33,6 +34,10 @@ export class Session {
           return this.#skipBy(action.payload.seconds);
         case MSG.REWIND:
           return this.#skipBy(action.payload.seconds * -1);
+        case MSG.SPEED_UP:
+          return this.#changeSpeedBy(Session.SPEED_AMOUNT);
+        case MSG.SLOW_DOWN:
+          return this.#changeSpeedBy(Session.SPEED_AMOUNT * -1);
         default:
           throw new Error(`Action type "${action.type}" is unhandled!`);
       }
@@ -169,5 +174,9 @@ export class Session {
 
   #skipBy(seconds) {
     this.video.currentTime += seconds;
+  }
+
+  #changeSpeedBy(SPEED_AMOUNT) {
+    this.video.playbackRate += SPEED_AMOUNT;
   }
 }
