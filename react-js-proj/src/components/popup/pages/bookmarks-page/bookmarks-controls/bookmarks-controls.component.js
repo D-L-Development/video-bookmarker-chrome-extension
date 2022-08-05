@@ -1,5 +1,8 @@
-import React, { useContext, useRef, useState } from "react";
-import { controlPageHeader_c } from "../../../../../constants/theme";
+import React, { useContext, useState } from "react";
+import {
+  controlPageHeader_c,
+  modalTypes,
+} from "../../../../../constants/theme";
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import AddBookmarkIcon from "../../../../../icons/bookmarks-icons/add-bookmark-icon/add-bookmark.icon";
 import CopyIcon from "../../../../../icons/bookmarks-icons/copy-icon/copy.icon";
@@ -10,6 +13,7 @@ import {
 } from "../../../../../contexts/modal.context";
 import PlayPauseIcon from "../../../../../icons/bookmarks-icons/play-pause-icon/play-pause.icon";
 import {
+  copyStringToClipboard,
   MSG,
   sendMessageToActiveTab,
 } from "../../../../../contentScripts/utility";
@@ -24,6 +28,7 @@ import {
   SpinnerWrapper,
 } from "./bookmarks-controls.styles";
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
+import { BookmarksContext } from "../../../../../contexts/bookmarks.context";
 
 const skipSeconds = 10;
 const defaultIconDimen = {
@@ -37,9 +42,11 @@ const smallerIconDimen = {
 };
 
 const BookmarksControlsComponent = (props) => {
-  const { showModal } = useContext(ModalContext);
+  const { showModal, setModalProps, hideMessageModal } =
+    useContext(ModalContext);
+  const { bookmarks, isLoading } = useContext(BookmarksContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
-  const hasBeenLoadingForSomeTime = useRef(false);
+
   const handleDownloadIconClick = (e) => {};
   const handleCreateBookmarkIconClick = (e) => {
     if (isIconLoading) return;
@@ -57,6 +64,27 @@ const BookmarksControlsComponent = (props) => {
       }
     });
   };
+
+  const bookmarksToString = (bookmarks) => {
+    const TAB_CHAR = String.fromCharCode(9);
+    const NEWLINE_CHAR = String.fromCharCode(10);
+    let formattedString = "";
+    for (let key in bookmarks) {
+      const indentSpace = bookmarks[key].isNested ? TAB_CHAR : "";
+      formattedString +=
+        indentSpace +
+        key +
+        TAB_CHAR +
+        bookmarks[key].title +
+        NEWLINE_CHAR +
+        indentSpace +
+        bookmarks[key].text +
+        NEWLINE_CHAR;
+    }
+
+    return formattedString;
+  };
+
   const handleContentScriptIconClick = (type, payload = null) => {
     // dismiss the click when loading
     if (isIconLoading) return;
@@ -67,7 +95,19 @@ const BookmarksControlsComponent = (props) => {
       if (res.status !== MSG.SUCCESS) alert(res.message);
     });
   };
-  const handleCopyIconClick = (e) => {};
+  const handleCopyIconClick = () => {
+    if (!isLoading) {
+      copyStringToClipboard(bookmarksToString(bookmarks));
+      setModalProps({
+        onClose: hideMessageModal,
+        title: "Success!",
+        type: modalTypes.WARNING,
+        message: "Bookmarks have been copied as a table to your clipboard!",
+        closeBtnText: "Dismiss",
+      });
+      showModal();
+    }
+  };
   return (
     <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
       <ActionIconWrapper

@@ -35,7 +35,7 @@ const ModalComponent = (props) => {
         </ModalHeader>
         {props.message && <ModalBodyText>{props.message}</ModalBodyText>}
         {/* Children can be embedded here */}
-        <ModalBody>{props.children}</ModalBody>
+        {props.children && <ModalBody>{props.children}</ModalBody>}
         <ModalActionButtons>
           <ModalButton
             className="modalButton cancel"
