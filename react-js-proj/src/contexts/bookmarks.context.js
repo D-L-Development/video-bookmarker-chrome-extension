@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useRef, useState } from "react";
 import {
   checkChromeLastError,
   filterObj,
@@ -19,10 +19,6 @@ export const bookmarksActions = {
 export const BookmarksContextProvider = ({ children }) => {
   const [state, setState] = useState({ isLoading: true, bookmarks: {} });
   const fileIdRef = useRef({ uuid: null });
-
-  useEffect(() => {
-    console.log("RERENDER", state);
-  });
 
   /**
    * Updates chrome.storage, then calls the reducer to change the state
@@ -89,7 +85,7 @@ export const BookmarksContextProvider = ({ children }) => {
         case bookmarksActions.TOGGLE_NEST:
           newState = {
             ...state,
-            bookmarks: mapObj(state.bookmarks, (value, key) =>
+            bookmarks: mapObj(state.bookmarks, (key, value) =>
               payload.timestamp === key
                 ? {
                     ...state.bookmarks[key],

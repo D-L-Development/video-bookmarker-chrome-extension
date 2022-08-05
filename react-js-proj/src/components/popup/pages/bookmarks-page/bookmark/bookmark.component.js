@@ -65,6 +65,10 @@ const BookmarkComponent = ({
     showModal();
   };
 
+  const toggleIndent = (e) => {
+    dispatch({ type: bookmarksActions.TOGGLE_NEST, payload: { timestamp } });
+  };
+
   const getHighlightedText = (text, highlight) => {
     // if the search term is nothing, then return the text
     if (highlight.toLowerCase().trim() === "") return <span>{text}</span>;
@@ -98,6 +102,7 @@ const BookmarkComponent = ({
           <ActionIconWrapper
             title={isNested ? "Outdent" : "Indent"}
             enabled={true}
+            onClick={toggleIndent}
           >
             <IndentIcon
               {...IconProps}
