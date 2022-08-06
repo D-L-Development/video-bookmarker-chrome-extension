@@ -83,7 +83,7 @@ export class Session {
         // if repeated (repeatCount) times, then reject
         if (--repeatCount <= 0) {
           clearInterval(intervalId);
-          reject("Failed to find video!");
+          reject("Please visit a page containing a video, or try again");
         }
 
         // try to get video again

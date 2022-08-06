@@ -195,7 +195,7 @@ export const fakeDB = {
     files: [
       {
         date: "2022-07-29",
-        name: "Hrew",
+        name: "AI Learning",
         uuid: "b730ae52be22c894-0650",
       },
       {
@@ -237,6 +237,10 @@ export const fakeDB = {
       },
     ],
   },
+  SETTINGS: {
+    isGridView: true,
+    isLoading: false,
+  },
   "a5f5bcb04aa9a9b3-dfb8": {
     bookmarks: {},
   },
@@ -259,7 +263,57 @@ export const fakeDB = {
     bookmarks: {},
   },
   "b730ae52be22c894-0650": {
-    bookmarks: {},
+    bookmarks: {
+      "00:00:23": {
+        text: "Please page attention",
+        title: "First note",
+      },
+      "00:00:36": {
+        text: "Please make sure you understand",
+        title: "Another note",
+      },
+      "00:00:37": {
+        text: "Again don't forget about this",
+        title: "and this one",
+      },
+      "00:00:49": {
+        text: "Please make sure you know what you're talking about",
+        title: "Anothe rone for ",
+      },
+      "00:00:55": {
+        text: "Please make sure",
+        title: "One more 2",
+      },
+      "00:01:02": {
+        text: "\nrandome workds",
+        title: "try again",
+      },
+      "00:01:09": {
+        text: "1 ",
+        title: "wha thappesn",
+      },
+      "00:01:15": {
+        text: "\n\nyou've got to undersnda",
+        title: "anothe rone",
+      },
+      "00:01:30": {
+        text: "\nPleas",
+        title: "Than kyou",
+      },
+      "00:01:37": {
+        text: "Just for you",
+        title: "one omre",
+      },
+      "00:01:45": {
+        text: "To me pelase and I liek that soo much",
+        title: "keep listening",
+      },
+      "00:01:58": {
+        text: "More for you",
+        title: "and more",
+      },
+    },
+    isLoading: false,
   },
   "b7ee5eb17cb12d48-6415": {
     files: [],

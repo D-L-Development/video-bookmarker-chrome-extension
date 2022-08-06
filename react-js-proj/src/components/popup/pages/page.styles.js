@@ -21,6 +21,7 @@ export const PageContent = styled.div`
   overflow-y: auto;
   overscroll-behavior: contain;
 
+  // TODO: when the content slides in with a scrollbar it looks weird. Make it to where the scroll bar appears on scroll and hover
   &::-webkit-scrollbar {
     width: 7px;
   }
