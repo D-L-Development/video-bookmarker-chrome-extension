@@ -172,6 +172,7 @@ const FileSystemControlsComponent = ({ isGridView, setIsGridView }) => {
           selected={isGridView}
           onClick={(e) => !isGridView && setIsGridView(!isGridView)}
           style={{ borderRight: "0.25px solid #a8a8a8" }}
+          title={"Grid view layout"}
         >
           <GridViewIcon width={"15px"} height={"15px"} color={"white"} />
         </EdgeActionIcon>
@@ -180,6 +181,7 @@ const FileSystemControlsComponent = ({ isGridView, setIsGridView }) => {
           selected={!isGridView}
           onClick={(e) => isGridView && setIsGridView(!isGridView)}
           style={{ borderLeft: "0.25px solid #a8a8a8" }}
+          title={"Detailed view layout"}
         >
           <ListViewIcon width={"15px"} height={"15px"} color={"white"} />
         </EdgeActionIcon>
