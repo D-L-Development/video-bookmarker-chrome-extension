@@ -9,7 +9,6 @@ const ViewPagerComponent = ({
   searchQuery,
   pageInfo,
   switchToBookmarksPage,
-  isGridView,
 }) => {
   return (
     <Content className="Content">
@@ -18,7 +17,6 @@ const ViewPagerComponent = ({
           <FileSystemPageComponent
             searchQuery={searchQuery}
             switchToBookmarksPage={switchToBookmarksPage}
-            isGridView={isGridView}
           />
         ) : (
           <BookmarksPageComponent
@@ -32,6 +30,5 @@ const ViewPagerComponent = ({
 };
 ViewPagerComponent.protoType = {
   pageNum: PropTypes.oneOf(["first", "second"]),
-  isGridView: PropTypes.bool.isRequired,
 };
 export default ViewPagerComponent;

@@ -8,19 +8,17 @@ import {
   fsDispatchContext,
 } from "../../../../contexts/file-system.context";
 import { fsActions } from "../../../../reducers/file-system.reducer";
+import { SettingsContext } from "../../../../contexts/settings.context";
 
 const itemType = {
   FOLDER: "folder",
   FILE: "file",
 };
 
-const FileSystemPageComponent = ({
-  searchQuery,
-  switchToBookmarksPage,
-  isGridView,
-}) => {
+const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
   const fs = useContext(FileSystemContext);
   const fsDispatch = useContext(fsDispatchContext);
+  const settings = useContext(SettingsContext);
   const lastSelectedId = useRef(null);
 
   const shouldShow = (name) => {
@@ -126,9 +124,12 @@ const FileSystemPageComponent = ({
       tabIndex="0"
       style={{ userSelect: "none", marginRight: "auto" }}
     >
-      <Styled.FileSystemContent className="FileSystemContent" grid={isGridView}>
-        {!fs.isLoading &&
-          (fs.folders.length + fs.files.length ? (
+      {!settings.isLoading ? (
+        <Styled.FileSystemContent
+          className="FileSystemContent"
+          grid={settings.isGridView}
+        >
+          {!fs.isLoading && fs.folders.length + fs.files.length ? (
             <>
               {fs.folders.map(
                 (folder) =>
@@ -139,7 +140,7 @@ const FileSystemPageComponent = ({
                       key={folder.uuid}
                       selected={folder.selected}
                       handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
-                      grid={isGridView}
+                      grid={settings.isGridView}
                     />
                   )
               )}
@@ -153,7 +154,7 @@ const FileSystemPageComponent = ({
                       key={file.uuid}
                       selected={file.selected}
                       handleClick={(e) => handleItemClick(e, itemType.FILE)}
-                      grid={isGridView}
+                      grid={settings.isGridView}
                     />
                   )
               )}
@@ -162,8 +163,9 @@ const FileSystemPageComponent = ({
             <NoItemsSign>
               Create the "new" button to create a folder
             </NoItemsSign>
-          ))}
-      </Styled.FileSystemContent>
+          )}
+        </Styled.FileSystemContent>
+      ) : null}
     </StyledPage>
   );
 };

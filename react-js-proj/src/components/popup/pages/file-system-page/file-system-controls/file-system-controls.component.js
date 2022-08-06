@@ -22,6 +22,11 @@ import GridViewIcon from "../../../../../icons/file-system-icons/grid-view-icon/
 import ListViewIcon from "../../../../../icons/file-system-icons/list-view-icon/list-view.icon";
 import { ViewModeSwitch } from "./file-system-controls.styles";
 import { EdgeActionIcon } from "../../bookmarks-page/bookmarks-controls/bookmarks-controls.styles";
+import {
+  ChangeSettingsContext,
+  settingsActions,
+  SettingsContext,
+} from "../../../../../contexts/settings.context";
 
 const iconActionType = {
   DELETE: "delete",
@@ -29,11 +34,13 @@ const iconActionType = {
   EDIT: "edit",
 };
 
-const FileSystemControlsComponent = ({ isGridView, setIsGridView }) => {
+const FileSystemControlsComponent = (props) => {
   const fsDispatch = useContext(fsDispatchContext);
   const fs = useContext(FileSystemContext);
   const { setModalProps, showModal, hideMessageModal } =
     useContext(ModalContext);
+  const settingsDispatch = useContext(ChangeSettingsContext);
+  const settings = useContext(SettingsContext);
   const [selections, setSelections] = useState({});
   const [showEditFileModal, setShowEditFileModal] = useState(false);
   const [showEditFolderModal, setShowEditFolderModal] = useState(false);
@@ -166,26 +173,34 @@ const FileSystemControlsComponent = ({ isGridView, setIsGridView }) => {
         />
       </ActionIconWrapper>
 
-      <ViewModeSwitch>
-        <EdgeActionIcon
-          enabled={true}
-          selected={isGridView}
-          onClick={(e) => !isGridView && setIsGridView(!isGridView)}
-          style={{ borderRight: "0.25px solid #a8a8a8" }}
-          title={"Grid view layout"}
-        >
-          <GridViewIcon width={"15px"} height={"15px"} color={"white"} />
-        </EdgeActionIcon>
-        <EdgeActionIcon
-          enabled={true}
-          selected={!isGridView}
-          onClick={(e) => isGridView && setIsGridView(!isGridView)}
-          style={{ borderLeft: "0.25px solid #a8a8a8" }}
-          title={"Detailed view layout"}
-        >
-          <ListViewIcon width={"15px"} height={"15px"} color={"white"} />
-        </EdgeActionIcon>
-      </ViewModeSwitch>
+      {!settings.isLoading && (
+        <ViewModeSwitch>
+          <EdgeActionIcon
+            enabled={true}
+            selected={settings.isGridView}
+            onClick={(e) =>
+              !settings.isGridView &&
+              settingsDispatch({ type: settingsActions.TOGGLE_VIEW })
+            }
+            style={{ borderRight: "0.25px solid #a8a8a8" }}
+            title={"Grid view layout"}
+          >
+            <GridViewIcon width={"15px"} height={"15px"} color={"white"} />
+          </EdgeActionIcon>
+          <EdgeActionIcon
+            enabled={true}
+            selected={!settings.isGridView}
+            onClick={(e) =>
+              settings.isGridView &&
+              settingsDispatch({ type: settingsActions.TOGGLE_VIEW })
+            }
+            style={{ borderLeft: "0.25px solid #a8a8a8" }}
+            title={"Detailed view layout"}
+          >
+            <ListViewIcon width={"15px"} height={"15px"} color={"white"} />
+          </EdgeActionIcon>
+        </ViewModeSwitch>
+      )}
       {showEditFileModal && (
         <FileModalComponent
           hideModal={() => setShowEditFileModal(false)}
