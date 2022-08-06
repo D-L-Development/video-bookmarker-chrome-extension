@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { selected_folder_c } from "../../../../../constants/theme";
+import {
+  fsItemHover_c,
+  fsItemSelected_c,
+  fsItemSelectedOutline_c,
+  selected_folder_c,
+} from "../../../../../constants/theme";
 
 const DIMEN_PERCENT = "22.5%";
 export const FS_MARGIN_PERCENT = "2%";
@@ -13,15 +18,12 @@ export const Square = styled.div`
   cursor: pointer;
   transition: 0.1s;
 
-  ${(props) =>
-    props.selected &&
-    `
-    outline: 1px solid #0300ff;
-    background-color: rgb(191, 181, 209);
-  `}
+  background-color: ${(props) => props.selected && fsItemSelected_c};
+  outline: ${(props) =>
+    props.selected && `1px solid ${fsItemSelectedOutline_c};`};
+
   &:hover {
-    outline: 1px solid rgba(3, 0, 255, 0.76);
-    background-color: rgba(191, 181, 209, 0.79);
+    background-color: ${(props) => !props.selected && fsItemHover_c};
   }
 `;
 
@@ -74,5 +76,20 @@ export const Rectangle = styled.div`
     fill: ${(props) => props.selected && "white"};
     height: ${(props) => props.selected && "22px"};
     width: ${(props) => props.selected && "22px"};
+  }
+`;
+
+export const DetailedViewItem = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.1s;
+
+  background-color: ${(props) => props.selected && fsItemSelected_c};
+  outline: ${(props) =>
+    props.selected && `1px solid ${fsItemSelectedOutline_c};`};
+
+  &:hover {
+    background-color: ${(props) => !props.selected && fsItemHover_c};
   }
 `;

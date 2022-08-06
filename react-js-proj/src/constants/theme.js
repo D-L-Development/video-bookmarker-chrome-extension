@@ -14,6 +14,9 @@ export const folder_c = "#FFEECCFF";
 export const scroller_c = "#8f8f8f";
 export const scrollerHover_c = "#676767";
 export const bgHoverColor = "rgba(255, 255, 255, 0.2)";
+export const fsItemSelected_c = "#4d4d4d40";
+export const fsItemHover_c = "rgba(119,119,119,0.25)";
+export const fsItemSelectedOutline_c = "#7d6f6f";
 
 export const modalColors = {
   cancelBtn_c: "#abb8bd",

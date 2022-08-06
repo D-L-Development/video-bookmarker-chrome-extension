@@ -15,7 +15,14 @@ const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
       </SharedStyles.StretchContainer>
     </SharedStyles.Square>
   ) : (
-    <span>Folder list</span>
+    <SharedStyles.DetailedViewItem
+      id={uuid}
+      selected={selected}
+      onClick={handleClick}
+    >
+      <FolderIcon width={"3rem"} height={"3rem"} color={folder_c} />
+      <span>{name}</span>
+    </SharedStyles.DetailedViewItem>
   );
 };
 
