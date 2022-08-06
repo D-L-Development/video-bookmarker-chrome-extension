@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import * as Styled from "./bookmark.styles";
 import { HighlightedText } from "./bookmark.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
@@ -19,6 +19,8 @@ import {
   ModalContext,
   modalNames,
 } from "../../../../../contexts/modal.context";
+import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
+import { SpinnerWrapper } from "../bookmarks-controls/bookmarks-controls.styles";
 
 const IconProps = {
   width: "18px",
@@ -36,15 +38,27 @@ const BookmarkComponent = ({
   const dispatch = useContext(BookmarksDispatchContext);
   const { setModalProps, hideMessageModal, showModal } =
     useContext(ModalContext);
+  const [timestampIsLoading, setTimestampIsLoading] = useState(false);
 
   const handleTimestampClick = () => {
+    if (timestampIsLoading) return;
+    setTimestampIsLoading(true);
     sendMessageToActiveTab(
       {
         type: MSG.JUMP_TO_TIMESTAMP,
         payload: { timestamp },
       },
       (res) => {
-        if (res.status !== MSG.SUCCESS) alert(res.message);
+        setTimestampIsLoading(false);
+        if (res.status !== MSG.SUCCESS) {
+          setModalProps({
+            title: "Failed!",
+            type: modalTypes.ALERT,
+            message: res.message,
+            closeBtnText: "Dismiss",
+          });
+          showModal();
+        }
       }
     );
   };
@@ -105,7 +119,13 @@ const BookmarkComponent = ({
         <Styled.BookmarkHeaderText>
           <Styled.BookmarkTimestamp onClick={handleTimestampClick}>
             {/* TODO: render a spinner here when loading */}
-            {timestamp}
+            {timestampIsLoading ? (
+              <SpinnerWrapper>
+                <SpinnerIcon width={"10px"} height={"10px"} color={"white"} />
+              </SpinnerWrapper>
+            ) : (
+              timestamp
+            )}
           </Styled.BookmarkTimestamp>
           <Styled.BookmarkTitle>
             {getHighlightedText(title, searchQuery)}

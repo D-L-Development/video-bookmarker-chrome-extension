@@ -31,19 +31,20 @@ export const BookmarkTitle = styled.span`
   white-space: nowrap;
 `;
 
-export const BookmarkTimestamp = styled.span`
+export const BookmarkTimestamp = styled.div`
   background-color: rgb(194, 66, 66);
   padding: 0.1rem 0.4rem;
   border-radius: 0.6rem;
   text-align: center;
   cursor: pointer;
+  width: 4rem;
 
   &:hover {
     color: lightblue;
   }
 `;
 
-export const BookmarkHeaderText = styled.p`
+export const BookmarkHeaderText = styled.div`
   color: white;
   font-size: 0.8rem;
   letter-spacing: 0.1rem;
