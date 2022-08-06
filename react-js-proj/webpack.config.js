@@ -13,6 +13,7 @@ module.exports = {
     filename: "[name].js",
   },
   module: {
+    // TODO: make sure the utils file is not loaded twice but rather shared
     rules: [
       {
         test: /\.(js|jsx)$/,

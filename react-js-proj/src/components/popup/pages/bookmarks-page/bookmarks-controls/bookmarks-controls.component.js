@@ -6,7 +6,6 @@ import {
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import AddBookmarkIcon from "../../../../../icons/bookmarks-icons/add-bookmark-icon/add-bookmark.icon";
 import CopyIcon from "../../../../../icons/bookmarks-icons/copy-icon/copy.icon";
-import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
 import {
   ModalContext,
   modalNames,
@@ -29,9 +28,16 @@ import {
 } from "./bookmarks-controls.styles";
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
 import { BookmarksContext } from "../../../../../contexts/bookmarks.context";
+import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
+
+const DownloadButtonComponent = React.lazy(() =>
+  import(
+    /* webpackPrefetch: true */ "./download-button/download-button.component"
+  )
+);
 
 const skipSeconds = 10;
-const defaultIconDimen = {
+export const defaultIconDimen = {
   width: "20px",
   height: "20px",
 };
@@ -55,7 +61,7 @@ const BookmarksControlsComponent = (props) => {
     });
     showModal();
   };
-  const handleDownloadIconClick = (e) => {};
+
   const handleCreateBookmarkIconClick = (e) => {
     if (isIconLoading) return;
     setIsIconLoading(true);
@@ -131,6 +137,7 @@ const BookmarksControlsComponent = (props) => {
         onClick={handleCopyIconClick}
         enabled={Object.keys(bookmarks).length}
         disabled={Object.keys(bookmarks).length === 0}
+        disableColorChangeDelay={true}
         title="Copy as Table"
       >
         <CopyIcon
@@ -138,13 +145,16 @@ const BookmarksControlsComponent = (props) => {
           color={Object.keys(bookmarks).length ? "white" : "grey"}
         />
       </ActionIconWrapper>
-      <ActionIconWrapper
-        onClick={handleDownloadIconClick}
-        enabled={true}
-        title="Download"
+      {/* Show grey icon if component hasn't loaded */}
+      <React.Suspense
+        fallback={
+          <ActionIconWrapper enabled={false}>
+            <SaveArrowIcon {...defaultIconDimen} color={"grey"} />
+          </ActionIconWrapper>
+        }
       >
-        <SaveArrowIcon {...defaultIconDimen} color={"white"} />
-      </ActionIconWrapper>
+        <DownloadButtonComponent />
+      </React.Suspense>
       <VerticalDivider />
       <ActionIconWrapper
         style={{ marginLeft: "0.5rem" }}

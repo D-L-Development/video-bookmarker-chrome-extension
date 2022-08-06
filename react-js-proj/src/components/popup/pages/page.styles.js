@@ -50,8 +50,8 @@ export const ActionIconWrapper = styled.button`
   cursor: ${(props) => (props.enabled ? "pointer" : "")};
 
   & > * {
-    transition-delay: 100ms;
-    transition-property: fill;
+    transition-delay: ${(props) => !props.disableColorChangeDelay && "100ms"};
+    transition-property: ${(props) => !props.disableColorChangeDelay && "fill"};
   }
 
   &:first-of-type {
