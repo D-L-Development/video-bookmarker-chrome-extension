@@ -23,7 +23,7 @@ import MinusIcon from "../../../../../icons/bookmarks-icons/minus-icon/minus.ico
 import SpeedIcon from "../../../../../icons/bookmarks-icons/speed-icon/speed.icon";
 import PlusIcon from "../../../../../icons/bookmarks-icons/plus-icon/plus.icon";
 import {
-  SpeedActionIcon,
+  EdgeActionIcon,
   SpeedIconsGroup,
   SpinnerWrapper,
 } from "./bookmarks-controls.styles";
@@ -171,7 +171,7 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <SpeedIconsGroup>
-        <SpeedActionIcon
+        <EdgeActionIcon
           onClick={() => handleContentScriptIconClick(MSG.SLOW_DOWN)}
           enabled={!isIconLoading}
           title="Decrease by 0.10x"
@@ -180,11 +180,11 @@ const BookmarksControlsComponent = (props) => {
             {...smallerIconDimen}
             color={isIconLoading ? "grey" : "white"}
           />
-        </SpeedActionIcon>
-        <SpeedActionIcon enabled={false} title="Change playback speed">
+        </EdgeActionIcon>
+        <EdgeActionIcon enabled={false} title="Change playback speed">
           <SpeedIcon {...smallerIconDimen} color={"white"} />
-        </SpeedActionIcon>
-        <SpeedActionIcon
+        </EdgeActionIcon>
+        <EdgeActionIcon
           onClick={() => handleContentScriptIconClick(MSG.SPEED_UP)}
           enabled={!isIconLoading}
           title="Increase by 0.10x"
@@ -193,7 +193,7 @@ const BookmarksControlsComponent = (props) => {
             {...smallerIconDimen}
             color={isIconLoading ? "grey" : "white"}
           />
-        </SpeedActionIcon>
+        </EdgeActionIcon>
       </SpeedIconsGroup>
       {isIconLoading && (
         <SpinnerWrapper>

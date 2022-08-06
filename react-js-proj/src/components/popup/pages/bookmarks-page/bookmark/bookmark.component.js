@@ -117,8 +117,10 @@ const BookmarkComponent = ({
     <Styled.Bookmark isNested={isNested}>
       <Styled.BookmarkHeader isNested={isNested}>
         <Styled.BookmarkHeaderText>
-          <Styled.BookmarkTimestamp onClick={handleTimestampClick}>
-            {/* TODO: render a spinner here when loading */}
+          <Styled.BookmarkTimestamp
+            onClick={handleTimestampClick}
+            title={"Skip video to timestamp"}
+          >
             {timestampIsLoading ? (
               <SpinnerWrapper>
                 <SpinnerIcon width={"10px"} height={"10px"} color={"white"} />

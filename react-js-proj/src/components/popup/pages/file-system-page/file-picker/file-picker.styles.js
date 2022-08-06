@@ -20,7 +20,7 @@ export const FilePickerBackButton = styled.button`
   padding: 0.25rem;
   margin-left: 0.5rem;
   transition: background-color 150ms ease-in;
-  cursor: ${(props) => props.enabled && "pointer"};
+  cursor: ${(props) => (props.enabled ? "pointer" : "")};
 
   &:hover {
     background-color: ${(props) => props.enabled && bgHoverColor};

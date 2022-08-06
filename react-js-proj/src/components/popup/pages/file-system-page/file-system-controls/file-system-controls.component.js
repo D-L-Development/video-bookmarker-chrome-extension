@@ -18,6 +18,10 @@ import { VerticalDivider } from "../../../shared/divider.styles";
 import NewButtonComponent from "./new-button/new-button.component";
 import FilePickerComponent from "../file-picker/file-picker.component";
 import { ModalContext } from "../../../../../contexts/modal.context";
+import GridViewIcon from "../../../../../icons/file-system-icons/grid-view-icon/grid-view.icon";
+import ListViewIcon from "../../../../../icons/file-system-icons/list-view-icon/list-view.icon";
+import { ViewModeSwitch } from "./file-system-controls.styles";
+import { EdgeActionIcon } from "../../bookmarks-page/bookmarks-controls/bookmarks-controls.styles";
 
 const iconActionType = {
   DELETE: "delete",
@@ -34,6 +38,7 @@ const FileSystemControlsComponent = (props) => {
   const [showEditFileModal, setShowEditFileModal] = useState(false);
   const [showEditFolderModal, setShowEditFolderModal] = useState(false);
   const [showFilePicker, setShowFilePicker] = useState(false);
+  const [isGridView, setIsGridView] = useState(true);
 
   const handleClick = (e, iconType) => {
     e.stopPropagation();
@@ -162,6 +167,24 @@ const FileSystemControlsComponent = (props) => {
         />
       </ActionIconWrapper>
 
+      <ViewModeSwitch>
+        <EdgeActionIcon
+          enabled={true}
+          selected={isGridView}
+          onClick={(e) => !isGridView && setIsGridView(!isGridView)}
+          style={{ borderRight: "0.25px solid #a8a8a8" }}
+        >
+          <GridViewIcon width={"15px"} height={"15px"} color={"white"} />
+        </EdgeActionIcon>
+        <EdgeActionIcon
+          enabled={true}
+          selected={!isGridView}
+          onClick={(e) => isGridView && setIsGridView(!isGridView)}
+          style={{ borderLeft: "0.25px solid #a8a8a8" }}
+        >
+          <ListViewIcon width={"15px"} height={"15px"} color={"white"} />
+        </EdgeActionIcon>
+      </ViewModeSwitch>
       {showEditFileModal && (
         <FileModalComponent
           hideModal={() => setShowEditFileModal(false)}

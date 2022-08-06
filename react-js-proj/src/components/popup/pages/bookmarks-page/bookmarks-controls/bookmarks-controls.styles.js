@@ -8,19 +8,23 @@ export const SpeedIconsGroup = styled.div`
   border-radius: 0.2rem;
 `;
 
-export const SpeedActionIcon = styled(ActionIconWrapper)`
+export const EdgeActionIcon = styled(ActionIconWrapper)`
   &:first-of-type {
     margin: 0;
     border-radius: 0.2rem 0 0 0.2rem;
   }
 
-  &:nth-child(even) {
+  &:nth-child(even):not(:last-of-type) {
     border-radius: unset;
     background: #ffffff61;
   }
 
   &:last-of-type {
     border-radius: 0 0.2rem 0.2rem 0;
+  }
+
+  &&& {
+    background-color: ${(props) => props.selected && "rgba(255,255,255,0.5)"};
   }
 `;
 

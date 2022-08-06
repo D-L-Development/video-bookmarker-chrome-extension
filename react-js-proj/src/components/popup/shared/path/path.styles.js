@@ -28,7 +28,7 @@ export const BackArrowIconButton = styled.button`
   border-right: 1px solid grey;
   align-items: center;
   padding-inline: 0.3rem;
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  cursor: ${(props) => (props.disabled ? "" : "pointer")};
 `;
 
 export const FolderIconWrapper = styled.span`
