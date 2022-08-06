@@ -19,7 +19,6 @@ chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
     } else {
       session.togglePopupVisibility();
     }
-    sendResponse({ status: MSG.SUCCESS });
   } else {
     session
       .dispatch(action)

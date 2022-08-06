@@ -4,14 +4,6 @@ const TOGGLE_POPUP = "toggle popup";
 chrome.action.onClicked.addListener((tab) => {
   // prevent this from working on chrome://extensions page
   if (tab.url.indexOf("chrome://") === -1) {
-    chrome.tabs.sendMessage(
-      tab.id,
-      { type: TOGGLE_POPUP },
-      function (response) {
-        if (response.status === "success") {
-          console.log(`Message sent to tab ${tab.id}`);
-        }
-      }
-    );
+    chrome.tabs.sendMessage(tab.id, { type: TOGGLE_POPUP });
   }
 });
