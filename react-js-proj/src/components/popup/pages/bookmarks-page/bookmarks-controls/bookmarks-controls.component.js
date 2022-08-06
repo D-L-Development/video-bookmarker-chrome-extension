@@ -46,6 +46,15 @@ const BookmarksControlsComponent = (props) => {
   const { bookmarks, isLoading } = useContext(BookmarksContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
 
+  const showErrorMsgModal = (message) => {
+    setModalProps({
+      title: "Alert",
+      type: modalTypes.ALERT,
+      closeBtnText: "Dismiss",
+      message,
+    });
+    showModal();
+  };
   const handleDownloadIconClick = (e) => {};
   const handleCreateBookmarkIconClick = (e) => {
     if (isIconLoading) return;
@@ -54,7 +63,7 @@ const BookmarksControlsComponent = (props) => {
       setIsIconLoading(false);
       if (res.status !== MSG.SUCCESS) {
         // TODO: here you should ask the user if they are okay with adding bookmarks without a video
-        alert(res.message);
+        showErrorMsgModal(res.message);
       } else {
         showModal(modalNames.BOOKMARK, {
           timestamp: res.payload.timestamp,
@@ -91,11 +100,11 @@ const BookmarksControlsComponent = (props) => {
     setIsIconLoading(true);
     sendMessageToActiveTab({ type, payload }, (res) => {
       setIsIconLoading(false);
-      if (res.status !== MSG.SUCCESS) alert(res.message);
+      if (res.status !== MSG.SUCCESS) showErrorMsgModal(res.message);
     });
   };
   const handleCopyIconClick = () => {
-    if (!isLoading) {
+    if (!isLoading && Object.keys(bookmarks).length) {
       copyStringToClipboard(bookmarksToString(bookmarks));
       setModalProps({
         title: "Success!",
@@ -120,10 +129,14 @@ const BookmarksControlsComponent = (props) => {
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={handleCopyIconClick}
-        enabled={true}
+        enabled={Object.keys(bookmarks).length}
+        disabled={Object.keys(bookmarks).length === 0}
         title="Copy as Table"
       >
-        <CopyIcon {...defaultIconDimen} color={"white"} />
+        <CopyIcon
+          {...defaultIconDimen}
+          color={Object.keys(bookmarks).length ? "white" : "grey"}
+        />
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={handleDownloadIconClick}
