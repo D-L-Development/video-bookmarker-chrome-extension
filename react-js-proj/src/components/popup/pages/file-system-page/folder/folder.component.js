@@ -20,8 +20,10 @@ const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
       selected={selected}
       onClick={handleClick}
     >
-      <FolderIcon width={"3rem"} height={"3rem"} color={folder_c} />
-      <span>{name}</span>
+      <SharedStyles.DetailedItemIconWrapper>
+        <FolderIcon width={"3rem"} height={"3rem"} color={folder_c} />
+      </SharedStyles.DetailedItemIconWrapper>
+      <SharedStyles.DetailedItemName>{name}</SharedStyles.DetailedItemName>
     </SharedStyles.DetailedViewItem>
   );
 };

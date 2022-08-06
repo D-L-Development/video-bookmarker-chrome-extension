@@ -3,10 +3,16 @@ import PropTypes from "prop-types";
 import * as SharedStyles from "../shared/styles";
 import BookmarksIcon from "../../../../../icons/bookmarks-icon/bookmarks.icon";
 import { file_c } from "../../../../../constants/theme";
+import { formatDatePickerStamp } from "../../../../../contentScripts/utility";
 
-const FileComponent = ({ name, uuid, selected, handleClick, grid }) => {
+const FileComponent = ({ name, uuid, selected, handleClick, grid, date }) => {
   return grid ? (
-    <SharedStyles.Square id={uuid} selected={selected} onClick={handleClick}>
+    <SharedStyles.Square
+      id={uuid}
+      selected={selected}
+      onClick={handleClick}
+      title={`Created on ${formatDatePickerStamp(date)}`}
+    >
       <SharedStyles.StretchContainer>
         <BookmarksIcon width="100%" height="80%" color={file_c} />
         <SharedStyles.FileSystemItemText>
@@ -15,7 +21,19 @@ const FileComponent = ({ name, uuid, selected, handleClick, grid }) => {
       </SharedStyles.StretchContainer>
     </SharedStyles.Square>
   ) : (
-    <span>List item</span>
+    <SharedStyles.DetailedViewItem
+      id={uuid}
+      selected={selected}
+      onClick={handleClick}
+    >
+      <SharedStyles.DetailedItemIconWrapper>
+        <BookmarksIcon width={"3rem"} height={"3rem"} color={file_c} />
+      </SharedStyles.DetailedItemIconWrapper>
+      <SharedStyles.DetailedItemName>{name}</SharedStyles.DetailedItemName>
+      <SharedStyles.DetailedItemDate>
+        {formatDatePickerStamp(date)}
+      </SharedStyles.DetailedItemDate>
+    </SharedStyles.DetailedViewItem>
   );
 };
 

@@ -18,7 +18,7 @@ export const StyledPage = styled.div`
 export const PageContent = styled.div`
   flex-grow: 1;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overscroll-behavior: contain;
 
   &::-webkit-scrollbar {

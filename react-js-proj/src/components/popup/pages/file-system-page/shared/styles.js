@@ -84,12 +84,26 @@ export const DetailedViewItem = styled.div`
   align-items: center;
   cursor: pointer;
   transition: 0.1s;
+  border-bottom: 1px solid grey;
 
   background-color: ${(props) => props.selected && fsItemSelected_c};
-  outline: ${(props) =>
-    props.selected && `1px solid ${fsItemSelectedOutline_c};`};
 
   &:hover {
     background-color: ${(props) => !props.selected && fsItemHover_c};
   }
+`;
+
+export const DetailedItemName = styled.span`
+  margin-left: 0.5rem;
+`;
+export const DetailedItemIconWrapper = styled.span`
+  margin-left: 0.5rem;
+  display: flex;
+  padding-block: 0.2rem;
+`;
+
+export const DetailedItemDate = styled.span`
+  margin-left: auto;
+  margin-right: 2rem;
+  color: #666666;
 `;

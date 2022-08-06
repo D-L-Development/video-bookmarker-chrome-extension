@@ -148,6 +148,7 @@ const FileSystemPageComponent = ({
                   shouldShow(file.name) && (
                     <FileComponent
                       name={file.name}
+                      date={file.date}
                       uuid={file.uuid}
                       key={file.uuid}
                       selected={file.selected}
