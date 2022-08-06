@@ -4,10 +4,11 @@ import { FS_MARGIN_PERCENT } from "./shared/styles";
 
 export const FileSystemContent = styled(PageContent)`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: start;
   height: 90%;
-  align-content: start;
   padding-bottom: ${FS_MARGIN_PERCENT};
+  flex-direction: column;
+
+  ${(props) =>
+    props.grid &&
+    "flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: start;\n  align-content: start;"}
 `;

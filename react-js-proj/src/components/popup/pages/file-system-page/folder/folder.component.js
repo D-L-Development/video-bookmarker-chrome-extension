@@ -4,8 +4,8 @@ import * as SharedStyles from "../shared/styles";
 import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
 import { folder_c } from "../../../../../constants/theme";
 
-const FolderComponent = ({ name, uuid, selected, handleClick }) => {
-  return (
+const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
+  return grid ? (
     <SharedStyles.Square id={uuid} selected={selected} onClick={handleClick}>
       <SharedStyles.StretchContainer>
         <FolderIcon width="100%" height="90%" color={folder_c} />
@@ -14,6 +14,8 @@ const FolderComponent = ({ name, uuid, selected, handleClick }) => {
         </SharedStyles.FileSystemItemText>
       </SharedStyles.StretchContainer>
     </SharedStyles.Square>
+  ) : (
+    <span>Folder list</span>
   );
 };
 

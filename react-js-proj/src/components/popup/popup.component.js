@@ -22,6 +22,7 @@ export const SECOND = "second";
 const PopupComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [pageInfo, setPageInfo] = useState({ current: FIRST, uuid: null });
+  const [isGridView, setIsGridView] = useState(true);
   const containerRef = useRef(null);
 
   const handleCloseIconClick = (e) => {
@@ -54,7 +55,10 @@ const PopupComponent = () => {
         </Header>
 
         {pageInfo.current === FIRST ? (
-          <FileSystemControlsComponent />
+          <FileSystemControlsComponent
+            isGridView={isGridView}
+            setIsGridView={setIsGridView}
+          />
         ) : (
           <BookmarksControlsComponent />
         )}
@@ -75,6 +79,7 @@ const PopupComponent = () => {
           searchQuery={searchQuery}
           pageInfo={pageInfo}
           switchToBookmarksPage={renderBookmarksPage}
+          isGridView={isGridView}
         />
 
         <Footer>Web Video Bookmarker</Footer>

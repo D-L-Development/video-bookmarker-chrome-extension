@@ -29,7 +29,7 @@ const iconActionType = {
   EDIT: "edit",
 };
 
-const FileSystemControlsComponent = (props) => {
+const FileSystemControlsComponent = ({ isGridView, setIsGridView }) => {
   const fsDispatch = useContext(fsDispatchContext);
   const fs = useContext(FileSystemContext);
   const { setModalProps, showModal, hideMessageModal } =
@@ -38,7 +38,6 @@ const FileSystemControlsComponent = (props) => {
   const [showEditFileModal, setShowEditFileModal] = useState(false);
   const [showEditFolderModal, setShowEditFolderModal] = useState(false);
   const [showFilePicker, setShowFilePicker] = useState(false);
-  const [isGridView, setIsGridView] = useState(true);
 
   const handleClick = (e, iconType) => {
     e.stopPropagation();

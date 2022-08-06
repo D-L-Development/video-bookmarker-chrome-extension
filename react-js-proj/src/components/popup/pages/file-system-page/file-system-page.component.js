@@ -14,7 +14,11 @@ const itemType = {
   FILE: "file",
 };
 
-const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
+const FileSystemPageComponent = ({
+  searchQuery,
+  switchToBookmarksPage,
+  isGridView,
+}) => {
   const fs = useContext(FileSystemContext);
   const fsDispatch = useContext(fsDispatchContext);
   const lastSelectedId = useRef(null);
@@ -122,7 +126,7 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
       tabIndex="0"
       style={{ userSelect: "none", marginRight: "auto" }}
     >
-      <Styled.FileSystemContent className="FileSystemContent">
+      <Styled.FileSystemContent className="FileSystemContent" grid={isGridView}>
         {!fs.isLoading &&
           (fs.folders.length + fs.files.length ? (
             <>
@@ -135,6 +139,7 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
                       key={folder.uuid}
                       selected={folder.selected}
                       handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
+                      grid={isGridView}
                     />
                   )
               )}
@@ -147,6 +152,7 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
                       key={file.uuid}
                       selected={file.selected}
                       handleClick={(e) => handleItemClick(e, itemType.FILE)}
+                      grid={isGridView}
                     />
                   )
               )}
