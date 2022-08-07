@@ -64,7 +64,7 @@ const PopupComponent = () => {
             goBackToFileSystem={renderFileSystemPage}
           />
           <InputComponent
-            placeholder={`Search ${
+            placeholder={`Find ${
               pageInfo.current === FIRST ? "files" : "bookmarks"
             }...`}
             setQuery={setSearchQuery}

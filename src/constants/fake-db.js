@@ -11,7 +11,6 @@ export const fakeDB = {
     files: [],
     folders: [
       {
-        date: null,
         name: "Folder B",
         uuid: "199c9e7e8e434319-8e6f",
       },
@@ -44,12 +43,10 @@ export const fakeDB = {
     files: [],
     folders: [
       {
-        date: null,
         name: "Folder 3",
         uuid: "99c8ad690ec9482c-5e73",
       },
       {
-        date: null,
         name: "Folder 4",
         uuid: "cbc94d2b78077bbf-d119",
       },
@@ -79,17 +76,14 @@ export const fakeDB = {
     files: [],
     folders: [
       {
-        date: null,
         name: "B2",
         uuid: "41146f493a84c111-7de4",
       },
       {
-        date: null,
         name: "B1",
         uuid: "87c10f7ff6a576bb-da40",
       },
       {
-        date: null,
         name: "B3",
         uuid: "b7ee5eb17cb12d48-6415",
       },
@@ -150,7 +144,6 @@ export const fakeDB = {
     ],
     folders: [
       {
-        date: null,
         name: "New folder",
         uuid: "0ea3d7d4a0acf30b-75f0",
       },
@@ -174,7 +167,6 @@ export const fakeDB = {
     ],
     folders: [
       {
-        date: null,
         name: "Two",
         uuid: "783bbac588b09173-dd62",
       },
@@ -211,27 +203,22 @@ export const fakeDB = {
     ],
     folders: [
       {
-        date: null,
         name: "Data Bases",
         uuid: "edecc6efe7cbf24f-2022",
       },
       {
-        date: null,
         name: "Technical Writi",
         uuid: "0927cf468f7ce2a6-0827",
       },
       {
-        date: null,
         name: "Physics II",
         uuid: "fc7260977ad5534e-74b3",
       },
       {
-        date: null,
         name: "Programming lan",
         uuid: "05901671f17a8ad4-c59e",
       },
       {
-        date: null,
         name: "Another one",
         uuid: "e9d0f2a81fd1d108-40be",
       },
@@ -373,152 +360,122 @@ export const fakeDB = {
     ],
     folders: [
       {
-        date: null,
         name: "A1",
         uuid: "4f180afb898606e6-d383",
       },
       {
-        date: null,
         name: "A2",
         uuid: "d5524c594f5e3531-1782",
       },
       {
-        date: null,
         name: "A3",
         uuid: "b181276dc7a5b061-1c60",
       },
       {
-        date: null,
         name: "A4",
         uuid: "cf830304f744a989-967c",
       },
       {
-        date: null,
         name: "A5",
         uuid: "f39666a8bed208e6-3213",
       },
       {
-        date: null,
         name: "A6",
         uuid: "c4effd4e6741333f-ec4f",
       },
       {
-        date: null,
         name: "A7",
         uuid: "716b53d73a90f75c-87bb",
       },
       {
-        date: null,
         name: "A8",
         uuid: "ab00bb70e7c2717d-6df9",
       },
       {
-        date: null,
         name: "A9",
         uuid: "ce5195587c3dbcaa-a210",
       },
       {
-        date: null,
         name: "A10",
         uuid: "2b12d4f56484784c-dc6a",
       },
       {
-        date: null,
         name: "A11",
         uuid: "1d096775935ba2d3-91a1",
       },
       {
-        date: null,
         name: "A12",
         uuid: "26323d30da738999-0d57",
       },
       {
-        date: null,
         name: "A13",
         uuid: "68daa6e7ae649667-34ed",
       },
       {
-        date: null,
         name: "A14",
         uuid: "9b1c822cc80fbaea-3303",
       },
       {
-        date: null,
         name: "A15",
         uuid: "1dcf9347c7c4ce4b-230c",
       },
       {
-        date: null,
         name: "A16",
         uuid: "9dce9da17014176a-779a",
       },
       {
-        date: null,
         name: "A17",
         uuid: "a66b991dcb531e92-8b6b",
       },
       {
-        date: null,
         name: "A18",
         uuid: "bf4b04db98eae962-d778",
       },
       {
-        date: null,
         name: "A19",
         uuid: "c35ea110028a8098-1dff",
       },
       {
-        date: null,
         name: "A20",
         uuid: "18e7b1a7c3e6b303-fc05",
       },
       {
-        date: null,
         name: "A21",
         uuid: "18a833086f203812-c69d",
       },
       {
-        date: null,
         name: "A22",
         uuid: "876cd2c3e8702fdf-8a3e",
       },
       {
-        date: null,
         name: "A23",
         uuid: "697f6dc31b3d4a0b-76f1",
       },
       {
-        date: null,
         name: "A24",
         uuid: "d4677c92a81a2b9e-52f7",
       },
       {
-        date: null,
         name: "A25",
         uuid: "16641e5660f89e85-b289",
       },
       {
-        date: null,
         name: "A26",
         uuid: "0c7bfb194dfe45d5-4787",
       },
       {
-        date: null,
         name: "A27",
         uuid: "89d0e552fed91de6-2027",
       },
       {
-        date: null,
         name: "A28",
         uuid: "05a4725e15610093-8846",
       },
       {
-        date: null,
         name: "A29",
         uuid: "6640311e32c723a0-95ef",
       },
       {
-        date: null,
         name: "A30",
         uuid: "9502d53d9033d3ca-9074",
       },

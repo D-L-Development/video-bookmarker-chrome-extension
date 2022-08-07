@@ -52,6 +52,8 @@ export const SettingsProvider = (props) => {
 
   const saveSettingsToStorage = async (settings) => {
     try {
+      // don't save the loading state to storage
+      delete settings.isLoading;
       await chrome.storage.sync.set({ [SETTINGS]: settings });
       checkChromeLastError();
     } catch (e) {

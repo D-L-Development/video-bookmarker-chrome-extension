@@ -1,5 +1,4 @@
 import { fsActions } from "../reducers/file-system.reducer";
-import { FS_Item } from "../classes/file.class";
 import { guid } from "../contentScripts/utility";
 import { fakeDB } from "../constants/fake-db";
 
@@ -96,7 +95,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
 
     try {
       const storage = await chrome.storage.sync.get(current.uuid);
-      const folder = new FS_Item(guid(), payload.name);
+      const folder = { uuid: guid(), name: payload.name };
       storage[current.uuid].folders.push(folder);
       storage[folder.uuid] = {
         folders: [],
@@ -167,7 +166,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
     const current = fileSystemState.history.at(-1);
     try {
       const storage = await chrome.storage.sync.get(current.uuid);
-      const file = new FS_Item(guid(), payload.name, payload.date);
+      const file = { uuid: guid(), ...payload };
       storage[current.uuid].files.push(file);
       storage[file.uuid] = {
         bookmarks: {},
