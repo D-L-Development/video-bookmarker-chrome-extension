@@ -38,6 +38,8 @@ export class Session {
           return this.#changeSpeedBy(Session.SPEED_AMOUNT);
         case MSG.SLOW_DOWN:
           return this.#changeSpeedBy(Session.SPEED_AMOUNT * -1);
+        case MSG.RESET_SPEED:
+          return this.#resetSpeed();
         default:
           throw new Error(`Action type "${action.type}" is unhandled!`);
       }
@@ -178,5 +180,9 @@ export class Session {
 
   #changeSpeedBy(SPEED_AMOUNT) {
     this.video.playbackRate += SPEED_AMOUNT;
+  }
+
+  #resetSpeed() {
+    this.video.playbackRate = 1;
   }
 }

@@ -11,6 +11,7 @@ export const MSG = {
   REWIND: "rewind",
   SPEED_UP: "speed up",
   SLOW_DOWN: "slow down",
+  RESET_SPEED: "reset speed",
 };
 
 export class Bookmark {

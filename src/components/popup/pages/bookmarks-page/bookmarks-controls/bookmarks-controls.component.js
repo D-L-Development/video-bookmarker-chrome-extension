@@ -204,8 +204,15 @@ const BookmarksControlsComponent = (props) => {
             color={isIconLoading ? "grey" : "white"}
           />
         </EdgeActionIcon>
-        <EdgeActionIcon enabled={false} title="Change playback speed">
-          <SpeedIcon {...smallerIconDimen} color={"white"} />
+        <EdgeActionIcon
+          enabled={!isIconLoading}
+          title="Reset playback speed"
+          onClick={() => handleContentScriptIconClick(MSG.RESET_SPEED)}
+        >
+          <SpeedIcon
+            {...smallerIconDimen}
+            color={isIconLoading ? "grey" : "white"}
+          />
         </EdgeActionIcon>
         <EdgeActionIcon
           onClick={() => handleContentScriptIconClick(MSG.SPEED_UP)}
