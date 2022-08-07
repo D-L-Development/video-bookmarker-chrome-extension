@@ -253,50 +253,62 @@ export const fakeDB = {
       "00:00:23": {
         text: "Please page attention",
         title: "First note",
+        isNested: false,
       },
       "00:00:36": {
         text: "Please make sure you understand",
         title: "Another note",
+        isNested: false,
       },
       "00:00:37": {
         text: "Again don't forget about this",
         title: "and this one",
+        isNested: false,
       },
       "00:00:49": {
         text: "Please make sure you know what you're talking about",
         title: "Anothe rone for ",
+        isNested: false,
       },
       "00:00:55": {
         text: "Please make sure",
         title: "One more 2",
+        isNested: false,
       },
       "00:01:02": {
         text: "randome workds",
         title: "try again",
+        isNested: false,
       },
       "00:01:09": {
         text: "1 ",
         title: "wha thappesn",
+        isNested: false,
       },
       "00:01:15": {
         text: "you've got to undersnda",
         title: "anothe rone",
+        isNested: false,
       },
       "00:01:30": {
         text: "Pleas",
         title: "Than kyou",
+        isNested: false,
       },
       "00:01:37": {
         text: "Just for you",
         title: "one omre",
+        isNested: false,
       },
       "00:01:45": {
         text: "To me pelase and I liek that soo much",
         title: "keep listening",
+        isNested: false,
       },
       "00:01:58": {
         text: "More for you",
         title: "and more",
+        isNested: false,
       },
     },
   },

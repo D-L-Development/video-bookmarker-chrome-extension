@@ -36,7 +36,7 @@ export const BookmarksContextProvider = ({ children }) => {
           checkChromeLastError();
           if (storage[payload.uuid]) {
             setState({
-              bookmarks: storage[payload.uuid].bookmarks,
+              bookmarks: storage[payload.uuid],
               isLoading: false,
             });
           } else {
