@@ -25,11 +25,7 @@ const PopupComponent = () => {
   const containerRef = useRef(null);
 
   const handleCloseIconClick = (e) => {
-    sendMessageToActiveTab({ type: MSG.TOGGLE_POPUP }, (response) => {
-      if (response.status !== MSG.SUCCESS) {
-        alert("Failed to close side menu");
-      }
-    });
+    sendMessageToActiveTab({ type: MSG.TOGGLE_POPUP });
   };
 
   const renderBookmarksPage = (uuid) => {
