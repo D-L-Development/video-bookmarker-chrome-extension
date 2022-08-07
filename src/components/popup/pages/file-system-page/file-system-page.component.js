@@ -2,13 +2,13 @@ import React, { useContext, useRef } from "react";
 import { NoItemsSign, StyledPage } from "../page.styles";
 import * as Styled from "./file-system-page.styles";
 import FolderComponent from "./folder/folder.component";
-import FileComponent from "./file/file.component";
 import {
   FileSystemContext,
   fsDispatchContext,
 } from "../../../../contexts/file-system.context";
 import { fsActions } from "../../../../reducers/file-system.reducer";
 import { SettingsContext } from "../../../../contexts/settings.context";
+import FileComponent from "./file/file.component";
 
 const itemType = {
   FOLDER: "folder",
@@ -109,6 +109,45 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
     }
   };
 
+  const getFsElements = () => {
+    const elements = [];
+
+    fs.folders.forEach((folder) => {
+      shouldShow(folder.name) &&
+        elements.push(
+          <FolderComponent
+            name={folder.name}
+            uuid={folder.uuid}
+            key={folder.uuid}
+            selected={folder.selected}
+            handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
+            grid={settings.isGridView}
+          />
+        );
+    });
+
+    fs.files.forEach((file) => {
+      shouldShow(file.name) &&
+        elements.push(
+          <FileComponent
+            name={file.name}
+            uuid={file.uuid}
+            key={file.uuid}
+            selected={file.selected}
+            date={file.date}
+            handleClick={(e) => handleItemClick(e, itemType.FILE)}
+            grid={settings.isGridView}
+          />
+        );
+    });
+
+    return elements.length ? (
+      elements
+    ) : (
+      <NoItemsSign>No files or folders found</NoItemsSign>
+    );
+  };
+
   return (
     <StyledPage
       className="StyledPage"
@@ -130,41 +169,9 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
           grid={settings.isGridView}
         >
           {!fs.isLoading && fs.folders.length + fs.files.length ? (
-            <>
-              {fs.folders.map(
-                (folder) =>
-                  shouldShow(folder.name) && (
-                    <FolderComponent
-                      name={folder.name}
-                      uuid={folder.uuid}
-                      key={folder.uuid}
-                      selected={folder.selected}
-                      handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
-                      grid={settings.isGridView}
-                    />
-                  )
-              )}
-              {fs.files.map(
-                (file) =>
-                  shouldShow(file.name) && (
-                    <FileComponent
-                      name={file.name}
-                      date={file.date}
-                      uuid={file.uuid}
-                      key={file.uuid}
-                      selected={file.selected}
-                      handleClick={(e) => handleItemClick(e, itemType.FILE)}
-                      grid={settings.isGridView}
-                    />
-                  )
-              )}
-            </>
+            getFsElements()
           ) : (
-            <NoItemsSign>
-              {searchQuery === ""
-                ? "Click the 'new' button to create a folder"
-                : "No files or folders found"}
-            </NoItemsSign>
+            <NoItemsSign>Click the 'new' button to create a folder</NoItemsSign>
           )}
         </Styled.FileSystemContent>
       ) : null}
