@@ -226,7 +226,6 @@ export const fakeDB = {
   },
   SETTINGS: {
     isGridView: true,
-    isLoading: false,
   },
   "a5f5bcb04aa9a9b3-dfb8": {
     bookmarks: {},
@@ -272,7 +271,7 @@ export const fakeDB = {
         title: "One more 2",
       },
       "00:01:02": {
-        text: "\nrandome workds",
+        text: "randome workds",
         title: "try again",
       },
       "00:01:09": {
@@ -280,11 +279,11 @@ export const fakeDB = {
         title: "wha thappesn",
       },
       "00:01:15": {
-        text: "\n\nyou've got to undersnda",
+        text: "you've got to undersnda",
         title: "anothe rone",
       },
       "00:01:30": {
-        text: "\nPleas",
+        text: "Pleas",
         title: "Than kyou",
       },
       "00:01:37": {
@@ -300,7 +299,6 @@ export const fakeDB = {
         title: "and more",
       },
     },
-    isLoading: false,
   },
   "b7ee5eb17cb12d48-6415": {
     files: [],

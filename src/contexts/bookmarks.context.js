@@ -87,7 +87,9 @@ export const BookmarksContextProvider = ({ children }) => {
   };
 
   const updateStorageThenState = async (newState) => {
-    await chrome.storage.sync.set({ [fileIdRef.current.uuid]: newState });
+    await chrome.storage.sync.set({
+      [fileIdRef.current.uuid]: newState.bookmarks,
+    });
     checkChromeLastError();
     setState(newState);
   };
