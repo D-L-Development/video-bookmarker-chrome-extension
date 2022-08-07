@@ -226,7 +226,7 @@ const BookmarksControlsComponent = (props) => {
         </EdgeActionIcon>
       </SpeedIconsGroup>
       {isIconLoading && (
-        <SpinnerWrapper>
+        <SpinnerWrapper style={{ marginRight: "0.5rem" }}>
           <SpinnerIcon width={"24px"} height={"24px"} color={"white"} />
         </SpinnerWrapper>
       )}

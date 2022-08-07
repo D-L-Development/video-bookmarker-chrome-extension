@@ -39,7 +39,6 @@ export const fadeIn = keyframes`
 
 export const SpinnerWrapper = styled.div`
   margin-left: auto;
-  margin-right: 1rem;
   opacity: 0;
   animation-name: ${fadeIn};
   animation-duration: 100ms;
