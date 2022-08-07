@@ -42,24 +42,6 @@ const NewButtonComponent = (props) => {
       default:
         break;
     }
-
-    // setModalProps({
-    //   onClose: () => {
-    //     console.log("Cancel dude");
-    //     hide();
-    //   },
-    //   onSubmit: () => {
-    //     console.log("Submit dude");
-    //     hide();
-    //   },
-    //   title: "Simple yes, or no question",
-    //   type: modalTypes.FORM,
-    //   message: "Choose what to do!",
-    //   closeBtnText: "No",
-    //   submitBtnText: "Yes",
-    // });
-    //
-    // show();
   };
 
   return (

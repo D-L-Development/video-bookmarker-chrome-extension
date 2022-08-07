@@ -37,7 +37,6 @@ export const SettingsProvider = (props) => {
   }, []);
 
   const dispatch = async (action) => {
-    console.log(action);
     switch (action.type) {
       case settingsActions.TOGGLE_VIEW:
         const newState = {

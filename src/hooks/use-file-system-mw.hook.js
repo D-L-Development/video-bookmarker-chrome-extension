@@ -1,5 +1,5 @@
 import { fsActions } from "../reducers/file-system.reducer";
-import { guid } from "../contentScripts/utility";
+import { checkChromeLastError, guid } from "../contentScripts/utility";
 import { fakeDB } from "../constants/fake-db";
 
 const MODE = "dev";
@@ -112,9 +112,7 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
   const initStateAndStorage = async () => {
     try {
       const storage = await chrome.storage.sync.get(ROOT);
-      if (chrome.runtime.lastError) {
-        console.log(chrome.runtime.lastError);
-      }
+      checkChromeLastError();
       // if not found, use the default value and save it to chrome.storage
       if (storage[ROOT]) {
         // the storage doesn't contain the selected key, so we add it

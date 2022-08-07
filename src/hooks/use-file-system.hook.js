@@ -39,13 +39,5 @@ export const useFileSystemHook = () => {
     asyncFileSystemDispatch({ type: fsActions.INIT });
   }, []);
 
-  /**
-   * Updates the current folder's key in chrome.storage when there's an update to the state
-   */
-  useEffect(() => {
-    // console.log("STATE");
-    // console.log(fileSystemState && fileSystemState);
-  }, [fileSystemState]);
-
   return [fileSystemState, asyncFileSystemDispatch];
 };

@@ -29,7 +29,6 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
       const bookmarkComponents = [];
       for (let key in bookmarks) {
         const { isNested, title, text } = bookmarks[key];
-        console.log(bookmarks[key]);
         shouldShow(title, text) &&
           bookmarkComponents.push(
             <BookmarkComponent

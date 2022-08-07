@@ -23,6 +23,7 @@ import { ROOT } from "../../../../../hooks/use-file-system-mw.hook";
 import LeftArrowIcon from "../../../../../icons/left-arrow-icon/left-arrow-icon";
 import { fsDispatchContext } from "../../../../../contexts/file-system.context";
 import { fsActions } from "../../../../../reducers/file-system.reducer";
+import { checkChromeLastError } from "../../../../../contentScripts/utility";
 
 const FilePickerComponent = ({ onClose, selections, source }) => {
   const [state, setState] = useState({
@@ -38,9 +39,7 @@ const FilePickerComponent = ({ onClose, selections, source }) => {
     const fetchData = async () => {
       try {
         const storage = await chrome.storage.sync.get(ROOT);
-        if (chrome.runtime.lastError) {
-          console.log(chrome.runtime.lastError);
-        }
+        checkChromeLastError();
         if (storage[ROOT]) {
           const { folders } = storage[ROOT];
           setState({ ...state, folders });
@@ -130,7 +129,6 @@ const FilePickerComponent = ({ onClose, selections, source }) => {
   const renderFolders = () => {
     const folders = [];
     state.folders.forEach((folder) => {
-      console.log(selections);
       if (!selections.folderIds.hasOwnProperty(folder.uuid)) {
         folders.push(
           <Rectangle
