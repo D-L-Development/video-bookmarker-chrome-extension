@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import * as SharedStyles from "../shared/styles";
 import BookmarksIcon from "../../../../../icons/bookmarks-icon/bookmarks.icon";
@@ -6,6 +6,7 @@ import { file_c } from "../../../../../constants/theme";
 import { formatDatePickerStamp } from "../../../../../contentScripts/utility";
 
 const FileComponent = ({ name, uuid, selected, handleClick, grid, date }) => {
+  console.log("RERENDER FILE", uuid);
   return grid ? (
     <SharedStyles.Square
       id={uuid}
@@ -42,4 +43,4 @@ FileComponent.propTypes = {
   grid: PropTypes.bool.isRequired,
 };
 
-export default FileComponent;
+export default memo(FileComponent);

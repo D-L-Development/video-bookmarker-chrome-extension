@@ -1,10 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import * as SharedStyles from "../shared/styles";
 import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
 import { folder_c } from "../../../../../constants/theme";
 
 const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
+  console.log("RERENDER FOLDER", uuid);
   return grid ? (
     <SharedStyles.Square id={uuid} selected={selected} onClick={handleClick}>
       <SharedStyles.StretchContainer>
@@ -34,4 +35,4 @@ FolderComponent.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
 
-export default FolderComponent;
+export default memo(FolderComponent);

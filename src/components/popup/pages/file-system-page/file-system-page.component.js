@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useCallback, useContext, useRef } from "react";
 import { NoItemsSign, StyledPage } from "../page.styles";
 import * as Styled from "./file-system-page.styles";
 import FolderComponent from "./folder/folder.component";
@@ -82,11 +82,13 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
     }
   };
 
+  const handleSelectMemo = useCallback(handleSelection, [fs]);
+
   const handleItemClick = (e, type) => {
     e.stopPropagation();
     switch (e.detail) {
       case 1:
-        handleSelection(e);
+        handleSelectMemo(e);
         break;
       case 2:
         if (type === itemType.FOLDER) {
@@ -109,6 +111,17 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
     }
   };
 
+  // To prevent creating a new callback listener every rerender
+  const handleFolderClick = useCallback(
+    (e) => handleItemClick(e, itemType.FOLDER),
+    []
+  );
+  // To prevent creating a new callback listener every rerender
+  const handleFileClick = useCallback(
+    (e) => handleItemClick(e, itemType.FILE),
+    []
+  );
+
   const getFsElements = () => {
     const elements = [];
 
@@ -120,7 +133,7 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
             uuid={folder.uuid}
             key={folder.uuid}
             selected={folder.selected}
-            handleClick={(e) => handleItemClick(e, itemType.FOLDER)}
+            handleClick={handleFolderClick}
             grid={settings.isGridView}
           />
         );
@@ -135,7 +148,7 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
             key={file.uuid}
             selected={file.selected}
             date={file.date}
-            handleClick={(e) => handleItemClick(e, itemType.FILE)}
+            handleClick={handleFileClick}
             grid={settings.isGridView}
           />
         );
