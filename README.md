@@ -22,7 +22,7 @@ After cloning the repository, follow the steps below to get the extension workin
 
 ### Build the extension
 
-If you want a production version of the extension, run the command:`npm run build` otherwise, run the
+If you want a production version of the extension, run the command: `npm run build` otherwise, run the
 command: `npm run dev`
 to get a development version, which has hot reloading enabled
 
