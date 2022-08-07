@@ -161,7 +161,9 @@ const FileSystemPageComponent = ({ searchQuery, switchToBookmarksPage }) => {
             </>
           ) : (
             <NoItemsSign>
-              Create the "new" button to create a folder
+              {searchQuery === ""
+                ? "Click the 'new' button to create a folder"
+                : "No files or folders found"}
             </NoItemsSign>
           )}
         </Styled.FileSystemContent>

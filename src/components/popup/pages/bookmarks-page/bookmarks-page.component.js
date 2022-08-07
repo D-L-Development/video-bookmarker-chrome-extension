@@ -29,6 +29,7 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
       const bookmarkComponents = [];
       for (let key in bookmarks) {
         const { isNested, title, text } = bookmarks[key];
+        console.log(bookmarks[key]);
         shouldShow(title, text) &&
           bookmarkComponents.push(
             <BookmarkComponent
@@ -44,7 +45,11 @@ const BookmarksPageComponent = ({ searchQuery, fileUuid }) => {
       return bookmarkComponents.length ? (
         bookmarkComponents
       ) : (
-        <NoItemsSign>Create a bookmark from the menu above</NoItemsSign>
+        <NoItemsSign>
+          {searchQuery === ""
+            ? "Create a bookmark from the menu above"
+            : "No bookmarks found"}
+        </NoItemsSign>
       );
     }
   };
