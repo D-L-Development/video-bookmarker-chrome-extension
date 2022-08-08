@@ -15,7 +15,7 @@ export const Header = styled.header`
   height: 2rem;
   display: flex;
   align-items: center;
-  background-color: ${primary_c};
+  background-color: ${({ theme }) => theme.primary_c};
 `;
 
 export const StyledMainHeader = styled.h1`

@@ -28,8 +28,8 @@ export const CustomThemeProvider = ({ children }) => {
   }, []);
 
   const changeTheme = async (newTheme) => {
+    if (newTheme === state.theme) return;
     if (THEMES.hasOwnProperty(newTheme)) {
-      setState({ ...state, isLoading: true });
       await chrome.storage.sync.set({ [THEME_KEY]: newTheme });
       setState({ theme: newTheme, isLoading: false });
     } else {
@@ -38,14 +38,14 @@ export const CustomThemeProvider = ({ children }) => {
   };
 
   return (
-    <ThemeProvider theme={defaultPalettes[state.theme]}>
-      <ChangeThemeContext.Provider value={changeTheme}>
+    <ChangeThemeContext.Provider value={changeTheme}>
+      <ThemeProvider theme={defaultPalettes[state.theme]}>
         {state.isLoading ? (
           <SpinnerIcon width={"50px"} height={"50px"} color={"white"} />
         ) : (
           children
         )}
-      </ChangeThemeContext.Provider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </ChangeThemeContext.Provider>
   );
 };

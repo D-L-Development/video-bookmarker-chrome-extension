@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import CloseIcon from "../../icons/close-icon/close.icon";
 import { MSG, sendMessageToActiveTab } from "../../contentScripts/utility";
 import {
@@ -15,6 +15,8 @@ import { PageHeader } from "./view-pager/view-pager.styles";
 import PathComponent from "./shared/path/path.component";
 import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
+import { ChangeThemeContext } from "../../contexts/theme.context";
+import { THEMES } from "../../constants/default-palettes";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -23,6 +25,15 @@ const PopupComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [pageInfo, setPageInfo] = useState({ current: FIRST, uuid: null });
   const containerRef = useRef(null);
+  // TODO: remove this stuff
+  const [checked, setChecked] = useState(false);
+  const changeTheme = useContext(ChangeThemeContext);
+
+  useEffect(() => {
+    changeTheme(checked ? THEMES.DARK : THEMES.LIGHT);
+  }, [checked]);
+
+  // TODO: until here
 
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ type: MSG.TOGGLE_POPUP });
@@ -43,7 +54,17 @@ const PopupComponent = () => {
       {/* Context provider to detect clicks outside of a context menu */}
       <OutsideContext.Provider value={containerRef}>
         <Header>
-          <StyledMainHeader></StyledMainHeader>
+          <StyledMainHeader>
+            {/* TODO: remove this checkbox */}
+            <input
+              type={"checkbox"}
+              checked={checked}
+              onChange={() => {
+                setChecked(!checked);
+              }}
+            />
+          </StyledMainHeader>
+
           <CloseIconWrapper onClick={handleCloseIconClick}>
             <CloseIcon width="24px" height="24px" color="white" />
           </CloseIconWrapper>
