@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import SpinnerIcon from "../icons/shared-icons/spinner-icon/spinner.icon";
 import { defaultPalettes, THEMES } from "../constants/default-palettes";
 
 const THEME_KEY = "THEME";
 
+export const ChangeThemeContext = createContext(null);
 export const CustomThemeProvider = ({ children }) => {
   const [state, setState] = useState({ isLoading: true, theme: THEMES.LIGHT });
 
@@ -26,13 +27,25 @@ export const CustomThemeProvider = ({ children }) => {
       });
   }, []);
 
+  const changeTheme = async (newTheme) => {
+    if (THEMES.hasOwnProperty(newTheme)) {
+      setState({ ...state, isLoading: true });
+      await chrome.storage.sync.set({ [THEME_KEY]: newTheme });
+      setState({ theme: newTheme, isLoading: false });
+    } else {
+      throw new Error(`Failed to change theme to ${newTheme}`);
+    }
+  };
+
   return (
     <ThemeProvider theme={defaultPalettes[state.theme]}>
-      {state.isLoading ? (
-        <SpinnerIcon width={"50px"} height={"50px"} color={"white"} />
-      ) : (
-        children
-      )}
+      <ChangeThemeContext.Provider value={changeTheme}>
+        {state.isLoading ? (
+          <SpinnerIcon width={"50px"} height={"50px"} color={"white"} />
+        ) : (
+          children
+        )}
+      </ChangeThemeContext.Provider>
     </ThemeProvider>
   );
 };
