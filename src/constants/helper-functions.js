@@ -1,3 +1,9 @@
+/**
+ * Returns CSS color oneOf['black', 'white'] based on the given rgb bg color
+ *
+ * @param rgb
+ * @returns {string}
+ */
 export const getTextColor = (rgb) => {
   rgb = rgb.replace(/[^\d,]/g, "").split(",");
   const brightness = Math.round(

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import CloseIcon from "../../icons/close-icon/close.icon";
 import { MSG, sendMessageToActiveTab } from "../../contentScripts/utility";
 import {
@@ -17,6 +17,7 @@ import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
 import { ChangeThemeContext } from "../../contexts/theme.context";
 import { THEMES } from "../../constants/default-palettes";
+import { useTheme } from "styled-components";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -25,14 +26,10 @@ const PopupComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [pageInfo, setPageInfo] = useState({ current: FIRST, uuid: null });
   const containerRef = useRef(null);
+  const theme = useTheme();
   // TODO: remove this stuff
-  const [checked, setChecked] = useState(false);
+  const [isDark, setIsDark] = useState(theme.themeName === THEMES.DARK);
   const changeTheme = useContext(ChangeThemeContext);
-
-  useEffect(() => {
-    changeTheme(checked ? THEMES.DARK : THEMES.LIGHT);
-  }, [checked]);
-
   // TODO: until here
 
   const handleCloseIconClick = (e) => {
@@ -58,9 +55,10 @@ const PopupComponent = () => {
             {/* TODO: remove this checkbox */}
             <input
               type={"checkbox"}
-              checked={checked}
+              checked={isDark}
               onChange={() => {
-                setChecked(!checked);
+                setIsDark(!isDark);
+                changeTheme(!isDark ? THEMES.DARK : THEMES.LIGHT);
               }}
             />
           </StyledMainHeader>
