@@ -23,6 +23,7 @@ import CogIcon from "../../icons/cog-icon/cog.icon";
 
 export const FIRST = "first";
 export const SECOND = "second";
+const OPTIONS_PAGE_URL = chrome.runtime.getURL("./options.html");
 
 const PopupComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,6 +37,10 @@ const PopupComponent = () => {
 
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ type: MSG.TOGGLE_POPUP });
+  };
+
+  const handleCogIconClick = (e) => {
+    window.open(OPTIONS_PAGE_URL, "_blank");
   };
 
   const renderBookmarksPage = (uuid) => {
@@ -63,7 +68,10 @@ const PopupComponent = () => {
             }}
           />
           <PopupIconGroup>
-            <SettingsIconWrapper title="Open settings">
+            <SettingsIconWrapper
+              onClick={handleCogIconClick}
+              title="Open settings"
+            >
               <CogIcon width={"20px"} height={"20px"} color={"white"} />
             </SettingsIconWrapper>
 
