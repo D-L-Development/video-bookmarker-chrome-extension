@@ -5,7 +5,8 @@ import {
   CloseIconWrapper,
   Footer,
   Header,
-  StyledMainHeader,
+  PopupIconGroup,
+  SettingsIconWrapper,
   StyledPopup,
 } from "./popup.styles";
 import ViewPagerComponent from "./view-pager/view-pager.component";
@@ -18,6 +19,7 @@ import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-control
 import { ChangeThemeContext } from "../../contexts/theme.context";
 import { THEMES } from "../../constants/default-palettes";
 import { useTheme } from "styled-components";
+import CogIcon from "../../icons/cog-icon/cog.icon";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -51,21 +53,24 @@ const PopupComponent = () => {
       {/* Context provider to detect clicks outside of a context menu */}
       <OutsideContext.Provider value={containerRef}>
         <Header>
-          <StyledMainHeader>
-            {/* TODO: remove this checkbox */}
-            <input
-              type={"checkbox"}
-              checked={isDark}
-              onChange={() => {
-                setIsDark(!isDark);
-                changeTheme(!isDark ? THEMES.DARK : THEMES.LIGHT);
-              }}
-            />
-          </StyledMainHeader>
+          {/* TODO: remove this checkbox */}
+          <input
+            type={"checkbox"}
+            checked={isDark}
+            onChange={() => {
+              setIsDark(!isDark);
+              changeTheme(!isDark ? THEMES.DARK : THEMES.LIGHT);
+            }}
+          />
+          <PopupIconGroup>
+            <SettingsIconWrapper title="Open settings">
+              <CogIcon width={"20px"} height={"20px"} color={"white"} />
+            </SettingsIconWrapper>
 
-          <CloseIconWrapper onClick={handleCloseIconClick}>
-            <CloseIcon width="24px" height="24px" color="white" />
-          </CloseIconWrapper>
+            <CloseIconWrapper onClick={handleCloseIconClick} title="Hide menu">
+              <CloseIcon width="24px" height="24px" color="white" />
+            </CloseIconWrapper>
+          </PopupIconGroup>
         </Header>
 
         {pageInfo.current === FIRST ? (

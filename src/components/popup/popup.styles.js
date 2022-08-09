@@ -17,17 +17,34 @@ export const Header = styled.header`
   background-color: ${({ theme }) => theme.primary_c};
 `;
 
-export const StyledMainHeader = styled.h1`
-  width: 100%;
-  text-align: center;
-  color: white;
+export const PopupIconGroup = styled.div`
+  margin-left: auto;
+  display: flex;
+  height: 100%;
 `;
 
 export const CloseIconWrapper = styled.div`
-  position: absolute;
-  right: 0.2rem;
-  top: 0.2rem;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 150ms;
+
+  &:hover {
+    background-color: red;
+  }
+`;
+
+export const SettingsIconWrapper = styled(CloseIconWrapper)`
+  margin-right: 0.2rem;
+
+  &:hover {
+    background-color: transparent;
+
+    & > * {
+      fill: lightgrey;
+    }
+  }
 `;
 
 export const Footer = styled.footer`
