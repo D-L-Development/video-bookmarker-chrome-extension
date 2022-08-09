@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  controlPageHeader_c,
-  modalTypes,
-} from "../../../../../constants/theme";
+import { modalTypes } from "../../../../../constants/theme";
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
@@ -138,7 +135,7 @@ const FileSystemControlsComponent = (props) => {
     [...selections.files, ...selections.folders].length;
 
   return fs.isLoading ? null : (
-    <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
+    <PageHeaderControls className="PageHeader">
       <NewButtonComponent />
       <VerticalDivider />
 

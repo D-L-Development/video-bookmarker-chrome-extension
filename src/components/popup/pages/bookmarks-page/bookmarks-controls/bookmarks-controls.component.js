@@ -1,8 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  controlPageHeader_c,
-  modalTypes,
-} from "../../../../../constants/theme";
+import { modalTypes } from "../../../../../constants/theme";
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import AddBookmarkIcon from "../../../../../icons/bookmarks-icons/add-bookmark-icon/add-bookmark.icon";
 import CopyIcon from "../../../../../icons/bookmarks-icons/copy-icon/copy.icon";
@@ -122,7 +119,7 @@ const BookmarksControlsComponent = (props) => {
     }
   };
   return (
-    <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
+    <PageHeaderControls className="PageHeader">
       <ActionIconWrapper
         onClick={handleCreateBookmarkIconClick}
         enabled={!isIconLoading}

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { primary_c } from "../../constants/theme";
 
 export const StyledPopup = styled.div`
   height: 100%;
@@ -34,7 +33,7 @@ export const CloseIconWrapper = styled.div`
 export const Footer = styled.footer`
   height: 2rem;
   width: 100%;
-  background-color: ${primary_c};
+  background-color: ${({ theme }) => theme.primary_c};
   display: flex;
   align-items: center;
   margin-top: auto;

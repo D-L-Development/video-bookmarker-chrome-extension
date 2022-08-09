@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { error_c, inputGlow_c, inputOutline_c } from "../../../constants/theme";
 
 export const TextArea = styled.textarea`
-  outline: ${(props) => (props.error ? error_c : "none")};
+  outline: ${(props) => (props.error ? props.theme.error_c : "none")};
   padding: 0.2rem 0.2rem;
   caret-color: black;
   font-size: 0.6rem;
@@ -17,8 +16,10 @@ export const TextArea = styled.textarea`
   }
 
   &:focus {
-    outline: 0.5px solid ${inputOutline_c};
-    box-shadow: 0 0 5px 1px ${(props) => (props.error ? error_c : inputGlow_c)};
+    outline: 0.5px solid ${({ theme }) => theme.inputOutline_c};
+    box-shadow: 0 0 5px 1px
+      ${(props) =>
+        props.error ? props.theme.error_c : props.theme.inputGlow_c};
   }
 
   resize: vertical;

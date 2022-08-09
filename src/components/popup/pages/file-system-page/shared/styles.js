@@ -1,10 +1,5 @@
 import styled from "styled-components";
-import {
-  fsItemHover_c,
-  fsItemSelected_c,
-  fsItemSelectedOutline_c,
-  selected_folder_c,
-} from "../../../../../constants/theme";
+import { getTextColor } from "../../../../../constants/helper-functions";
 
 const DIMEN_PERCENT = "22.5%";
 export const FS_MARGIN_PERCENT = "2%";
@@ -18,12 +13,14 @@ export const Square = styled.div`
   cursor: pointer;
   transition: 0.1s;
 
-  background-color: ${(props) => props.selected && fsItemSelected_c};
+  background-color: ${(props) =>
+    props.selected && props.theme.fsItemSelected_c};
   outline: ${(props) =>
-    props.selected && `1px solid ${fsItemSelectedOutline_c};`};
+    props.selected && `1px solid ${props.theme.fsItemSelectedOutline_c};`};
 
   &:hover {
-    background-color: ${(props) => !props.selected && fsItemHover_c};
+    background-color: ${(props) =>
+      !props.selected && props.theme.fsItemHover_c};
   }
 `;
 
@@ -36,6 +33,7 @@ export const StretchContainer = styled.div`
 `;
 
 export const FileSystemItemText = styled.span`
+  color: ${({ theme }) => getTextColor(theme.body_c)};
   position: absolute;
   bottom: 6%;
   font-size: 0.7rem;
@@ -55,7 +53,7 @@ export const Rectangle = styled.div`
   cursor: pointer;
 
   background-color: ${(props) =>
-    props.selected ? selected_folder_c : "white"};
+    props.selected ? props.theme.selected_folder_c : "white"};
   color: ${(props) => (props.selected ? "white" : "black")};
 
   &:hover {
@@ -86,15 +84,18 @@ export const DetailedViewItem = styled.div`
   transition: 0.1s;
   border-bottom: 1px solid grey;
 
-  background-color: ${(props) => props.selected && fsItemSelected_c};
+  background-color: ${(props) =>
+    props.selected && props.theme.fsItemSelected_c};
 
   &:hover {
-    background-color: ${(props) => !props.selected && fsItemHover_c};
+    background-color: ${(props) =>
+      !props.selected && props.theme.fsItemHover_c};
   }
 `;
 
 export const DetailedItemName = styled.span`
   margin-left: 0.5rem;
+  color: ${({ theme }) => getTextColor(theme.body_c)};
 `;
 export const DetailedItemIconWrapper = styled.span`
   margin-left: 0.5rem;
