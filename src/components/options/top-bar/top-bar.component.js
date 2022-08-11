@@ -4,12 +4,12 @@ import { Navigation, StyledLink } from "./top-bar.styles";
 const TopBarComponent = (props) => {
   return (
     <Navigation>
-      <StyledLink to="/options.html" end={true}>
+      <StyledLink to="/" end={true}>
         Home
       </StyledLink>
-      <StyledLink to="/options.html/settings">Settings</StyledLink>
-      <StyledLink to="/options.html/theme">Theme</StyledLink>
-      <StyledLink to="/options.html/about">About</StyledLink>
+      <StyledLink to="/settings">Settings</StyledLink>
+      <StyledLink to="/theme">Theme</StyledLink>
+      <StyledLink to="/about">About</StyledLink>
     </Navigation>
   );
 };
