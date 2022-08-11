@@ -4,4 +4,4 @@ import OptionsComponent from "./components/options/options.component";
 
 const container = document.getElementById("react-options-root");
 const root = createRoot(container);
-root.render(<OptionsComponent tab="home" />);
+root.render(<OptionsComponent tab="options" />);
