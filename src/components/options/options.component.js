@@ -8,6 +8,12 @@ const OptionsComponent = () => {
     <BrowserRouter>
       <TopBarComponent />
       <Routes>
+        <Route
+          path={"/options.html/settings"}
+          element={<HomeComponent />}
+        ></Route>
+        <Route path={"/options.html/theme"} element={<HomeComponent />}></Route>
+        <Route path={"/options.html/about"} element={<HomeComponent />}></Route>
         <Route path={"/options.html"} element={<HomeComponent />}></Route>
       </Routes>
     </BrowserRouter>
