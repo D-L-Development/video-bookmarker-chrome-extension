@@ -49,7 +49,7 @@ const ThemeComponent = (props) => {
       <ThemePickerContainer style={{ background: currentColor.hex }}>
         <SketchPicker
           color={currentColor}
-          onChangeComplete={(color) => setCurrentColor(color)}
+          onChange={(color) => setCurrentColor(color)}
         />
         <ColorsList>{renderColorPickers()}</ColorsList>
       </ThemePickerContainer>
