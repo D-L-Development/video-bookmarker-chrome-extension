@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SwitchComponent from "../switch/switch.component";
 import { THEME_KEY } from "../../../../contexts/theme.context";
 import { THEMES } from "../../../../constants/default-palettes";
+import { ChangeThemePageContext } from "../../context/theme-page-context";
 
 const ThemeComponent = (props) => {
   const [state, setState] = useState({
@@ -9,6 +10,8 @@ const ThemeComponent = (props) => {
     isDarkTheme: false,
     isCustomTheme: false,
   });
+
+  const { changeTheme } = useContext(ChangeThemePageContext);
 
   useEffect(() => {
     const fetchStorage = async () => {
@@ -38,7 +41,11 @@ const ThemeComponent = (props) => {
 
   const handleDarkModeToggle = async (e) => {
     try {
-      setState({ ...state, isDarkTheme: e.target.checked });
+      const { checked } = e.target;
+      // update the theme in the context
+      await changeTheme(checked ? THEMES.DARK : THEMES.LIGHT);
+      // update the toggle switch state
+      setState({ ...state, isDarkTheme: checked });
     } catch (e) {
       throw e;
     }
@@ -46,6 +53,7 @@ const ThemeComponent = (props) => {
 
   const handleCustomThemeToggle = async (e) => {
     try {
+      // update the toggle switch
       setState({ ...state, isCustomTheme: e.target.checked });
     } catch (e) {
       throw e;
