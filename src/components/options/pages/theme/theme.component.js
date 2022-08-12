@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import SwitchComponent from "../switch/switch.component";
 import { THEME_KEY } from "../../../../contexts/theme.context";
-import { THEMES } from "../../../../constants/default-palettes";
+import {
+  defaultPalettes,
+  THEMES,
+} from "../../../../constants/default-palettes";
 import { ChangeThemePageContext } from "../../context/theme-page-context";
+import { guid } from "../../../../contentScripts/utility";
 
 const ThemeComponent = (props) => {
   const [state, setState] = useState({
@@ -54,10 +58,31 @@ const ThemeComponent = (props) => {
   const handleCustomThemeToggle = async (e) => {
     try {
       // update the toggle switch
+      // TODO: update the state here to whatever the "default" custom theme is
       setState({ ...state, isCustomTheme: e.target.checked });
     } catch (e) {
       throw e;
     }
+  };
+
+  const handleColorPickerInput = (e) => {
+    console.log(e.target.name, e.target.value);
+  };
+
+  const renderColorPickers = () => {
+    const colorPickers = [];
+    for (let key in defaultPalettes[THEMES.LIGHT]) {
+      const uuid = guid();
+      colorPickers.push(
+        <input
+          type={"color"}
+          key={uuid}
+          name={key}
+          onInput={handleColorPickerInput}
+        />
+      );
+    }
+    return colorPickers;
   };
 
   return (
@@ -84,6 +109,7 @@ const ThemeComponent = (props) => {
               checked={state.isCustomTheme}
             />
           </div>
+          <div>{renderColorPickers()}</div>
         </>
       )}
     </>

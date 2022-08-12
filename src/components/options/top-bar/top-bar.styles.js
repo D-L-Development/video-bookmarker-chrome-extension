@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { main_c } from "../colors";
 
 export const Navigation = styled.nav`
   width: 100%;
   height: 4rem;
-  background-color: ${main_c};
+  background-color: ${({ theme }) => theme.primary_c};
   display: flex;
   align-items: center;
   gap: 1rem;
