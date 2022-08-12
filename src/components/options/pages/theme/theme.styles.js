@@ -19,3 +19,7 @@ export const ColorName = styled.span``;
 export const ColorsList = styled.div`
   width: 50%;
 `;
+export const ThemePickerContainer = styled.div`
+  display: flex;
+  padding: 2rem;
+`;

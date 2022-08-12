@@ -14,7 +14,9 @@ import {
   ColorName,
   ColorOption,
   ColorsList,
+  ThemePickerContainer,
 } from "./theme.styles";
+import { SketchPicker } from "react-color";
 
 const ThemeComponent = (props) => {
   console.log("RERENDER");
@@ -45,7 +47,10 @@ const ThemeComponent = (props) => {
     <>
       <h1>Theme</h1>
       <ThemeControlsComponent />
-      <ColorsList>{renderColorPickers()}</ColorsList>
+      <ThemePickerContainer>
+        <SketchPicker />
+        <ColorsList>{renderColorPickers()}</ColorsList>
+      </ThemePickerContainer>
     </>
   );
 };
