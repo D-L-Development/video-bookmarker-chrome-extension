@@ -13,7 +13,7 @@ export const Main = styled.div`
 
 export const HeaderText = styled.h1`
   font-size: 5rem;
-  color: white;
+  color: ${({theme}) => theme.primary_c};
   text-align: center;
   text-transform: uppercase;
 `;
