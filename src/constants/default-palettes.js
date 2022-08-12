@@ -15,7 +15,6 @@ export const getTheme = (theme) => {
 
 export const defaultPalettes = {
   [THEMES.LIGHT]: {
-    themeName: THEMES.LIGHT,
     primary_c: "rgb(16, 4, 54)",
     bookmarkHeader_c: "rgb(54, 51, 117)",
     bookmarkHeaderNested_c: "rgba(75, 72, 117, 0.5)",
@@ -50,7 +49,6 @@ export const defaultPalettes = {
     },
   },
   [THEMES.DARK]: {
-    themeName: THEMES.DARK,
     primary_c: "#000000",
     bookmarkHeader_c: "rgb(110, 73, 83)",
     bookmarkHeaderNested_c: "rgba(75, 72, 117, 0.5)",

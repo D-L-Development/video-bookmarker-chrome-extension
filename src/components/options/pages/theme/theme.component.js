@@ -15,7 +15,7 @@ const ThemeComponent = (props) => {
     isCustomTheme: false,
   });
 
-  const { changeTheme } = useContext(ChangeThemePageContext);
+  const { changeTheme, updateTheme } = useContext(ChangeThemePageContext);
 
   useEffect(() => {
     const fetchStorage = async () => {
@@ -66,7 +66,9 @@ const ThemeComponent = (props) => {
   };
 
   const handleColorPickerInput = (e) => {
-    console.log(e.target.name, e.target.value);
+    const theme = structuredClone(defaultPalettes[THEMES.LIGHT]);
+    theme[e.target.name] = e.target.value;
+    updateTheme(theme);
   };
 
   const renderColorPickers = () => {
