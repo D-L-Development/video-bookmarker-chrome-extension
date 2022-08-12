@@ -18,32 +18,44 @@ import {
 } from "./theme.styles";
 import { SketchPicker } from "react-color";
 
+// const colors = {
+//   thing: "HEX"
+// }
+
 const ThemeComponent = (props) => {
   const dispatchTheme = useContext(ChangeThemePageContext);
   const [state, setState] = useState({
-    selectedName: null,
+    theme: defaultPalettes[THEMES.LIGHT],
+    selectedName: Object.keys(defaultPalettes[THEMES.LIGHT])[0],
     colorPicker: "#ffffff",
   });
 
   const handleColorPickerInput = (color) => {
-    setState({ ...state, colorPicker: color });
-    const theme = structuredClone(defaultPalettes[THEMES.LIGHT]);
-    theme[state.selectedName] = color.hex;
-    dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: theme });
+    setState({
+      ...state,
+      colorPicker: color.hex,
+      theme: { ...state.theme, [state.selectedName]: color.hex },
+    });
+    dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: state.theme });
   };
 
-  const renderColorPickers = () => {
+  const renderThemeItems = () => {
     const colorPickers = [];
-    for (let key in defaultPalettes[THEMES.LIGHT]) {
+    for (let key in state.theme) {
       const uuid = guid();
       colorPickers.push(
         <ColorOption key={uuid}>
           <ColorCircle
-            color={defaultPalettes[THEMES.LIGHT][key]}
+            selected={key === state.selectedName}
+            color={state.theme[key]}
             name={key}
-            onClick={(e) =>
-              setState({ ...state, selectedName: e.currentTarget.name })
-            }
+            onClick={(e) => {
+              setState({
+                ...state,
+                selectedName: key,
+                colorPicker: state.theme[key],
+              });
+            }}
           />
           <ColorName>{key}</ColorName>
         </ColorOption>
@@ -56,12 +68,12 @@ const ThemeComponent = (props) => {
     <>
       <h1>Theme</h1>
       <ThemeControlsComponent />
-      <ThemePickerContainer style={{ background: state.colorPicker.hex }}>
+      <ThemePickerContainer style={{ background: state.colorPicker }}>
         <SketchPicker
-          color={state.colorPicker.hex}
+          color={state.colorPicker}
           onChange={(color) => handleColorPickerInput(color)}
         />
-        <ColorsList>{renderColorPickers()}</ColorsList>
+        <ColorsList>{renderThemeItems()}</ColorsList>
       </ThemePickerContainer>
     </>
   );
