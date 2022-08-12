@@ -12,7 +12,7 @@ export const CustomThemeProvider = ({ children }) => {
     // add listener for when themes gets changed from options page
     chrome.storage.onChanged.addListener(async (changes) => {
       for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-        if (key === THEME_KEY) await changeTheme(newValue);
+        if (key === THEME_KEY) changeTheme(newValue);
       }
     });
 
@@ -27,23 +27,27 @@ export const CustomThemeProvider = ({ children }) => {
     };
 
     fetchTheme()
-      .then((theme) => setState({ isLoading: false, theme }))
+      .then((theme) => changeTheme(theme))
       .catch((e) => {
+        changeTheme(THEMES.LIGHT);
         console.log(e);
       });
   }, []);
 
-  const changeTheme = async (newTheme) => {
-    if (THEMES.hasOwnProperty(newTheme)) {
-      await chrome.storage.sync.set({ [THEME_KEY]: newTheme });
-      setState({ theme: newTheme, isLoading: false });
+  const changeTheme = (theme) => {
+    setState({ theme, isLoading: false });
+  };
+
+  const getTheme = (theme) => {
+    if (typeof theme === "object") {
+      return theme;
     } else {
-      throw new Error(`Failed to change theme to ${newTheme}`);
+      return defaultPalettes[theme];
     }
   };
 
   return (
-    <ThemeProvider theme={defaultPalettes[state.theme]}>
+    <ThemeProvider theme={getTheme(state.theme)}>
       {state.isLoading ? (
         <SpinnerIcon width={"50px"} height={"50px"} color={"white"} />
       ) : (
