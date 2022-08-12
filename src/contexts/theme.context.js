@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import SpinnerIcon from "../icons/shared-icons/spinner-icon/spinner.icon";
-import { defaultPalettes, THEMES } from "../constants/default-palettes";
+import { getTheme, THEMES } from "../constants/default-palettes";
 
 export const THEME_KEY = "THEME";
 
@@ -36,14 +36,6 @@ export const CustomThemeProvider = ({ children }) => {
 
   const changeTheme = (theme) => {
     setState({ theme, isLoading: false });
-  };
-
-  const getTheme = (theme) => {
-    if (typeof theme === "object") {
-      return theme;
-    } else {
-      return defaultPalettes[theme];
-    }
   };
 
   return (

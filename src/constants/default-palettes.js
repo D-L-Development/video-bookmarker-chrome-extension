@@ -5,6 +5,14 @@ export const THEMES = {
   CUSTOM: "CUSTOM",
 };
 
+export const getTheme = (theme) => {
+  if (typeof theme === "object") {
+    return theme;
+  } else {
+    return defaultPalettes[theme];
+  }
+};
+
 export const defaultPalettes = {
   [THEMES.LIGHT]: {
     themeName: THEMES.LIGHT,
