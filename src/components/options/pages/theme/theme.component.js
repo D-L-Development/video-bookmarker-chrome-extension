@@ -66,6 +66,7 @@ const ThemeComponent = (props) => {
             <SwitchComponent
               handleToggle={handleDarkModeToggle}
               checked={state.isDarkTheme}
+              disabled={state.isCustomTheme}
             />
           </div>
           <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>

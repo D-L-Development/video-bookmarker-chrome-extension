@@ -7,7 +7,7 @@ import {
 } from "../theme/theme.styles";
 import { guid } from "../../../../contentScripts/utility";
 
-const SwitchComponent = ({ checked, handleToggle, width }) => {
+const SwitchComponent = ({ checked, handleToggle, width, disabled }) => {
   const uuid = useRef(guid());
 
   return (
@@ -17,6 +17,7 @@ const SwitchComponent = ({ checked, handleToggle, width }) => {
         id={uuid.current}
         checked={checked}
         onChange={handleToggle}
+        disabled={disabled}
       />
       <SwitchLabel htmlFor={uuid.current}>Toggle</SwitchLabel>
     </StyledSwitch>
