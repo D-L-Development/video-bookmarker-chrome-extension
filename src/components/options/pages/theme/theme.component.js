@@ -9,6 +9,12 @@ import {
   THEME_ACTIONS,
 } from "../../context/theme-page-context";
 import ThemeControlsComponent from "./theme-controls/theme-controls.component";
+import {
+  ColorCircle,
+  ColorName,
+  ColorOption,
+  ColorsList,
+} from "./theme.styles";
 
 const ThemeComponent = (props) => {
   console.log("RERENDER");
@@ -26,12 +32,14 @@ const ThemeComponent = (props) => {
     for (let key in defaultPalettes[THEMES.LIGHT]) {
       const uuid = guid();
       colorPickers.push(
-        <input
-          type={"color"}
-          key={uuid}
-          name={key}
-          onInput={handleColorPickerInput}
-        />
+        <ColorOption>
+          <ColorCircle
+            color={defaultPalettes[THEMES.LIGHT][key]}
+            key={uuid}
+            name={key}
+          />
+          <ColorName>{key}</ColorName>
+        </ColorOption>
       );
     }
     return colorPickers;
@@ -41,7 +49,7 @@ const ThemeComponent = (props) => {
     <>
       <h1>Theme</h1>
       <ThemeControlsComponent />
-      <div>{renderColorPickers()}</div>
+      <ColorsList>{renderColorPickers()}</ColorsList>
     </>
   );
 };
