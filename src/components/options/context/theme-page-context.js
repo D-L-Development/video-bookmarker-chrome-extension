@@ -5,6 +5,11 @@ import { getTheme, THEMES } from "../../../constants/default-palettes";
 
 export const ChangeThemePageContext = createContext(null);
 
+export const THEME_ACTIONS = {
+  UPDATE: "UPDATE",
+  CHANGE: "CHANGE",
+};
+
 export const ThemePageContextProvider = ({ children }) => {
   const [state, setState] = useState({ theme: THEMES.LIGHT, isLoading: true });
 
@@ -36,8 +41,20 @@ export const ThemePageContextProvider = ({ children }) => {
     setState({ ...state, theme });
   };
 
+  const dispatch = async (action) => {
+    if (action.type === THEME_ACTIONS.CHANGE) {
+      await changeTheme(action.payload);
+    } else if (action.type === THEME_ACTIONS.UPDATE) {
+      await updateTheme(action.payload);
+    } else {
+      throw new Error(
+        `Dispatched action of type ${action.type} is unrecognized!`
+      );
+    }
+  };
+
   return (
-    <ChangeThemePageContext.Provider value={{ changeTheme, updateTheme }}>
+    <ChangeThemePageContext.Provider value={dispatch}>
       <ThemeProvider theme={getTheme(state.theme)}>
         {!state.isLoading && children}
       </ThemeProvider>

@@ -1,74 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import SwitchComponent from "../switch/switch.component";
-import { THEME_KEY } from "../../../../contexts/theme.context";
+import React, { useContext } from "react";
 import {
   defaultPalettes,
   THEMES,
 } from "../../../../constants/default-palettes";
-import { ChangeThemePageContext } from "../../context/theme-page-context";
 import { guid } from "../../../../contentScripts/utility";
+import {
+  ChangeThemePageContext,
+  THEME_ACTIONS,
+} from "../../context/theme-page-context";
+import ThemeControlsComponent from "./theme-controls/theme-controls.component";
 
 const ThemeComponent = (props) => {
-  const [state, setState] = useState({
-    isLoading: true,
-    isDarkTheme: false,
-    isCustomTheme: false,
-  });
+  console.log("RERENDER");
 
-  const { changeTheme, updateTheme } = useContext(ChangeThemePageContext);
-
-  useEffect(() => {
-    const fetchStorage = async () => {
-      const storage = await chrome.storage.sync.get(THEME_KEY);
-      if (storage.hasOwnProperty(THEME_KEY)) {
-        return typeof storage[THEME_KEY] === "object"
-          ? THEMES.CUSTOM
-          : storage[THEME_KEY];
-      } else {
-        return THEMES.LIGHT;
-      }
-    };
-
-    fetchStorage()
-      .then((theme) => {
-        setState({
-          isCustomTheme: theme === THEMES.CUSTOM,
-          isDarkTheme: theme === THEMES.DARK,
-          isLoading: false,
-        });
-      })
-      .catch((e) => {
-        setState({ ...state, isLoading: false });
-        console.log(e);
-      });
-  }, []);
-
-  const handleDarkModeToggle = async (e) => {
-    try {
-      const { checked } = e.target;
-      // update the theme in the context
-      await changeTheme(checked ? THEMES.DARK : THEMES.LIGHT);
-      // update the toggle switch state
-      setState({ ...state, isDarkTheme: checked });
-    } catch (e) {
-      throw e;
-    }
-  };
-
-  const handleCustomThemeToggle = async (e) => {
-    try {
-      // update the toggle switch
-      // TODO: update the state here to whatever the "default" custom theme is
-      setState({ ...state, isCustomTheme: e.target.checked });
-    } catch (e) {
-      throw e;
-    }
-  };
+  const dispatchTheme = useContext(ChangeThemePageContext);
 
   const handleColorPickerInput = (e) => {
     const theme = structuredClone(defaultPalettes[THEMES.LIGHT]);
     theme[e.target.name] = e.target.value;
-    updateTheme(theme);
+    dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: theme });
   };
 
   const renderColorPickers = () => {
@@ -90,30 +40,8 @@ const ThemeComponent = (props) => {
   return (
     <>
       <h1>Theme</h1>
-      {!state.isLoading && (
-        <>
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <span
-              style={{ color: `${state.isCustomTheme ? "grey" : "black"}` }}
-            >
-              Dark mode:
-            </span>
-            <SwitchComponent
-              handleToggle={handleDarkModeToggle}
-              checked={state.isDarkTheme}
-              disabled={state.isCustomTheme}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
-            <span>Custom theme:</span>
-            <SwitchComponent
-              handleToggle={handleCustomThemeToggle}
-              checked={state.isCustomTheme}
-            />
-          </div>
-          <div>{renderColorPickers()}</div>
-        </>
-      )}
+      <ThemeControlsComponent />
+      <div>{renderColorPickers()}</div>
     </>
   );
 };
