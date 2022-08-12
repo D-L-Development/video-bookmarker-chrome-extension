@@ -2,6 +2,7 @@ export const THEMES = {
   // key must be equal to value
   LIGHT: "LIGHT",
   DARK: "DARK",
+  CUSTOM: "CUSTOM",
 };
 
 export const defaultPalettes = {
