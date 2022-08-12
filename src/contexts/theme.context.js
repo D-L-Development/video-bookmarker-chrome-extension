@@ -1,24 +1,18 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import SpinnerIcon from "../icons/shared-icons/spinner-icon/spinner.icon";
 import { defaultPalettes, THEMES } from "../constants/default-palettes";
 
 export const THEME_KEY = "THEME";
 
-export const ChangeThemeContext = createContext(null);
 export const CustomThemeProvider = ({ children }) => {
   const [state, setState] = useState({ isLoading: true, theme: THEMES.LIGHT });
 
   useEffect(() => {
-    chrome.storage.onChanged.addListener(async (changes, namespace) => {
+    // add listener for when themes gets changed from options page
+    chrome.storage.onChanged.addListener(async (changes) => {
       for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-        if (key === THEME_KEY) {
-          await changeTheme(newValue);
-          console.log(
-            `Storage key "${key}" changed.`,
-            `Old value was "${oldValue}", new value is "${newValue}".`
-          );
-        }
+        if (key === THEME_KEY) await changeTheme(newValue);
       }
     });
 
@@ -39,10 +33,6 @@ export const CustomThemeProvider = ({ children }) => {
       });
   }, []);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   const changeTheme = async (newTheme) => {
     if (THEMES.hasOwnProperty(newTheme)) {
       await chrome.storage.sync.set({ [THEME_KEY]: newTheme });
@@ -53,14 +43,12 @@ export const CustomThemeProvider = ({ children }) => {
   };
 
   return (
-    <ChangeThemeContext.Provider value={changeTheme}>
-      <ThemeProvider theme={defaultPalettes[state.theme]}>
-        {state.isLoading ? (
-          <SpinnerIcon width={"50px"} height={"50px"} color={"white"} />
-        ) : (
-          children
-        )}
-      </ThemeProvider>
-    </ChangeThemeContext.Provider>
+    <ThemeProvider theme={defaultPalettes[state.theme]}>
+      {state.isLoading ? (
+        <SpinnerIcon width={"50px"} height={"50px"} color={"white"} />
+      ) : (
+        children
+      )}
+    </ThemeProvider>
   );
 };
