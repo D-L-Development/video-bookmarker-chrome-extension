@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   defaultPalettes,
   THEMES,
@@ -19,9 +19,8 @@ import {
 import { SketchPicker } from "react-color";
 
 const ThemeComponent = (props) => {
-  console.log("RERENDER");
-
   const dispatchTheme = useContext(ChangeThemePageContext);
+  const [currentColor, setCurrentColor] = useState("#ffffff");
 
   const handleColorPickerInput = (e) => {
     const theme = structuredClone(defaultPalettes[THEMES.LIGHT]);
@@ -47,8 +46,11 @@ const ThemeComponent = (props) => {
     <>
       <h1>Theme</h1>
       <ThemeControlsComponent />
-      <ThemePickerContainer>
-        <SketchPicker />
+      <ThemePickerContainer style={{ background: currentColor.hex }}>
+        <SketchPicker
+          color={currentColor}
+          onChangeComplete={(color) => setCurrentColor(color)}
+        />
         <ColorsList>{renderColorPickers()}</ColorsList>
       </ThemePickerContainer>
     </>
