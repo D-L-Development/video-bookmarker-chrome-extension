@@ -20,11 +20,15 @@ import { SketchPicker } from "react-color";
 
 const ThemeComponent = (props) => {
   const dispatchTheme = useContext(ChangeThemePageContext);
-  const [currentColor, setCurrentColor] = useState("#ffffff");
+  const [state, setState] = useState({
+    selectedName: null,
+    colorPicker: "#ffffff",
+  });
 
-  const handleColorPickerInput = (e) => {
+  const handleColorPickerInput = (color) => {
+    setState({ ...state, colorPicker: color });
     const theme = structuredClone(defaultPalettes[THEMES.LIGHT]);
-    theme[e.target.name] = e.target.value;
+    theme[state.selectedName] = color.hex;
     dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: theme });
   };
 
@@ -34,7 +38,13 @@ const ThemeComponent = (props) => {
       const uuid = guid();
       colorPickers.push(
         <ColorOption key={uuid}>
-          <ColorCircle color={defaultPalettes[THEMES.LIGHT][key]} name={key} />
+          <ColorCircle
+            color={defaultPalettes[THEMES.LIGHT][key]}
+            name={key}
+            onClick={(e) =>
+              setState({ ...state, selectedName: e.currentTarget.name })
+            }
+          />
           <ColorName>{key}</ColorName>
         </ColorOption>
       );
@@ -46,10 +56,10 @@ const ThemeComponent = (props) => {
     <>
       <h1>Theme</h1>
       <ThemeControlsComponent />
-      <ThemePickerContainer style={{ background: currentColor.hex }}>
+      <ThemePickerContainer style={{ background: state.colorPicker.hex }}>
         <SketchPicker
-          color={currentColor}
-          onChange={(color) => setCurrentColor(color)}
+          color={state.colorPicker.hex}
+          onChange={(color) => handleColorPickerInput(color)}
         />
         <ColorsList>{renderColorPickers()}</ColorsList>
       </ThemePickerContainer>
