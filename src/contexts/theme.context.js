@@ -3,7 +3,7 @@ import { ThemeProvider } from "styled-components";
 import SpinnerIcon from "../icons/shared-icons/spinner-icon/spinner.icon";
 import { defaultPalettes, THEMES } from "../constants/default-palettes";
 
-const THEME_KEY = "THEME";
+export const THEME_KEY = "THEME";
 
 export const ChangeThemeContext = createContext(null);
 export const CustomThemeProvider = ({ children }) => {
