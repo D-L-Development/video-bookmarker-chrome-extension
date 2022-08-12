@@ -32,12 +32,8 @@ const ThemeComponent = (props) => {
     for (let key in defaultPalettes[THEMES.LIGHT]) {
       const uuid = guid();
       colorPickers.push(
-        <ColorOption>
-          <ColorCircle
-            color={defaultPalettes[THEMES.LIGHT][key]}
-            key={uuid}
-            name={key}
-          />
+        <ColorOption key={uuid}>
+          <ColorCircle color={defaultPalettes[THEMES.LIGHT][key]} name={key} />
           <ColorName>{key}</ColorName>
         </ColorOption>
       );
