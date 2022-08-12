@@ -68,7 +68,7 @@ const ThemeComponent = (props) => {
     <>
       <h1>Theme</h1>
       <ThemeControlsComponent />
-      <ThemePickerContainer style={{ background: state.colorPicker }}>
+      <ThemePickerContainer>
         <SketchPicker
           color={state.colorPicker}
           onChange={(color) => handleColorPickerInput(color)}

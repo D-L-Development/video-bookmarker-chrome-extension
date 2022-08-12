@@ -4,7 +4,8 @@ export const ColorCircle = styled.button`
   background-color: ${(props) => props.color};
   width: 2rem;
   height: 2rem;
-  outline: ${({ selected }) => `${selected ? "2px" : "1px"} solid black`};
+  outline: ${({ selected }) =>
+    `${selected ? "2px solid red" : "1px solid black"}`};
   border: none;
   border-radius: 50%;
 `;
