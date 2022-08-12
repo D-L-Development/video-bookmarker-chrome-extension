@@ -18,9 +18,17 @@ export const Header = styled.header`
 `;
 
 export const PopupIconGroup = styled.div`
-  margin-left: auto;
   display: flex;
   height: 100%;
+  position: absolute;
+  right: 0;
+`;
+
+export const HeaderText = styled.h1`
+  text-align: center;
+  color: grey;
+  font-size: 0.65rem;
+  margin: 0 auto;
 `;
 
 export const CloseIconWrapper = styled.div`

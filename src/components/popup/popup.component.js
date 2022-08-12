@@ -5,6 +5,7 @@ import {
   CloseIconWrapper,
   Footer,
   Header,
+  HeaderText,
   PopupIconGroup,
   SettingsIconWrapper,
   StyledPopup,
@@ -66,7 +67,11 @@ const PopupComponent = () => {
               setIsDark(!isDark);
               changeTheme(!isDark ? THEMES.DARK : THEMES.LIGHT);
             }}
+            style={{
+              position: "absolute",
+            }}
           />
+          <HeaderText>Web Video Bookmarker</HeaderText>
           <PopupIconGroup>
             <SettingsIconWrapper
               onClick={handleCogIconClick}
@@ -105,7 +110,7 @@ const PopupComponent = () => {
           switchToBookmarksPage={renderBookmarksPage}
         />
 
-        <Footer>Web Video Bookmarker</Footer>
+        <Footer></Footer>
       </OutsideContext.Provider>
     </StyledPopup>
   );
