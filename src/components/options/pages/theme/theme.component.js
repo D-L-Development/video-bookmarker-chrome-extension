@@ -31,12 +31,13 @@ const ThemeComponent = (props) => {
   });
 
   const handleColorPickerInput = (color) => {
+    const theme = { ...state.theme, [state.selectedName]: color.hex };
     setState({
       ...state,
       colorPicker: color.hex,
-      theme: { ...state.theme, [state.selectedName]: color.hex },
+      theme,
     });
-    dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: state.theme });
+    dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: theme });
   };
 
   const renderThemeItems = () => {
