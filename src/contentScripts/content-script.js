@@ -2,8 +2,6 @@ console.log("Content Script Ran!");
 import { Session } from "./Session";
 import { getErrorMsg, MSG } from "./utility";
 
-// TODO: replace all strings with constants
-
 let initialPageLoad = true;
 let session = null;
 

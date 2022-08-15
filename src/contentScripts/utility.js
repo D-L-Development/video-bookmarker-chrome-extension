@@ -15,15 +15,6 @@ export const MSG = {
   OPEN_POPUP: "open popup",
 };
 
-export class Bookmark {
-  constructor(title, text, timestamp = null) {
-    this.title = title;
-    this.text = text;
-    this.timestamp = timestamp;
-    this.isNested = false;
-  }
-}
-
 export function copyStringToClipboard(str) {
   // Create new element
   var el = document.createElement("textarea");
@@ -51,10 +42,6 @@ export function formatMapToTableString(bookmarks) {
   }
 
   return formattedString;
-}
-
-export function copyTableToClipboard(bookmarks) {
-  copyStringToClipboard(formatMapToTableString(bookmarks));
 }
 
 export function guid() {
