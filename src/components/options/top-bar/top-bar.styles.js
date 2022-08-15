@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-export const Navigation = styled.nav`
+export const Navigation = styled.nav.attrs(({ theme }) => ({
+  style: {
+    backgroundColor: theme.primary_c,
+  },
+}))`
   width: 100%;
   height: 4rem;
-  background-color: ${({ theme }) => theme.primary_c};
   display: flex;
   align-items: center;
   gap: 1rem;

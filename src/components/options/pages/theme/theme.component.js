@@ -15,6 +15,7 @@ import {
   ColorOption,
   ColorsList,
   ThemePickerContainer,
+  ThemeSubmitButton,
 } from "./theme.styles";
 import { SketchPicker } from "react-color";
 
@@ -75,6 +76,13 @@ const ThemeComponent = (props) => {
           onChange={(color) => handleColorPickerInput(color)}
         />
         <ColorsList>{renderThemeItems()}</ColorsList>
+        <ThemeSubmitButton
+          onClick={() =>
+            dispatchTheme({ type: THEME_ACTIONS.CHANGE, payload: state.theme })
+          }
+        >
+          Submit Theme
+        </ThemeSubmitButton>
       </ThemePickerContainer>
     </>
   );
