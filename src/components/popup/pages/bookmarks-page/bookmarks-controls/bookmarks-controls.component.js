@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   controlPageHeader_c,
   modalTypes,
@@ -29,6 +29,7 @@ import {
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
 import { BookmarksContext } from "../../../../../contexts/bookmarks.context";
 import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
+import { COMMANDS } from "../../../../../constants/constants";
 
 const DownloadButtonComponent = React.lazy(() =>
   import(
@@ -52,6 +53,19 @@ const BookmarksControlsComponent = (props) => {
   const { bookmarks, isLoading } = useContext(BookmarksContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
 
+  useEffect(() => {
+    const addBookmarkListener = (command) => {
+      if (command !== COMMANDS.ADD_BOOKMARK || isIconLoading) return;
+      handleCreateBookmarkIconClick();
+    };
+    // listen to shortcut for creating a bookmark
+    chrome.commands.onCommand.addListener(addBookmarkListener);
+    // remove listener on unmount
+    return () => {
+      chrome.commands.onCommand.removeListener(addBookmarkListener);
+    };
+  }, []);
+
   const showErrorMsgModal = (message) => {
     setModalProps({
       title: "Alert",
@@ -62,7 +76,7 @@ const BookmarksControlsComponent = (props) => {
     showModal();
   };
 
-  const handleCreateBookmarkIconClick = (e) => {
+  const handleCreateBookmarkIconClick = () => {
     if (isIconLoading) return;
     setIsIconLoading(true);
     sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {

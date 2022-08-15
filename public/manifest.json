@@ -52,7 +52,7 @@
     }
   ],
   "commands": {
-    "add_bookmark": {
+    "ADD_BOOKMARK": {
       "suggested_key": {
         "default": "Alt+B",
         "mac": "Alt+B"
