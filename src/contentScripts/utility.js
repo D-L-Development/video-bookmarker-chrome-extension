@@ -12,6 +12,7 @@ export const MSG = {
   SPEED_UP: "speed up",
   SLOW_DOWN: "slow down",
   RESET_SPEED: "reset speed",
+  OPEN_POPUP: "open popup",
 };
 
 export class Bookmark {

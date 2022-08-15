@@ -56,6 +56,7 @@ const BookmarksControlsComponent = (props) => {
   useEffect(() => {
     const addBookmarkListener = (command) => {
       if (command !== COMMANDS.ADD_BOOKMARK || isIconLoading) return;
+      sendMessageToActiveTab({ type: MSG.OPEN_POPUP }, () => {});
       handleCreateBookmarkIconClick();
     };
     // listen to shortcut for creating a bookmark
