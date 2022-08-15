@@ -6,7 +6,11 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
   "action": {
     "default_icon": {
       "16": "/images/get_started16.png",
@@ -24,15 +28,44 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://*/*", "http://*/*"],
-      "css": ["content-script.css"],
-      "js": ["contentScript.js"]
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
+      "css": [
+        "content-script.css"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["popup.html"],
-      "matches": ["https://*/*", "http://*/*"]
+      "resources": [
+        "popup.html"
+      ],
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ]
     }
-  ]
+  ],
+  "commands": {
+    "add_bookmark": {
+      "suggested_key": {
+        "default": "Alt+B",
+        "mac": "Alt+B"
+      },
+      "description": "Create new bookmark"
+    },
+    "_execute_action": {
+      "suggested_key": {
+        "windows": "Alt+O",
+        "mac": "Alt+O",
+        "chromeos": "Alt+O",
+        "linux": "Alt+O"
+      }
+    }
+  }
 }
