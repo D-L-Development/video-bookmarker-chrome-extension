@@ -1,8 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  controlPageHeader_c,
-  modalTypes,
-} from "../../../../../constants/theme";
+import React, { useContext, useState } from "react";
+import { modalTypes } from "../../../../../constants/theme";
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import AddBookmarkIcon from "../../../../../icons/bookmarks-icons/add-bookmark-icon/add-bookmark.icon";
 import CopyIcon from "../../../../../icons/bookmarks-icons/copy-icon/copy.icon";
@@ -29,7 +26,6 @@ import {
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
 import { BookmarksContext } from "../../../../../contexts/bookmarks.context";
 import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
-import { COMMANDS } from "../../../../../constants/constants";
 
 const DownloadButtonComponent = React.lazy(() =>
   import(
@@ -53,20 +49,6 @@ const BookmarksControlsComponent = (props) => {
   const { bookmarks, isLoading } = useContext(BookmarksContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
 
-  useEffect(() => {
-    const addBookmarkListener = (command) => {
-      if (command !== COMMANDS.ADD_BOOKMARK || isIconLoading) return;
-      sendMessageToActiveTab({ type: MSG.OPEN_POPUP }, () => {});
-      handleCreateBookmarkIconClick();
-    };
-    // listen to shortcut for creating a bookmark
-    chrome.commands.onCommand.addListener(addBookmarkListener);
-    // remove listener on unmount
-    return () => {
-      chrome.commands.onCommand.removeListener(addBookmarkListener);
-    };
-  }, []);
-
   const showErrorMsgModal = (message) => {
     setModalProps({
       title: "Alert",
@@ -77,7 +59,7 @@ const BookmarksControlsComponent = (props) => {
     showModal();
   };
 
-  const handleCreateBookmarkIconClick = () => {
+  const handleCreateBookmarkIconClick = (e) => {
     if (isIconLoading) return;
     setIsIconLoading(true);
     sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {
@@ -137,7 +119,7 @@ const BookmarksControlsComponent = (props) => {
     }
   };
   return (
-    <PageHeaderControls className="PageHeader" color={controlPageHeader_c}>
+    <PageHeaderControls className="PageHeader">
       <ActionIconWrapper
         onClick={handleCreateBookmarkIconClick}
         enabled={!isIconLoading}

@@ -1,7 +1,7 @@
 {
   "name": "Web Video Bookmarker",
-  "description": "Helps with creating timelines for videos.",
-  "version": "1.0",
+  "description": "Create annotations and associate them with certain key points in any embedded video on any website.",
+  "version": "0.0.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -11,6 +11,7 @@
     "activeTab",
     "scripting"
   ],
+  "options_page": "options.html",
   "action": {
     "default_icon": {
       "16": "/images/get_started16.png",
@@ -50,22 +51,5 @@
         "http://*/*"
       ]
     }
-  ],
-  "commands": {
-    "ADD_BOOKMARK": {
-      "suggested_key": {
-        "default": "Alt+B",
-        "mac": "Alt+B"
-      },
-      "description": "Create new bookmark"
-    },
-    "_execute_action": {
-      "suggested_key": {
-        "windows": "Alt+O",
-        "mac": "Alt+O",
-        "chromeos": "Alt+O",
-        "linux": "Alt+O"
-      }
-    }
-  }
+  ]
 }

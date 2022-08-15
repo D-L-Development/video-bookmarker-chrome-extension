@@ -1,10 +1,4 @@
 import styled from "styled-components";
-import {
-  bgHoverColor,
-  body_c,
-  scroller_c,
-  scrollerHover_c,
-} from "../../../constants/theme";
 import { PageHeader } from "../view-pager/view-pager.styles";
 
 export const StyledPage = styled.div`
@@ -27,16 +21,16 @@ export const PageContent = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background: ${body_c};
+    background: ${({ theme }) => theme.body_c};
   }
 
   &::-webkit-scrollbar-thumb {
-    background: ${scroller_c};
+    background: ${({ theme }) => theme.scroller_c};
     border-radius: 0.3rem;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: ${scrollerHover_c};
+    background: ${({ theme }) => theme.scrollerHover_c};
   }
 `;
 
@@ -59,18 +53,12 @@ export const ActionIconWrapper = styled.button`
   }
 
   &:hover {
-    background-color: ${(props) => props.enabled && bgHoverColor};
+    background-color: ${(props) => props.enabled && props.theme.bgHoverColor};
   }
 `;
 
 export const PageHeaderControls = styled(PageHeader)`
-  background: rgb(42, 42, 111);
-  background: linear-gradient(
-    90deg,
-    rgba(42, 42, 111, 1) 0%,
-    rgb(68, 68, 131) 49%,
-    rgba(42, 42, 111, 1) 100%
-  );
+  background: ${({ theme }) => theme.pageControls_c};
   height: 6%;
   z-index: 2;
   box-shadow: 0 0.5px 21px 1px rgb(0 0 0 / 40%);

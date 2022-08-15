@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { primary_c } from "../../constants/theme";
 
 export const StyledPopup = styled.div`
   height: 100%;
@@ -15,26 +14,51 @@ export const Header = styled.header`
   height: 2rem;
   display: flex;
   align-items: center;
-  background-color: ${primary_c};
+  background-color: ${({ theme }) => theme.primary_c};
 `;
 
-export const StyledMainHeader = styled.h1`
-  width: 100%;
+export const PopupIconGroup = styled.div`
+  display: flex;
+  height: 100%;
+  position: absolute;
+  right: 0;
+`;
+
+export const HeaderText = styled.h1`
   text-align: center;
-  color: white;
+  color: grey;
+  font-size: 0.65rem;
+  margin: 0 auto;
 `;
 
 export const CloseIconWrapper = styled.div`
-  position: absolute;
-  right: 0.2rem;
-  top: 0.2rem;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 150ms;
+
+  &:hover {
+    background-color: red;
+  }
+`;
+
+export const SettingsIconWrapper = styled(CloseIconWrapper)`
+  margin-right: 0.2rem;
+
+  &:hover {
+    background-color: transparent;
+
+    & > * {
+      fill: lightgrey;
+    }
+  }
 `;
 
 export const Footer = styled.footer`
   height: 2rem;
   width: 100%;
-  background-color: ${primary_c};
+  background-color: ${({ theme }) => theme.primary_c};
   display: flex;
   align-items: center;
   margin-top: auto;

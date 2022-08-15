@@ -1,10 +1,4 @@
 import styled from "styled-components";
-import {
-  error_c,
-  inputGlow_c,
-  inputOutline_c,
-  modalColors as colors,
-} from "../../constants/theme";
 
 export const ModalWrapper = styled.div`
   width: 100%;
@@ -35,7 +29,8 @@ export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
   background-color: ${(props) =>
-    colors.typeColors[props.$modalType] || colors.typeColors.alert};
+    props.theme.modalColors.typeColors[props.$modalType] ||
+    props.theme.modalColors.typeColors.alert};
 `;
 
 export const CloseIconWrapper = styled.div`
@@ -84,9 +79,9 @@ export const ModalButton = styled.button`
         "background: transparent;" + "color: #e3e3e3;" + "cursor: default;"
       );
     } else if (props.$btnType === "cancel") {
-      return `background: ${colors.cancelBtn_c}`;
+      return `background: ${props.theme.modalColors.cancelBtn_c}`;
     } else {
-      return `background: ${colors.submitBtn_c}`;
+      return `background: ${props.theme.modalColors.submitBtn_c}`;
     }
   }};
 
@@ -95,8 +90,8 @@ export const ModalButton = styled.button`
       props.disabled
         ? ""
         : props.$btnType === "cancel"
-        ? colors.cancelBtnHover_c
-        : colors.submitBtnHover_c};
+        ? props.theme.modalColors.cancelBtnHover_c
+        : props.theme.modalColors.submitBtnHover_c};
   }
 `;
 
@@ -115,7 +110,7 @@ export const FormSection = styled.div`
 export const TextInput = styled.input.attrs((props) => ({
   type: "text",
 }))`
-  outline: ${(props) => (props.error ? error_c : "none")};
+  outline: ${(props) => (props.error ? props.theme.error_c : "none")};
   padding: 0.2rem 0.2rem;
   caret-color: black;
   font-size: 0.6rem;
@@ -130,8 +125,10 @@ export const TextInput = styled.input.attrs((props) => ({
   }
 
   &:focus {
-    outline: 0.5px solid ${inputOutline_c};
-    box-shadow: 0 0 5px 1px ${(props) => (props.error ? error_c : inputGlow_c)};
+    outline: 0.5px solid ${({ theme }) => theme.inputOutline_c};
+    box-shadow: 0 0 5px 1px
+      ${(props) =>
+        props.error ? props.theme.error_c : props.theme.inputGlow_c};
   }
 `;
 
@@ -142,7 +139,7 @@ export const Label = styled.label`
 
 export const SecondaryInputText = styled.p`
   font-size: 0.6rem;
-  color: ${error_c};
+  color: ${({ theme }) => theme.error_c};
 
   // this makes it to where the p tag stays the same size when empty
   &:empty::before {

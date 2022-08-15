@@ -1,8 +1,4 @@
 import styled from "styled-components";
-import {
-  bookmarkHeader_c,
-  bookmarkHeaderNested_c,
-} from "../../../../../constants/theme";
 
 export const Bookmark = styled.div`
   height: fit-content;
@@ -18,7 +14,9 @@ export const Bookmark = styled.div`
 
 export const BookmarkHeader = styled.div`
   background-color: ${(props) =>
-    props.isNested ? bookmarkHeaderNested_c : bookmarkHeader_c};
+    props.isNested
+      ? props.theme.bookmarkHeaderNested_c
+      : props.theme.bookmarkHeader_c};
   display: flex;
   padding: 0.25rem;
   border-top-left-radius: 0.2rem;
@@ -65,6 +63,7 @@ export const BookmarkHeaderIconGroup = styled.div`
 export const BookmarkBodyText = styled.div`
   padding: 0.25rem;
   margin-bottom: 0.5rem;
+  background-color: ${({ theme }) => theme.bookmarkBody_c};
 `;
 export const BookmarkIconWrapper = styled.button``;
 

@@ -5,7 +5,9 @@ import {
   CloseIconWrapper,
   Footer,
   Header,
-  StyledMainHeader,
+  HeaderText,
+  PopupIconGroup,
+  SettingsIconWrapper,
   StyledPopup,
 } from "./popup.styles";
 import ViewPagerComponent from "./view-pager/view-pager.component";
@@ -15,9 +17,11 @@ import { PageHeader } from "./view-pager/view-pager.styles";
 import PathComponent from "./shared/path/path.component";
 import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
+import CogIcon from "../../icons/cog-icon/cog.icon";
 
 export const FIRST = "first";
 export const SECOND = "second";
+const OPTIONS_PAGE_URL = chrome.runtime.getURL("./options.html");
 
 const PopupComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,6 +30,10 @@ const PopupComponent = () => {
 
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ type: MSG.TOGGLE_POPUP });
+  };
+
+  const handleCogIconClick = (e) => {
+    window.open(OPTIONS_PAGE_URL, "_blank");
   };
 
   const renderBookmarksPage = (uuid) => {
@@ -43,10 +51,19 @@ const PopupComponent = () => {
       {/* Context provider to detect clicks outside of a context menu */}
       <OutsideContext.Provider value={containerRef}>
         <Header>
-          <StyledMainHeader></StyledMainHeader>
-          <CloseIconWrapper onClick={handleCloseIconClick}>
-            <CloseIcon width="24px" height="24px" color="white" />
-          </CloseIconWrapper>
+          <HeaderText>Web Video Bookmarker</HeaderText>
+          <PopupIconGroup>
+            <SettingsIconWrapper
+              onClick={handleCogIconClick}
+              title="Open settings"
+            >
+              <CogIcon width={"20px"} height={"20px"} color={"white"} />
+            </SettingsIconWrapper>
+
+            <CloseIconWrapper onClick={handleCloseIconClick} title="Hide menu">
+              <CloseIcon width="24px" height="24px" color="white" />
+            </CloseIconWrapper>
+          </PopupIconGroup>
         </Header>
 
         {pageInfo.current === FIRST ? (
@@ -73,7 +90,7 @@ const PopupComponent = () => {
           switchToBookmarksPage={renderBookmarksPage}
         />
 
-        <Footer>Web Video Bookmarker</Footer>
+        <Footer></Footer>
       </OutsideContext.Provider>
     </StyledPopup>
   );
