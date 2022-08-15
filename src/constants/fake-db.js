@@ -226,6 +226,7 @@ export const fakeDB = {
   },
   SETTINGS: {
     isGridView: true,
+    pauseVideoOnAction: true,
   },
   "a5f5bcb04aa9a9b3-dfb8": {
     bookmarks: {},

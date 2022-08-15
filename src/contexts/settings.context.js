@@ -4,9 +4,11 @@ import { checkChromeLastError } from "../contentScripts/utility";
 const SETTINGS = "SETTINGS";
 const defaultSettings = {
   isGridView: true,
+  pauseVideoOnAction: true,
 };
 export const settingsActions = {
   TOGGLE_VIEW: "toggle view mode",
+  TOGGLE_AUTO_PAUSE: "toggle auto pause",
 };
 export const SettingsContext = createContext(null);
 export const ChangeSettingsContext = createContext(null);
@@ -37,11 +39,20 @@ export const SettingsProvider = (props) => {
   }, []);
 
   const dispatch = async (action) => {
+    let newState = {};
     switch (action.type) {
       case settingsActions.TOGGLE_VIEW:
-        const newState = {
+        newState = {
           ...state,
           isGridView: !state.isGridView,
+        };
+        await saveSettingsToStorage(newState);
+        setState(newState);
+        break;
+      case settingsActions.TOGGLE_AUTO_PAUSE:
+        newState = {
+          ...state,
+          pauseVideoOnAction: !state.pauseVideoOnAction,
         };
         await saveSettingsToStorage(newState);
         setState(newState);
