@@ -42,6 +42,15 @@ const ThemeControlsComponent = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (!state.isCustomTheme && !state.isLoading) {
+      dispatchTheme({
+        type: THEME_ACTIONS.CHANGE,
+        payload: state.isDarkTheme ? THEMES.DARK : THEMES.LIGHT,
+      });
+    }
+  }, [state.isCustomTheme]);
+
   const handleDarkModeToggle = async (e) => {
     try {
       const { checked } = e.target;
