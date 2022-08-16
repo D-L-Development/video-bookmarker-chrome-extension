@@ -21,22 +21,40 @@ export const SettingsProvider = (props) => {
       try {
         const storage = await chrome.storage.sync.get(STORAGE_KEYS.SETTINGS);
         if (storage.hasOwnProperty(STORAGE_KEYS.SETTINGS)) {
-          setState({
+          return {
             isLoading: false,
             ...storage[STORAGE_KEYS.SETTINGS],
-          });
+          };
         } else {
           const newState = { isLoading: false, ...defaultSettings };
           await saveSettingsToStorage(newState);
-          setState(newState);
+          return newState;
         }
       } catch (e) {
         throw e;
       }
     };
 
-    fetchData().then();
+    const handleStorageUpdate = (changes) => {
+      for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+        if (key === STORAGE_KEYS.SETTINGS) {
+          setState({ ...state, ...newValue, isLoading: false });
+        }
+      }
+    };
+
+    fetchData().then((state) => {
+      setState(state);
+      // add listener after the storage is set, so it won't run the first time
+      chrome.storage.onChanged.addListener(handleStorageUpdate);
+    });
+
+    return () => chrome.storage.onChanged.removeListener(handleStorageUpdate);
   }, []);
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   const dispatch = async (action) => {
     let newState = {};
@@ -45,14 +63,6 @@ export const SettingsProvider = (props) => {
         newState = {
           ...state,
           isGridView: !state.isGridView,
-        };
-        await saveSettingsToStorage(newState);
-        setState(newState);
-        break;
-      case settingsActions.TOGGLE_AUTO_PAUSE:
-        newState = {
-          ...state,
-          pauseVideoOnAction: !state.pauseVideoOnAction,
         };
         await saveSettingsToStorage(newState);
         setState(newState);

@@ -48,13 +48,15 @@ const SettingsComponent = (props) => {
   };
 
   return (
-    <div>
-      <span>Auto pause video when performing bookmark actions:</span>
-      <SwitchComponent
-        handleToggle={handlePauseVideoSettingChange}
-        checked={state.pauseVideoOnAction}
-      />
-    </div>
+    !state.isLoading && (
+      <div>
+        <span>Auto pause video when performing bookmark actions:</span>
+        <SwitchComponent
+          handleToggle={handlePauseVideoSettingChange}
+          checked={state.pauseVideoOnAction}
+        />
+      </div>
+    )
   );
 };
 
