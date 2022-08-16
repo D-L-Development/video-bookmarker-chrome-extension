@@ -66,7 +66,7 @@ export const secondsToTimestamp = (seconds) => {
 };
 
 // sends a message to the active tab's content script
-export const sendMessageToActiveTab = (action, callback) => {
+export const sendMessageToActiveTab = (action, callback = null) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, action, callback);
   });

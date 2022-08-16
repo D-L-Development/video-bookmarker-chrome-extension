@@ -52,10 +52,6 @@ export const SettingsProvider = (props) => {
     return () => chrome.storage.onChanged.removeListener(handleStorageUpdate);
   }, []);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   const dispatch = async (action) => {
     let newState = {};
     switch (action.type) {

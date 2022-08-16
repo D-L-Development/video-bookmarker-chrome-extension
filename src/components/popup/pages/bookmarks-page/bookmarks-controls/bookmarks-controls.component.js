@@ -26,6 +26,7 @@ import {
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
 import { BookmarksContext } from "../../../../../contexts/bookmarks.context";
 import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
+import { SettingsContext } from "../../../../../contexts/settings.context";
 
 const DownloadButtonComponent = React.lazy(() =>
   import(
@@ -47,6 +48,7 @@ const smallerIconDimen = {
 const BookmarksControlsComponent = (props) => {
   const { showModal, setModalProps } = useContext(ModalContext);
   const { bookmarks, isLoading } = useContext(BookmarksContext);
+  const settings = useContext(SettingsContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
 
   const showErrorMsgModal = (message) => {
@@ -62,6 +64,10 @@ const BookmarksControlsComponent = (props) => {
   const handleCreateBookmarkIconClick = (e) => {
     if (isIconLoading) return;
     setIsIconLoading(true);
+    // pause the video if the settings context indicates that
+    if (!settings.isLoading && settings.pauseVideoOnAction) {
+      sendMessageToActiveTab({ type: MSG.PAUSE });
+    }
     sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {
       setIsIconLoading(false);
       if (res.status !== MSG.SUCCESS) {
@@ -122,7 +128,7 @@ const BookmarksControlsComponent = (props) => {
     <PageHeaderControls className="PageHeader">
       <ActionIconWrapper
         onClick={handleCreateBookmarkIconClick}
-        enabled={!isIconLoading}
+        enabled={!isIconLoading && !settings.isLoading}
         title="Add bookmark"
       >
         <AddBookmarkIcon
