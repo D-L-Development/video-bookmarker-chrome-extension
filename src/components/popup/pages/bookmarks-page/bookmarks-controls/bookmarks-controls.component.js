@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { modalTypes } from "../../../../../constants/theme";
 import { ActionIconWrapper, PageHeaderControls } from "../../page.styles";
 import AddBookmarkIcon from "../../../../../icons/bookmarks-icons/add-bookmark-icon/add-bookmark.icon";
@@ -26,6 +26,8 @@ import {
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
 import { BookmarksContext } from "../../../../../contexts/bookmarks.context";
 import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
+import { SettingsContext } from "../../../../../contexts/settings.context";
+import { COMMANDS } from "../../../../../constants/constants";
 
 const DownloadButtonComponent = React.lazy(() =>
   import(
@@ -47,7 +49,23 @@ const smallerIconDimen = {
 const BookmarksControlsComponent = (props) => {
   const { showModal, setModalProps } = useContext(ModalContext);
   const { bookmarks, isLoading } = useContext(BookmarksContext);
+  const settings = useContext(SettingsContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
+
+  useEffect(() => {
+    const addBookmarkListener = (command) => {
+      if (command !== COMMANDS.ADD_BOOKMARK || isIconLoading) return;
+      sendMessageToActiveTab({ type: MSG.OPEN_POPUP });
+      checkIfShouldPauseVideo();
+      handleCreateBookmarkIconClick();
+    };
+    // listen to shortcut for creating a bookmark
+    chrome.commands.onCommand.addListener(addBookmarkListener);
+    // remove listener on unmount
+    return () => {
+      chrome.commands.onCommand.removeListener(addBookmarkListener);
+    };
+  }, []);
 
   const showErrorMsgModal = (message) => {
     setModalProps({
@@ -59,9 +77,17 @@ const BookmarksControlsComponent = (props) => {
     showModal();
   };
 
+  const checkIfShouldPauseVideo = () => {
+    // pause the video if the settings context indicates that
+    if (!settings.isLoading && settings.pauseVideoOnAction) {
+      sendMessageToActiveTab({ type: MSG.PAUSE });
+    }
+  };
+
   const handleCreateBookmarkIconClick = (e) => {
     if (isIconLoading) return;
     setIsIconLoading(true);
+    checkIfShouldPauseVideo();
     sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {
       setIsIconLoading(false);
       if (res.status !== MSG.SUCCESS) {
@@ -122,7 +148,7 @@ const BookmarksControlsComponent = (props) => {
     <PageHeaderControls className="PageHeader">
       <ActionIconWrapper
         onClick={handleCreateBookmarkIconClick}
-        enabled={!isIconLoading}
+        enabled={!isIconLoading && !settings.isLoading}
         title="Add bookmark"
       >
         <AddBookmarkIcon

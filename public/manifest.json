@@ -51,5 +51,22 @@
         "http://*/*"
       ]
     }
-  ]
+  ],
+  "commands": {
+    "ADD_BOOKMARK": {
+      "suggested_key": {
+        "default": "Alt+B",
+        "mac": "Alt+B"
+      },
+      "description": "Create new bookmark"
+    },
+    "_execute_action": {
+      "suggested_key": {
+        "windows": "Alt+O",
+        "mac": "Alt+O",
+        "chromeos": "Alt+O",
+        "linux": "Alt+O"
+      }
+    }
+  }
 }

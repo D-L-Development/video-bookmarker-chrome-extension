@@ -2,8 +2,6 @@ console.log("Content Script Ran!");
 import { Session } from "./Session";
 import { getErrorMsg, MSG } from "./utility";
 
-// TODO: replace all strings with constants
-
 let initialPageLoad = true;
 let session = null;
 
@@ -16,9 +14,19 @@ chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
     if (initialPageLoad) {
       initialPageLoad = false;
       session = new Session();
+      // ? TODO: there's probably a better way to do this below
+      setTimeout(() => {
+        session.togglePopupVisibility(true);
+        sendResponse({ status: MSG.SUCCESS });
+      }, 300);
+      return true;
     } else {
       session.togglePopupVisibility();
+      sendResponse({ status: MSG.SUCCESS });
     }
+  } else if (action.type === MSG.OPEN_POPUP) {
+    session.togglePopupVisibility(true);
+    sendResponse({ status: MSG.SUCCESS });
   } else {
     session
       .dispatch(action)

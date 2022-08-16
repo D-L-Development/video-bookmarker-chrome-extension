@@ -10,10 +10,6 @@ export class Session {
 
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
-    // ? TODO: there's probably a better way to do this below
-    setTimeout(() => {
-      this.togglePopupVisibility(true);
-    }, 200);
   }
 
   async dispatch(action) {

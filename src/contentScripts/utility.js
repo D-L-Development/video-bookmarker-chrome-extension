@@ -12,16 +12,8 @@ export const MSG = {
   SPEED_UP: "speed up",
   SLOW_DOWN: "slow down",
   RESET_SPEED: "reset speed",
+  OPEN_POPUP: "open popup",
 };
-
-export class Bookmark {
-  constructor(title, text, timestamp = null) {
-    this.title = title;
-    this.text = text;
-    this.timestamp = timestamp;
-    this.isNested = false;
-  }
-}
 
 export function copyStringToClipboard(str) {
   // Create new element
@@ -52,10 +44,6 @@ export function formatMapToTableString(bookmarks) {
   return formattedString;
 }
 
-export function copyTableToClipboard(bookmarks) {
-  copyStringToClipboard(formatMapToTableString(bookmarks));
-}
-
 export function guid() {
   let s4 = () => {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -78,7 +66,7 @@ export const secondsToTimestamp = (seconds) => {
 };
 
 // sends a message to the active tab's content script
-export const sendMessageToActiveTab = (action, callback) => {
+export const sendMessageToActiveTab = (action, callback = null) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, action, callback);
   });
