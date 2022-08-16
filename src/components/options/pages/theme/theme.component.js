@@ -1,51 +1,89 @@
-import React, { useEffect, useState } from "react";
-import SwitchComponent from "../switch/switch.component";
-import { THEME_KEY } from "../../../../contexts/theme.context";
-import { THEMES } from "../../../../constants/default-palettes";
+import React, { useContext, useState } from "react";
+import {
+  defaultPalettes,
+  THEMES,
+} from "../../../../constants/default-palettes";
+import { guid } from "../../../../contentScripts/utility";
+import {
+  ChangeThemePageContext,
+  THEME_ACTIONS,
+} from "../../context/theme-page-context";
+import ThemeControlsComponent from "./theme-controls/theme-controls.component";
+import {
+  ColorCircle,
+  ColorName,
+  ColorOption,
+  ColorsList,
+  ThemePickerContainer,
+  ThemeSubmitButton,
+} from "./theme.styles";
+import { SketchPicker } from "react-color";
+
+// const colors = {
+//   thing: "HEX"
+// }
 
 const ThemeComponent = (props) => {
-  const [state, setState] = useState({ isDarkMode: false, isLoading: true });
+  const dispatchTheme = useContext(ChangeThemePageContext);
+  const [state, setState] = useState({
+    theme: defaultPalettes[THEMES.LIGHT],
+    selectedName: Object.keys(defaultPalettes[THEMES.LIGHT])[0],
+    colorPicker: "#ffffff",
+  });
 
-  useEffect(() => {
-    const fetchStorage = async () => {
-      const storage = await chrome.storage.sync.get(THEME_KEY);
-      if (storage.hasOwnProperty(THEME_KEY)) {
-        return storage[THEME_KEY] === THEMES.DARK;
-      } else {
-        return false;
-      }
-    };
+  const handleColorPickerInput = (color) => {
+    const theme = { ...state.theme, [state.selectedName]: color.hex };
+    setState({
+      ...state,
+      colorPicker: color.hex,
+      theme,
+    });
+    dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: theme });
+  };
 
-    fetchStorage()
-      .then((isDarkMode) => {
-        setState({ isDarkMode, isLoading: false });
-      })
-      .catch((e) => {
-        setState({ ...state, isLoading: false });
-        console.log(e);
-      });
-  }, []);
-
-  const handleDarkModeToggle = async () => {
-    try {
-      await chrome.storage.sync.set({
-        [THEME_KEY]: state.isDarkMode ? THEMES.LIGHT : THEMES.DARK,
-      });
-      setState({ ...state, isDarkMode: !state.isDarkMode });
-    } catch (e) {
-      throw e;
+  const renderThemeItems = () => {
+    const colorPickers = [];
+    for (let key in state.theme) {
+      const uuid = guid();
+      colorPickers.push(
+        <ColorOption key={uuid}>
+          <ColorCircle
+            selected={key === state.selectedName}
+            color={state.theme[key]}
+            name={key}
+            onClick={(e) => {
+              setState({
+                ...state,
+                selectedName: key,
+                colorPicker: state.theme[key],
+              });
+            }}
+          />
+          <ColorName>{key}</ColorName>
+        </ColorOption>
+      );
     }
+    return colorPickers;
   };
 
   return (
     <>
       <h1>Theme</h1>
-      {!state.isLoading && (
-        <SwitchComponent
-          handleToggle={handleDarkModeToggle}
-          checked={state.isDarkMode}
+      <ThemeControlsComponent />
+      <ThemePickerContainer>
+        <SketchPicker
+          color={state.colorPicker}
+          onChange={(color) => handleColorPickerInput(color)}
         />
-      )}
+        <ColorsList>{renderThemeItems()}</ColorsList>
+        <ThemeSubmitButton
+          onClick={() =>
+            dispatchTheme({ type: THEME_ACTIONS.CHANGE, payload: state.theme })
+          }
+        >
+          Submit Theme
+        </ThemeSubmitButton>
+      </ThemePickerContainer>
     </>
   );
 };

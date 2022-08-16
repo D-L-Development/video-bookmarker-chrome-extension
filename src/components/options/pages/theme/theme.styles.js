@@ -1,49 +1,42 @@
 import styled from "styled-components";
 
-export const StyledSwitch = styled.div`
-  width: ${(props) => props.width || "2rem"};
+export const ColorCircle = styled.button.attrs(({ color, selected }) => ({
+  style: {
+    backgroundColor: color,
+    outline: selected ? "2px solid red" : "1px solid black",
+  },
+}))`
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+`;
+
+export const ColorOption = styled.div`
   display: flex;
+  border-bottom: 1px solid grey;
 `;
 
-export const HiddenCheckbox = styled.input`
-  height: 0;
-  width: 0;
-  visibility: hidden;
+export const ColorName = styled.span``;
 
-  :checked + label {
-    background-color: #bada55;
-  }
-
-  :checked + label:after {
-    left: calc(100% - 3%);
-    transform: translateX(-100%);
-  }
+export const ColorsList = styled.div`
+  width: 50%;
+`;
+export const ThemePickerContainer = styled.div`
+  display: flex;
+  padding: 2rem;
+  align-items: start;
 `;
 
-export const SwitchLabel = styled.label`
+export const ThemeSubmitButton = styled.button`
+  outline: none;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 1rem 2rem;
   cursor: pointer;
-  text-indent: -9999px;
-  background: grey;
-  display: block;
-  border-radius: 100px;
-  height: 0;
-  width: 100%;
-  padding-bottom: 50%;
-  position: relative;
+  transition: 150ms;
 
-  :after {
-    content: "";
-    position: absolute;
-    top: 5%;
-    left: 3%;
-    width: 45%;
-    height: 90%;
-    background: #fff;
-    border-radius: 90px;
-    transition: 0.3s;
-  }
-
-  :active:after {
-    width: 60%;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 `;

@@ -1,13 +1,9 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import {
-  HiddenCheckbox,
-  StyledSwitch,
-  SwitchLabel,
-} from "../theme/theme.styles";
+import { HiddenCheckbox, StyledSwitch, SwitchLabel } from "./switch.styles";
 import { guid } from "../../../../contentScripts/utility";
 
-const SwitchComponent = ({ checked, handleToggle, width }) => {
+const SwitchComponent = ({ checked, handleToggle, width, disabled }) => {
   const uuid = useRef(guid());
 
   return (
@@ -17,6 +13,7 @@ const SwitchComponent = ({ checked, handleToggle, width }) => {
         id={uuid.current}
         checked={checked}
         onChange={handleToggle}
+        disabled={disabled}
       />
       <SwitchLabel htmlFor={uuid.current}>Toggle</SwitchLabel>
     </StyledSwitch>
