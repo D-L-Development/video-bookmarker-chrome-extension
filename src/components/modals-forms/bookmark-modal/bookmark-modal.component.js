@@ -14,9 +14,12 @@ import {
   bookmarksActions,
   BookmarksDispatchContext,
 } from "../../../contexts/bookmarks.context";
+import { SettingsContext } from "../../../contexts/settings.context";
+import { MSG, sendMessageToActiveTab } from "../../../contentScripts/utility";
 
 const BookmarkModalComponent = (props) => {
   const dispatch = useContext(BookmarksDispatchContext);
+  const settings = useContext(SettingsContext);
   const [title, handleTitleChange, titleError] = useInputState(
     props.title || "",
     15
@@ -56,8 +59,14 @@ const BookmarkModalComponent = (props) => {
           },
         });
       }
-
+      checkIfShouldPlayVideo();
       props.hideModal();
+    }
+  };
+
+  const checkIfShouldPlayVideo = () => {
+    if (!settings.isLoading && settings.resumeAfterAction) {
+      sendMessageToActiveTab({ type: MSG.PLAY });
     }
   };
 
@@ -70,7 +79,10 @@ const BookmarkModalComponent = (props) => {
       submitBtnText={props.isEditing ? "Edit" : "Create"}
       closeBtnText={"Cancel"}
       onSubmit={handleSubmitForm}
-      onClose={props.hideModal}
+      onClose={() => {
+        checkIfShouldPlayVideo();
+        props.hideModal();
+      }}
     >
       <FormSection>
         <Label htmlFor="title">Enter a title:</Label>

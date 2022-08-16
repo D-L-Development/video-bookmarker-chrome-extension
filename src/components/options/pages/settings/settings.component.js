@@ -3,11 +3,16 @@ import { STORAGE_KEYS } from "../../../../constants/constants";
 import SwitchComponent from "../switch/switch.component";
 
 const { SETTINGS } = STORAGE_KEYS;
+const SETTINGS_OPTIONS = {
+  resumeAfterAction: "resumeAfterAction",
+  pauseVideoOnAction: "pauseVideoOnAction",
+};
 
 const SettingsComponent = (props) => {
   const [state, setState] = useState({
     isLoading: true,
     pauseVideoOnAction: true,
+    resumeAfterAction: true,
   });
 
   useEffect(() => {
@@ -16,7 +21,8 @@ const SettingsComponent = (props) => {
         const storage = await chrome.storage.sync.get(SETTINGS);
         if (storage.hasOwnProperty(SETTINGS)) {
           // return needed settings from storage
-          return { pauseVideoOnAction: storage[SETTINGS].pauseVideoOnAction };
+          const { pauseVideoOnAction, resumeAfterAction } = storage[SETTINGS];
+          return { pauseVideoOnAction, resumeAfterAction };
         } else {
           throw new Error("Failed to fetch storage");
         }
@@ -33,15 +39,26 @@ const SettingsComponent = (props) => {
       });
   }, []);
 
-  const handlePauseVideoSettingChange = async () => {
+  const handlePauseVideoSettingChange = async (type) => {
     try {
       const storage = await chrome.storage.sync.get(SETTINGS);
       // update the storage
-      storage[SETTINGS].pauseVideoOnAction = !state.pauseVideoOnAction;
+      switch (type) {
+        case SETTINGS_OPTIONS.pauseVideoOnAction:
+          storage[SETTINGS].pauseVideoOnAction = !state.pauseVideoOnAction;
+          break;
+        case SETTINGS_OPTIONS.resumeAfterAction:
+          storage[SETTINGS].resumeAfterAction = !state.resumeAfterAction;
+          break;
+      }
       // save storage
       await chrome.storage.sync.set(storage);
       // update state
-      setState({ ...state, pauseVideoOnAction: !state.pauseVideoOnAction });
+      setState({
+        ...state,
+        pauseVideoOnAction: storage[SETTINGS].pauseVideoOnAction,
+        resumeAfterAction: storage[SETTINGS].resumeAfterAction,
+      });
     } catch (e) {
       throw e;
     }
@@ -49,13 +66,28 @@ const SettingsComponent = (props) => {
 
   return (
     !state.isLoading && (
-      <div>
-        <span>Auto pause video when performing bookmark actions:</span>
-        <SwitchComponent
-          handleToggle={handlePauseVideoSettingChange}
-          checked={state.pauseVideoOnAction}
-        />
-      </div>
+      <>
+        <div>
+          <span>Auto pause video when performing bookmark actions:</span>
+          <SwitchComponent
+            handleToggle={() =>
+              handlePauseVideoSettingChange(SETTINGS_OPTIONS.pauseVideoOnAction)
+            }
+            checked={state.pauseVideoOnAction}
+          />
+        </div>
+        <div>
+          <span>
+            Auto resume video when done editing or creating a bookmark:
+          </span>
+          <SwitchComponent
+            handleToggle={() =>
+              handlePauseVideoSettingChange(SETTINGS_OPTIONS.resumeAfterAction)
+            }
+            checked={state.resumeAfterAction}
+          />
+        </div>
+      </>
     )
   );
 };

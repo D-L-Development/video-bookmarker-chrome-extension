@@ -5,6 +5,7 @@ import { STORAGE_KEYS } from "../constants/constants";
 const defaultSettings = {
   isGridView: true,
   pauseVideoOnAction: true,
+  resumeAfterAction: true,
 };
 export const settingsActions = {
   TOGGLE_VIEW: "toggle view mode",
