@@ -56,6 +56,7 @@ const BookmarksControlsComponent = (props) => {
     const addBookmarkListener = (command) => {
       if (command !== COMMANDS.ADD_BOOKMARK || isIconLoading) return;
       sendMessageToActiveTab({ type: MSG.OPEN_POPUP });
+      checkIfShouldPauseVideo();
       handleCreateBookmarkIconClick();
     };
     // listen to shortcut for creating a bookmark
@@ -76,13 +77,17 @@ const BookmarksControlsComponent = (props) => {
     showModal();
   };
 
-  const handleCreateBookmarkIconClick = (e) => {
-    if (isIconLoading) return;
-    setIsIconLoading(true);
+  const checkIfShouldPauseVideo = () => {
     // pause the video if the settings context indicates that
     if (!settings.isLoading && settings.pauseVideoOnAction) {
       sendMessageToActiveTab({ type: MSG.PAUSE });
     }
+  };
+
+  const handleCreateBookmarkIconClick = (e) => {
+    if (isIconLoading) return;
+    setIsIconLoading(true);
+    checkIfShouldPauseVideo();
     sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {
       setIsIconLoading(false);
       if (res.status !== MSG.SUCCESS) {
