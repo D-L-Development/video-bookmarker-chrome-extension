@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { checkChromeLastError } from "../contentScripts/utility";
+import { STORAGE_KEYS } from "../constants/constants";
 
-const SETTINGS = "SETTINGS";
 const defaultSettings = {
   isGridView: true,
   pauseVideoOnAction: true,
@@ -19,11 +19,11 @@ export const SettingsProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const storage = await chrome.storage.sync.get(SETTINGS);
-        if (storage.hasOwnProperty(SETTINGS)) {
+        const storage = await chrome.storage.sync.get(STORAGE_KEYS.SETTINGS);
+        if (storage.hasOwnProperty(STORAGE_KEYS.SETTINGS)) {
           setState({
             isLoading: false,
-            ...storage[SETTINGS],
+            ...storage[STORAGE_KEYS.SETTINGS],
           });
         } else {
           const newState = { isLoading: false, ...defaultSettings };
@@ -64,7 +64,7 @@ export const SettingsProvider = (props) => {
     try {
       // don't save the loading state to storage
       delete settings.isLoading;
-      await chrome.storage.sync.set({ [SETTINGS]: settings });
+      await chrome.storage.sync.set({ [STORAGE_KEYS.SETTINGS]: settings });
       checkChromeLastError();
     } catch (e) {
       throw e;
