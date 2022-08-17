@@ -37,27 +37,35 @@ export const Navigation = styled.nav`
   margin-top: 4rem;
 `;
 
-// THIS WILL CHANGE WITH THEME
-export const NavButton = styled.button`
-  background-color: #051449; //CHANGE THIS TO THEME COLOR
-  border: solid 2px #000;
-  box-shadow: -5px 5px 4px rgb(0 0 0 / 25%);
-  border-radius: 15px;
+// // THIS WILL CHANGE WITH THEME
+export const StyledLink = styled(NavLink)`
   width: 10rem;
   height: 2.5rem;
-
-  &:hover {
-    background-color: #a52a2a; //CHANGE THIS TO THEME COLOR
-  }
-`;
-
-export const StyledLink = styled(NavLink)`
-  color: white;
-  font-size: 1.2rem;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: -1px 1px #454545;
+  background: #051449; // CHANGE THIS TO THEME LATER
+  color: #eeeeee;
+  padding: 10px 20px;
+  margin: 0 0 7px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  border-radius: 15px;
+  box-shadow: 0 7px #040f35, 0 7px 7px 1px #051449, 0 0 #051449 inset; // CHANGE THIS TO THEME LATER
+  transition: box-shadow 0.15s, margin 0.15s;
+
+  &:active {
+    margin: 7px 0 0;
+    box-shadow: 0 0 #0052E0, 0 0 #2f2f2f, 0 3px 14px #004FD9 inset;
+  }
 
   &.active {
-    border-bottom: 1px solid white;
+    background: #a52a2a; // CHANGE THIS TO THEME LATER
+    box-shadow: 0 7px #781e1e, 0 7px 7px 1px #a52a2a, 0 0 #9c2828 inset; // CHANGE THIS TO THEME LATER
   }
+
 `;
