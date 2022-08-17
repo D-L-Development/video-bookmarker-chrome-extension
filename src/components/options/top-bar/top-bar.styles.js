@@ -45,6 +45,10 @@ export const NavButton = styled.button`
   border-radius: 15px;
   width: 10rem;
   height: 2.5rem;
+
+  &:hover {
+    background-color: #a52a2a; //CHANGE THIS TO THEME COLOR
+  }
 `;
 
 export const StyledLink = styled(NavLink)`
