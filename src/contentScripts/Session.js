@@ -1,4 +1,9 @@
-import { MSG, secondsToTimestamp, timestampToSeconds } from "./utility";
+import {
+  getErrorMsg,
+  MSG,
+  secondsToTimestamp,
+  timestampToSeconds,
+} from "./utility";
 
 export class Session {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
@@ -12,20 +17,18 @@ export class Session {
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
     this.port = null;
 
+    // handle port connection by sending video information
     chrome.runtime.onConnect.addListener((port) => {
       console.log("connected", port);
       this.port = port;
-    });
-
-    // TODO: remove this it's just for testing
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "M" && e.altKey) {
-        this.port.postMessage({
-          payload: {
-            hello: "world",
-          },
+      this.#getVideoElement(3)
+        .then((video) => {
+          this.video = video;
+          this.#sendVideoData();
+        })
+        .catch((error) => {
+          this.port.postMessage({ payload: null, message: getErrorMsg(error) });
         });
-      }
     });
   }
 
@@ -112,23 +115,36 @@ export class Session {
     });
   }
 
+  /**
+   * Wire event listener for video element
+   */
   #addVideoEvtListeners() {
     // const events = ["play", "pause", "ratechange", "timeupdate"];
     const events = ["play", "pause", "ratechange"];
-    events.forEach((event) =>
-      this.video.addEventListener(event, (e) => {
-        if (this.#isVideoInDOM() && this.port) {
-          const { paused, playbackRate } = this.video;
-          this.port.postMessage({
-            payload: {
-              paused,
-              playbackRate,
-            },
-          });
-        }
-      })
+    events.forEach((eventName) =>
+      this.video.addEventListener(eventName, this.#sendVideoData)
     );
   }
+
+  /**
+   * Checks if possible to send HTML video information to connected port, if so
+   * it sends the video state as an object {payload: {}}
+   *
+   * @param {Event} e
+   */
+  #sendVideoData = (e) => {
+    if (this.#isVideoInDOM() && this.port) {
+      const { paused, playbackRate } = this.video;
+      this.port.postMessage({
+        payload: {
+          paused,
+          playbackRate,
+        },
+      });
+    } else {
+      throw new Error("Failed to send msg to popup");
+    }
+  };
 
   /**
    * Checks to see if the video element is still in the dom

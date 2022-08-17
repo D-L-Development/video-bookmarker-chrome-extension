@@ -15,8 +15,11 @@ export const VideoProvider = ({ children }) => {
       const port = await connectToActiveTab("video-state");
       // listen to messages from content script
       port.onMessage.addListener((action) => {
-        setState({ ...action.payload, isLoading: false });
-        console.log(action);
+        if (action.payload) {
+          setState({ ...action.payload, isLoading: false });
+        } else {
+          console.log(action.message);
+        }
       });
     };
 
