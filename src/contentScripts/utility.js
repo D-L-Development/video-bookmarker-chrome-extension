@@ -67,8 +67,17 @@ export const secondsToTimestamp = (seconds) => {
 
 // sends a message to the active tab's content script
 export const sendMessageToActiveTab = (action, callback = null) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, action, callback);
+  });
+};
+
+export const connectToActiveTab = async (portName) => {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const port = chrome.tabs.connect(tabs[0].id, { name: portName });
+      resolve(port);
+    });
   });
 };
 

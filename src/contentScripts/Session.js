@@ -10,6 +10,20 @@ export class Session {
 
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
+
+    chrome.runtime.onConnect.addListener((port) => {
+      console.log("connected", port);
+      console.assert(port.name === "video-state");
+      port.onMessage.addListener((msg) => {
+        console.log(msg);
+        if (msg.joke === "Knock knock")
+          port.postMessage({ question: "Who's there?" });
+        else if (msg.answer === "Madame")
+          port.postMessage({ question: "Madame who?" });
+        else if (msg.answer === "Madame... Bovary")
+          port.postMessage({ question: "I don't get it." });
+      });
+    });
   }
 
   async dispatch(action) {
@@ -88,10 +102,18 @@ export class Session {
         const video = document.querySelector("video");
         if (video) {
           clearInterval(intervalId);
+          this.#addVideoEvtListeners();
           resolve(video);
         }
       }, 1000);
     });
+  }
+
+  #addVideoEvtListeners() {
+    const events = ["play", "pause", "ratechange", "timeupdate"];
+    events.forEach((event) =>
+      this.video.addEventListener(event, () => console.log(event))
+    );
   }
 
   /**
