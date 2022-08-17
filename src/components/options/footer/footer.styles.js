@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FooterContainer = styled.footer.attrs(({theme}) => ({
+export const FooterContainer = styled.div.attrs(({theme}) => ({
     style: {
         backgroundColor: theme.primary_c,
     },
@@ -30,5 +30,9 @@ export const FootLink = styled.a`
   font-weight: bold;
   color: #eee;
   text-decoration: none;
-  cursor: pointer
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;

@@ -46,7 +46,7 @@ export const StyledLink = styled(NavLink)`
   text-align: center;
   font-weight: bold;
   text-shadow: -1px 1px #454545;
-  background: #051449; // CHANGE THIS TO THEME LATER
+  background: #02276b; // CHANGE THIS TO THEME LATER
   color: #eeeeee;
   padding: 10px 20px;
   margin: 0 0 7px;
@@ -55,12 +55,17 @@ export const StyledLink = styled(NavLink)`
   outline: none;
   position: relative;
   border-radius: 15px;
-  box-shadow: 0 7px #040f35, 0 7px 7px 1px #051449, 0 0 #051449 inset; // CHANGE THIS TO THEME LATER
+  box-shadow: 0 7px #05195d, 0 7px 7px 1px #02276b; // CHANGE THIS TO THEME LATER
   transition: box-shadow 0.15s, margin 0.15s;
+
+  &:hover {
+    background: #a52a2a; // CHANGE THIS TO THEME LATER
+    box-shadow: 0 7px #781e1e, 0 7px 7px 1px #a52a2a, 0 0 #9c2828 inset; // CHANGE THIS TO THEME LATER
+  }
 
   &:active {
     margin: 7px 0 0;
-    box-shadow: 0 0 #0052E0, 0 0 #2f2f2f, 0 3px 14px #004FD9 inset;
+    box-shadow: 0 0 #ff4138, 0 0 #2f2f2f, 0 3px 14px #ff4138 inset;
   }
 
   &.active {
