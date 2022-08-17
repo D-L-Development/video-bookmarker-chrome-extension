@@ -28,6 +28,7 @@ import { BookmarksContext } from "../../../../../contexts/bookmarks.context";
 import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon";
 import { SettingsContext } from "../../../../../contexts/settings.context";
 import { COMMANDS } from "../../../../../constants/constants";
+import { VideoContext } from "../../../../../contexts/video.context";
 
 const DownloadButtonComponent = React.lazy(() =>
   import(
@@ -50,6 +51,7 @@ const BookmarksControlsComponent = (props) => {
   const { showModal, setModalProps } = useContext(ModalContext);
   const { bookmarks, isLoading } = useContext(BookmarksContext);
   const settings = useContext(SettingsContext);
+  const video = useContext(VideoContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
 
   useEffect(() => {
@@ -248,6 +250,9 @@ const BookmarksControlsComponent = (props) => {
           />
         </EdgeActionIcon>
       </SpeedIconsGroup>
+      <span>
+        {!video.isLoading && "x" + video.playbackRate.toFixed(2).toString()}
+      </span>
       {isIconLoading && (
         <SpinnerWrapper style={{ marginRight: "0.5rem" }}>
           <SpinnerIcon width={"24px"} height={"24px"} color={"white"} />

@@ -120,8 +120,10 @@ export class Session {
         if (this.#isVideoInDOM() && this.port) {
           const { paused, playbackRate } = this.video;
           this.port.postMessage({
-            paused,
-            playbackRate,
+            payload: {
+              paused,
+              playbackRate,
+            },
           });
         }
       })
