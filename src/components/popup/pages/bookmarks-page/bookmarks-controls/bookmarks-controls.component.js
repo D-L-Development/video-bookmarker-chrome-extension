@@ -252,9 +252,10 @@ const BookmarksControlsComponent = (props) => {
           />
         </EdgeActionIcon>
       </SpeedIconsGroup>
-      <SpeedText>
-        {!video.isLoading && "x" + video.playbackRate.toFixed(2).toString()}
-      </SpeedText>
+      {!video.isLoading && (
+        <SpeedText>{"x" + video.playbackRate.toFixed(2).toString()}</SpeedText>
+      )}
+
       {isIconLoading && (
         <SpinnerWrapper style={{ marginRight: "0.5rem" }}>
           <SpinnerIcon width={"24px"} height={"24px"} color={"white"} />

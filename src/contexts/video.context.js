@@ -18,6 +18,7 @@ export const VideoProvider = ({ children }) => {
         if (action.payload) {
           setState({ ...action.payload, isLoading: false });
         } else {
+          // TODO: figure out what to do when there's no video found
           console.log(action.message);
         }
       });
