@@ -1,21 +1,22 @@
 import React from "react";
+import {CopyrightInfo, FooterContainer, FootLink, StyledContainer} from "./footer.styles";
 
 const FooterComponent = (props) => {
-    return(
-      <div id="Footer-Background">
-          <div id="Github">
-              <div id="Copyright-Icon"/>
-              <div>Copyright Info</div>
-          </div>
-          <div id="Github">
-              <div id="Github-Icon"/>
-              <div><a href="">Github</a></div>
-          </div>
-          <div id="Contact">
-              <div id="Contact-Icon"/>
-              <div><a href="">Contact Developers</a></div>
-          </div>
-      </div>
+    return (
+        <FooterContainer>
+            <StyledContainer>
+                <div id="Copyright-Icon"/>
+                <CopyrightInfo>Copyright Info</CopyrightInfo>
+            </StyledContainer>
+            <StyledContainer>
+                <StyledContainer id="Github-Icon"/>
+                <FootLink href="">Github</FootLink>
+            </StyledContainer>
+            <StyledContainer>
+                <StyledContainer id="Contact-Icon"/>
+                <FootLink href="">Contact Developers</FootLink>
+            </StyledContainer>
+        </FooterContainer>
     );
 };
 

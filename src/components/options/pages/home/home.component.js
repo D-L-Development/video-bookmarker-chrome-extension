@@ -1,7 +1,7 @@
 import React from "react";
 import {Content, Features, FeatureSection, FeatureText, List, ListSection,} from "./home.styles";
 import BookmarksIcon from "../../../../icons/bookmarks-icon/bookmarks.icon";
-import {main_c, pale_c} from "../../colors";
+import {pale_c} from "../../colors";
 
 const HomeComponent = (props) => {
     return (
@@ -34,9 +34,7 @@ const HomeComponent = (props) => {
                         </FeatureText>
                     </FeatureSection>
                 </Features>
-                <Features color={"teal"}></Features>
             </Content>
-            <Features color={main_c}></Features>
         </>
     );
 };
