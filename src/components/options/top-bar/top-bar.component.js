@@ -1,20 +1,26 @@
 import React from "react";
-import {Navigation, StyledLink, TopBar} from "./top-bar.styles";
+import {ExtensionSlogan, ExtensionTitle, NavButton, Navigation, StyledLink, TopBarContainer} from "./top-bar.styles";
 
 const TopBarComponent = (props) => {
     return (
-        <TopBar>
-            <h1>Web Video Bookmarker</h1>
-            <p>All in one extension for managing video annotations and lecture outlines.</p>
+        <TopBarContainer>
+            <ExtensionTitle>Web Video Bookmarker</ExtensionTitle>
+            <ExtensionSlogan>All in one extension for managing video annotations and lecture outlines.</ExtensionSlogan>
             <Navigation>
-                <StyledLink to="/" end={true}>
-                    Home
-                </StyledLink>
-                <StyledLink to="/settings">Settings</StyledLink>
-                <StyledLink to="/theme">Theme</StyledLink>
-                <StyledLink to="/about">About</StyledLink>
+                <NavButton>
+                    <StyledLink to="/" end={true}>Home</StyledLink>
+                </NavButton>
+                <NavButton>
+                    <StyledLink to="/settings">Settings</StyledLink>
+                </NavButton>
+                <NavButton>
+                    <StyledLink to="/theme">Theme</StyledLink>
+                </NavButton>
+                <NavButton>
+                    <StyledLink to="/about">About</StyledLink>
+                </NavButton>
             </Navigation>
-        </TopBar>
+        </TopBarContainer>
     );
 };
 

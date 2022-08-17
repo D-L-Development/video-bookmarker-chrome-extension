@@ -1,28 +1,50 @@
 import styled from "styled-components";
 import {NavLink} from "react-router-dom";
 
-export const TopBar = styled.nav.attrs(({theme}) => ({
+
+// THIS WILL CHANGE WITH THEME
+export const TopBarContainer = styled.div.attrs(({theme}) => ({
     style: {
         backgroundColor: theme.primary_c,
     },
 }))`
   width: 100%;
-  height: 321px;
-  padding: 57px 147px 23px;
-  box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.25);
+  height: 100%;
+  padding-bottom: 1rem;
+  box-shadow: 0 5px 4px rgb(0 0 0 / 25%);
 `;
 
-export const Navigation = styled.nav.attrs(({theme}) => ({
-    style: {
-        backgroundColor: theme.primary_c,
-    },
-}))`
-  width: 100%;
-  height: 4rem;
+export const ExtensionTitle = styled.h1`
+  font-size: 72px;
+  color: #eee;
+  text-align: center;
+  text-shadow: 0 5px 4px rgba(0, 0, 0, 0.6);
+`;
+
+export const ExtensionSlogan = styled.p`
+  font-size: 32px;
+  text-align: center;
+  color: #eee;
+  text-shadow: 0 5px 4px rgba(0, 0, 0, 0.6);
+`;
+
+export const Navigation = styled.nav`
+  width: auto;
+  height: auto;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding-left: 1rem;
+  justify-content: space-around;
+  margin-top: 4rem;
+`;
+
+// THIS WILL CHANGE WITH THEME
+export const NavButton = styled.button`
+  background-color: #051449; //CHANGE THIS TO THEME COLOR
+  border: solid 2px #000;
+  box-shadow: -5px 5px 4px rgb(0 0 0 / 25%);
+  border-radius: 15px;
+  width: 10rem;
+  height: 2.5rem;
 `;
 
 export const StyledLink = styled(NavLink)`
