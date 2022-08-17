@@ -10,19 +10,22 @@ export class Session {
 
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
+    this.port = null;
 
     chrome.runtime.onConnect.addListener((port) => {
       console.log("connected", port);
-      console.assert(port.name === "video-state");
-      port.onMessage.addListener((msg) => {
-        console.log(msg);
-        if (msg.joke === "Knock knock")
-          port.postMessage({ question: "Who's there?" });
-        else if (msg.answer === "Madame")
-          port.postMessage({ question: "Madame who?" });
-        else if (msg.answer === "Madame... Bovary")
-          port.postMessage({ question: "I don't get it." });
-      });
+      this.port = port;
+    });
+
+    // TODO: remove this it's just for testing
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "M" && e.altKey) {
+        this.port.postMessage({
+          payload: {
+            hello: "world",
+          },
+        });
+      }
     });
   }
 
@@ -110,9 +113,18 @@ export class Session {
   }
 
   #addVideoEvtListeners() {
-    const events = ["play", "pause", "ratechange", "timeupdate"];
+    // const events = ["play", "pause", "ratechange", "timeupdate"];
+    const events = ["play", "pause", "ratechange"];
     events.forEach((event) =>
-      this.video.addEventListener(event, () => console.log(event))
+      this.video.addEventListener(event, (e) => {
+        if (this.#isVideoInDOM() && this.port) {
+          const { paused, playbackRate } = this.video;
+          this.port.postMessage({
+            paused,
+            playbackRate,
+          });
+        }
+      })
     );
   }
 

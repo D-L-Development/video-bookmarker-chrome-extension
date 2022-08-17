@@ -18,6 +18,7 @@ import PathComponent from "./shared/path/path.component";
 import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
 import CogIcon from "../../icons/cog-icon/cog.icon";
+import { VideoProvider } from "../../contexts/video.context";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -69,7 +70,9 @@ const PopupComponent = () => {
         {pageInfo.current === FIRST ? (
           <FileSystemControlsComponent />
         ) : (
-          <BookmarksControlsComponent />
+          <VideoProvider>
+            <BookmarksControlsComponent />
+          </VideoProvider>
         )}
         <PageHeader className="PageHeader">
           <PathComponent
