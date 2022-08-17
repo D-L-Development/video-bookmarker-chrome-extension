@@ -65,7 +65,7 @@ const BookmarksControlsComponent = (props) => {
     return () => {
       chrome.commands.onCommand.removeListener(addBookmarkListener);
     };
-  }, []);
+  }, [settings]);
 
   const showErrorMsgModal = (message) => {
     setModalProps({
