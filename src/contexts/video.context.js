@@ -4,7 +4,7 @@ import { connectToActiveTab } from "../contentScripts/utility";
 export const VideoContext = createContext(null);
 export const VideoProvider = ({ children }) => {
   const [state, setState] = useState({
-    paused: false,
+    paused: true,
     playbackRate: 1,
     isLoading: true,
   });

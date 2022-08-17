@@ -21,6 +21,7 @@ import PlusIcon from "../../../../../icons/bookmarks-icons/plus-icon/plus.icon";
 import {
   EdgeActionIcon,
   SpeedIconsGroup,
+  SpeedText,
   SpinnerWrapper,
 } from "./bookmarks-controls.styles";
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
@@ -198,11 +199,12 @@ const BookmarksControlsComponent = (props) => {
       <ActionIconWrapper
         onClick={() => handleContentScriptIconClick(MSG.TOGGLE_PLAY)}
         enabled={!isIconLoading}
-        title="play/pause"
+        title={video.paused ? "play" : "pause"}
       >
         <PlayPauseIcon
           {...defaultIconDimen}
           color={isIconLoading ? "grey" : "white"}
+          type={video.paused ? "play" : "pause"}
         />
       </ActionIconWrapper>
       <ActionIconWrapper
@@ -250,9 +252,9 @@ const BookmarksControlsComponent = (props) => {
           />
         </EdgeActionIcon>
       </SpeedIconsGroup>
-      <span>
+      <SpeedText>
         {!video.isLoading && "x" + video.playbackRate.toFixed(2).toString()}
-      </span>
+      </SpeedText>
       {isIconLoading && (
         <SpinnerWrapper style={{ marginRight: "0.5rem" }}>
           <SpinnerIcon width={"24px"} height={"24px"} color={"white"} />

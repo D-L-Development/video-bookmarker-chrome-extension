@@ -47,3 +47,8 @@ export const SpinnerWrapper = styled.div`
   animation-delay: 100ms;
   animation-fill-mode: forwards;
 `;
+
+export const SpeedText = styled.span`
+  color: white;
+  margin-left: 0.5rem;
+`;
