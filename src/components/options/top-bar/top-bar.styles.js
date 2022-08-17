@@ -42,12 +42,15 @@ export const StyledLink = styled(NavLink)`
   width: 10rem;
   height: 2.5rem;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
   font-weight: bold;
   text-shadow: -1px 1px #454545;
   background: #02276b; // CHANGE THIS TO THEME LATER
   color: #eeeeee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px 20px;
   margin: 0 0 7px;
   border: none;
@@ -72,5 +75,4 @@ export const StyledLink = styled(NavLink)`
     background: #a52a2a; // CHANGE THIS TO THEME LATER
     box-shadow: 0 7px #781e1e, 0 7px 7px 1px #a52a2a, 0 0 #9c2828 inset; // CHANGE THIS TO THEME LATER
   }
-
 `;
