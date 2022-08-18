@@ -171,6 +171,40 @@ export class Session {
     this.sidebarIframe.classList.add("web-sidebar");
     this.sidebarIframe.src = URL;
 
+    let pos1 = 0;
+    let pos2 = 0;
+    let pos3 = 0;
+    let pos4 = 0;
+    const closeDragElement = () => {
+      console.log("closeDragElement");
+      document.removeEventListener("onmouseup", closeDragElement);
+      document.removeEventListener("onmousemove", elementDrag);
+    };
+
+    const elementDrag = (e) => {
+      console.log("elementDrag");
+      e.preventDefault();
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      this.sidebarIframe.style.top = this.sidebarIframe.offsetTop - pos2 + "px";
+      this.sidebarIframe.style.left =
+        this.sidebarIframe.offsetLeft - pos1 + "px";
+    };
+
+    const dragMouseDown = (e) => {
+      console.log("dragMouseDown");
+      e.preventDefault();
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.addEventListener("onmouseup", closeDragElement);
+      document.addEventListener("onmousemove", elementDrag);
+    };
+    this.sidebarIframe.addEventListener("onmousedown", dragMouseDown);
+
     document.body.appendChild(this.sidebarIframe);
   }
 
