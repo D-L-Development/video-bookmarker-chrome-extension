@@ -163,6 +163,7 @@ export class Session {
     this.sidebarIframe = document.createElement("iframe");
     this.sidebarIframe.classList.add("web-sidebar");
     this.sidebarIframe.src = URL;
+
     document.body.appendChild(this.sidebarIframe);
   }
 

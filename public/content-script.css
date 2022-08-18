@@ -6,7 +6,7 @@
     position: fixed;
     top: 0;
     right: -420px;
-    z-index: 9000000000000000000;
+    z-index: 2147483647;
     border: none;
     -webkit-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
@@ -17,4 +17,11 @@
 
 .web-sidebar.on {
     right: 0;
+}
+
+.web-sidebar.draggable {
+    height: 30rem;
+    top: 200px;
+    right: 200px;
+    border-radius: 0.5rem;
 }
