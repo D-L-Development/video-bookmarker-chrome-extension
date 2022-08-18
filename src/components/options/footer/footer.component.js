@@ -11,11 +11,13 @@ const FooterComponent = (props) => {
             </StyledContainer>
             <StyledContainer>
                 <GithubIcon width="20" height="20" color="#eeeeee"/>
-                <FootLink href="">Github</FootLink>
+                <FootLink href="https://github.com/D-L-Development/video-bookmarker-chrome-extension" target="_blank"
+                          rel="noopener noreferrer">Github</FootLink>
             </StyledContainer>
             <StyledContainer>
                 <MailIcon width="20px" height="20px" color="#eeeeee"/>
-                <FootLink href="">Contact Developers</FootLink>
+                <FootLink href="https://forms.gle/tbj7MWes7bt2Bw3h6" target="_blank"
+                          rel="noopener noreferrer">Contact Developers</FootLink>
             </StyledContainer>
         </FooterContainer>
     );
