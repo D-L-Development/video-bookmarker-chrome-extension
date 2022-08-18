@@ -6,8 +6,8 @@ import {
   Footer,
   Header,
   HeaderText,
+  MainHeaderIconWrapper,
   PopupIconGroup,
-  SettingsIconWrapper,
   StyledPopup,
 } from "./popup.styles";
 import ViewPagerComponent from "./view-pager/view-pager.component";
@@ -19,6 +19,7 @@ import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
 import CogIcon from "../../icons/cog-icon/cog.icon";
 import { VideoProvider } from "../../contexts/video.context";
+import MinusIcon from "../../icons/bookmarks-icons/minus-icon/minus.icon";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -54,12 +55,19 @@ const PopupComponent = () => {
         <Header>
           <HeaderText>Web Video Bookmarker</HeaderText>
           <PopupIconGroup>
-            <SettingsIconWrapper
+            <MainHeaderIconWrapper
+              onClick={() => {
+                sendMessageToActiveTab({ type: MSG.TOGGLE_DRAG });
+              }}
+            >
+              <MinusIcon width={"20px"} height={"20px"} color={"white"} />
+            </MainHeaderIconWrapper>
+            <MainHeaderIconWrapper
               onClick={handleCogIconClick}
               title="Open settings"
             >
               <CogIcon width={"20px"} height={"20px"} color={"white"} />
-            </SettingsIconWrapper>
+            </MainHeaderIconWrapper>
 
             <CloseIconWrapper onClick={handleCloseIconClick} title="Hide menu">
               <CloseIcon width="24px" height="24px" color="white" />

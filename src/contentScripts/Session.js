@@ -33,6 +33,11 @@ export class Session {
   }
 
   async dispatch(action) {
+    // for action that don't depend on a video being present in the DOM
+    switch (action.type) {
+      case MSG.TOGGLE_DRAG:
+        return this.#togglePopupDrag();
+    }
     try {
       await this.#canPerformVideoOperations();
       switch (action.type) {
@@ -56,6 +61,8 @@ export class Session {
           return this.#changeSpeedBy(Session.SPEED_AMOUNT * -1);
         case MSG.RESET_SPEED:
           return this.#resetSpeed();
+        case MSG.TOGGLE_DRAG:
+          return this.#togglePopupDrag();
         default:
           throw new Error(`Action type "${action.type}" is unhandled!`);
       }
@@ -188,6 +195,23 @@ export class Session {
         break;
       case false:
         this.sidebarIframe.classList.remove("on");
+        break;
+    }
+  }
+
+  /**
+   * toggles the drag functionality of popup
+   */
+  #togglePopupDrag(value = null) {
+    switch (value) {
+      case null:
+        this.sidebarIframe.classList.toggle("draggable");
+        break;
+      case true:
+        this.sidebarIframe.classList.add("draggable");
+        break;
+      case false:
+        this.sidebarIframe.classList.remove("draggable");
         break;
     }
   }

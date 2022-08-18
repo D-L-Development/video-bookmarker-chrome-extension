@@ -43,7 +43,7 @@ export const CloseIconWrapper = styled.div`
   }
 `;
 
-export const SettingsIconWrapper = styled(CloseIconWrapper)`
+export const MainHeaderIconWrapper = styled(CloseIconWrapper)`
   margin-right: 0.2rem;
 
   &:hover {
