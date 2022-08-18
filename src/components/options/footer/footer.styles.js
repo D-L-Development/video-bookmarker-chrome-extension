@@ -16,17 +16,19 @@ export const FooterContainer = styled.div.attrs(({theme}) => ({
 `;
 
 export const StyledContainer = styled.div`
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const CopyrightInfo = styled.div`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   color: #eee;
 `;
 
 export const FootLink = styled.a`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   color: #eee;
   text-decoration: none;

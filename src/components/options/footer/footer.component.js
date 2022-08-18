@@ -1,19 +1,20 @@
 import React from "react";
 import {CopyrightInfo, FooterContainer, FootLink, StyledContainer} from "./footer.styles";
+import GithubIcon from "../../../icons/github-icon/github.icon";
+import MailIcon from "../../../icons/mail-icon/mail.icon";
 
 const FooterComponent = (props) => {
     return (
         <FooterContainer>
             <StyledContainer>
-                <div id="Copyright-Icon"/>
-                <CopyrightInfo>Copyright Info</CopyrightInfo>
+                <CopyrightInfo><span>&copy;</span> D&L Development</CopyrightInfo>
             </StyledContainer>
             <StyledContainer>
-                <StyledContainer id="Github-Icon"/>
+                <GithubIcon width="20" height="20" color="#eeeeee"/>
                 <FootLink href="">Github</FootLink>
             </StyledContainer>
             <StyledContainer>
-                <StyledContainer id="Contact-Icon"/>
+                <MailIcon width="20px" height="20px" color="#eeeeee"/>
                 <FootLink href="">Contact Developers</FootLink>
             </StyledContainer>
         </FooterContainer>
