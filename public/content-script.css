@@ -22,6 +22,6 @@
 .web-sidebar.draggable {
     height: 30rem;
     top: 200px;
-    right: 200px;
+    left: 200px;
     border-radius: 0.5rem;
 }

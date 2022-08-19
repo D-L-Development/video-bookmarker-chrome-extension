@@ -7,6 +7,7 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   background-color: ${({ theme }) => theme.primary_c};
+  cursor: move;
 `;
 
 export const PopupIconGroup = styled.div`

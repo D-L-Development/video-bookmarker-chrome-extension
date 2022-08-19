@@ -14,6 +14,7 @@ export const MSG = {
   RESET_SPEED: "reset speed",
   OPEN_POPUP: "open popup",
   TOGGLE_DRAG: "toggle popup drag",
+  MOVE: "move popup",
 };
 
 export function copyStringToClipboard(str) {
