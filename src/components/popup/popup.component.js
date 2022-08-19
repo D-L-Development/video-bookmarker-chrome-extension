@@ -8,7 +8,6 @@ import PathComponent from "./shared/path/path.component";
 import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
 import { VideoProvider } from "../../contexts/video.context";
-import MainHeaderComponent from "./main-header/main-header.component";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -32,7 +31,6 @@ const PopupComponent = () => {
     <StyledPopup ref={containerRef}>
       {/* Context provider to detect clicks outside of a context menu */}
       <OutsideContext.Provider value={containerRef}>
-        <MainHeaderComponent />
         {pageInfo.current === FIRST ? (
           <FileSystemControlsComponent />
         ) : (

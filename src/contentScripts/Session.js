@@ -5,6 +5,9 @@ import {
   timestampToSeconds,
 } from "./utility";
 import { PORT_NAMES } from "../constants/constants";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import MainHeaderComponent from "../components/popup/main-header/main-header.component";
 
 export class Session {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
@@ -189,10 +192,13 @@ export class Session {
     // create the side menu
     this.parentDiv = document.createElement("div");
     this.parentDiv.classList.add("web-parent-div");
-    // create the header
-    this.header = document.createElement("header");
+    // create the header and set its content with React
+    this.header = document.createElement("div");
     this.header.classList.add("web-header");
     this.parentDiv.appendChild(this.header);
+    const root = createRoot(this.header);
+    root.render(<MainHeaderComponent />);
+
     // create the iframe
     this.sidebarIframe = document.createElement("iframe");
     this.sidebarIframe.classList.add("web-sidebar");
@@ -206,7 +212,6 @@ export class Session {
     let { top, left } = position;
     this.sidebarIframe.style.left = left;
     this.sidebarIframe.style.top = top;
-    // console.log(`%c ${left}, ${top}`, "background: #222; color: #bada55");
   }
 
   /**
