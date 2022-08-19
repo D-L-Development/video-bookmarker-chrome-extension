@@ -198,7 +198,10 @@ export class Session {
     this.parentDiv.appendChild(this.header);
     const root = createRoot(this.header);
     root.render(
-      <MainHeaderComponent togglePopup={() => this.togglePopupVisibility()} />
+      <MainHeaderComponent
+        togglePopup={() => this.togglePopupVisibility()}
+        toggleDrag={() => this.#togglePopupDrag()}
+      />
     );
 
     // create the iframe

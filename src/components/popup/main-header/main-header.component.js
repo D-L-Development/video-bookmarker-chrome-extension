@@ -6,14 +6,13 @@ import {
   MainHeaderIconWrapper,
   PopupIconGroup,
 } from "./main-header.styles";
-import { MSG, sendMessageToActiveTab } from "../../../contentScripts/utility";
 import MinusIcon from "../../../icons/bookmarks-icons/minus-icon/minus.icon";
 import CogIcon from "../../../icons/cog-icon/cog.icon";
 import CloseIcon from "../../../icons/close-icon/close.icon";
 
 const OPTIONS_PAGE_URL = chrome.runtime.getURL("./options.html");
 
-const MainHeaderComponent = ({ togglePopup }) => {
+const MainHeaderComponent = ({ togglePopup, toggleDrag }) => {
   const mouseData = useRef({
     mouseUp: true,
     prevX: 0,
@@ -27,9 +26,7 @@ const MainHeaderComponent = ({ togglePopup }) => {
     port: null,
   });
 
-  const handleCogIconClick = (e) => {
-    window.open(OPTIONS_PAGE_URL, "_blank");
-  };
+  const handleCogIconClick = (e) => {};
 
   useEffect(() => {}, []);
 
@@ -76,11 +73,7 @@ const MainHeaderComponent = ({ togglePopup }) => {
     >
       <HeaderText>Web Video Bookmarker</HeaderText>
       <PopupIconGroup>
-        <MainHeaderIconWrapper
-          onClick={() => {
-            sendMessageToActiveTab({ type: MSG.TOGGLE_DRAG });
-          }}
-        >
+        <MainHeaderIconWrapper onClick={toggleDrag}>
           <MinusIcon width={"20px"} height={"20px"} color={"white"} />
         </MainHeaderIconWrapper>
         <MainHeaderIconWrapper
