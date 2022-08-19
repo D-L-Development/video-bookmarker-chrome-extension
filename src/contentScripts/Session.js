@@ -197,7 +197,9 @@ export class Session {
     this.header.classList.add("web-header");
     this.parentDiv.appendChild(this.header);
     const root = createRoot(this.header);
-    root.render(<MainHeaderComponent />);
+    root.render(
+      <MainHeaderComponent togglePopup={() => this.togglePopupVisibility()} />
+    );
 
     // create the iframe
     this.sidebarIframe = document.createElement("iframe");
