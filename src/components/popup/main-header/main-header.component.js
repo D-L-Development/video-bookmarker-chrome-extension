@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   CloseIconWrapper,
   Header,
@@ -6,10 +6,15 @@ import {
   MainHeaderIconWrapper,
   PopupIconGroup,
 } from "./main-header.styles";
-import { MSG, sendMessageToActiveTab } from "../../../contentScripts/utility";
+import {
+  connectToActiveTab,
+  MSG,
+  sendMessageToActiveTab,
+} from "../../../contentScripts/utility";
 import MinusIcon from "../../../icons/bookmarks-icons/minus-icon/minus.icon";
 import CogIcon from "../../../icons/cog-icon/cog.icon";
 import CloseIcon from "../../../icons/close-icon/close.icon";
+import { PORT_NAMES } from "../../../constants/constants";
 
 const OPTIONS_PAGE_URL = chrome.runtime.getURL("./options.html");
 
@@ -21,6 +26,12 @@ const MainHeaderComponent = (props) => {
     left: 200,
     top: 200,
   });
+
+  const portRef = useRef({
+    isLoading: true,
+    port: null,
+  });
+
   const handleCloseIconClick = (e) => {
     sendMessageToActiveTab({ type: MSG.TOGGLE_POPUP });
   };
@@ -28,14 +39,30 @@ const MainHeaderComponent = (props) => {
   const handleCogIconClick = (e) => {
     window.open(OPTIONS_PAGE_URL, "_blank");
   };
+
+  useEffect(() => {
+    const connectToContentScript = async () => {
+      // connect to a port
+      portRef.current = {
+        port: await connectToActiveTab(PORT_NAMES.POSITION),
+        isLoading: false,
+      };
+      // listen to messages from content script
+      portRef.current.port.onMessage.addListener((action) => {
+        console.log(action);
+      });
+    };
+    connectToContentScript().then();
+  }, []);
+
   return (
     <Header
       onMouseDown={(e) => {
         mouseData.current = {
           ...mouseData.current,
           mouseUp: false,
-          prevX: e.clientX,
-          prevY: e.clientY,
+          prevX: e.screenX,
+          prevY: e.screenY,
         };
       }}
       onMouseUp={(e) => {
@@ -45,25 +72,27 @@ const MainHeaderComponent = (props) => {
         // as long as the mouse is down
         if (mouseData.current.mouseUp) return;
         // calculate new mouse position
-        const diffX = mouseData.current.prevX - e.clientX;
-        const diffY = mouseData.current.prevY - e.clientY;
-        // update prev position
-        mouseData.current.prevX = e.clientX;
-        mouseData.current.prevY = e.clientY;
-        // update actual iframe position
-        mouseData.current.left = mouseData.current.left - diffX;
-        mouseData.current.top = mouseData.current.top - diffY;
+        const { screenX, screenY } = e;
+        const diffX = mouseData.current.prevX - screenX;
+        const diffY = mouseData.current.prevY - screenY;
 
-        const payload = {
+        // update actual iframe position
+        mouseData.current.left -= diffX;
+        mouseData.current.top -= diffY;
+        // update prev position
+        mouseData.current.prevX = screenX;
+        mouseData.current.prevY = screenY;
+
+        // sendMessageToActiveTab({
+        //   type: MSG.MOVE,
+        //   payload: {
+        //     left: mouseData.current.left + "px",
+        //     top: mouseData.current.top + "px",
+        //   },
+        // });
+        portRef.current.port.postMessage({
           left: mouseData.current.left + "px",
           top: mouseData.current.top + "px",
-        };
-
-        console.log(payload);
-
-        sendMessageToActiveTab({
-          type: MSG.MOVE,
-          payload,
         });
       }}
     >

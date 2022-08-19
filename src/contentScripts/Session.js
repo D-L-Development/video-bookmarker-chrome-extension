@@ -4,6 +4,7 @@ import {
   secondsToTimestamp,
   timestampToSeconds,
 } from "./utility";
+import { PORT_NAMES } from "../constants/constants";
 
 export class Session {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
@@ -15,20 +16,35 @@ export class Session {
 
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
-    this.port = null;
+    this.videoPort = null;
+    this.posPort = null;
 
     // handle port connection by sending video information
     chrome.runtime.onConnect.addListener((port) => {
       console.log("connected", port);
-      this.port = port;
-      this.#getVideoElement(3)
-        .then((video) => {
-          this.video = video;
-          this.#sendVideoData();
-        })
-        .catch((error) => {
-          this.port.postMessage({ payload: null, message: getErrorMsg(error) });
-        });
+      switch (port.name) {
+        case PORT_NAMES.VIDEO:
+          this.videoPort = port;
+          this.#getVideoElement(3)
+            .then((video) => {
+              this.video = video;
+              this.#sendVideoData();
+            })
+            .catch((error) => {
+              this.videoPort.postMessage({
+                payload: null,
+                message: getErrorMsg(error),
+              });
+            });
+          break;
+        case PORT_NAMES.POSITION:
+          this.posPort = port;
+          port.onMessage.addListener((payload, port) => {
+            // console.log(performance.now() - action.now);
+            this.#updatePopupPos(payload);
+          });
+          break;
+      }
     });
   }
 
@@ -142,9 +158,9 @@ export class Session {
    * @param {Event} e
    */
   #sendVideoData = (e) => {
-    if (this.#isVideoInDOM() && this.port) {
+    if (this.#isVideoInDOM() && this.videoPort) {
       const { paused, playbackRate } = this.video;
-      this.port.postMessage({
+      this.videoPort.postMessage({
         payload: {
           paused,
           playbackRate,
@@ -177,13 +193,10 @@ export class Session {
   }
 
   #updatePopupPos(position) {
-    // let { diffX, diffY } = position;
-    let { top = "200px", left = "200px" } = position;
-    // this.sidebarIframe.style.left = this.sidebarPos.x - diffX + "px";
-    // this.sidebarIframe.style.top = this.sidebarPos.y - diffY + "px";
+    let { top, left } = position;
     this.sidebarIframe.style.left = left;
     this.sidebarIframe.style.top = top;
-    console.log(`%c ${left}, ${top}`, "background: #222; color: #bada55");
+    // console.log(`%c ${left}, ${top}`, "background: #222; color: #bada55");
   }
 
   /**
