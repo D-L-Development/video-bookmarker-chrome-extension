@@ -34,8 +34,8 @@ const MainHeaderComponent = (props) => {
         mouseData.current = {
           ...mouseData.current,
           mouseUp: false,
-          prevX: e.clientX + mouseData.current.left,
-          prevY: e.clientY + mouseData.current.top,
+          prevX: e.clientX,
+          prevY: e.clientY,
         };
       }}
       onMouseUp={(e) => {
@@ -45,23 +45,18 @@ const MainHeaderComponent = (props) => {
         // as long as the mouse is down
         if (mouseData.current.mouseUp) return;
         // calculate new mouse position
-        let adjClientX = e.clientX + mouseData.current.left;
-        let adjClientY = e.clientY + mouseData.current.top;
-        mouseData.current.left = mouseData.current.prevX - adjClientX;
-        mouseData.current.top = mouseData.current.prevY - adjClientY;
-        adjClientX = e.clientX + mouseData.current.left;
-        adjClientY = e.clientY + mouseData.current.top;
+        const diffX = mouseData.current.prevX - e.clientX;
+        const diffY = mouseData.current.prevY - e.clientY;
         // update prev position
-        mouseData.current.prevX = adjClientX;
-        mouseData.current.prevY = adjClientY;
+        mouseData.current.prevX = e.clientX;
+        mouseData.current.prevY = e.clientY;
+        // update actual iframe position
+        mouseData.current.left = mouseData.current.left - diffX;
+        mouseData.current.top = mouseData.current.top - diffY;
 
-        // update iframe position by notifying content script
-        // const payload = {
-        //   left: e.currentTarget.offsetLeft - mouseData.current.left + "px",
-        //   top: e.currentTarget.offsetTop - mouseData.current.top + "px",
-        // };
         const payload = {
           left: mouseData.current.left + "px",
+          top: mouseData.current.top + "px",
         };
 
         console.log(payload);
