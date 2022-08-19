@@ -1,27 +1,38 @@
 /* This script affects the DOM elements. It is used to styled the iframe */
 
-.web-sidebar {
+.web-parent-div {
     height: 100%;
     width: 400px;
     position: fixed;
     top: 0;
-    right: -420px;
+    right: -500px;
     z-index: 2147483647;
-    border: none;
-    -webkit-transition-duration: 0.3s;
-    -moz-transition-duration: 0.3s;
-    -o-transition-duration: 0.3s;
     transition-duration: 0.3s;
     box-shadow: -6px 0px 19px 0px rgb(0 0 0 / 76%);
 }
 
-.web-sidebar.on {
+.web-parent-div.show {
     right: 0;
 }
 
-.web-sidebar.draggable {
+.web-parent-div.draggable {
     height: 30rem;
     top: 200px;
     left: 200px;
     border-radius: 0.5rem;
 }
+
+.web-header {
+    height: 5%;
+    width: 100%;
+    background: lightblue;
+}
+
+.web-sidebar {
+    height: 95%;
+    width: 100%;
+    border: none;
+}
+
+
+

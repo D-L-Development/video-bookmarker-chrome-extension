@@ -13,6 +13,8 @@ export class Session {
   constructor() {
     this.video = null;
     this.sidebarIframe = null;
+    this.parentDiv = null;
+    this.header = null;
 
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
@@ -185,11 +187,19 @@ export class Session {
    */
   #createPopup(URL) {
     // create the side menu
+    this.parentDiv = document.createElement("div");
+    this.parentDiv.classList.add("web-parent-div");
+    // create the header
+    this.header = document.createElement("header");
+    this.header.classList.add("web-header");
+    this.parentDiv.appendChild(this.header);
+    // create the iframe
     this.sidebarIframe = document.createElement("iframe");
     this.sidebarIframe.classList.add("web-sidebar");
     this.sidebarIframe.src = URL;
+    this.parentDiv.appendChild(this.sidebarIframe);
 
-    document.body.appendChild(this.sidebarIframe);
+    document.body.appendChild(this.parentDiv);
   }
 
   #updatePopupPos(position) {
@@ -213,13 +223,13 @@ export class Session {
   togglePopupVisibility(value = null) {
     switch (value) {
       case null:
-        this.sidebarIframe.classList.toggle("on");
+        this.parentDiv.classList.toggle("show");
         break;
       case true:
-        this.sidebarIframe.classList.add("on");
+        this.parentDiv.classList.add("show");
         break;
       case false:
-        this.sidebarIframe.classList.remove("on");
+        this.parentDiv.classList.remove("show");
         break;
     }
   }
@@ -230,13 +240,13 @@ export class Session {
   #togglePopupDrag(value = null) {
     switch (value) {
       case null:
-        this.sidebarIframe.classList.toggle("draggable");
+        this.parentDiv.classList.toggle("draggable");
         break;
       case true:
-        this.sidebarIframe.classList.add("draggable");
+        this.parentDiv.classList.add("draggable");
         break;
       case false:
-        this.sidebarIframe.classList.remove("draggable");
+        this.parentDiv.classList.remove("draggable");
         break;
     }
   }
