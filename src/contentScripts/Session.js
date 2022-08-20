@@ -16,6 +16,8 @@ const UI_ENUMS = {
   DEFAULT_WIDTH: "400px",
   DEFAULT_TRANSITION_DURATION: "0.3s",
   RIGHT: `calc(100% - 400px)`,
+  ZERO_SECONDS: "0s",
+  DRAGGABLE_HEIGHT: "30em",
 };
 
 export class Session {
@@ -206,7 +208,7 @@ export class Session {
     ) {
       this.lastMouseX = e.clientX;
       this.lastMouseY = e.clientY;
-      this.parentDiv.style.transitionDuration = "0s";
+      this.parentDiv.style.transitionDuration = UI_ENUMS.ZERO_SECONDS;
       document.addEventListener("mouseup", this.#handleMouseDragEnd);
       document.addEventListener("mousemove", this.#handleMouseDrag);
     }
@@ -280,6 +282,10 @@ export class Session {
     this.parentDiv.style.setProperty("top", top);
   }
 
+  #updatePopupHeight(height) {
+    this.parentDiv.style.setProperty("height", height);
+  }
+
   /**
    * removes the sidebar element from the DOM
    */
@@ -292,15 +298,9 @@ export class Session {
    * toggles the visibility of the side menu iframe
    */
   togglePopupVisibility(value = null) {
-    console.log(value);
     const { RIGHT, ZERO, OFF_SCREEN } = UI_ENUMS;
+    if (value === null) value = !this.isShown;
     switch (value) {
-      case null:
-        this.isShown = !this.isShown;
-        this.isShown
-          ? this.#updatePopupPos(RIGHT, ZERO)
-          : this.#updatePopupPos(OFF_SCREEN, ZERO);
-        break;
       case true:
         this.isShown = true;
         this.#updatePopupPos(RIGHT, ZERO);
@@ -316,18 +316,18 @@ export class Session {
    * toggles the drag functionality of popup
    */
   #togglePopupDrag(value = null) {
+    const { DRAGGABLE_HEIGHT, FULL, RIGHT, ZERO } = UI_ENUMS;
+    if (value === null) value = !this.isDraggable;
     switch (value) {
-      case null:
-        this.isDraggable = !this.isDraggable;
-        this.parentDiv.classList.toggle("draggable");
-        break;
       case true:
         this.isDraggable = true;
-        this.parentDiv.classList.add("draggable");
+        this.#updatePopupHeight(DRAGGABLE_HEIGHT);
+        this.#updatePopupPos("600px", "200px");
         break;
       case false:
         this.isDraggable = false;
-        this.parentDiv.classList.remove("draggable");
+        this.#updatePopupHeight(FULL);
+        this.#updatePopupPos(RIGHT, ZERO);
         break;
     }
   }
