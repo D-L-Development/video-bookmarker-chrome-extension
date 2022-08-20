@@ -18,8 +18,10 @@
 }
 
 .web-parent-div.draggable {
-    height: 30rem;
+    height: 40rem;
     border-radius: 0.5rem;
+    left: 60%;
+    top: 20%;
 }
 
 .web-header {

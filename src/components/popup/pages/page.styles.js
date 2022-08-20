@@ -60,6 +60,8 @@ export const ActionIconWrapper = styled.button`
 export const PageHeaderControls = styled(PageHeader)`
   background: ${({ theme }) => theme.pageControls_c};
   height: 6%;
+  min-height: 2.5rem;
+  max-height: 3.5rem;
   z-index: 2;
   box-shadow: 0 0.5px 21px 1px rgb(0 0 0 / 40%);
 `;

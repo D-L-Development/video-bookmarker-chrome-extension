@@ -21,6 +21,8 @@ export const StyledViewPager = styled.div`
 export const PageHeader = styled.div`
   background: ${({ theme }) => theme.pageHeader_c};
   height: 5%;
+  min-height: 2rem;
+  max-height: 2.8rem;
   display: flex;
   align-items: center;
   box-shadow: 0px 0.5px 21px 1px rgb(0 0 0 / 40%);
