@@ -202,7 +202,7 @@ export class Session {
   #handleMouseDragStart = (e) => {
     if (
       (e.target.tagName === "HEADER" || e.target.tagName === "H1") &&
-      this.parentDiv.classList.contains("draggable")
+      this.isDraggable
     ) {
       this.lastMouseX = e.clientX;
       this.lastMouseY = e.clientY;
@@ -276,9 +276,6 @@ export class Session {
   }
 
   #updatePopupPos(left, top) {
-    // this.parentDiv.style.left = left;
-    // this.parentDiv.style.top = top;
-    console.log(left, top);
     this.parentDiv.style.setProperty("left", left);
     this.parentDiv.style.setProperty("top", top);
   }
@@ -321,12 +318,15 @@ export class Session {
   #togglePopupDrag(value = null) {
     switch (value) {
       case null:
+        this.isDraggable = !this.isDraggable;
         this.parentDiv.classList.toggle("draggable");
         break;
       case true:
+        this.isDraggable = true;
         this.parentDiv.classList.add("draggable");
         break;
       case false:
+        this.isDraggable = false;
         this.parentDiv.classList.remove("draggable");
         break;
     }
