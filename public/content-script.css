@@ -11,6 +11,7 @@
     box-shadow: -6px 0px 19px 0px rgb(0 0 0 / 76%);
     display: flex;
     flex-direction: column;
+    font-size: 16px;
 }
 
 .web-parent-div.hidePopup {
@@ -18,17 +19,20 @@
 }
 
 .web-parent-div.draggable {
-    height: 40rem;
-    border-radius: 0.5rem;
+    height: 30em;
     left: 60%;
     top: 20%;
 }
 
 .web-header {
-    height: 2rem;
+    height: 2em;
     width: 100%;
     background: lightblue;
     display: flex;
+}
+
+.draggable .web-header {
+    border-radius: 0.2em 0.2em 0 0;
 }
 
 .web-sidebar {

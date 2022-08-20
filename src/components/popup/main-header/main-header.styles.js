@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Header = styled.header`
   position: relative;
   width: 100%;
-  height: 2rem;
+  height: 100%;
   display: flex;
   align-items: center;
   background-color: ${({ theme }) => theme.primary_c};
@@ -20,7 +20,7 @@ export const PopupIconGroup = styled.div`
 export const HeaderText = styled.h1`
   text-align: center;
   color: grey;
-  font-size: 0.65rem;
+  font-size: 0.65em;
   margin: 0 auto;
   user-select: none;
 `;
@@ -35,10 +35,14 @@ export const CloseIconWrapper = styled.div`
   &:hover {
     background-color: red;
   }
+
+  .draggable & {
+    border-top-right-radius: 0.2em;
+  }
 `;
 
 export const MainHeaderIconWrapper = styled(CloseIconWrapper)`
-  margin-right: 0.2rem;
+  margin-right: 0.2em;
 
   &:hover {
     background-color: transparent;
