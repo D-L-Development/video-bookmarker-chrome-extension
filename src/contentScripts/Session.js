@@ -33,16 +33,12 @@ export class Session {
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
     this.videoPort = null;
-    this.lastMouseX = 200;
-    this.lastMouseY = 200;
+    this.lastMouseX = 0;
+    this.lastMouseY = 0;
     this.isDraggable = false;
     this.isShown = false;
-    this.state = {
-      width: UI_ENUMS.DEFAULT_WIDTH,
-      height: UI_ENUMS.FULL,
-      top: UI_ENUMS.ZERO,
-      left: UI_ENUMS.OFF_SCREEN,
-    };
+    this.lastDraggedToPosX = "600px";
+    this.lastDraggedToPosY = "200px";
 
     // handle port connection by sending video information
     chrome.runtime.onConnect.addListener((port) => {
@@ -280,6 +276,11 @@ export class Session {
   #updatePopupPos(left, top) {
     this.parentDiv.style.setProperty("left", left);
     this.parentDiv.style.setProperty("top", top);
+    // only update most recent drag position
+    if (left !== UI_ENUMS.OFF_SCREEN && left !== UI_ENUMS.RIGHT) {
+      this.lastDraggedToPosX = left;
+      this.lastDraggedToPosY = top;
+    }
   }
 
   #updatePopupHeight(height) {
@@ -303,7 +304,9 @@ export class Session {
     switch (value) {
       case true:
         this.isShown = true;
-        this.#updatePopupPos(RIGHT, ZERO);
+        this.isDraggable
+          ? this.#updatePopupPos(this.lastDraggedToPosX, this.lastDraggedToPosY)
+          : this.#updatePopupPos(RIGHT, ZERO);
         break;
       case false:
         this.isShown = false;
@@ -322,7 +325,7 @@ export class Session {
       case true:
         this.isDraggable = true;
         this.#updatePopupHeight(DRAGGABLE_HEIGHT);
-        this.#updatePopupPos("600px", "200px");
+        this.#updatePopupPos(this.lastDraggedToPosX, this.lastDraggedToPosY);
         break;
       case false:
         this.isDraggable = false;
