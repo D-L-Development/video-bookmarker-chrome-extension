@@ -185,6 +185,7 @@ export class Session {
   #handleMouseDragStart = (e) => {
     this.lastX = e.clientX;
     this.lastY = e.clientY;
+    this.parentDiv.style.transitionDuration = "0s";
     document.addEventListener("mouseup", this.#handleMouseDragEnd);
     document.addEventListener("mousemove", this.#handleMouseDrag);
   };
@@ -195,6 +196,7 @@ export class Session {
    * @param {Event} e
    */
   #handleMouseDragEnd = (e) => {
+    this.parentDiv.style.transitionDuration = "0.3s";
     document.removeEventListener("mouseup", this.#handleMouseDragEnd);
     document.removeEventListener("mousemove", this.#handleMouseDrag);
   };
