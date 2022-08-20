@@ -9,6 +9,7 @@ import {
 import MinusIcon from "../../../icons/bookmarks-icons/minus-icon/minus.icon";
 import CogIcon from "../../../icons/cog-icon/cog.icon";
 import CloseIcon from "../../../icons/close-icon/close.icon";
+import { MSG } from "../../../contentScripts/utility";
 
 const OPTIONS_PAGE_URL = chrome.runtime.getURL("./options.html");
 
@@ -77,7 +78,9 @@ const MainHeaderComponent = ({ togglePopup, toggleDrag }) => {
           <MinusIcon width={"20px"} height={"20px"} color={"white"} />
         </MainHeaderIconWrapper>
         <MainHeaderIconWrapper
-          onClick={handleCogIconClick}
+          onClick={() => {
+            chrome.runtime.sendMessage({ type: MSG.OPEN_OPTIONS }, null);
+          }}
           title="Open settings"
         >
           <CogIcon width={"20px"} height={"20px"} color={"white"} />

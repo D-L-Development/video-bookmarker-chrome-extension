@@ -15,6 +15,7 @@ export const MSG = {
   OPEN_POPUP: "open popup",
   TOGGLE_DRAG: "toggle popup drag",
   MOVE: "move popup",
+  OPEN_OPTIONS: "open options page",
 };
 
 export function copyStringToClipboard(str) {
