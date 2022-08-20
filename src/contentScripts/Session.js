@@ -9,6 +9,15 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import MainHeaderComponent from "../components/popup/main-header/main-header.component";
 
+const UI_ENUMS = {
+  FULL: "100%",
+  OFF_SCREEN: "110%",
+  ZERO: "0px",
+  DEFAULT_WIDTH: "400px",
+  DEFAULT_TRANSITION_DURATION: "0.3s",
+  RIGHT: `calc(100% - 400px)`,
+};
+
 export class Session {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
   static SPEED_AMOUNT = 0.1;
@@ -22,8 +31,16 @@ export class Session {
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
     this.videoPort = null;
-    this.lastX = 200;
-    this.lastY = 200;
+    this.lastMouseX = 200;
+    this.lastMouseY = 200;
+    this.isDraggable = false;
+    this.isShown = false;
+    this.state = {
+      width: UI_ENUMS.DEFAULT_WIDTH,
+      height: UI_ENUMS.FULL,
+      top: UI_ENUMS.ZERO,
+      left: UI_ENUMS.OFF_SCREEN,
+    };
 
     // handle port connection by sending video information
     chrome.runtime.onConnect.addListener((port) => {
@@ -187,8 +204,8 @@ export class Session {
       (e.target.tagName === "HEADER" || e.target.tagName === "H1") &&
       this.parentDiv.classList.contains("draggable")
     ) {
-      this.lastX = e.clientX;
-      this.lastY = e.clientY;
+      this.lastMouseX = e.clientX;
+      this.lastMouseY = e.clientY;
       this.parentDiv.style.transitionDuration = "0s";
       document.addEventListener("mouseup", this.#handleMouseDragEnd);
       document.addEventListener("mousemove", this.#handleMouseDrag);
@@ -201,7 +218,8 @@ export class Session {
    * @param {Event} e
    */
   #handleMouseDragEnd = (e) => {
-    this.parentDiv.style.transitionDuration = "0.3s";
+    this.parentDiv.style.transitionDuration =
+      UI_ENUMS.DEFAULT_TRANSITION_DURATION;
     document.removeEventListener("mouseup", this.#handleMouseDragEnd);
     document.removeEventListener("mousemove", this.#handleMouseDrag);
   };
@@ -214,14 +232,16 @@ export class Session {
   #handleMouseDrag = (e) => {
     const { clientX, clientY } = e;
     // find the difference in mouse movement
-    const diffX = this.lastX - clientX;
-    const diffY = this.lastY - clientY;
+    const diffX = this.lastMouseX - clientX;
+    const diffY = this.lastMouseY - clientY;
     // update last position
-    this.lastX = clientX;
-    this.lastY = clientY;
+    this.lastMouseX = clientX;
+    this.lastMouseY = clientY;
     // update style for popup
-    this.parentDiv.style.left = this.parentDiv.offsetLeft - diffX + "px";
-    this.parentDiv.style.top = this.parentDiv.offsetTop - diffY + "px";
+    this.#updatePopupPos(
+      this.parentDiv.offsetLeft - diffX + "px",
+      this.parentDiv.offsetTop - diffY + "px"
+    );
   };
 
   /**
@@ -233,7 +253,6 @@ export class Session {
     // create the side menu
     this.parentDiv = document.createElement("div");
     this.parentDiv.classList.add("web-parent-div");
-    this.parentDiv.classList.add("hidePopup");
     // create the header and set its content with React
     this.header = document.createElement("div");
     this.header.classList.add("web-header");
@@ -256,10 +275,12 @@ export class Session {
     document.body.appendChild(this.parentDiv);
   }
 
-  #updatePopupPos(position) {
-    let { top, left } = position;
-    this.sidebarIframe.style.left = left;
-    this.sidebarIframe.style.top = top;
+  #updatePopupPos(left, top) {
+    // this.parentDiv.style.left = left;
+    // this.parentDiv.style.top = top;
+    console.log(left, top);
+    this.parentDiv.style.setProperty("left", left);
+    this.parentDiv.style.setProperty("top", top);
   }
 
   /**
@@ -274,15 +295,22 @@ export class Session {
    * toggles the visibility of the side menu iframe
    */
   togglePopupVisibility(value = null) {
+    console.log(value);
+    const { RIGHT, ZERO, OFF_SCREEN } = UI_ENUMS;
     switch (value) {
       case null:
-        this.parentDiv.classList.toggle("hidePopup");
+        this.isShown = !this.isShown;
+        this.isShown
+          ? this.#updatePopupPos(RIGHT, ZERO)
+          : this.#updatePopupPos(OFF_SCREEN, ZERO);
         break;
       case true:
-        this.parentDiv.classList.remove("hidePopup");
+        this.isShown = true;
+        this.#updatePopupPos(RIGHT, ZERO);
         break;
       case false:
-        this.parentDiv.classList.add("hidePopup");
+        this.isShown = false;
+        this.#updatePopupPos(OFF_SCREEN, ZERO);
         break;
     }
   }
