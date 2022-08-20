@@ -22,6 +22,7 @@ export const HeaderText = styled.h1`
   color: grey;
   font-size: 0.65rem;
   margin: 0 auto;
+  user-select: none;
 `;
 
 export const CloseIconWrapper = styled.div`

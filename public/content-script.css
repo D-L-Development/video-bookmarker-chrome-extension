@@ -5,7 +5,7 @@
     width: 400px;
     position: fixed;
     top: 0;
-    left: 110%;
+    left: calc(100% - 400px);
     z-index: 2147483647;
     transition-duration: 0.3s;
     box-shadow: -6px 0px 19px 0px rgb(0 0 0 / 76%);
@@ -13,14 +13,12 @@
     flex-direction: column;
 }
 
-.web-parent-div.show {
-    left: calc(100% - 400px);
+.web-parent-div.hidePopup {
+    left: 110%;
 }
 
 .web-parent-div.draggable {
     height: 30rem;
-    top: 200px;
-    left: 200px;
     border-radius: 0.5rem;
 }
 

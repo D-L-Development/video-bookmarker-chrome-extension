@@ -10,8 +10,9 @@ import MinusIcon from "../../../icons/bookmarks-icons/minus-icon/minus.icon";
 import CogIcon from "../../../icons/cog-icon/cog.icon";
 import CloseIcon from "../../../icons/close-icon/close.icon";
 import { MSG } from "../../../contentScripts/utility";
+import PropTypes from "prop-types";
 
-const MainHeaderComponent = ({ togglePopup, toggleDrag, updatePopupPos }) => {
+const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
   return (
     <Header>
       <HeaderText>Web Video Bookmarker</HeaderText>
@@ -28,12 +29,17 @@ const MainHeaderComponent = ({ togglePopup, toggleDrag, updatePopupPos }) => {
           <CogIcon width={"20px"} height={"20px"} color={"white"} />
         </MainHeaderIconWrapper>
 
-        <CloseIconWrapper onClick={togglePopup} title="Hide menu">
+        <CloseIconWrapper onClick={closePopup} title="Hide menu">
           <CloseIcon width="24px" height="24px" color="white" />
         </CloseIconWrapper>
       </PopupIconGroup>
     </Header>
   );
+};
+
+MainHeaderComponent.propTypes = {
+  closePopup: PropTypes.func.isRequired,
+  toggleDrag: PropTypes.func.isRequired,
 };
 
 export default MainHeaderComponent;

@@ -183,11 +183,16 @@ export class Session {
    * @param {Event} e
    */
   #handleMouseDragStart = (e) => {
-    this.lastX = e.clientX;
-    this.lastY = e.clientY;
-    this.parentDiv.style.transitionDuration = "0s";
-    document.addEventListener("mouseup", this.#handleMouseDragEnd);
-    document.addEventListener("mousemove", this.#handleMouseDrag);
+    if (
+      (e.target.tagName === "HEADER" || e.target.tagName === "H1") &&
+      this.parentDiv.classList.contains("draggable")
+    ) {
+      this.lastX = e.clientX;
+      this.lastY = e.clientY;
+      this.parentDiv.style.transitionDuration = "0s";
+      document.addEventListener("mouseup", this.#handleMouseDragEnd);
+      document.addEventListener("mousemove", this.#handleMouseDrag);
+    }
   };
 
   /**
@@ -228,6 +233,7 @@ export class Session {
     // create the side menu
     this.parentDiv = document.createElement("div");
     this.parentDiv.classList.add("web-parent-div");
+    this.parentDiv.classList.add("hidePopup");
     // create the header and set its content with React
     this.header = document.createElement("div");
     this.header.classList.add("web-header");
@@ -236,7 +242,7 @@ export class Session {
     const root = createRoot(this.header);
     root.render(
       <MainHeaderComponent
-        togglePopup={() => this.togglePopupVisibility()}
+        closePopup={() => this.togglePopupVisibility(false)}
         toggleDrag={() => this.#togglePopupDrag()}
       />
     );
@@ -270,13 +276,13 @@ export class Session {
   togglePopupVisibility(value = null) {
     switch (value) {
       case null:
-        this.parentDiv.classList.toggle("show");
+        this.parentDiv.classList.toggle("hidePopup");
         break;
       case true:
-        this.parentDiv.classList.add("show");
+        this.parentDiv.classList.remove("hidePopup");
         break;
       case false:
-        this.parentDiv.classList.remove("show");
+        this.parentDiv.classList.add("hidePopup");
         break;
     }
   }
