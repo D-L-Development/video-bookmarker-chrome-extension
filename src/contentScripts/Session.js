@@ -18,6 +18,7 @@ const UI_ENUMS = {
   RIGHT: `calc(100% - 400px)`,
   ZERO_SECONDS: "0s",
   DRAGGABLE_HEIGHT: "30em",
+  DRAGGABLE_CLASS: "draggable",
 };
 
 export class Session {
@@ -326,11 +327,13 @@ export class Session {
         this.isDraggable = true;
         this.#updatePopupHeight(DRAGGABLE_HEIGHT);
         this.#updatePopupPos(this.lastDraggedToPosX, this.lastDraggedToPosY);
+        this.parentDiv.classList.add(UI_ENUMS.DRAGGABLE_CLASS);
         break;
       case false:
         this.isDraggable = false;
         this.#updatePopupHeight(FULL);
         this.#updatePopupPos(RIGHT, ZERO);
+        this.parentDiv.classList.remove(UI_ENUMS.DRAGGABLE_CLASS);
         break;
     }
   }

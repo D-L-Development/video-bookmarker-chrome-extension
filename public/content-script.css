@@ -14,6 +14,10 @@
     font-size: 16px;
 }
 
+.web-parent-div.draggable {
+    border-radius: 0.2em 0.2em 0 0;
+}
+
 
 .web-header {
     height: 2em;
@@ -24,6 +28,7 @@
 
 .draggable .web-header {
     border-radius: 0.2em 0.2em 0 0;
+    cursor: move;
 }
 
 .web-sidebar {
