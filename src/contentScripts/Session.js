@@ -22,7 +22,8 @@ export class Session {
     // create the side menu for found video
     this.#createPopup(Session.SIDEBAR_PAGE_URL);
     this.videoPort = null;
-    this.posPort = null;
+    this.lastX = 200;
+    this.lastY = 200;
 
     // handle port connection by sending video information
     chrome.runtime.onConnect.addListener((port) => {
@@ -41,13 +42,6 @@ export class Session {
                 message: getErrorMsg(error),
               });
             });
-          break;
-        case PORT_NAMES.POSITION:
-          this.posPort = port;
-          port.onMessage.addListener((payload, port) => {
-            // console.log(performance.now() - action.now);
-            this.#updatePopupPos(payload);
-          });
           break;
       }
     });
@@ -184,6 +178,46 @@ export class Session {
   #isVideoInDOM = () => !!this.video?.parentNode;
 
   /**
+   * Add mouseup and mousemove event listeners and update the last mouse position
+   *
+   * @param {Event} e
+   */
+  #handleMouseDragStart = (e) => {
+    this.lastX = e.clientX;
+    this.lastY = e.clientY;
+    document.addEventListener("mouseup", this.#handleMouseDragEnd);
+    document.addEventListener("mousemove", this.#handleMouseDrag);
+  };
+
+  /**
+   * Removes mouseup and mousemove events. This event fires when a mouseup event occurs
+   *
+   * @param {Event} e
+   */
+  #handleMouseDragEnd = (e) => {
+    document.removeEventListener("mouseup", this.#handleMouseDragEnd);
+    document.removeEventListener("mousemove", this.#handleMouseDrag);
+  };
+
+  /**
+   * Updates the popup position based on how much the cursor moved
+   *
+   * @param {Event} e
+   */
+  #handleMouseDrag = (e) => {
+    const { clientX, clientY } = e;
+    // find the difference in mouse movement
+    const diffX = this.lastX - clientX;
+    const diffY = this.lastY - clientY;
+    // update last position
+    this.lastX = clientX;
+    this.lastY = clientY;
+    // update style for popup
+    this.parentDiv.style.left = this.parentDiv.offsetLeft - diffX + "px";
+    this.parentDiv.style.top = this.parentDiv.offsetTop - diffY + "px";
+  };
+
+  /**
    * creates the sidmenu iframe and sets its source to URL param
    *
    * @param {String} URL - passed in URL for desired resource HTML page to be rendered within the created frame
@@ -195,6 +229,7 @@ export class Session {
     // create the header and set its content with React
     this.header = document.createElement("div");
     this.header.classList.add("web-header");
+    this.header.addEventListener("mousedown", this.#handleMouseDragStart);
     this.parentDiv.appendChild(this.header);
     const root = createRoot(this.header);
     root.render(

@@ -13,7 +13,7 @@ import { MSG } from "../../../contentScripts/utility";
 
 const OPTIONS_PAGE_URL = chrome.runtime.getURL("./options.html");
 
-const MainHeaderComponent = ({ togglePopup, toggleDrag }) => {
+const MainHeaderComponent = ({ togglePopup, toggleDrag, updatePopupPos }) => {
   const mouseData = useRef({
     mouseUp: true,
     prevX: 0,
@@ -59,13 +59,6 @@ const MainHeaderComponent = ({ togglePopup, toggleDrag }) => {
     //   mouseData.current.prevX = screenX;
     //   mouseData.current.prevY = screenY;
     //
-    //   // sendMessageToActiveTab({
-    //   //   type: MSG.MOVE,
-    //   //   payload: {
-    //   //     left: mouseData.current.left + "px",
-    //   //     top: mouseData.current.top + "px",
-    //   //   },
-    //   // });
     //   portRef.current.port.postMessage({
     //     left: mouseData.current.left + "px",
     //     top: mouseData.current.top + "px",
