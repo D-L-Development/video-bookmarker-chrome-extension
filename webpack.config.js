@@ -7,6 +7,7 @@ module.exports = {
     popup: "./src/popup.js",
     options: "./src/options.js",
     contentScript: "./src/contentScripts/content-script.js",
+    videoManager: "./src/contentScripts/videoManager.js",
   },
   output: {
     path: path.resolve(__dirname, "build"),

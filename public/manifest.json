@@ -39,6 +39,16 @@
       "js": [
         "contentScript.js"
       ]
+    },
+    {
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": [
+        "videoManager.js"
+      ],
+      "all_frames": true
     }
   ],
   "web_accessible_resources": [
