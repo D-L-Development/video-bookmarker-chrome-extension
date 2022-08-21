@@ -189,7 +189,7 @@ chrome.runtime.onConnect.addListener((port) => {
   });
   // search for video
   video = findVideo(document);
-  if (video) {
+  if (isVideoInDOM()) {
     videoPort = port;
     addVideoEvtListeners();
     sendVideoData(null);

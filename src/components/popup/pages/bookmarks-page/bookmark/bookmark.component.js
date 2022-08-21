@@ -51,11 +51,12 @@ const BookmarkComponent = ({
       },
       (res) => {
         setTimestampIsLoading(false);
-        if (res.status !== STATUS.SUCCESS) {
+        // chrome error indicates no response which means there's no video
+        if (chrome.runtime.lastError || res.status !== STATUS.SUCCESS) {
           setModalProps({
             title: "Failed!",
             type: modalTypes.ALERT,
-            message: res.message,
+            message: res ? res.message : "Failed to find a video in the page",
             closeBtnText: "Dismiss",
           });
           showModal();
