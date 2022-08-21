@@ -93,12 +93,17 @@ const BookmarksControlsComponent = (props) => {
     if (isIconLoading) return;
     setIsIconLoading(true);
     checkIfShouldPauseVideo();
-    if (chrome.runtime.lastError) return;
+    if (chrome.runtime.lastError) {
+      return showErrorMsgModal("Failed to find video in the page");
+    }
     sendMessageToActiveTab(
       { type: VIDEO_ACTIONS.GET_CURRENT_TIMESTAMP },
       (res) => {
         setIsIconLoading(false);
-        if (chrome.runtime.lastError) return;
+        if (chrome.runtime.lastError) {
+          return showErrorMsgModal("Failed to find video in the page");
+        }
+
         if (res.status !== STATUS.SUCCESS) {
           // TODO: here you should ask the user if they are okay with adding bookmarks without a video
           showErrorMsgModal(res.message);
@@ -139,8 +144,10 @@ const BookmarksControlsComponent = (props) => {
     setIsIconLoading(true);
     sendMessageToActiveTab({ type, payload }, (res) => {
       setIsIconLoading(false);
-      if (chrome.runtime.lastError) return;
-      if (res && res.status !== STATUS.SUCCESS) showErrorMsgModal(res.message);
+      if (chrome.runtime.lastError) {
+        return showErrorMsgModal("Failed to find video in the page");
+      }
+      if (res.status !== STATUS.SUCCESS) showErrorMsgModal(res.message);
     });
   };
   const handleCopyIconClick = () => {
