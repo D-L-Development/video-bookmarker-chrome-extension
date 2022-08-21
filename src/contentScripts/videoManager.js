@@ -3,15 +3,21 @@ import {
   secondsToTimestamp,
   STATUS,
   timestampToSeconds,
-  UI_ACTIONS,
   VIDEO_ACTIONS,
 } from "./utility";
-import { PORT_NAMES } from "../constants/constants";
 
 const SPEED_AMOUNT = 0.1;
 const uuid = guid();
 let videoPort = null;
 let video = null;
+/*
+ * keep track of if page had video
+ * since the only time we will know if there's a video is through a performed
+ * user action or on page load, this var will keep track of the most recent state
+ * in case a video gets removed from the page, this var will indicate that there was
+ * a video most recently
+ */
+let pageHadVideo;
 console.log("videoManager", uuid);
 
 /**
@@ -52,31 +58,32 @@ const isVideoInDOM = () => !!video?.parentNode;
  *
  * @returns {boolean}
  */
-const canPerformVideoOperations = () => {
+const videoOperationsMiddleWare = () => {
   if (isVideoInDOM()) return true;
   video = findVideo(document);
   if (isVideoInDOM()) {
     addVideoEvtListeners();
     sendVideoData(null);
+    pageHadVideo = true;
     return true;
   } else {
     // if there's no video, but there's a port, that means that the video got removed from the document,
     // so we try to reconnect to update the state of the popup ui
-    // TODO: figure out how to update context when video is gone from the document
-    if (videoPort) {
-      videoPort = null;
-      forceControlsReset();
-    }
+    // // TODO: figure out how to update context when video is gone from the document
+    // if (videoPort) {
+    //   videoPort = null;
+    //   forceControlsReset();
+    // }
+    // TODO: this should only happen if there was a video and it went away
+    pageHadVideo &&
+      sendMessageToPopup({ type: VIDEO_ACTIONS.HIDE_LIVE_CONTROLS });
+    pageHadVideo = false;
     return false;
   }
 };
 
-const forceReconnection = () => {
-  chrome.runtime.sendMessage({ type: UI_ACTIONS.RECONNECT }, null);
-};
-
-const forceControlsReset = () => {
-  chrome.runtime.sendMessage({ type: VIDEO_ACTIONS.HIDE_LIVE_CONTROLS }, null);
+const sendMessageToPopup = ({ type, payload = null }) => {
+  chrome.runtime.sendMessage({ type, payload }, null);
 };
 
 /**
@@ -87,15 +94,22 @@ const forceControlsReset = () => {
  */
 const sendVideoData = (e) => {
   // make popup reconnect if no port is available
-  if (!videoPort) return forceReconnection();
+  // if (!videoPort) return forceReconnection();
   if (isVideoInDOM()) {
     const { paused, playbackRate } = video;
-    videoPort.postMessage({
+    sendMessageToPopup({
+      type: VIDEO_ACTIONS.UPDATE_STATE,
       payload: {
         paused,
         playbackRate,
       },
     });
+    // videoPort.postMessage({
+    //   payload: {
+    //     paused,
+    //     playbackRate,
+    //   },
+    // });
   } else {
     console.log("Failed to send msg to popup");
   }
@@ -132,7 +146,7 @@ const jumpToTimestamp = (timestamp) => {
 };
 
 const dispatch = (action) => {
-  if (!canPerformVideoOperations()) {
+  if (!videoOperationsMiddleWare()) {
     return false;
   }
   switch (action.type) {
@@ -200,22 +214,22 @@ const isVideoTypeAction = (actionName) => {
   return false;
 };
 
-// wire port connection to update popup of video state
-chrome.runtime.onConnect.addListener((port) => {
-  if (port.name !== PORT_NAMES.VIDEO) return;
-  // search for video
-  video = findVideo(document);
-  if (isVideoInDOM()) {
-    videoPort = port;
-    addVideoEvtListeners();
-    sendVideoData(null);
-  } else {
-    port.postMessage({
-      payload: null,
-      message: "Failed to find a video in the current page. Please try again",
-    });
-  }
-});
+// // wire port connection to update popup of video state
+// chrome.runtime.onConnect.addListener((port) => {
+//   if (port.name !== PORT_NAMES.VIDEO) return;
+//   // search for video
+//   video = findVideo(document);
+//   if (isVideoInDOM()) {
+//     videoPort = port;
+//     addVideoEvtListeners();
+//     sendVideoData(null);
+//   } else {
+//     port.postMessage({
+//       payload: null,
+//       message: "Failed to find a video in the current page. Please try again",
+//     });
+//   }
+// });
 
 // wire single req/res message listener
 chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {

@@ -1,9 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
-import {
-  connectToActiveTab,
-  UI_ACTIONS,
-  VIDEO_ACTIONS,
-} from "../contentScripts/utility";
+import { connectToActiveTab, VIDEO_ACTIONS } from "../contentScripts/utility";
 import { PORT_NAMES } from "../constants/constants";
 
 export const VideoContext = createContext(null);
@@ -32,17 +28,21 @@ export const VideoProvider = ({ children }) => {
 
   useEffect(() => {
     // connect when the context loads
-    connectToContentScript().then();
+    // connectToContentScript().then();
     // listen to a reconnect event. This occurs when a video is found in the page again
     // so this context gets notified to reconnect to receive updates from the content script page that has the video
-    chrome.runtime.onMessage.addListener(async (action) => {
-      if (action.type === UI_ACTIONS.RECONNECT) {
-        portRef.current.disconnect();
-        await connectToContentScript();
-      } else if (action.type === VIDEO_ACTIONS.HIDE_LIVE_CONTROLS) {
+    chrome.runtime.onMessage.addListener((action) => {
+      // if (action.type === UI_ACTIONS.RECONNECT) {
+      //   portRef.current.disconnect();
+      //   await connectToContentScript();
+      // } else
+
+      if (action.type === VIDEO_ACTIONS.HIDE_LIVE_CONTROLS) {
         console.log(action);
         // TODO: this is not working on the bb page. The controls should be removed when a video gets removed from the DOM
         setState({ ...state, isLoading: true });
+      } else if (action.type === VIDEO_ACTIONS.UPDATE_STATE) {
+        setState({ ...action.payload, isLoading: false });
       }
     });
   }, []);

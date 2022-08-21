@@ -36,7 +36,6 @@ export const useFileSystemMW = (fileSystemState, syncFileSystemDispatch) => {
       case fsActions.OPEN_FILE:
         await openFile(action);
         break;
-        break;
       case fsActions.ADD_FOLDER:
         await addFolder(action);
         break;
