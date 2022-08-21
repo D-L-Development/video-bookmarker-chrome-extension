@@ -132,7 +132,8 @@ const BookmarksControlsComponent = (props) => {
     setIsIconLoading(true);
     sendMessageToActiveTab({ type, payload }, (res) => {
       setIsIconLoading(false);
-      if (res.status !== MSG.SUCCESS) showErrorMsgModal(res.message);
+      if (chrome.runtime.lastError) return;
+      if (res && res.status !== MSG.SUCCESS) showErrorMsgModal(res.message);
     });
   };
   const handleCopyIconClick = () => {

@@ -1,6 +1,6 @@
 console.log("Content Script Ran!");
 import { Session } from "./Session";
-import { getErrorMsg, MSG } from "./utility";
+import { MSG } from "./utility";
 
 let initialPageLoad = true;
 let session = null;
@@ -27,16 +27,6 @@ chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
   } else if (action.type === MSG.OPEN_POPUP) {
     session.togglePopupVisibility(true);
     sendResponse({ status: MSG.SUCCESS });
-  } else {
-    session
-      .dispatch(action)
-      .then((payload) => {
-        sendResponse({ status: MSG.SUCCESS, payload });
-      })
-      .catch((error) => {
-        sendResponse({ status: MSG.FAILURE, message: getErrorMsg(error) });
-      });
-    return true;
   }
 });
 

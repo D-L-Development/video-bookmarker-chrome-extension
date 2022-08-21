@@ -43,14 +43,12 @@ const isVideoInDOM = () => !!video?.parentNode;
  * Checks for the video member to make sure it's in the DOM
  * it will search for it if the reference is lost or doesn't exist
  *
- * @returns {Promise<*>}
+ * @returns {boolean}
  */
-const canPerformVideoOperations = async () => {
-  if (isVideoInDOM()) return;
+const canPerformVideoOperations = () => {
+  if (isVideoInDOM()) return true;
   video = findVideo(document);
-  if (!video) {
-    throw new Error("Failed to find video");
-  }
+  return video !== null;
 };
 
 /**
@@ -103,35 +101,33 @@ const jumpToTimestamp = (timestamp) => {
   video.currentTime = timestampToSeconds(timestamp);
 };
 
-const dispatch = async (action) => {
-  try {
-    await canPerformVideoOperations();
-    switch (action.type) {
-      case MSG.GET_CURRENT_TIMESTAMP:
-        return getCurrentTimestamp();
-      case MSG.JUMP_TO_TIMESTAMP:
-        return jumpToTimestamp(action.payload.timestamp);
-      case MSG.PLAY:
-        return play();
-      case MSG.PAUSE:
-        return pause();
-      case MSG.TOGGLE_PLAY:
-        return togglePlay();
-      case MSG.SKIP:
-        return skipBy(action.payload.seconds);
-      case MSG.REWIND:
-        return skipBy(action.payload.seconds * -1);
-      case MSG.SPEED_UP:
-        return changeSpeedBy(SPEED_AMOUNT);
-      case MSG.SLOW_DOWN:
-        return changeSpeedBy(SPEED_AMOUNT * -1);
-      case MSG.RESET_SPEED:
-        return resetSpeed();
-      default:
-        throw new Error(`Action type "${action.type}" is unhandled!`);
-    }
-  } catch (e) {
-    throw e;
+const dispatch = (action) => {
+  if (!canPerformVideoOperations()) {
+    return false;
+  }
+  switch (action.type) {
+    case MSG.GET_CURRENT_TIMESTAMP:
+      return getCurrentTimestamp();
+    case MSG.JUMP_TO_TIMESTAMP:
+      return jumpToTimestamp(action.payload.timestamp);
+    case MSG.PLAY:
+      return play();
+    case MSG.PAUSE:
+      return pause();
+    case MSG.TOGGLE_PLAY:
+      return togglePlay();
+    case MSG.SKIP:
+      return skipBy(action.payload.seconds);
+    case MSG.REWIND:
+      return skipBy(action.payload.seconds * -1);
+    case MSG.SPEED_UP:
+      return changeSpeedBy(SPEED_AMOUNT);
+    case MSG.SLOW_DOWN:
+      return changeSpeedBy(SPEED_AMOUNT * -1);
+    case MSG.RESET_SPEED:
+      return resetSpeed();
+    default:
+      throw new Error(`Action type "${action.type}" is unhandled!`);
   }
 };
 
@@ -161,13 +157,16 @@ const resetSpeed = () => {
 
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== PORT_NAMES.VIDEO) return;
+  // wire single req/res message listener
+  chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
+    console.log(action);
+    // only send response on success
+    dispatch(action) && sendResponse({ status: MSG.SUCCESS, payload });
+  });
+  // search for video
   video = findVideo(document);
   if (video) {
     videoPort = port;
-    port.onMessage.addListener((action, port) => {
-      // TODO: this if for if the user searches for a video again
-      console.log("MESSAGE");
-    });
     addVideoEvtListeners();
     sendVideoData(null);
   } else {
