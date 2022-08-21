@@ -6,8 +6,9 @@ import EditIcon from "../../../../../icons/edit-icon/edit.icon";
 import IndentIcon from "../../../../../icons/bookmarks-icons/indent-icon/indent.icon";
 import {
   guid,
-  MSG,
   sendMessageToActiveTab,
+  STATUS,
+  VIDEO_ACTIONS,
 } from "../../../../../contentScripts/utility";
 import { ActionIconWrapper } from "../../page.styles";
 import {
@@ -45,12 +46,12 @@ const BookmarkComponent = ({
     setTimestampIsLoading(true);
     sendMessageToActiveTab(
       {
-        type: MSG.JUMP_TO_TIMESTAMP,
+        type: VIDEO_ACTIONS.JUMP_TO_TIMESTAMP,
         payload: { timestamp },
       },
       (res) => {
         setTimestampIsLoading(false);
-        if (res.status !== MSG.SUCCESS) {
+        if (res.status !== STATUS.SUCCESS) {
           setModalProps({
             title: "Failed!",
             type: modalTypes.ALERT,

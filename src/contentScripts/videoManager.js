@@ -1,4 +1,10 @@
-import { guid, MSG, secondsToTimestamp, timestampToSeconds } from "./utility";
+import {
+  guid,
+  secondsToTimestamp,
+  STATUS,
+  timestampToSeconds,
+  VIDEO_ACTIONS,
+} from "./utility";
 import { PORT_NAMES } from "../constants/constants";
 
 const SPEED_AMOUNT = 0.1;
@@ -106,25 +112,25 @@ const dispatch = (action) => {
     return false;
   }
   switch (action.type) {
-    case MSG.GET_CURRENT_TIMESTAMP:
+    case VIDEO_ACTIONS.GET_CURRENT_TIMESTAMP:
       return getCurrentTimestamp();
-    case MSG.JUMP_TO_TIMESTAMP:
+    case VIDEO_ACTIONS.JUMP_TO_TIMESTAMP:
       return jumpToTimestamp(action.payload.timestamp);
-    case MSG.PLAY:
+    case VIDEO_ACTIONS.PLAY:
       return play();
-    case MSG.PAUSE:
+    case VIDEO_ACTIONS.PAUSE:
       return pause();
-    case MSG.TOGGLE_PLAY:
+    case VIDEO_ACTIONS.TOGGLE_PLAY:
       return togglePlay();
-    case MSG.SKIP:
+    case VIDEO_ACTIONS.SKIP:
       return skipBy(action.payload.seconds);
-    case MSG.REWIND:
+    case VIDEO_ACTIONS.REWIND:
       return skipBy(action.payload.seconds * -1);
-    case MSG.SPEED_UP:
+    case VIDEO_ACTIONS.SPEED_UP:
       return changeSpeedBy(SPEED_AMOUNT);
-    case MSG.SLOW_DOWN:
+    case VIDEO_ACTIONS.SLOW_DOWN:
       return changeSpeedBy(SPEED_AMOUNT * -1);
-    case MSG.RESET_SPEED:
+    case VIDEO_ACTIONS.RESET_SPEED:
       return resetSpeed();
     default:
       throw new Error(`Action type "${action.type}" is unhandled!`);
@@ -155,13 +161,31 @@ const resetSpeed = () => {
   video.playbackRate = 1;
 };
 
+/**
+ * Checks if the given action is part of the VIDEO_ACTIONS object
+ *
+ * @param actionName
+ * @returns {boolean}
+ */
+const isVideoTypeAction = (actionName) => {
+  for (const key in VIDEO_ACTIONS) {
+    if (VIDEO_ACTIONS[key] === actionName) {
+      return true;
+    }
+  }
+  return false;
+};
+
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== PORT_NAMES.VIDEO) return;
   // wire single req/res message listener
   chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
-    console.log(action);
+    // only call dispatch on video actions because this listener will run on any messages,
+    // but we only care about the video related actions
+    if (!isVideoTypeAction(action.type)) return;
     // only send response on success
-    dispatch(action) && sendResponse({ status: MSG.SUCCESS, payload });
+    const payload = dispatch(action);
+    if (payload !== false) sendResponse({ status: STATUS.SUCCESS, payload });
   });
   // search for video
   video = findVideo(document);

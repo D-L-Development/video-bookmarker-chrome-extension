@@ -9,7 +9,7 @@ import {
 import MinusIcon from "../../../icons/bookmarks-icons/minus-icon/minus.icon";
 import CogIcon from "../../../icons/cog-icon/cog.icon";
 import CloseIcon from "../../../icons/close-icon/close.icon";
-import { MSG } from "../../../contentScripts/utility";
+import { UI_ACTIONS } from "../../../contentScripts/utility";
 import PropTypes from "prop-types";
 
 const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
@@ -22,7 +22,7 @@ const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
         </MainHeaderIconWrapper>
         <MainHeaderIconWrapper
           onClick={() => {
-            chrome.runtime.sendMessage({ type: MSG.OPEN_OPTIONS }, null);
+            chrome.runtime.sendMessage({ type: UI_ACTIONS.OPEN_OPTIONS }, null);
           }}
           title="Open settings"
         >

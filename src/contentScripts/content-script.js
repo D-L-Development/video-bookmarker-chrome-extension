@@ -1,6 +1,6 @@
 console.log("Content Script Ran!");
 import { Session } from "./Session";
-import { MSG } from "./utility";
+import { STATUS, UI_ACTIONS } from "./utility";
 
 let initialPageLoad = true;
 let session = null;
@@ -10,23 +10,23 @@ let session = null;
  * returning true from the callback param tells the message port that the response will occur asynchronously
  */
 chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
-  if (action.type === MSG.TOGGLE_POPUP) {
+  if (action.type === UI_ACTIONS.TOGGLE_POPUP) {
     if (initialPageLoad) {
       initialPageLoad = false;
       session = new Session();
       // ? TODO: there's probably a better way to do this below
       setTimeout(() => {
         session.togglePopupVisibility(true);
-        sendResponse({ status: MSG.SUCCESS });
+        sendResponse({ status: STATUS.SUCCESS });
       }, 300);
       return true;
     } else {
       session.togglePopupVisibility();
-      sendResponse({ status: MSG.SUCCESS });
+      sendResponse({ status: STATUS.SUCCESS });
     }
-  } else if (action.type === MSG.OPEN_POPUP) {
+  } else if (action.type === UI_ACTIONS.OPEN_POPUP) {
     session.togglePopupVisibility(true);
-    sendResponse({ status: MSG.SUCCESS });
+    sendResponse({ status: STATUS.SUCCESS });
   }
 });
 

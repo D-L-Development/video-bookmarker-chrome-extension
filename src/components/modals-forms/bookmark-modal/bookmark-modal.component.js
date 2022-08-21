@@ -15,7 +15,10 @@ import {
   BookmarksDispatchContext,
 } from "../../../contexts/bookmarks.context";
 import { SettingsContext } from "../../../contexts/settings.context";
-import { MSG, sendMessageToActiveTab } from "../../../contentScripts/utility";
+import {
+  sendMessageToActiveTab,
+  VIDEO_ACTIONS,
+} from "../../../contentScripts/utility";
 
 const BookmarkModalComponent = (props) => {
   const dispatch = useContext(BookmarksDispatchContext);
@@ -66,7 +69,7 @@ const BookmarkModalComponent = (props) => {
 
   const checkIfShouldPlayVideo = () => {
     if (!settings.isLoading && settings.resumeAfterAction) {
-      sendMessageToActiveTab({ type: MSG.PLAY });
+      sendMessageToActiveTab({ type: VIDEO_ACTIONS.PLAY });
     }
   };
 

@@ -1,7 +1,9 @@
-export const MSG = {
+export const STATUS = {
   SUCCESS: "success",
   FAILURE: "failure",
-  TOGGLE_POPUP: "toggle popup",
+};
+
+export const VIDEO_ACTIONS = {
   JUMP_TO_TIMESTAMP: "jump to timestamp",
   GET_CURRENT_TIMESTAMP: "get current timestamp",
   PLAY: "play video",
@@ -12,10 +14,14 @@ export const MSG = {
   SPEED_UP: "speed up",
   SLOW_DOWN: "slow down",
   RESET_SPEED: "reset speed",
+};
+
+export const UI_ACTIONS = {
   OPEN_POPUP: "open popup",
+  TOGGLE_POPUP: "toggle popup",
   TOGGLE_DRAG: "toggle popup drag",
-  MOVE: "move popup",
   OPEN_OPTIONS: "open options page",
+  MOVE: "move popup",
 };
 
 export function copyStringToClipboard(str) {

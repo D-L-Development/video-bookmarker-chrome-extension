@@ -10,8 +10,10 @@ import {
 import PlayPauseIcon from "../../../../../icons/bookmarks-icons/play-pause-icon/play-pause.icon";
 import {
   copyStringToClipboard,
-  MSG,
   sendMessageToActiveTab,
+  STATUS,
+  UI_ACTIONS,
+  VIDEO_ACTIONS,
 } from "../../../../../contentScripts/utility";
 import { VerticalDivider } from "../../../shared/divider.styles";
 import SkipIcon from "../../../../../icons/bookmarks-icons/skip-icon/skip.icon";
@@ -58,7 +60,7 @@ const BookmarksControlsComponent = (props) => {
   useEffect(() => {
     const addBookmarkListener = (command) => {
       if (command !== COMMANDS.ADD_BOOKMARK || isIconLoading) return;
-      sendMessageToActiveTab({ type: MSG.OPEN_POPUP });
+      sendMessageToActiveTab({ type: UI_ACTIONS.OPEN_POPUP });
       checkIfShouldPauseVideo();
       handleCreateBookmarkIconClick();
     };
@@ -83,7 +85,7 @@ const BookmarksControlsComponent = (props) => {
   const checkIfShouldPauseVideo = () => {
     // pause the video if the settings context indicates that
     if (!settings.isLoading && settings.pauseVideoOnAction) {
-      sendMessageToActiveTab({ type: MSG.PAUSE });
+      sendMessageToActiveTab({ type: VIDEO_ACTIONS.PAUSE });
     }
   };
 
@@ -91,18 +93,23 @@ const BookmarksControlsComponent = (props) => {
     if (isIconLoading) return;
     setIsIconLoading(true);
     checkIfShouldPauseVideo();
-    sendMessageToActiveTab({ type: MSG.GET_CURRENT_TIMESTAMP }, (res) => {
-      setIsIconLoading(false);
-      if (res.status !== MSG.SUCCESS) {
-        // TODO: here you should ask the user if they are okay with adding bookmarks without a video
-        showErrorMsgModal(res.message);
-      } else {
-        showModal(modalNames.BOOKMARK, {
-          timestamp: res.payload.timestamp,
-          isEditing: false,
-        });
+    if (chrome.runtime.lastError) return;
+    sendMessageToActiveTab(
+      { type: VIDEO_ACTIONS.GET_CURRENT_TIMESTAMP },
+      (res) => {
+        setIsIconLoading(false);
+        if (chrome.runtime.lastError) return;
+        if (res.status !== STATUS.SUCCESS) {
+          // TODO: here you should ask the user if they are okay with adding bookmarks without a video
+          showErrorMsgModal(res.message);
+        } else {
+          showModal(modalNames.BOOKMARK, {
+            timestamp: res.payload.timestamp,
+            isEditing: false,
+          });
+        }
       }
-    });
+    );
   };
 
   const bookmarksToString = (bookmarks) => {
@@ -133,7 +140,7 @@ const BookmarksControlsComponent = (props) => {
     sendMessageToActiveTab({ type, payload }, (res) => {
       setIsIconLoading(false);
       if (chrome.runtime.lastError) return;
-      if (res && res.status !== MSG.SUCCESS) showErrorMsgModal(res.message);
+      if (res && res.status !== STATUS.SUCCESS) showErrorMsgModal(res.message);
     });
   };
   const handleCopyIconClick = () => {
@@ -186,7 +193,9 @@ const BookmarksControlsComponent = (props) => {
       <ActionIconWrapper
         style={{ marginLeft: "0.5rem" }}
         onClick={() =>
-          handleContentScriptIconClick(MSG.REWIND, { seconds: skipSeconds })
+          handleContentScriptIconClick(VIDEO_ACTIONS.REWIND, {
+            seconds: skipSeconds,
+          })
         }
         enabled={!isIconLoading}
         title={`Rewind ${skipSeconds} seconds`}
@@ -198,7 +207,7 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <ActionIconWrapper
-        onClick={() => handleContentScriptIconClick(MSG.TOGGLE_PLAY)}
+        onClick={() => handleContentScriptIconClick(VIDEO_ACTIONS.TOGGLE_PLAY)}
         enabled={!isIconLoading}
         title={video.paused ? "play" : "pause"}
       >
@@ -210,7 +219,9 @@ const BookmarksControlsComponent = (props) => {
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={() =>
-          handleContentScriptIconClick(MSG.SKIP, { seconds: skipSeconds })
+          handleContentScriptIconClick(VIDEO_ACTIONS.SKIP, {
+            seconds: skipSeconds,
+          })
         }
         enabled={!isIconLoading}
         title={`Skip ${skipSeconds} seconds`}
@@ -223,7 +234,7 @@ const BookmarksControlsComponent = (props) => {
       </ActionIconWrapper>
       <SpeedIconsGroup>
         <EdgeActionIcon
-          onClick={() => handleContentScriptIconClick(MSG.SLOW_DOWN)}
+          onClick={() => handleContentScriptIconClick(VIDEO_ACTIONS.SLOW_DOWN)}
           enabled={!isIconLoading}
           title="Decrease by 0.10x"
         >
@@ -235,7 +246,9 @@ const BookmarksControlsComponent = (props) => {
         <EdgeActionIcon
           enabled={!isIconLoading}
           title="Reset playback speed"
-          onClick={() => handleContentScriptIconClick(MSG.RESET_SPEED)}
+          onClick={() =>
+            handleContentScriptIconClick(VIDEO_ACTIONS.RESET_SPEED)
+          }
         >
           <SpeedIcon
             {...smallerIconDimen}
@@ -243,7 +256,7 @@ const BookmarksControlsComponent = (props) => {
           />
         </EdgeActionIcon>
         <EdgeActionIcon
-          onClick={() => handleContentScriptIconClick(MSG.SPEED_UP)}
+          onClick={() => handleContentScriptIconClick(VIDEO_ACTIONS.SPEED_UP)}
           enabled={!isIconLoading}
           title="Increase by 0.10x"
         >
