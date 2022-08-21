@@ -8,7 +8,6 @@ import {
 
 const SPEED_AMOUNT = 0.1;
 const uuid = guid();
-let videoPort = null;
 let video = null;
 /*
  * keep track of if page had video
@@ -59,7 +58,14 @@ const isVideoInDOM = () => !!video?.parentNode;
  * @returns {boolean}
  */
 const videoOperationsMiddleWare = () => {
+  // video element has already been initialized
   if (isVideoInDOM()) return true;
+  // try to search for a video when an operation that is
+  // performed with no video in the page
+  return tryToGetVideo();
+};
+
+const tryToGetVideo = () => {
   video = findVideo(document);
   if (isVideoInDOM()) {
     addVideoEvtListeners();
@@ -67,14 +73,6 @@ const videoOperationsMiddleWare = () => {
     pageHadVideo = true;
     return true;
   } else {
-    // if there's no video, but there's a port, that means that the video got removed from the document,
-    // so we try to reconnect to update the state of the popup ui
-    // // TODO: figure out how to update context when video is gone from the document
-    // if (videoPort) {
-    //   videoPort = null;
-    //   forceControlsReset();
-    // }
-    // TODO: this should only happen if there was a video and it went away
     pageHadVideo &&
       sendMessageToPopup({ type: VIDEO_ACTIONS.HIDE_LIVE_CONTROLS });
     pageHadVideo = false;
@@ -93,26 +91,19 @@ const sendMessageToPopup = ({ type, payload = null }) => {
  * @param {Event} e
  */
 const sendVideoData = (e) => {
-  // make popup reconnect if no port is available
-  // if (!videoPort) return forceReconnection();
-  if (isVideoInDOM()) {
-    const { paused, playbackRate } = video;
-    sendMessageToPopup({
-      type: VIDEO_ACTIONS.UPDATE_STATE,
-      payload: {
-        paused,
-        playbackRate,
-      },
-    });
-    // videoPort.postMessage({
-    //   payload: {
-    //     paused,
-    //     playbackRate,
-    //   },
-    // });
-  } else {
-    console.log("Failed to send msg to popup");
+  if (!isVideoInDOM()) {
+    sendMessageToPopup({ type: VIDEO_ACTIONS.HIDE_LIVE_CONTROLS });
+    return;
   }
+  // send video state to popup
+  const { paused, playbackRate } = video;
+  sendMessageToPopup({
+    type: VIDEO_ACTIONS.UPDATE_STATE,
+    payload: {
+      paused,
+      playbackRate,
+    },
+  });
 };
 
 /**
@@ -214,29 +205,18 @@ const isVideoTypeAction = (actionName) => {
   return false;
 };
 
-// // wire port connection to update popup of video state
-// chrome.runtime.onConnect.addListener((port) => {
-//   if (port.name !== PORT_NAMES.VIDEO) return;
-//   // search for video
-//   video = findVideo(document);
-//   if (isVideoInDOM()) {
-//     videoPort = port;
-//     addVideoEvtListeners();
-//     sendVideoData(null);
-//   } else {
-//     port.postMessage({
-//       payload: null,
-//       message: "Failed to find a video in the current page. Please try again",
-//     });
-//   }
-// });
-
 // wire single req/res message listener
 chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
   // only call dispatch on video actions because this listener will run on any messages,
   // but we only care about the video related actions
   if (!isVideoTypeAction(action.type)) return;
-  // only send response on success
+  // when the video context in the popup first loads, it will ask for a video
+  // tryToGetVideo will send a msg to the popup if a video is found
+  if (action.type === VIDEO_ACTIONS.INIT_STATE) {
+    tryToGetVideo();
+    return;
+  }
+  // only send response on success. That way if no scripts respond, the popup knows that no page has a video
   const payload = dispatch(action);
   if (payload !== false) sendResponse({ status: STATUS.SUCCESS, payload });
 });

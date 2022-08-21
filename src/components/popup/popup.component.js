@@ -7,6 +7,7 @@ import { PageHeader } from "./view-pager/view-pager.styles";
 import PathComponent from "./shared/path/path.component";
 import InputComponent from "./shared/input/input.component";
 import BookmarksControlsComponent from "./pages/bookmarks-page/bookmarks-controls/bookmarks-controls.component";
+import { VideoProvider } from "../../contexts/video.context";
 
 export const FIRST = "first";
 export const SECOND = "second";
@@ -33,7 +34,9 @@ const PopupComponent = () => {
         {pageInfo.current === FIRST ? (
           <FileSystemControlsComponent />
         ) : (
-          <BookmarksControlsComponent />
+          <VideoProvider>
+            <BookmarksControlsComponent />
+          </VideoProvider>
         )}
         <PageHeader className="PageHeader">
           <PathComponent

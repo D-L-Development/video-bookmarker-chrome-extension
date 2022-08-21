@@ -16,6 +16,7 @@ export const VIDEO_ACTIONS = {
   RESET_SPEED: "reset speed",
   HIDE_LIVE_CONTROLS: "hide controls",
   UPDATE_STATE: "update video state",
+  INIT_STATE: "initialize video state",
 };
 
 export const UI_ACTIONS = {
