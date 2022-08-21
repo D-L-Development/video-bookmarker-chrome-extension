@@ -64,6 +64,13 @@ const videoOperationsMiddleWare = () => {
   return tryToGetVideo();
 };
 
+/**
+ * Searches for an HTML video and sets the video var to it. It will return a boolean
+ * indicating whether a video was found or not. If there was previously a video detected
+ * by this script, then a msg will be sent to the popup to remove the video controls
+ *
+ * @returns {boolean}
+ */
 const tryToGetVideo = () => {
   video = findVideo(document);
   if (isVideoInDOM()) {
@@ -79,6 +86,10 @@ const tryToGetVideo = () => {
   }
 };
 
+/**
+ * Sends a message to popup script
+ * @param {{type: string, payload: Object | null}}
+ */
 const sendMessageToPopup = ({ type, payload = null }) => {
   chrome.runtime.sendMessage({ type, payload }, null);
 };
@@ -135,6 +146,15 @@ const jumpToTimestamp = (timestamp) => {
   video.currentTime = timestampToSeconds(timestamp);
 };
 
+/**
+ * Called when a video action is sent from the popup that needs to be handled. It checks
+ * if there's a video element in the page first, if not it will search for it again,
+ * and then if there's still no video then it doesn't perform the video operation
+ * and prevents this script from sending a response to the popup
+ *
+ * @param {{type: string, payload: Object | null}} action
+ * @returns {*}
+ */
 const dispatch = (action) => {
   if (!videoOperationsMiddleWare()) {
     return false;
