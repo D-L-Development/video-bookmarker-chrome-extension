@@ -1,5 +1,5 @@
-import React, { createContext, useEffect, useState } from "react";
-import { connectToActiveTab } from "../contentScripts/utility";
+import React, { createContext, useEffect, useRef, useState } from "react";
+import { connectToActiveTab, UI_ACTIONS } from "../contentScripts/utility";
 import { PORT_NAMES } from "../constants/constants";
 
 export const VideoContext = createContext(null);
@@ -10,25 +10,32 @@ export const VideoProvider = ({ children }) => {
     isLoading: true,
   });
 
+  const portRef = useRef(null);
+
+  const connectToContentScript = async () => {
+    // connect to a port
+    portRef.current = await connectToActiveTab(PORT_NAMES.VIDEO);
+    // listen to messages from content script
+    portRef.current.onMessage.addListener((action) => {
+      if (action.payload) {
+        setState({ ...action.payload, isLoading: false });
+      } else {
+        // TODO: figure out what to do when there's no video found
+        console.log(action.message);
+      }
+    });
+  };
+
   useEffect(() => {
-    const connectToContentScript = async () => {
-      // connect to a port
-      const port = await connectToActiveTab(PORT_NAMES.VIDEO);
-      // listen to messages from content script
-      port.onMessage.addListener((action) => {
-        if (action.payload) {
-          setState({ ...action.payload, isLoading: false });
-        } else {
-          // TODO: figure out what to do when there's no video found
-          console.log(action.message);
-        }
-      });
-    };
-
+    // connect when the context loads
     connectToContentScript().then();
-
-    chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
-      console.log(action);
+    // listen to a reconnect event. This occurs when a video is found in the page again
+    // so this context gets notified to reconnect to receive updates from the content script page that has the video
+    chrome.runtime.onMessage.addListener(async (action) => {
+      if (action.type === UI_ACTIONS.RECONNECT) {
+        portRef.current.disconnect();
+        await connectToContentScript();
+      }
     });
   }, []);
 

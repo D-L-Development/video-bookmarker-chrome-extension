@@ -65,9 +65,7 @@ const canPerformVideoOperations = () => {
 };
 
 const forceReconnection = () => {
-  chrome.runtime.sendMessage({ type: UI_ACTIONS.RECONNECT }, (payload) => {
-    console.log(payload);
-  });
+  chrome.runtime.sendMessage({ type: UI_ACTIONS.RECONNECT }, null);
 };
 
 /**
