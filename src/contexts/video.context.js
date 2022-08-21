@@ -26,6 +26,10 @@ export const VideoProvider = ({ children }) => {
     };
 
     connectToContentScript().then();
+
+    chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
+      console.log(action);
+    });
   }, []);
 
   return (

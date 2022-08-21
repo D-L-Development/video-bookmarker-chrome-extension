@@ -3,6 +3,7 @@ import {
   secondsToTimestamp,
   STATUS,
   timestampToSeconds,
+  UI_ACTIONS,
   VIDEO_ACTIONS,
 } from "./utility";
 import { PORT_NAMES } from "../constants/constants";
@@ -54,7 +55,19 @@ const isVideoInDOM = () => !!video?.parentNode;
 const canPerformVideoOperations = () => {
   if (isVideoInDOM()) return true;
   video = findVideo(document);
-  return video !== null;
+  if (isVideoInDOM()) {
+    addVideoEvtListeners();
+    sendVideoData(null);
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const forceReconnection = () => {
+  chrome.runtime.sendMessage({ type: UI_ACTIONS.RECONNECT }, (payload) => {
+    console.log(payload);
+  });
 };
 
 /**
@@ -64,6 +77,8 @@ const canPerformVideoOperations = () => {
  * @param {Event} e
  */
 const sendVideoData = (e) => {
+  // make popup reconnect if no port is available
+  if (!videoPort) return forceReconnection();
   if (isVideoInDOM()) {
     const { paused, playbackRate } = video;
     videoPort.postMessage({
@@ -73,7 +88,7 @@ const sendVideoData = (e) => {
       },
     });
   } else {
-    throw new Error("Failed to send msg to popup");
+    console.log("Failed to send msg to popup");
   }
 };
 
@@ -176,17 +191,9 @@ const isVideoTypeAction = (actionName) => {
   return false;
 };
 
+// wire port connection to update popup of video state
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== PORT_NAMES.VIDEO) return;
-  // wire single req/res message listener
-  chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
-    // only call dispatch on video actions because this listener will run on any messages,
-    // but we only care about the video related actions
-    if (!isVideoTypeAction(action.type)) return;
-    // only send response on success
-    const payload = dispatch(action);
-    if (payload !== false) sendResponse({ status: STATUS.SUCCESS, payload });
-  });
   // search for video
   video = findVideo(document);
   if (isVideoInDOM()) {
@@ -199,4 +206,14 @@ chrome.runtime.onConnect.addListener((port) => {
       message: "Failed to find a video in the current page. Please try again",
     });
   }
+});
+
+// wire single req/res message listener
+chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
+  // only call dispatch on video actions because this listener will run on any messages,
+  // but we only care about the video related actions
+  if (!isVideoTypeAction(action.type)) return;
+  // only send response on success
+  const payload = dispatch(action);
+  if (payload !== false) sendResponse({ status: STATUS.SUCCESS, payload });
 });

@@ -22,6 +22,7 @@ export const UI_ACTIONS = {
   TOGGLE_DRAG: "toggle popup drag",
   OPEN_OPTIONS: "open options page",
   MOVE: "move popup",
+  RECONNECT: "reconnect",
 };
 
 export function copyStringToClipboard(str) {
