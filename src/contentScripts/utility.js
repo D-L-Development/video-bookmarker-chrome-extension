@@ -14,6 +14,7 @@ export const VIDEO_ACTIONS = {
   SPEED_UP: "speed up",
   SLOW_DOWN: "slow down",
   RESET_SPEED: "reset speed",
+  HIDE_LIVE_CONTROLS: "hide controls",
 };
 
 export const UI_ACTIONS = {

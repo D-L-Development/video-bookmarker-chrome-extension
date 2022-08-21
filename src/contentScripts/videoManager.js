@@ -60,12 +60,23 @@ const canPerformVideoOperations = () => {
     sendVideoData(null);
     return true;
   } else {
+    // if there's no video, but there's a port, that means that the video got removed from the document,
+    // so we try to reconnect to update the state of the popup ui
+    // TODO: figure out how to update context when video is gone from the document
+    if (videoPort) {
+      videoPort = null;
+      forceControlsReset();
+    }
     return false;
   }
 };
 
 const forceReconnection = () => {
   chrome.runtime.sendMessage({ type: UI_ACTIONS.RECONNECT }, null);
+};
+
+const forceControlsReset = () => {
+  chrome.runtime.sendMessage({ type: VIDEO_ACTIONS.HIDE_LIVE_CONTROLS }, null);
 };
 
 /**

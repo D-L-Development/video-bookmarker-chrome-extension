@@ -1,5 +1,9 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
-import { connectToActiveTab, UI_ACTIONS } from "../contentScripts/utility";
+import {
+  connectToActiveTab,
+  UI_ACTIONS,
+  VIDEO_ACTIONS,
+} from "../contentScripts/utility";
 import { PORT_NAMES } from "../constants/constants";
 
 export const VideoContext = createContext(null);
@@ -35,6 +39,10 @@ export const VideoProvider = ({ children }) => {
       if (action.type === UI_ACTIONS.RECONNECT) {
         portRef.current.disconnect();
         await connectToContentScript();
+      } else if (action.type === VIDEO_ACTIONS.HIDE_LIVE_CONTROLS) {
+        console.log(action);
+        // TODO: this is not working on the bb page. The controls should be removed when a video gets removed from the DOM
+        setState({ ...state, isLoading: true });
       }
     });
   }, []);
