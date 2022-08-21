@@ -11,7 +11,6 @@ import PlayPauseIcon from "../../../../../icons/bookmarks-icons/play-pause-icon/
 import {
   copyStringToClipboard,
   sendMessageToActiveTab,
-  STATUS,
   UI_ACTIONS,
   VIDEO_ACTIONS,
 } from "../../../../../contentScripts/utility";
@@ -104,15 +103,10 @@ const BookmarksControlsComponent = (props) => {
           return showErrorMsgModal("Failed to find video in the page");
         }
 
-        if (res.status !== STATUS.SUCCESS) {
-          // TODO: here you should ask the user if they are okay with adding bookmarks without a video
-          showErrorMsgModal(res.message);
-        } else {
-          showModal(modalNames.BOOKMARK, {
-            timestamp: res.payload.timestamp,
-            isEditing: false,
-          });
-        }
+        showModal(modalNames.BOOKMARK, {
+          timestamp: res.payload.timestamp,
+          isEditing: false,
+        });
       }
     );
   };
@@ -142,12 +136,11 @@ const BookmarksControlsComponent = (props) => {
     if (isIconLoading) return;
     // set loading to true until content script responds
     setIsIconLoading(true);
-    sendMessageToActiveTab({ type, payload }, (res) => {
+    sendMessageToActiveTab({ type, payload }, () => {
       setIsIconLoading(false);
       if (chrome.runtime.lastError) {
         return showErrorMsgModal("Failed to find video in the page");
       }
-      if (res.status !== STATUS.SUCCESS) showErrorMsgModal(res.message);
     });
   };
   const handleCopyIconClick = () => {

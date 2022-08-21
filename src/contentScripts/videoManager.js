@@ -1,7 +1,6 @@
 import {
   guid,
   secondsToTimestamp,
-  STATUS,
   timestampToSeconds,
   VIDEO_ACTIONS,
 } from "./utility";
@@ -218,5 +217,5 @@ chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
   }
   // only send response on success. That way if no scripts respond, the popup knows that no page has a video
   const payload = dispatch(action);
-  if (payload !== false) sendResponse({ status: STATUS.SUCCESS, payload });
+  if (payload !== false) sendResponse({ payload });
 });

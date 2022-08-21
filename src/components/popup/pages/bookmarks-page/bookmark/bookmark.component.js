@@ -7,7 +7,6 @@ import IndentIcon from "../../../../../icons/bookmarks-icons/indent-icon/indent.
 import {
   guid,
   sendMessageToActiveTab,
-  STATUS,
   VIDEO_ACTIONS,
 } from "../../../../../contentScripts/utility";
 import { ActionIconWrapper } from "../../page.styles";
@@ -52,7 +51,7 @@ const BookmarkComponent = ({
       (res) => {
         setTimestampIsLoading(false);
         // chrome error indicates no response which means there's no video
-        if (chrome.runtime.lastError || res.status !== STATUS.SUCCESS) {
+        if (chrome.runtime.lastError) {
           setModalProps({
             title: "Failed!",
             type: modalTypes.ALERT,
