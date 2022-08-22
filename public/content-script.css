@@ -8,7 +8,7 @@
     left: 110%;
     z-index: 2147483647;
     transition-duration: 0.3s;
-    box-shadow: -6px 0px 19px 0px rgb(0 0 0 / 76%);
+    box-shadow: -6px 0 19px 0 rgb(0 0 0 / 76%);
     display: flex;
     flex-direction: column;
     font-size: 16px;

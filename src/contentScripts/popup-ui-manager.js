@@ -39,16 +39,15 @@ export class PopupUiManager {
   /**
    * Disables the selection of any elements. Used when dragging the popup to prevent text from being selected
    *
-   * @param {Event} e
    */
-  #handleAllSelectionRemoval = (e) => {
+  #handleAllSelectionRemoval = () => {
     window.getSelection().removeAllRanges();
   };
 
   /**
    * Add mouseup and mousemove event listeners and update the last mouse position
    *
-   * @param {Event} e
+   * @param {MouseEvent} e
    */
   #handleMouseDragStart = (e) => {
     if (
@@ -67,10 +66,8 @@ export class PopupUiManager {
 
   /**
    * Removes mouseup and mousemove events. This event fires when a mouseup event occurs
-   *
-   * @param {Event} e
    */
-  #handleMouseDragEnd = (e) => {
+  #handleMouseDragEnd = () => {
     this.parentDiv.style.transitionDuration =
       UI_ENUMS.DEFAULT_TRANSITION_DURATION;
     this.sidebarIframe.style.pointerEvents = UI_ENUMS.BLANK;
@@ -127,7 +124,7 @@ export class PopupUiManager {
   }
 
   /**
-   * creates the sidmenu iframe and sets its source to URL param
+   * creates the side menu iframe and sets its source to URL param
    *
    * @param {String} URL - passed in URL for desired resource HTML page to be rendered within the created frame
    */
