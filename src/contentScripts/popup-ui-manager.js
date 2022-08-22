@@ -109,14 +109,14 @@ export class PopupUiManager {
     if (offsetLeft < 0) {
       this.lastDraggedToPosX = UI_ENUMS.ZERO_PX;
       this.parentDiv.style.left = this.lastDraggedToPosX;
-    } else if (offsetLeft > innerWidth) {
-      this.lastDraggedToPosX = innerWidth - offsetWidth + UI_ENUMS.PX;
+    } else if (offsetLeft + offsetWidth > innerWidth) {
+      this.lastDraggedToPosX = UI_ENUMS.RIGHT;
       this.parentDiv.style.left = this.lastDraggedToPosX;
     }
     if (offsetTop < 0) {
       this.lastDraggedToPosY = UI_ENUMS.ZERO_PX;
       this.parentDiv.style.top = this.lastDraggedToPosY;
-    } else if (offsetTop > innerHeight) {
+    } else if (offsetTop + offsetHeight > innerHeight) {
       this.lastDraggedToPosY = innerHeight - offsetHeight + UI_ENUMS.PX;
       this.parentDiv.style.top = this.lastDraggedToPosY;
     }
