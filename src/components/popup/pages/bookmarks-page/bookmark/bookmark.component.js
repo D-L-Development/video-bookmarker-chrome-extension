@@ -120,7 +120,7 @@ const BookmarkComponent = ({
         <Styled.BookmarkHeaderText>
           <Styled.BookmarkTimestamp
             onClick={handleTimestampClick}
-            title={"Skip video to timestamp"}
+            title={`Skip video to ${timestamp}`}
           >
             {timestampIsLoading ? (
               <SpinnerWrapper>

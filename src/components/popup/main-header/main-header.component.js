@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CloseIconWrapper,
   Header,
@@ -11,14 +11,32 @@ import CogIcon from "../../../icons/cog-icon/cog.icon";
 import CloseIcon from "../../../icons/close-icon/close.icon";
 import { UI_ACTIONS } from "../../../contentScripts/utility";
 import PropTypes from "prop-types";
+import ExpandIcon from "../../../icons/expand-icon/expand.icon";
+
+const iconStyles = {
+  width: "20px",
+  height: "20px",
+  color: "white",
+};
 
 const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
+  const [draggable, setDraggable] = useState(false);
   return (
     <Header>
       <HeaderText>Web Video Bookmarker</HeaderText>
       <PopupIconGroup>
-        <MainHeaderIconWrapper onClick={toggleDrag}>
-          <MinusIcon width={"20px"} height={"20px"} color={"white"} />
+        <MainHeaderIconWrapper
+          onClick={() => {
+            setDraggable(!draggable);
+            toggleDrag();
+          }}
+          title={draggable ? "Dock to the side" : "Allow drag"}
+        >
+          {draggable ? (
+            <ExpandIcon {...iconStyles} />
+          ) : (
+            <MinusIcon {...iconStyles} />
+          )}
         </MainHeaderIconWrapper>
         <MainHeaderIconWrapper
           onClick={() => {
@@ -26,7 +44,7 @@ const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
           }}
           title="Open settings"
         >
-          <CogIcon width={"20px"} height={"20px"} color={"white"} />
+          <CogIcon {...iconStyles} />
         </MainHeaderIconWrapper>
 
         <CloseIconWrapper onClick={closePopup} title="Hide menu">

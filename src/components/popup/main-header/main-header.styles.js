@@ -47,7 +47,8 @@ export const MainHeaderIconWrapper = styled(CloseIconWrapper)`
     background-color: transparent;
 
     & > * {
-      fill: lightgrey;
+      fill: #9b9b9b;
+      transition: 150ms;
     }
   }
 `;
