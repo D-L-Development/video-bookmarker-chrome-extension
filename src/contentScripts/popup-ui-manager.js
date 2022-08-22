@@ -5,15 +5,16 @@ import MainHeaderComponent from "../components/popup/main-header/main-header.com
 const UI_ENUMS = {
   FULL: "100%",
   OFF_SCREEN: "110%",
-  ZERO: "0px",
+  ZERO_PX: "0px",
   DEFAULT_WIDTH: "400px",
   DEFAULT_TRANSITION_DURATION: "0.3s",
   RIGHT: `calc(100% - 400px)`,
-  ZERO_SECONDS: "0s",
+  ZERO_PX_SECONDS: "0s",
   DRAGGABLE_HEIGHT: "30em",
   DRAGGABLE_CLASS: "draggable",
   NONE: "none",
   BLANK: "",
+  PX: "px",
 };
 
 export class PopupUiManager {
@@ -56,7 +57,7 @@ export class PopupUiManager {
     ) {
       this.lastMouseX = e.clientX;
       this.lastMouseY = e.clientY;
-      this.parentDiv.style.transitionDuration = UI_ENUMS.ZERO_SECONDS;
+      this.parentDiv.style.transitionDuration = UI_ENUMS.ZERO_PX_SECONDS;
       this.sidebarIframe.style.pointerEvents = UI_ENUMS.NONE;
       document.addEventListener("selectstart", this.#handleAllSelectionRemoval);
       document.addEventListener("mouseup", this.#handleMouseDragEnd);
@@ -79,6 +80,7 @@ export class PopupUiManager {
       "selectstart",
       this.#handleAllSelectionRemoval
     );
+    this.#ensureValidPosition();
   };
 
   /**
@@ -96,10 +98,29 @@ export class PopupUiManager {
     this.lastMouseY = clientY;
     // update style for popup
     this.#updatePopupPos(
-      this.parentDiv.offsetLeft - diffX + "px",
-      this.parentDiv.offsetTop - diffY + "px"
+      this.parentDiv.offsetLeft - diffX + UI_ENUMS.PX,
+      this.parentDiv.offsetTop - diffY + UI_ENUMS.PX
     );
   };
+
+  #ensureValidPosition() {
+    const { innerWidth, innerHeight } = window;
+    const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = this.parentDiv;
+    if (offsetLeft < 0) {
+      this.lastDraggedToPosX = UI_ENUMS.ZERO_PX;
+      this.parentDiv.style.left = this.lastDraggedToPosX;
+    } else if (offsetLeft > innerWidth) {
+      this.lastDraggedToPosX = innerWidth - offsetWidth + UI_ENUMS.PX;
+      this.parentDiv.style.left = this.lastDraggedToPosX;
+    }
+    if (offsetTop < 0) {
+      this.lastDraggedToPosY = UI_ENUMS.ZERO_PX;
+      this.parentDiv.style.top = this.lastDraggedToPosY;
+    } else if (offsetTop > innerHeight) {
+      this.lastDraggedToPosY = innerHeight - offsetHeight + UI_ENUMS.PX;
+      this.parentDiv.style.top = this.lastDraggedToPosY;
+    }
+  }
 
   /**
    * creates the sidmenu iframe and sets its source to URL param
@@ -142,7 +163,7 @@ export class PopupUiManager {
     this.parentDiv.style.setProperty("left", left);
     this.parentDiv.style.setProperty("top", top);
     // only update most recent drag position
-    if (left !== UI_ENUMS.OFF_SCREEN && left !== UI_ENUMS.RIGHT) {
+    if (this.isDraggable && this.isShown) {
       this.lastDraggedToPosX = left;
       this.lastDraggedToPosY = top;
     }
@@ -161,18 +182,18 @@ export class PopupUiManager {
    * toggles the visibility of the side menu iframe
    */
   togglePopupVisibility(value = null) {
-    const { RIGHT, ZERO, OFF_SCREEN } = UI_ENUMS;
+    const { RIGHT, ZERO_PX, OFF_SCREEN } = UI_ENUMS;
     if (value === null) value = !this.isShown;
     switch (value) {
       case true:
         this.isShown = true;
         this.isDraggable
           ? this.#updatePopupPos(this.lastDraggedToPosX, this.lastDraggedToPosY)
-          : this.#updatePopupPos(RIGHT, ZERO);
+          : this.#updatePopupPos(RIGHT, ZERO_PX);
         break;
       case false:
         this.isShown = false;
-        this.#updatePopupPos(OFF_SCREEN, ZERO);
+        this.#updatePopupPos(OFF_SCREEN, ZERO_PX);
         break;
     }
   }
@@ -181,7 +202,7 @@ export class PopupUiManager {
    * toggles the drag functionality of popup
    */
   #togglePopupDrag(value = null) {
-    const { DRAGGABLE_HEIGHT, FULL, RIGHT, ZERO } = UI_ENUMS;
+    const { DRAGGABLE_HEIGHT, FULL, RIGHT, ZERO_PX } = UI_ENUMS;
     if (value === null) value = !this.isDraggable;
     switch (value) {
       case true:
@@ -193,7 +214,7 @@ export class PopupUiManager {
       case false:
         this.isDraggable = false;
         this.#updatePopupHeight(FULL);
-        this.#updatePopupPos(RIGHT, ZERO);
+        this.#updatePopupPos(RIGHT, ZERO_PX);
         this.parentDiv.classList.remove(UI_ENUMS.DRAGGABLE_CLASS);
         break;
     }
