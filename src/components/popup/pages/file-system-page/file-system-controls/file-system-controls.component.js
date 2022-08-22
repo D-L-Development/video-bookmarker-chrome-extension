@@ -142,6 +142,7 @@ const FileSystemControlsComponent = (props) => {
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.EDIT)}
         enabled={onlyOneSelected()}
+        title={"Edit name"}
       >
         <EditIcon
           width={"20px"}
@@ -152,6 +153,7 @@ const FileSystemControlsComponent = (props) => {
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.MOVE)}
         enabled={anySelected()}
+        title={"Move selected"}
       >
         <MoveIcon
           width={"20px"}
@@ -162,6 +164,7 @@ const FileSystemControlsComponent = (props) => {
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.DELETE)}
         enabled={anySelected()}
+        title={"Delete selected"}
       >
         <TrashIcon
           width={"20px"}
