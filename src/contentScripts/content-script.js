@@ -1,5 +1,5 @@
 console.log("Content Script Ran!");
-import { Session } from "./Session";
+import { PopupUiManager } from "./popup-ui-manager";
 import { STATUS, UI_ACTIONS } from "./utility";
 
 let initialPageLoad = true;
@@ -13,8 +13,8 @@ chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
   if (action.type === UI_ACTIONS.TOGGLE_POPUP) {
     if (initialPageLoad) {
       initialPageLoad = false;
-      session = new Session();
-      // ? TODO: there's probably a better way to do this below
+      session = new PopupUiManager();
+      // ? TODO: there's probably a better way to make the popup show up smoother
       setTimeout(() => {
         session.togglePopupVisibility(true);
         sendResponse({ status: STATUS.SUCCESS });

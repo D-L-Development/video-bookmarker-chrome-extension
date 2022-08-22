@@ -12,9 +12,11 @@ const UI_ENUMS = {
   ZERO_SECONDS: "0s",
   DRAGGABLE_HEIGHT: "30em",
   DRAGGABLE_CLASS: "draggable",
+  NONE: "none",
+  BLANK: "",
 };
 
-export class Session {
+export class PopupUiManager {
   static SIDEBAR_PAGE_URL = chrome.runtime.getURL("./popup.html");
 
   constructor() {
@@ -24,8 +26,7 @@ export class Session {
     this.header = null;
 
     // create the side menu for found video
-    this.#createPopup(Session.SIDEBAR_PAGE_URL);
-    this.videoPort = null;
+    this.#createPopup(PopupUiManager.SIDEBAR_PAGE_URL);
     this.lastMouseX = 0;
     this.lastMouseY = 0;
     this.isDraggable = false;
@@ -47,6 +48,7 @@ export class Session {
       this.lastMouseX = e.clientX;
       this.lastMouseY = e.clientY;
       this.parentDiv.style.transitionDuration = UI_ENUMS.ZERO_SECONDS;
+      this.sidebarIframe.style.pointerEvents = UI_ENUMS.NONE;
       document.addEventListener("mouseup", this.#handleMouseDragEnd);
       document.addEventListener("mousemove", this.#handleMouseDrag);
     }
@@ -60,6 +62,7 @@ export class Session {
   #handleMouseDragEnd = (e) => {
     this.parentDiv.style.transitionDuration =
       UI_ENUMS.DEFAULT_TRANSITION_DURATION;
+    this.sidebarIframe.style.pointerEvents = UI_ENUMS.BLANK;
     document.removeEventListener("mouseup", this.#handleMouseDragEnd);
     document.removeEventListener("mousemove", this.#handleMouseDrag);
   };
@@ -115,6 +118,12 @@ export class Session {
     document.body.appendChild(this.parentDiv);
   }
 
+  /**
+   * Sets the left and right style properties of the popup
+   *
+   * @param {string} left - string with a css unit
+   * @param {string} top - string with a css unit
+   */
   #updatePopupPos(left, top) {
     this.parentDiv.style.setProperty("left", left);
     this.parentDiv.style.setProperty("top", top);
@@ -125,6 +134,11 @@ export class Session {
     }
   }
 
+  /**
+   * Update the height style property of the popup
+   *
+   * @param {string} height - string with a css unit
+   */
   #updatePopupHeight(height) {
     this.parentDiv.style.setProperty("height", height);
   }
