@@ -36,6 +36,15 @@ export class PopupUiManager {
   }
 
   /**
+   * Disables the selection of any elements. Used when dragging the popup to prevent text from being selected
+   *
+   * @param {Event} e
+   */
+  #handleAllSelectionRemoval = (e) => {
+    window.getSelection().removeAllRanges();
+  };
+
+  /**
    * Add mouseup and mousemove event listeners and update the last mouse position
    *
    * @param {Event} e
@@ -49,6 +58,7 @@ export class PopupUiManager {
       this.lastMouseY = e.clientY;
       this.parentDiv.style.transitionDuration = UI_ENUMS.ZERO_SECONDS;
       this.sidebarIframe.style.pointerEvents = UI_ENUMS.NONE;
+      document.addEventListener("selectstart", this.#handleAllSelectionRemoval);
       document.addEventListener("mouseup", this.#handleMouseDragEnd);
       document.addEventListener("mousemove", this.#handleMouseDrag);
     }
@@ -65,6 +75,10 @@ export class PopupUiManager {
     this.sidebarIframe.style.pointerEvents = UI_ENUMS.BLANK;
     document.removeEventListener("mouseup", this.#handleMouseDragEnd);
     document.removeEventListener("mousemove", this.#handleMouseDrag);
+    document.removeEventListener(
+      "selectstart",
+      this.#handleAllSelectionRemoval
+    );
   };
 
   /**
