@@ -103,6 +103,10 @@ export class PopupUiManager {
     );
   };
 
+  /**
+   * Checks the position of the popup to make sure that it's fully within the window
+   * it's called when done dragging the popup
+   */
   #ensureValidPosition() {
     const { innerWidth, innerHeight } = window;
     const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = this.parentDiv;
