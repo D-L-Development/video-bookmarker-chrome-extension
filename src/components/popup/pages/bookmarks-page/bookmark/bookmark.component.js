@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import * as Styled from "./bookmark.styles";
-import { HighlightedText } from "./bookmark.styles";
+import { BookmarkIconWrapper, HighlightedText } from "./bookmark.styles";
 import TrashIcon from "../../../../../icons/trash-icon/trash.icon";
 import EditIcon from "../../../../../icons/edit-icon/edit.icon";
 import IndentIcon from "../../../../../icons/bookmarks-icons/indent-icon/indent.icon";
@@ -9,7 +9,6 @@ import {
   sendMessageToActiveTab,
   VIDEO_ACTIONS,
 } from "../../../../../contentScripts/utility";
-import { ActionIconWrapper } from "../../page.styles";
 import {
   bookmarksActions,
   BookmarksDispatchContext,
@@ -130,12 +129,9 @@ const BookmarkComponent = ({
               timestamp
             )}
           </Styled.BookmarkTimestamp>
-          <Styled.BookmarkTitle>
-            {getHighlightedText(title, searchQuery)}
-          </Styled.BookmarkTitle>
         </Styled.BookmarkHeaderText>
         <Styled.BookmarkHeaderIconGroup>
-          <ActionIconWrapper
+          <BookmarkIconWrapper
             title={isNested ? "Outdent" : "Indent"}
             enabled={true}
             onClick={toggleIndent}
@@ -144,26 +140,31 @@ const BookmarkComponent = ({
               {...IconProps}
               type={isNested ? "decrease" : "increase"}
             />
-          </ActionIconWrapper>
-          <ActionIconWrapper
+          </BookmarkIconWrapper>
+          <BookmarkIconWrapper
             title="Edit Bookmark"
             enabled={true}
             onClick={handleEditIconClick}
           >
             <EditIcon {...IconProps} />
-          </ActionIconWrapper>
-          <ActionIconWrapper
+          </BookmarkIconWrapper>
+          <BookmarkIconWrapper
             title="Delete Bookmark"
             enabled={true}
             onClick={handleDeleteIconClick}
           >
             <TrashIcon {...IconProps} />
-          </ActionIconWrapper>
+          </BookmarkIconWrapper>
         </Styled.BookmarkHeaderIconGroup>
       </Styled.BookmarkHeader>
-      <Styled.BookmarkBodyText>
-        {getHighlightedText(text, searchQuery)}
-      </Styled.BookmarkBodyText>
+      <Styled.BookmarkTitle>
+        {getHighlightedText(title, searchQuery)}
+      </Styled.BookmarkTitle>
+      {text.trim() !== "" && (
+        <Styled.BookmarkBodyText>
+          {getHighlightedText(text, searchQuery)}
+        </Styled.BookmarkBodyText>
+      )}
     </Styled.Bookmark>
   );
 };

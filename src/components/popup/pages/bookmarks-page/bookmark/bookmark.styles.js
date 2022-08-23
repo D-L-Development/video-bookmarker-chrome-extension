@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ActionIconWrapper } from "../../page.styles";
 
 export const Bookmark = styled.div`
   height: fit-content;
@@ -21,12 +22,6 @@ export const BookmarkHeader = styled.div`
   padding: 0.25rem;
   border-top-left-radius: 0.2rem;
   border-top-right-radius: 0.2rem;
-`;
-
-export const BookmarkTitle = styled.span`
-  margin-left: 0.5rem;
-  font-size: 1rem;
-  white-space: nowrap;
 `;
 
 export const BookmarkTimestamp = styled.div`
@@ -61,11 +56,24 @@ export const BookmarkHeaderIconGroup = styled.div`
   align-items: center;
 `;
 export const BookmarkBodyText = styled.div`
-  padding: 0.25rem;
-  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.5rem;
   background-color: ${({ theme }) => theme.bookmarkBody_c};
+  // TODO: make sure you set the color based on the bg
 `;
-export const BookmarkIconWrapper = styled.button``;
+
+export const BookmarkTitle = styled.h2`
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background-color: ${({ theme }) => theme.bookmarkBody_c};
+  color: black;
+  // TODO: make sure you set the color based on the bg
+`;
+
+export const BookmarkIconWrapper = styled(ActionIconWrapper)`
+  padding: 0.1rem;
+`;
 
 export const HighlightedText = styled.span`
   background-color: #ffff54;

@@ -20,16 +20,19 @@ import {
   VIDEO_ACTIONS,
 } from "../../../contentScripts/utility";
 
+const MAX_TEXT_CHARS = 200;
+const MAX_TITLE_CHARS = 40;
+
 const BookmarkModalComponent = (props) => {
   const dispatch = useContext(BookmarksDispatchContext);
   const settings = useContext(SettingsContext);
   const [title, handleTitleChange, titleError] = useInputState(
     props.title || "",
-    15
+    MAX_TITLE_CHARS
   );
   const [text, handleTextChange, textError] = useInputState(
     props.text || "",
-    200
+    MAX_TEXT_CHARS
   );
 
   const firstInputElem = useRef(null);
@@ -43,11 +46,11 @@ const BookmarkModalComponent = (props) => {
   };
 
   const handleSubmitForm = () => {
+    // allow submission if a title is present, and no fields exceeds the char count max
     if (
       title.trim().length &&
       titleError === "" &&
-      text.trim().length &&
-      textError === ""
+      text.trim().length <= MAX_TEXT_CHARS
     ) {
       if (props.text !== text || props.title !== title) {
         dispatch({
@@ -55,8 +58,8 @@ const BookmarkModalComponent = (props) => {
           payload: {
             timestamp: props.timestamp,
             bookmark: {
-              text,
-              title,
+              text: text.trim(),
+              title: title.trim(),
               isNested: props.isNested,
             },
           },
@@ -113,11 +116,11 @@ const BookmarkModalComponent = (props) => {
           id="text"
           value={text}
           onChange={handleTextChange}
-          error={textError !== ""}
+          error={textError.indexOf("Exceeds") !== -1}
           onKeyDown={handleEnterKeyPress}
         />
         <SecondaryInputText className="secondaryText">
-          {textError}
+          {textError.indexOf("Exceeds") !== -1 ? textError : ""}
         </SecondaryInputText>
       </FormSection>
     </ModalComponent>
