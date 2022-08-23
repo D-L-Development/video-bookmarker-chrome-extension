@@ -58,6 +58,7 @@ export const BookmarkHeaderIconGroup = styled.div`
 export const BookmarkBodyText = styled.div`
   padding: 0.25rem 0.5rem;
   background-color: ${({ theme }) => theme.bookmarkBody_c};
+  overflow-wrap: break-word;
   // TODO: make sure you set the color based on the bg
 `;
 
