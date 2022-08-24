@@ -8,6 +8,7 @@ import {
 const SPEED_AMOUNT = 0.1;
 const uuid = guid();
 let video = null;
+let videoPlaybackRate = 1;
 /*
  * keep track of if page had video
  * since the only time we will know if there's a video is through a performed
@@ -106,14 +107,16 @@ const sendVideoData = (e) => {
     return;
   }
   // send video state to popup
+  // TODO: in the future have a settings to decide if the playback speed should be save in the extension
   const { paused, playbackRate } = video;
   sendMessageToPopup({
     type: VIDEO_ACTIONS.UPDATE_STATE,
     payload: {
       paused,
-      playbackRate,
+      playbackRate: videoPlaybackRate,
     },
   });
+  video.playbackRate = videoPlaybackRate;
 };
 
 /**
@@ -202,11 +205,13 @@ const skipBy = (seconds) => {
 };
 
 const changeSpeedBy = (SPEED_AMOUNT) => {
-  video.playbackRate += SPEED_AMOUNT;
+  videoPlaybackRate += SPEED_AMOUNT;
+  video.playbackRate = videoPlaybackRate;
 };
 
 const resetSpeed = () => {
-  video.playbackRate = 1;
+  videoPlaybackRate = 1;
+  video.playbackRate = videoPlaybackRate;
 };
 
 /**
