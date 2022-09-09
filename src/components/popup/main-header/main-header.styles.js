@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { invertColor } from "../../../constants/helper-functions";
 
 export const Header = styled.header`
   position: relative;
@@ -18,7 +19,7 @@ export const PopupIconGroup = styled.div`
 
 export const HeaderText = styled.h1`
   text-align: center;
-  color: grey;
+  color: ${({ theme }) => invertColor(theme.primary_c, true)};
   font-size: 0.65em;
   margin: 0 auto;
   user-select: none;
