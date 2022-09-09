@@ -10,14 +10,16 @@ import {
 } from "../../context/theme-page-context";
 import ThemeControlsComponent from "./theme-controls/theme-controls.component";
 import {
-  ColorCircle,
   ColorName,
   ColorOption,
+  ColorPicker,
   ColorsList,
+  ColorSquare,
+  ThemeActionsWrapper,
   ThemePickerContainer,
   ThemeSubmitButton,
 } from "./theme.styles";
-import { SketchPicker } from "react-color";
+import { Content } from "../home/home.styles";
 
 // const colors = {
 //   thing: "HEX"
@@ -47,7 +49,7 @@ const ThemeComponent = (props) => {
       const uuid = guid();
       colorPickers.push(
         <ColorOption key={uuid}>
-          <ColorCircle
+          <ColorSquare
             selected={key === state.selectedName}
             color={state.theme[key]}
             name={key}
@@ -58,8 +60,9 @@ const ThemeComponent = (props) => {
                 colorPicker: state.theme[key],
               });
             }}
-          />
-          <ColorName>{key}</ColorName>
+          >
+            <ColorName>{key}</ColorName>
+          </ColorSquare>
         </ColorOption>
       );
     }
@@ -67,24 +70,30 @@ const ThemeComponent = (props) => {
   };
 
   return (
-    <>
+    <Content>
       <h1>Theme</h1>
       <ThemeControlsComponent />
       <ThemePickerContainer>
-        <SketchPicker
-          color={state.colorPicker}
-          onChange={(color) => handleColorPickerInput(color)}
-        />
+        <ThemeActionsWrapper>
+          <ColorPicker
+            color={state.colorPicker}
+            onChange={(color) => handleColorPickerInput(color)}
+          />
+
+          <ThemeSubmitButton
+            onClick={() =>
+              dispatchTheme({
+                type: THEME_ACTIONS.CHANGE,
+                payload: state.theme,
+              })
+            }
+          >
+            Save Theme
+          </ThemeSubmitButton>
+        </ThemeActionsWrapper>
         <ColorsList>{renderThemeItems()}</ColorsList>
-        <ThemeSubmitButton
-          onClick={() =>
-            dispatchTheme({ type: THEME_ACTIONS.CHANGE, payload: state.theme })
-          }
-        >
-          Submit Theme
-        </ThemeSubmitButton>
       </ThemePickerContainer>
-    </>
+    </Content>
   );
 };
 
