@@ -32,7 +32,7 @@ export class PopupUiManager {
     this.lastMouseY = 0;
     this.isDraggable = false;
     this.isShown = false;
-    this.lastDraggedToPosX = "600px";
+    this.lastDraggedToPosX = "calc(100% - 600px)";
     this.lastDraggedToPosY = "200px";
   }
 
