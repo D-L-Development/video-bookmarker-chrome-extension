@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import MainHeaderComponent from "../components/popup/main-header/main-header.component";
+import { CustomThemeProvider } from "../contexts/theme.context";
 
 const UI_ENUMS = {
   FULL: "100%",
@@ -139,10 +140,12 @@ export class PopupUiManager {
     this.parentDiv.appendChild(this.header);
     const root = createRoot(this.header);
     root.render(
-      <MainHeaderComponent
-        closePopup={() => this.togglePopupVisibility(false)}
-        toggleDrag={() => this.#togglePopupDrag()}
-      />
+      <CustomThemeProvider>
+        <MainHeaderComponent
+          closePopup={() => this.togglePopupVisibility(false)}
+          toggleDrag={() => this.#togglePopupDrag()}
+        />
+      </CustomThemeProvider>
     );
 
     // create the iframe

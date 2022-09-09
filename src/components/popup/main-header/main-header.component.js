@@ -21,6 +21,7 @@ const iconStyles = {
 
 const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
   const [draggable, setDraggable] = useState(false);
+
   return (
     <Header>
       <HeaderText>Web Video Bookmarker</HeaderText>
