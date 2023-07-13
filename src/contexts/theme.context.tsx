@@ -5,7 +5,11 @@ import { getTheme, THEMES } from "../constants/default-palettes";
 
 export const THEME_KEY = "THEME";
 
-export const CustomThemeProvider = ({ children }) => {
+export const CustomThemeProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [state, setState] = useState({ isLoading: true, theme: THEMES.LIGHT });
 
   useEffect(() => {

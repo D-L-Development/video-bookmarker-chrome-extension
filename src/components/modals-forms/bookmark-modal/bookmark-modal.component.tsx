@@ -8,13 +8,12 @@ import {
   SecondaryInputText,
   TextInput,
 } from "../modal.styles";
-import PropTypes from "prop-types";
 import { TextArea } from "./bookmark-modal.styles";
 import {
   bookmarksActions,
-  BookmarksDispatchContext,
+  useBookmarkDispatchContext,
 } from "../../../contexts/bookmarks.context";
-import { SettingsContext } from "../../../contexts/settings.context";
+import { Settings, SettingsContext } from "../../../contexts/settings.context";
 import {
   sendMessageToActiveTab,
   VIDEO_ACTIONS,
@@ -23,9 +22,18 @@ import {
 const MAX_TEXT_CHARS = 200;
 const MAX_TITLE_CHARS = 40;
 
-const BookmarkModalComponent = (props) => {
-  const dispatch = useContext(BookmarksDispatchContext);
-  const settings = useContext(SettingsContext);
+export interface BookmarkModalProps {
+  title: string;
+  text: string;
+  timestamp: string;
+  isNested: boolean;
+  isEditing: boolean;
+  hideModal: () => void;
+}
+
+const BookmarkModalComponent = (props: BookmarkModalProps) => {
+  const dispatch = useBookmarkDispatchContext();
+  const settings: Settings = useContext(SettingsContext)!;
   const [title, handleTitleChange, titleError] = useInputState(
     props.title || "",
     MAX_TITLE_CHARS
@@ -35,13 +43,16 @@ const BookmarkModalComponent = (props) => {
     MAX_TEXT_CHARS
   );
 
-  const firstInputElem = useRef(null);
+  const firstInputElem: React.MutableRefObject<null | HTMLInputElement> =
+    useRef(null);
 
   useEffect(() => {
-    firstInputElem.current.focus();
+    firstInputElem.current?.focus();
   }, []);
 
-  const handleEnterKeyPress = (e) => {
+  const handleEnterKeyPress = (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     if (e.key === "Enter") handleSubmitForm();
   };
 
@@ -63,7 +74,7 @@ const BookmarkModalComponent = (props) => {
               isNested: props.isNested,
             },
           },
-        });
+        }).then();
       }
       checkIfShouldPlayVideo();
       props.hideModal();
@@ -110,7 +121,6 @@ const BookmarkModalComponent = (props) => {
       <FormSection>
         <Label htmlFor="text">Enter some text:</Label>
         <TextArea
-          type="text"
           placeholder={"Bookmark description"}
           name="text"
           id="text"
@@ -125,16 +135,6 @@ const BookmarkModalComponent = (props) => {
       </FormSection>
     </ModalComponent>
   );
-};
-
-BookmarkModalComponent.propTypes = {
-  hideModal: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool.isRequired,
-  timestamp: PropTypes.string.isRequired,
-  // in case editing a bookmark, the props below are needed
-  title: PropTypes.string,
-  text: PropTypes.string,
-  uuid: PropTypes.string,
 };
 
 export default BookmarkModalComponent;

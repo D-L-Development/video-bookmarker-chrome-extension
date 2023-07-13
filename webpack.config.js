@@ -4,10 +4,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
-    popup: "./src/popup.js",
-    options: "./src/options.js",
-    contentScript: "./src/contentScripts/content-script.js",
-    videoManager: "./src/contentScripts/videoManager.js",
+    popup: "./src/popup.ts",
+    options: "./src/options.ts",
+    contentScript: "./src/contentScripts/content-script.ts",
+    videoManager: "./src/contentScripts/videoManager.ts",
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -17,12 +17,21 @@ module.exports = {
     // TODO: make sure the utils file is not loaded twice but rather shared
     rules: [
       {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ["ts-loader"],
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: [
+              "@babel/preset-typescript",
+              "@babel/preset-env",
+              "@babel/preset-react",
+            ],
           },
         },
       },

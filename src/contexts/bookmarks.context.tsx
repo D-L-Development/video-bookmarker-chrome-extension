@@ -1,12 +1,21 @@
-import React, { createContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 import {
   checkChromeLastError,
   filterObj,
   mapObj,
 } from "../contentScripts/utility";
+import { Action, DefaultProps } from "../models/shared";
 
 export const BookmarksContext = createContext(null);
+
 export const BookmarksDispatchContext = createContext(null);
+
+export const useBookmarkDispatchContext = (): ((
+  action: Action
+) => Promise<void>) => {
+  // @ts-ignore
+  return useContext(BookmarksDispatchContext);
+};
 
 export const bookmarksActions = {
   ADD: "add",
@@ -15,7 +24,7 @@ export const bookmarksActions = {
   INIT: "init",
 };
 
-export const BookmarksContextProvider = ({ children }) => {
+export const BookmarksContextProvider = ({ children }: DefaultProps) => {
   const [state, setState] = useState({ isLoading: true, bookmarks: {} });
   const fileIdRef = useRef({ uuid: null });
 
@@ -25,7 +34,7 @@ export const BookmarksContextProvider = ({ children }) => {
    * @param action
    * @returns {Promise<void>}
    */
-  const bookmarksDispatch = async ({ type, payload }) => {
+  const bookmarksDispatch = async ({ type, payload }: Action) => {
     try {
       let newState = {};
       switch (type) {

@@ -23,6 +23,7 @@ export const ModalProvider = (props) => {
     title: "",
     text: "",
     isNested: false,
+    isEditing: false,
   });
 
   /**
@@ -115,7 +116,6 @@ export const ModalProvider = (props) => {
               isNested: false,
             })
           }
-          isEditing={false}
           {...bookmarkModalState}
         />
       )}

@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyledSpinnerIcon } from "./spinner.icon.styles";
+import { StyledBookmarksIcon } from "./bookmarks.icon.styles";
+import { IconProps } from "../../models/iconProps";
 
-const SpinnerIcon = (props) => {
+const BookmarksIcon = (props: IconProps) => {
   return (
-    <StyledSpinnerIcon
+    <StyledBookmarksIcon
       width={props.width}
       height={props.height}
       color={props.color}
@@ -12,10 +13,10 @@ const SpinnerIcon = (props) => {
   );
 };
 
-SpinnerIcon.propTypes = {
+BookmarksIcon.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 };
 
-export default SpinnerIcon;
+export default BookmarksIcon;

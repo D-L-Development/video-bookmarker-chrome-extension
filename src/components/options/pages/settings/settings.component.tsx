@@ -9,7 +9,7 @@ const SETTINGS_OPTIONS = {
   pauseVideoOnAction: "pauseVideoOnAction",
 };
 
-const SettingsComponent = (props) => {
+const SettingsComponent = () => {
   const [state, setState] = useState({
     isLoading: true,
     pauseVideoOnAction: true,

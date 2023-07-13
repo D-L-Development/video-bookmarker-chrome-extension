@@ -4,7 +4,7 @@ import {
   THEME_ACTIONS,
 } from "../../../context/theme-page-context";
 import { THEME_KEY } from "../../../../../contexts/theme.context";
-import { THEMES } from "../../../../../constants/default-palettes";
+import { THEMES } from "../../../../../constants/default-palettes.ts";
 import SwitchComponent from "../../switch/switch.component";
 
 const ThemeControlsComponent = () => {

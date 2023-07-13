@@ -13,7 +13,7 @@ import {
 import BookmarksIcon from "../../../../icons/bookmarks-icon/bookmarks.icon";
 import { main_c, pale_c } from "../../colors";
 
-const HomeComponent = (props) => {
+const HomeComponent = () => {
   return (
     <>
       <Main>

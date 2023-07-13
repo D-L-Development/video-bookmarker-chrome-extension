@@ -1,11 +1,20 @@
 import React, { createContext, useEffect, useState } from "react";
 import { checkChromeLastError } from "../contentScripts/utility";
 import { STORAGE_KEYS } from "../constants/constants";
+import { DefaultProps } from "../models/shared";
+
+export interface Settings {
+  isGridView: boolean;
+  pauseVideoOnAction: boolean;
+  resumeAfterAction: boolean;
+  isLoading: boolean;
+}
 
 const defaultSettings = {
   isGridView: true,
   pauseVideoOnAction: true,
   resumeAfterAction: true,
+  isLoading: false,
 };
 export const settingsActions = {
   TOGGLE_VIEW: "toggle view mode",
@@ -14,7 +23,7 @@ export const settingsActions = {
 export const SettingsContext = createContext(null);
 export const ChangeSettingsContext = createContext(null);
 
-export const SettingsProvider = (props) => {
+export const SettingsProvider = ({ children }: DefaultProps) => {
   const [state, setState] = useState({ isLoading: true });
 
   useEffect(() => {
@@ -27,7 +36,7 @@ export const SettingsProvider = (props) => {
             ...storage[STORAGE_KEYS.SETTINGS],
           };
         } else {
-          const newState = { isLoading: false, ...defaultSettings };
+          const newState = defaultSettings;
           await saveSettingsToStorage(newState);
           return newState;
         }
@@ -67,7 +76,7 @@ export const SettingsProvider = (props) => {
     }
   };
 
-  const saveSettingsToStorage = async (settings) => {
+  const saveSettingsToStorage = async (settings: Settings) => {
     try {
       // don't save the loading state to storage
       delete settings.isLoading;
@@ -81,7 +90,7 @@ export const SettingsProvider = (props) => {
   return (
     <SettingsContext.Provider value={state}>
       <ChangeSettingsContext.Provider value={dispatch}>
-        {props.children}
+        {children}
       </ChangeSettingsContext.Provider>
     </SettingsContext.Provider>
   );

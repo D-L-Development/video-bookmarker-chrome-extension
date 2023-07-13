@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { THEME_KEY } from "../../../contexts/theme.context";
-import { getTheme, THEMES } from "../../../constants/default-palettes";
+import { getTheme, THEMES } from "../../../constants/default-palettes.ts";
 
 export const ChangeThemePageContext = createContext(null);
 

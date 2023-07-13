@@ -5,7 +5,7 @@ export const THEMES = {
   CUSTOM: "CUSTOM",
 };
 
-export const getTheme = (theme) => {
+export const getTheme = (theme: object) => {
   if (typeof theme === "object") {
     return theme;
   } else {
