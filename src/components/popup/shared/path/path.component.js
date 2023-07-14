@@ -32,8 +32,8 @@ const PathComponent = ({ goBackToFileSystem, pageNum }) => {
         }}
       >
         <LeftArrowIcon
-          width={"20px"}
-          height={"20px"}
+          width={"15px"}
+          height={"15px"}
           color={fs.history.length <= 1 ? "grey" : "white"}
         />
       </Styled.BackArrowIconButton>
