@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { STORAGE_KEYS } from "../../../../constants/constants";
 import SwitchComponent from "../switch/switch.component";
-import { Content } from "../home/home.styles";
+import { Container } from "../../shared.styles";
 
 const { SETTINGS } = STORAGE_KEYS;
 const SETTINGS_OPTIONS = {
@@ -67,7 +67,7 @@ const SettingsComponent = (props) => {
 
   return (
     !state.isLoading && (
-      <Content>
+      <Container>
         <div>
           <span>Auto pause video when performing bookmark actions:</span>
           <SwitchComponent
@@ -88,7 +88,7 @@ const SettingsComponent = (props) => {
             checked={state.resumeAfterAction}
           />
         </div>
-      </Content>
+      </Container>
     )
   );
 };

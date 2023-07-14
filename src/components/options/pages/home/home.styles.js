@@ -3,12 +3,7 @@ import { main_c, primary_c } from "../../colors";
 
 export const Main = styled.div`
   background: ${primary_c};
-  height: 25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  padding-block: 1rem;
 `;
 
 export const HeaderText = styled.h1`
@@ -20,14 +15,8 @@ export const HeaderText = styled.h1`
 
 export const HeaderSecondary = styled.p`
   font-size: 2rem;
-  width: 50%;
   color: ${main_c};
   text-align: center;
-`;
-
-export const Content = styled.div`
-  width: 80%;
-  margin: 0 auto;
 `;
 
 export const Features = styled.div`
@@ -35,7 +24,6 @@ export const Features = styled.div`
   display: flex;
   justify-content: space-around;
   padding-block: 2rem;
-  margin-block: 2rem;
   background-color: ${({ color }) => color};
 `;
 

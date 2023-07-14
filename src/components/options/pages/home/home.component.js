@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Content,
   Features,
   FeatureSection,
   FeatureText,
@@ -12,19 +11,23 @@ import {
 } from "./home.styles";
 import BookmarksIcon from "../../../../icons/bookmarks-icon/bookmarks.icon";
 import { main_c, pale_c } from "../../colors";
+import { Container } from "../../shared.styles";
 
 const HomeComponent = (props) => {
   return (
     <>
       <Main>
-        <HeaderText>Web Video Bookmarker</HeaderText>
-        <HeaderSecondary>
-          All in one extension for managing video annotations and lecture
-          outlines
-        </HeaderSecondary>
+        <Container>
+          <HeaderText>Web Video Bookmarker</HeaderText>
+          <HeaderSecondary>
+            All in one extension for managing video annotations and lecture
+            outlines
+          </HeaderSecondary>
+        </Container>
       </Main>
-      <Content>
-        <ListSection color={pale_c}>
+
+      <ListSection color={pale_c}>
+        <Container>
           <List>
             <li>Create folder to organize bookmarks</li>
             <li>Move multiple folders or files at a time</li>
@@ -34,8 +37,10 @@ const HomeComponent = (props) => {
               profile
             </li>
           </List>
-        </ListSection>
-        <Features>
+        </Container>
+      </ListSection>
+      <Features>
+        <Container direction={"row"}>
           <FeatureSection>
             <BookmarksIcon width={"10rem"} height={"10rem"} color={"brown"} />
             <FeatureText>Full video controls from the extension</FeatureText>
@@ -50,9 +55,9 @@ const HomeComponent = (props) => {
               Navigate to the moment that has the annotation
             </FeatureText>
           </FeatureSection>
-        </Features>
-        <Features color={"teal"}></Features>
-      </Content>
+        </Container>
+      </Features>
+      <Features color={"teal"}></Features>
       <Features color={main_c}></Features>
     </>
   );

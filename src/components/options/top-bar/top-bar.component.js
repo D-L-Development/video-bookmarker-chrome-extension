@@ -1,16 +1,21 @@
 import React from "react";
-import { Navigation, StyledLink } from "./top-bar.styles";
+import { Navigation, StyledLink, TopBar } from "./top-bar.styles";
+import { Container } from "../shared.styles";
 
 const TopBarComponent = (props) => {
   return (
-    <Navigation>
-      <StyledLink to="/" end={true}>
-        Home
-      </StyledLink>
-      <StyledLink to="/settings">Settings</StyledLink>
-      <StyledLink to="/theme">Theme</StyledLink>
-      <StyledLink to="/about">About</StyledLink>
-    </Navigation>
+    <TopBar>
+      <Container>
+        <Navigation>
+          <StyledLink to="/" end={true}>
+            Home
+          </StyledLink>
+          <StyledLink to="/settings">Settings</StyledLink>
+          <StyledLink to="/theme">Theme</StyledLink>
+          <StyledLink to="/about">About</StyledLink>
+        </Navigation>
+      </Container>
+    </TopBar>
   );
 };
 
