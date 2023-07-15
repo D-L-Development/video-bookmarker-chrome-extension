@@ -5,16 +5,23 @@ import {
   StyledLink,
   TopBar,
 } from "./top-bar.styles";
-import { Container } from "../shared.styles";
+import { OuterContainer, RowContainer } from "../shared.styles";
 
 const TopBarComponent = (props) => {
   return (
     <TopBar>
-      <Container
-        direction={"row"}
+      <OuterContainer
+        isRow={true}
         style={{ alignItems: "center", justifyContent: "space-between" }}
       >
-        <ExtensionName>Web Video Bookmarker</ExtensionName>
+        <RowContainer isRow={true} style={{ gap: "1rem" }}>
+          <img
+            src={"/images/extension.icon-48x48.png"}
+            alt={"Extension icon"}
+            style={{ height: "2rem" }}
+          />
+          <ExtensionName>Web Video Bookmarker</ExtensionName>
+        </RowContainer>
         <Navigation>
           <StyledLink to="/" end={true}>
             Home
@@ -23,7 +30,7 @@ const TopBarComponent = (props) => {
           <StyledLink to="/theme">Theme</StyledLink>
           <StyledLink to="/about">About</StyledLink>
         </Navigation>
-      </Container>
+      </OuterContainer>
     </TopBar>
   );
 };

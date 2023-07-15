@@ -3,7 +3,11 @@ import { NavLink } from "react-router-dom";
 
 export const COLORS = {
   PRIMARY: "#3E3971",
+  PRIMARY_LIGHT: "#625CA8",
+  SECONDARY: "#FF5151",
+  SECONDARY_LIGHT: "#FF6B6B",
   GREY: "#474747",
+  LIGHT_GREY: "#626262",
   TEXT_DARK: "#2D2D2D",
   TEXT_SECONDARY_DARK: "#626262",
   TEXT_LIGHT: "#FFFFFF",
@@ -31,10 +35,10 @@ export const StyledLink = styled(NavLink)`
   color: ${COLORS.GREY};
   font-size: 1rem;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
 
   &.active {
-    border-bottom: 1px solid ${COLORS.GREY};
+    border-bottom: 2px solid ${COLORS.GREY};
     font-weight: 600;
   }
 `;

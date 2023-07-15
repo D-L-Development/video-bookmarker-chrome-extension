@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { STORAGE_KEYS } from "../../../../constants/constants";
 import SwitchComponent from "../switch/switch.component";
-import { Container } from "../../shared.styles";
+import { OuterContainer, RowContainer } from "../../shared.styles";
+import styled from "styled-components";
+import { COLORS } from "../../top-bar/top-bar.styles";
+
+const SettingContainer = styled(RowContainer)`
+  justify-content: space-between;
+  border-bottom: 1px solid ${COLORS.LIGHT_GREY};
+  padding-block: 1rem;
+`;
 
 const { SETTINGS } = STORAGE_KEYS;
 const SETTINGS_OPTIONS = {
@@ -67,28 +75,26 @@ const SettingsComponent = (props) => {
 
   return (
     !state.isLoading && (
-      <Container>
-        <div>
-          <span>Auto pause video when performing bookmark actions:</span>
+      <OuterContainer style={{ maxWidth: "30rem", paddingBlock: "3rem" }}>
+        <SettingContainer>
+          <p>Auto pause video when performing bookmark actions:</p>
           <SwitchComponent
             handleToggle={() =>
               handlePauseVideoSettingChange(SETTINGS_OPTIONS.pauseVideoOnAction)
             }
             checked={state.pauseVideoOnAction}
           />
-        </div>
-        <div>
-          <span>
-            Auto resume video when done editing or creating a bookmark:
-          </span>
+        </SettingContainer>
+        <SettingContainer>
+          <p>Auto resume video when done editing or creating a bookmark:</p>
           <SwitchComponent
             handleToggle={() =>
               handlePauseVideoSettingChange(SETTINGS_OPTIONS.resumeAfterAction)
             }
             checked={state.resumeAfterAction}
           />
-        </div>
-      </Container>
+        </SettingContainer>
+      </OuterContainer>
     )
   );
 };

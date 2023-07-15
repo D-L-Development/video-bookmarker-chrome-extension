@@ -19,7 +19,7 @@ import {
   ThemePickerContainer,
   ThemeSubmitButton,
 } from "./theme.styles";
-import { Container } from "../../shared.styles";
+import { OuterContainer } from "../../shared.styles";
 
 // const colors = {
 //   thing: "HEX"
@@ -70,8 +70,7 @@ const ThemeComponent = (props) => {
   };
 
   return (
-    <Container>
-      <h1>Theme</h1>
+    <OuterContainer>
       <ThemeControlsComponent />
       <ThemePickerContainer>
         <ThemeActionsWrapper>
@@ -93,7 +92,7 @@ const ThemeComponent = (props) => {
         </ThemeActionsWrapper>
         <ColorsList>{renderThemeItems()}</ColorsList>
       </ThemePickerContainer>
-    </Container>
+    </OuterContainer>
   );
 };
 

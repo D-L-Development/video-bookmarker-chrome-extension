@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { COLORS } from "../../top-bar/top-bar.styles";
+import { StyledText } from "../../shared.styles";
 
 export const Main = styled.div`
   padding-block: 3rem 8rem;
@@ -22,14 +23,18 @@ export const HeaderImage = styled.img.attrs(({}) => ({
   border: 20px solid ${COLORS.TEXT_DARK};
   border-radius: 1rem;
 `;
-export const HeaderText = styled.h1`
+
+export const MainText = styled.h1`
   font-size: 3rem;
   color: ${COLORS.TEXT_DARK};
 `;
 
-export const HeaderSecondary = styled.p`
+export const H2 = styled(StyledText).attrs(() => ({ as: "h2" }))`
+  font-size: 2rem;
+`;
+
+export const SecondaryText = styled(StyledText)`
   font-size: 1rem;
-  color: ${COLORS.TEXT_SECONDARY_DARK};
 `;
 
 export const BackgroundShape = styled.div`
