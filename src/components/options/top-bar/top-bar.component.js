@@ -1,11 +1,20 @@
 import React from "react";
-import { Navigation, StyledLink, TopBar } from "./top-bar.styles";
+import {
+  ExtensionName,
+  Navigation,
+  StyledLink,
+  TopBar,
+} from "./top-bar.styles";
 import { Container } from "../shared.styles";
 
 const TopBarComponent = (props) => {
   return (
     <TopBar>
-      <Container>
+      <Container
+        direction={"row"}
+        style={{ alignItems: "center", justifyContent: "space-between" }}
+      >
+        <ExtensionName>Web Video Bookmarker</ExtensionName>
         <Navigation>
           <StyledLink to="/" end={true}>
             Home

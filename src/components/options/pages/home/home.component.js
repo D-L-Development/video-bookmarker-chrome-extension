@@ -1,8 +1,11 @@
 import React from "react";
 import {
+  BackgroundShape,
   Features,
   FeatureSection,
   FeatureText,
+  Header,
+  HeaderImage,
   HeaderSecondary,
   HeaderText,
   List,
@@ -17,12 +20,16 @@ const HomeComponent = (props) => {
   return (
     <>
       <Main>
-        <Container>
-          <HeaderText>Web Video Bookmarker</HeaderText>
-          <HeaderSecondary>
-            All in one extension for managing video annotations and lecture
-            outlines
-          </HeaderSecondary>
+        <Container direction={"row"} jc={"space-between"}>
+          <Header>
+            <HeaderText>A Simple Bookmark Manager</HeaderText>
+            <HeaderSecondary>
+              All in one extension for managing video annotations and lecture
+              outlines
+            </HeaderSecondary>
+          </Header>
+          <HeaderImage />
+          <BackgroundShape />
         </Container>
       </Main>
 
