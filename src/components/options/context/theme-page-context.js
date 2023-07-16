@@ -1,61 +1,96 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
-import { THEME_KEY } from "../../../contexts/theme.context";
-import { getTheme, THEMES } from "../../../constants/default-palettes";
+import {
+  CUSTOM_THEME_KEY,
+  THEME_TYPE_KEY,
+} from "../../../contexts/theme.context";
+import {
+  defaultPalettes,
+  fetchTheme,
+  getThemeObject,
+  THEME_ACTIONS,
+  THEMES,
+} from "../../../constants/default-palettes";
 
 export const ChangeThemePageContext = createContext(null);
 
-export const THEME_ACTIONS = {
-  UPDATE: "UPDATE",
-  CHANGE: "CHANGE",
-};
-
 export const ThemePageContextProvider = ({ children }) => {
-  const [state, setState] = useState({ theme: THEMES.LIGHT, isLoading: true });
+  const [state, setState] = useState({
+    type: THEMES.LIGHT,
+    customTheme: null,
+    isLoading: true,
+  });
 
   useEffect(() => {
-    const fetchTheme = async () => {
-      const storage = await chrome.storage.sync.get(THEME_KEY);
-      if (storage.hasOwnProperty(THEME_KEY)) {
-        return storage[THEME_KEY];
-      } else {
-        return THEMES.LIGHT;
-      }
-    };
-
     fetchTheme()
       .then((theme) => {
-        setState({ isLoading: false, theme });
+        setState({ isLoading: false, ...theme });
       })
       .catch((e) => {
         throw e;
       });
   }, []);
 
-  const changeTheme = async (theme) => {
-    await chrome.storage.sync.set({ [THEME_KEY]: theme });
-    setState({ ...state, theme });
+  /**
+   *
+   * @param type {string}
+   * @return {Promise<void>}
+   */
+  const updateThemeType = async (type) => {
+    if (state.type === type) return;
+    // if custom theme is toggled, check the cached state and then the storage
+    const theme = { type, customTheme: state.customTheme };
+    if (type === THEMES.CUSTOM) {
+      // if non in the cache get it from the storage
+      if (!theme.customTheme) {
+        const storage = await chrome.storage.sync.get(CUSTOM_THEME_KEY);
+        theme.customTheme =
+          storage[CUSTOM_THEME_KEY] || defaultPalettes[THEMES.LIGHT];
+      }
+    }
+    await chrome.storage.sync.set({
+      [THEME_TYPE_KEY]: type,
+    });
+    setState({ ...state, ...theme });
   };
 
-  const updateTheme = async (theme) => {
-    setState({ ...state, theme });
+  const updateCustomTheme = (colorKey, colorValue) => {
+    setState({
+      ...state,
+      type: THEMES.CUSTOM,
+      customTheme: { ...state.customTheme, [colorKey]: colorValue },
+    });
+  };
+
+  const saveCustomTheme = async () => {
+    await chrome.storage.sync.set({
+      [THEME_TYPE_KEY]: THEMES.CUSTOM,
+      [CUSTOM_THEME_KEY]: state.customTheme || defaultPalettes[THEMES.LIGHT],
+    });
   };
 
   const dispatch = async (action) => {
-    if (action.type === THEME_ACTIONS.CHANGE) {
-      await changeTheme(action.payload);
-    } else if (action.type === THEME_ACTIONS.UPDATE) {
-      await updateTheme(action.payload);
-    } else {
-      throw new Error(
-        `Dispatched action of type ${action.type} is unrecognized!`
-      );
+    switch (action.type) {
+      case THEME_ACTIONS.CHANGE_THEME_TYPE:
+        return await updateThemeType(action.payload.type);
+      case THEME_ACTIONS.UPDATE_CUSTOM_THEME:
+        return updateCustomTheme(
+          action.payload.colorKey,
+          action.payload.colorValue
+        );
+      case THEME_ACTIONS.SAVE_CACHED_THEME:
+        return await saveCustomTheme();
+      default:
+        throw new Error(
+          `Dispatched action of type ${action.type} is unrecognized!`
+        );
     }
   };
 
   return (
     <ChangeThemePageContext.Provider value={dispatch}>
-      <ThemeProvider theme={getTheme(state.theme)}>
+      {/* Provide the theme object to the children */}
+      <ThemeProvider theme={getThemeObject(state.type, state.customTheme)}>
         {!state.isLoading && children}
       </ThemeProvider>
     </ChangeThemePageContext.Provider>

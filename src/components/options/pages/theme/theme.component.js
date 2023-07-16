@@ -1,13 +1,10 @@
 import React, { useContext, useState } from "react";
 import {
   defaultPalettes,
+  THEME_ACTIONS,
   THEMES,
 } from "../../../../constants/default-palettes";
-import { guid } from "../../../../contentScripts/utility";
-import {
-  ChangeThemePageContext,
-  THEME_ACTIONS,
-} from "../../context/theme-page-context";
+import { ChangeThemePageContext } from "../../context/theme-page-context";
 import ThemeControlsComponent from "./theme-controls/theme-controls.component";
 import {
   ColorName,
@@ -20,45 +17,43 @@ import {
   ThemeSubmitButton,
 } from "./theme.styles";
 import { OuterContainer } from "../../shared.styles";
-import ButtonGroupComponent from "./button-group/button-group.component";
-
-const themeOptions = ["Light", "Dark", "Custom"];
+import { useTheme } from "styled-components";
 
 const ThemeComponent = (props) => {
   const dispatchTheme = useContext(ChangeThemePageContext);
+  const theme = useTheme();
   const [state, setState] = useState({
-    theme: defaultPalettes[THEMES.LIGHT],
     selectedName: Object.keys(defaultPalettes[THEMES.LIGHT])[0],
     colorPicker: "#ffffff",
   });
 
-  const [themeOption, setThemeOption] = useState(themeOptions[0]);
+  console.log({ theme });
 
   const handleColorPickerInput = (color) => {
-    const theme = { ...state.theme, [state.selectedName]: color.hex };
+    // const updatedTheme = { ...theme, [state.selectedName]: color.hex };
     setState({
       ...state,
       colorPicker: color.hex,
-      theme,
     });
-    dispatchTheme({ type: THEME_ACTIONS.UPDATE, payload: theme });
+    dispatchTheme({
+      type: THEME_ACTIONS.UPDATE_CUSTOM_THEME,
+      payload: { colorKey: [state.selectedName], colorValue: color.hex },
+    });
   };
 
   const renderThemeItems = () => {
     const colorPickers = [];
-    for (let key in state.theme) {
-      const uuid = guid();
+    for (let key in theme) {
       colorPickers.push(
-        <ColorOption key={uuid}>
+        <ColorOption key={key}>
           <ColorSquare
             selected={key === state.selectedName}
-            color={state.theme[key]}
+            color={theme[key]}
             name={key}
             onClick={(e) => {
               setState({
-                ...state,
                 selectedName: key,
-                colorPicker: state.theme[key],
+                colorPicker: theme[key],
               });
             }}
           >
@@ -72,11 +67,6 @@ const ThemeComponent = (props) => {
 
   return (
     <OuterContainer>
-      <ButtonGroupComponent
-        buttons={themeOptions}
-        handleClick={setThemeOption}
-        activeBtn={themeOption}
-      />
       <ThemeControlsComponent />
       <ThemePickerContainer>
         <ThemeActionsWrapper>
@@ -88,8 +78,7 @@ const ThemeComponent = (props) => {
           <ThemeSubmitButton
             onClick={() =>
               dispatchTheme({
-                type: THEME_ACTIONS.CHANGE,
-                payload: state.theme,
+                type: THEME_ACTIONS.SAVE_CACHED_THEME,
               })
             }
           >

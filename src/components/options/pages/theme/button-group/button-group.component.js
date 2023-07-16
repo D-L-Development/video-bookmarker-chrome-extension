@@ -6,6 +6,7 @@ function ButtonGroupComponent({ buttons, handleClick, activeBtn }) {
     <ButtonGroup>
       {buttons.map((btn) => (
         <ButtonGroupBtn
+          key={btn}
           active={activeBtn === btn}
           onClick={() => handleClick(btn)}
         >

@@ -1,16 +1,45 @@
+import { CUSTOM_THEME_KEY, THEME_TYPE_KEY } from "../contexts/theme.context";
+
 export const THEMES = {
   // key must be equal to value
-  LIGHT: "LIGHT",
-  DARK: "DARK",
-  CUSTOM: "CUSTOM",
+  LIGHT: "Light",
+  DARK: "Dark",
+  CUSTOM: "Custom",
 };
 
-export const getTheme = (theme) => {
-  if (typeof theme === "object") {
-    return theme;
-  } else {
-    return defaultPalettes[theme];
-  }
+export const THEME_ACTIONS = {
+  CHANGE_THEME_TYPE: "CHANGE_THEME_TYPE",
+  UPDATE_CUSTOM_THEME: "UPDATE_CUSTOM_THEME",
+  SAVE_CACHED_THEME: "SAVE_CACHED_THEME",
+};
+
+/**
+ *
+ * @param type {string}
+ * @param customTheme {object | null}
+ * @return {object}
+ */
+export const getThemeObject = (type, customTheme = null) => {
+  if (type === THEMES.CUSTOM) {
+    return customTheme
+      ? { type, ...customTheme }
+      : getThemeObject(THEMES.LIGHT);
+  } else return { type, ...defaultPalettes[type] };
+};
+
+/**
+ *
+ * @return {Promise<{customTheme: object | null, type: string}>}
+ */
+export const fetchTheme = async () => {
+  const storage = await chrome.storage.sync.get([
+    THEME_TYPE_KEY,
+    CUSTOM_THEME_KEY,
+  ]);
+  return {
+    type: storage[THEME_TYPE_KEY] || THEMES.LIGHT,
+    customTheme: storage[CUSTOM_THEME_KEY],
+  };
 };
 
 export const defaultPalettes = {
