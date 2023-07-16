@@ -38,7 +38,7 @@ export const ColorName = styled.span``;
 export const ThemePickerContainer = styled.div`
   display: flex;
   padding: 2rem;
-  align-items: start;
+  align-items: center;
   justify-content: center;
 `;
 

@@ -2,11 +2,11 @@ import styled, { css } from "styled-components";
 import { COLORS } from "./top-bar/top-bar.styles";
 import React from "react";
 
-export const PlaceHolderImg = () => (
+export const PlaceHolderImg = ({ width, aspectRatio = "1" }) => (
   <img
     src={"/images/placeHolder.png"}
     alt={""}
-    style={{ marginBlock: "3rem", borderRadius: "1rem" }}
+    style={{ marginBlock: "3rem", borderRadius: "1rem", width, aspectRatio }}
   />
 );
 

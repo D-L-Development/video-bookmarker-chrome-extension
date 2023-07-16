@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { COLORS } from "../../top-bar/top-bar.styles";
 import { StyledText } from "../../shared.styles";
 
@@ -41,10 +41,20 @@ export const BackgroundShape = styled.div`
   background-color: ${COLORS.PRIMARY};
   height: 15rem;
   width: 35%;
-  border-top-left-radius: 1000rem;
-  border-bottom-left-radius: 1000rem;
+  ${({ isRight }) =>
+    isRight
+      ? css`
+          border-top-left-radius: 1000rem;
+          border-bottom-left-radius: 1000rem;
+          right: 0;
+        `
+      : css`
+          border-top-right-radius: 1000rem;
+          border-bottom-right-radius: 1000rem;
+          left: 0;
+        `}
+
   position: absolute;
-  right: 0;
   bottom: 3rem;
   z-index: -1;
 `;

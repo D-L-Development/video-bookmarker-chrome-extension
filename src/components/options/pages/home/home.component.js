@@ -30,7 +30,7 @@ const HomeComponent = (props) => {
             </SecondaryText>
           </Header>
           <HeaderImage />
-          <BackgroundShape />
+          <BackgroundShape isRight={true} />
         </OuterContainer>
       </Main>
 
@@ -92,6 +92,17 @@ const HomeComponent = (props) => {
           </RowContainer>
         </OuterContainer>
       </WideContainer>
+      <div style={{ position: "relative" }}>
+        <OuterContainer style={{ alignItems: "center", paddingBlock: "3rem" }}>
+          <H2 color={COLORS.TEXT_DARK}>Customize the theme and settings</H2>
+          <SecondaryText color={COLORS.TEXT_SECONDARY_DARK}>
+            Select between light mode or dark mode and enjoy creating your own
+            custom theme by using your favorite colors
+          </SecondaryText>
+          <PlaceHolderImg width={"40rem"} aspectRatio={"16/9"} />
+          <BackgroundShape />
+        </OuterContainer>
+      </div>
     </>
   );
 };
