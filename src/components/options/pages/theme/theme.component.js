@@ -27,10 +27,7 @@ const ThemeComponent = (props) => {
     colorPicker: "#ffffff",
   });
 
-  console.log({ theme });
-
   const handleColorPickerInput = (color) => {
-    // const updatedTheme = { ...theme, [state.selectedName]: color.hex };
     setState({
       ...state,
       colorPicker: color.hex,
@@ -44,6 +41,7 @@ const ThemeComponent = (props) => {
   const renderThemeItems = () => {
     const colorPickers = [];
     for (let key in theme) {
+      if (key === "type") continue;
       colorPickers.push(
         <ColorOption key={key}>
           <ColorSquare
@@ -68,23 +66,26 @@ const ThemeComponent = (props) => {
   return (
     <OuterContainer>
       <ThemeControlsComponent />
-      <ThemePickerContainer>
-        <ThemeActionsWrapper>
-          <ColorPicker
-            color={state.colorPicker}
-            onChange={(color) => handleColorPickerInput(color)}
-          />
 
-          <ThemeSubmitButton
-            onClick={() =>
-              dispatchTheme({
-                type: THEME_ACTIONS.SAVE_CACHED_THEME,
-              })
-            }
-          >
-            Save Theme
-          </ThemeSubmitButton>
-        </ThemeActionsWrapper>
+      <ThemePickerContainer>
+        {theme.type === THEMES.CUSTOM && (
+          <ThemeActionsWrapper>
+            <ColorPicker
+              color={state.colorPicker}
+              onChange={(color) => handleColorPickerInput(color)}
+            />
+
+            <ThemeSubmitButton
+              onClick={() =>
+                dispatchTheme({
+                  type: THEME_ACTIONS.SAVE_CACHED_THEME,
+                })
+              }
+            >
+              Save Theme
+            </ThemeSubmitButton>
+          </ThemeActionsWrapper>
+        )}
         <ColorsList>{renderThemeItems()}</ColorsList>
       </ThemePickerContainer>
     </OuterContainer>

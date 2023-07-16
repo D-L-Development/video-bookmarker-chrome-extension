@@ -1,6 +1,19 @@
 import styled from "styled-components";
 import { SketchPicker } from "react-color";
 
+export const ColorsList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-left: 1rem;
+  justify-content: start;
+`;
+export const ColorOption = styled.div`
+  display: flex;
+  width: 12%;
+  min-width: 4rem;
+  aspect-ratio: 1;
+`;
 export const ColorSquare = styled.button.attrs(({ color, selected }) => ({
   title: "Select color to edit",
   style: {
@@ -8,8 +21,8 @@ export const ColorSquare = styled.button.attrs(({ color, selected }) => ({
     outline: selected ? "2px solid red" : "1px solid black",
   },
 }))`
-  height: 6rem;
-  aspect-ratio: 1;
+  height: 100%;
+  width: 100%;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -20,24 +33,13 @@ export const ColorSquare = styled.button.attrs(({ color, selected }) => ({
   }
 `;
 
-export const ColorOption = styled.div`
-  display: flex;
-`;
-
 export const ColorName = styled.span``;
 
-export const ColorsList = styled.div`
-  width: 70%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding-left: 1rem;
-  justify-content: start;
-`;
 export const ThemePickerContainer = styled.div`
   display: flex;
   padding: 2rem;
   align-items: start;
+  justify-content: center;
 `;
 
 export const ThemeSubmitButton = styled.button`
@@ -58,7 +60,7 @@ export const ThemeSubmitButton = styled.button`
 export const ThemeActionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  min-width: 15rem;
   align-items: center;
 `;
 

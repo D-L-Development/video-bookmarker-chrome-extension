@@ -6,53 +6,16 @@ import {
 } from "../../../../../constants/default-palettes";
 import ButtonGroupComponent from "../button-group/button-group.component";
 import { useTheme } from "styled-components";
+import { SecondaryText } from "../../home/home.styles";
+import { Container } from "../../../shared.styles";
 
 const ThemeControlsComponent = () => {
-  // const [state, setState] = useState({
-  //   isLoading: true,
-  //   isDarkTheme: false,
-  //   isCustomTheme: false,
-  // });
   const dispatchTheme = useContext(ChangeThemePageContext);
   const theme = useTheme();
 
-  // useEffect(() => {
-  //   if (state.theme === THEMES.CUSTOM || state.isLoading) return;
-  //   dispatchTheme({
-  //     type: THEME_ACTIONS.CHANGE,
-  //     payload: state.isDarkTheme ? THEMES.DARK : THEMES.LIGHT,
-  //   });
-  // }, [state.theme]);
-
-  const handleThemeOptionChange = (option) => {};
-
-  // const handleDarkModeToggle = async (e) => {
-  //   try {
-  //     const { checked } = e.target;
-  //     // update the theme in the context
-  //     await dispatchTheme({
-  //       type: THEME_ACTIONS.CHANGE,
-  //       payload: checked ? THEMES.DARK : THEMES.LIGHT,
-  //     });
-  //     // update the toggle switch state
-  //     setState({ ...state, isDarkTheme: checked });
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // };
-
-  // const handleCustomThemeToggle = async (e) => {
-  //   try {
-  //     // update the toggle switch
-  //     // TODO: update the state here to whatever the "default" custom theme is
-  //     setState({ ...state, isCustomTheme: e.target.checked });
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // };
-
   return (
-    <>
+    <Container style={{ alignItems: "center", gap: "1rem", marginTop: "3rem" }}>
+      <SecondaryText>Toggle the theme that makes you happy :)</SecondaryText>
       <ButtonGroupComponent
         buttons={Object.values(THEMES)}
         handleClick={(type) =>
@@ -63,26 +26,7 @@ const ThemeControlsComponent = () => {
         }
         activeBtn={theme.type}
       />
-      {/*<div style={{ display: "flex", gap: "1rem" }}>*/}
-      {/*  <span*/}
-      {/*    style={{ color: `${state.isCustomTheme ? "grey" : "black"}` }}*/}
-      {/*  >*/}
-      {/*    Dark mode:*/}
-      {/*  </span>*/}
-      {/*  <SwitchComponent*/}
-      {/*    handleToggle={handleDarkModeToggle}*/}
-      {/*    checked={state.isDarkTheme}*/}
-      {/*    disabled={state.isCustomTheme}*/}
-      {/*  />*/}
-      {/*</div>*/}
-      {/*<div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>*/}
-      {/*  <span>Custom theme:</span>*/}
-      {/*  <SwitchComponent*/}
-      {/*    handleToggle={handleCustomThemeToggle}*/}
-      {/*    checked={state.isCustomTheme}*/}
-      {/*  />*/}
-      {/*</div>*/}
-    </>
+    </Container>
   );
 };
 
