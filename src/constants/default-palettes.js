@@ -47,7 +47,7 @@ export const defaultPalettes = {
     // main area
     primary_c: "#c08b8b", // top bar and footer colors
     bgHoverColor: "#fcfcfc", // buttons hover color
-    body_c: "#b2b2b4",
+    body_c: "#8e8e8e",
     inputGlow_c: "#c7c7fd",
     inputOutline_c: "#fcc7c7",
     // bookmarks colors

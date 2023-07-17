@@ -16,7 +16,7 @@ export const Container = styled.div`
   margin-inline: auto;
   height: 100%;
   display: flex;
-  padding-block: 1rem;
+  padding-block: ${({ pb }) => pb || "0"};
   flex-direction: ${({ isRow }) => (isRow ? "row" : "column")};
   gap: ${({ gap }) => gap || "1rem"};
   justify-content: ${({ jc }) => jc};

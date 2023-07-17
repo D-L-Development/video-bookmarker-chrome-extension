@@ -1,13 +1,18 @@
 /**
  * Returns CSS color oneOf['black', 'white'] based on the given rgb bg color
  *
- * @param rgb
+ * @param color
  * @returns {string}
  */
-export const getTextColor = (rgb) => {
-  rgb = rgb.replace(/[^\d,]/g, "").split(",");
+export const getTextColor = (color) => {
+  if (color[0] === "#") {
+    return invertColor(color, true);
+  }
+  color = color.replace(/[^\d,]/g, "").split(",");
   const brightness = Math.round(
-    (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) /
+    (parseInt(color[0]) * 299 +
+      parseInt(color[1]) * 587 +
+      parseInt(color[2]) * 114) /
       1000
   );
   return brightness > 125 ? "black" : "white";

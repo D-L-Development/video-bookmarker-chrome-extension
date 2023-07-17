@@ -16,7 +16,8 @@ import {
   WideContainer,
 } from "../../shared.styles";
 import { COLORS } from "../../top-bar/top-bar.styles";
-import { renderBookmarks } from "../../data/content";
+import { renderBookmarks } from "../../data/bookmarksContent";
+import { renderFileSystem } from "../../data/fileSystemContent";
 
 const HomeComponent = (props) => {
   return (
@@ -36,8 +37,8 @@ const HomeComponent = (props) => {
       </Main>
 
       <WideContainer colors={[COLORS.SECONDARY, COLORS.SECONDARY_LIGHT]}>
-        <OuterContainer>
-          <RowContainer>
+        <OuterContainer pb={"3rem"}>
+          <RowContainer pb={"0"}>
             <Container>
               <H2 color={COLORS.TEXT_LIGHT}>
                 Effortlessly associate annotations with videos
@@ -56,8 +57,8 @@ const HomeComponent = (props) => {
       </WideContainer>
 
       <OuterContainer>
-        <RowContainer>
-          <PlaceHolderImg />
+        <RowContainer pb={"3rem"}>
+          {renderFileSystem()}
           <Container>
             <H2 color={COLORS.TEXT_DARK}>Stay organized with a file system</H2>
             <SecondaryText color={COLORS.TEXT_SECONDARY_DARK}>
