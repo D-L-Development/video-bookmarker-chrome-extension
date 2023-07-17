@@ -6,8 +6,8 @@ import {
 } from "../../../../../constants/default-palettes";
 import ButtonGroupComponent from "../button-group/button-group.component";
 import { useTheme } from "styled-components";
-import { SecondaryText } from "../../home/home.styles";
 import { Container } from "../../../shared.styles";
+import { COLORS } from "../../../top-bar/top-bar.styles";
 
 const ThemeControlsComponent = () => {
   const dispatchTheme = useContext(ChangeThemePageContext);
@@ -15,7 +15,9 @@ const ThemeControlsComponent = () => {
 
   return (
     <Container style={{ alignItems: "center", gap: "1rem", marginTop: "3rem" }}>
-      <SecondaryText>Toggle the theme that makes you happy :)</SecondaryText>
+      <h1 style={{ color: COLORS.TEXT_DARK }}>
+        Toggle the theme that makes you happy :)
+      </h1>
       <ButtonGroupComponent
         buttons={Object.values(THEMES)}
         handleClick={(type) =>

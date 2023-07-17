@@ -8,7 +8,7 @@ export const FileSystemContent = styled(PageContent)`
   padding-bottom: ${(props) => (props.grid ? FS_MARGIN_PERCENT : 0)};
   flex-direction: column;
   background-color: ${({ theme }) => theme.body_c};
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   box-shadow: ${({ shadow }) =>
     shadow ? "-1px 4px 17px 1px rgb(0 0 0 / 35%)" : ""};
   ${(props) =>

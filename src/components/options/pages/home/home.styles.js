@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { COLORS } from "../../top-bar/top-bar.styles";
-import { StyledText } from "../../shared.styles";
+import { enableGradient, StyledText } from "../../shared.styles";
 
 export const Main = styled.div`
   padding-block: 3rem 8rem;
@@ -41,6 +41,7 @@ export const BackgroundShape = styled.div`
   background-color: ${COLORS.PRIMARY};
   height: 15rem;
   width: 35%;
+  z-index: -1;
   ${({ isRight }) =>
     isRight
       ? css`
@@ -56,7 +57,6 @@ export const BackgroundShape = styled.div`
 
   position: absolute;
   bottom: 3rem;
-  z-index: -1;
 `;
 
 export const Features = styled.div`
@@ -143,14 +143,47 @@ export const DummyBox = styled.span`
         `}
 `;
 
-export const CircleShape = styled.div`
+const chooseCorner = ({ isLeft, corner = true }) =>
+  isLeft
+    ? css`
+        left: 0;
+        right: unset;
+        ${corner ? "transform: translate(-40%, -40%)" : ""};
+      `
+    : css`
+        right: 0;
+        left: unset;
+        ${corner ? "transform: translate(40%, -40%)" : ""};
+      `;
+
+export const CurvyShape = styled.div`
   aspect-ratio: 1;
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 80%;
-  transform: translate(40%, -40%);
-  border-radius: 50%;
-  background-color: ${COLORS.SECONDARY};
+  width: ${({ width }) => width || "60%"};
+  min-width: 35rem;
+  border-radius: ${({ shape }) => shape || "50%"};
   z-index: -1;
+  top: 0;
+  ${chooseCorner}
+  ${enableGradient}
+`;
+
+export const FooterLinks = styled.nav`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
+  margin-block: 3rem;
+`;
+
+export const FooterExtName = styled.p`
+  color: ${COLORS.TEXT_SECONDARY_LIGHT};
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid;
+  align-self: stretch;
+
+  span:nth-child(2) {
+    float: right;
+  }
 `;

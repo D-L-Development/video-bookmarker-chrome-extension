@@ -76,6 +76,7 @@ const SettingsComponent = (props) => {
   return (
     !state.isLoading && (
       <OuterContainer style={{ maxWidth: "30rem", paddingBlock: "3rem" }}>
+        <h1 style={{ color: COLORS.TEXT_DARK }}>Configure your own settings</h1>
         <SettingContainer>
           <p>Auto pause video when performing bookmark actions:</p>
           <SwitchComponent

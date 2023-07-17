@@ -2,7 +2,7 @@ import React from "react";
 import {
   BackgroundShape,
   Card,
-  CircleShape,
+  CurvyShape,
   DummyBox,
   H2,
   Header,
@@ -41,7 +41,19 @@ const HomeComponent = (props) => {
         </OuterContainer>
       </Main>
 
-      <WideContainer colors={[COLORS.SECONDARY, COLORS.SECONDARY_LIGHT]}>
+      <WideContainer
+        colors={[COLORS.SECONDARY, COLORS.SECONDARY_LIGHT]}
+        style={{ position: "relative" }}
+      >
+        <CurvyShape
+          shape={"48% 52% 57% 43% / 49% 33% 67% 51% "}
+          width={"40%"}
+          color={COLORS.PRIMARY}
+          isLeft={true}
+          corner={false}
+          style={{ margin: "2rem" }}
+          colors={[COLORS.PRIMARY_LIGHT, COLORS.PRIMARY]}
+        />
         <OuterContainer pb={"3rem"}>
           <RowContainer pb={"0"}>
             <Container>
@@ -100,6 +112,7 @@ const HomeComponent = (props) => {
         </OuterContainer>
       </WideContainer>
       <div style={{ position: "relative", overflow: "hidden" }}>
+        <BackgroundShape />
         <OuterContainer style={{ alignItems: "center", paddingBlock: "3rem" }}>
           <H2 color={COLORS.TEXT_DARK}>Customize the theme and settings</H2>
           <SecondaryText color={COLORS.TEXT_SECONDARY_DARK}>
@@ -133,7 +146,7 @@ const HomeComponent = (props) => {
                 ),
               },
             ].map(({ title, text, icon }) => (
-              <Card>
+              <Card key={title}>
                 {icon}
                 <h3>{title}</h3>
                 {/*<p>{text}</p>*/}
@@ -142,9 +155,11 @@ const HomeComponent = (props) => {
               </Card>
             ))}
           </RowContainer>
-          <BackgroundShape />
         </OuterContainer>
-        <CircleShape />
+        <CurvyShape
+          degree={"300"}
+          colors={[COLORS.SECONDARY, COLORS.SECONDARY_LIGHT]}
+        />
       </div>
     </>
   );

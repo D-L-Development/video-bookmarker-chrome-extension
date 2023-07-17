@@ -16,6 +16,7 @@ export const Container = styled.div`
   margin-inline: auto;
   height: 100%;
   display: flex;
+  z-index: 1;
   padding-block: ${({ pb }) => pb || "0"};
   flex-direction: ${({ isRow }) => (isRow ? "row" : "column")};
   gap: ${({ gap }) => gap || "1rem"};
@@ -36,22 +37,26 @@ export const StyledText = styled.p`
   color: ${({ color }) => color || COLORS.TEXT_DARK};
 `;
 
+export const enableGradient = ({ colors, degree = 180 }) =>
+  colors
+    ? css`
+        background: linear-gradient(
+          ${degree}deg,
+          ${colors.map(
+            (c, i) =>
+              `${c} ${(i + 1) * (100 / colors.length)}%${
+                i + 1 !== colors.length ? "," : ""
+              }`
+          )}
+        );
+      `
+    : css`
+        background-color: ${({ bgColor }) => bgColor || COLORS.PRIMARY};
+      `;
+
 export const WideContainer = styled.div`
   width: 100%;
-  ${({ colors, degree = 180 }) =>
-    colors
-      ? css`
-          background: linear-gradient(
-            ${degree}deg,
-            ${colors.map(
-              (c, i) =>
-                `${c} ${(i + 1) * (100 / colors.length)}%${
-                  i + 1 !== colors.length ? "," : ""
-                }`
-            )}
-          );
-        `
-      : css`
-          background-color: ${({ bgColor }) => bgColor || COLORS.PRIMARY};
-        `}
+  overflow: hidden;
+  z-index: -1;
+  ${enableGradient}
 `;
