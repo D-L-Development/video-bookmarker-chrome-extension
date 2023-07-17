@@ -5,8 +5,12 @@ export const Bookmark = styled.div`
   height: fit-content;
   margin: 0.5rem;
   margin-left: ${(props) => props.isNested && "2rem"};
-  -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
-  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.78);
+  box-shadow: -1px 4px 17px 1px rgb(0 0 0 / 35%);
+  transition: margin-left 150ms;
+  background-color: ${({ theme }) => theme.bookmarkBody_c};
+  border-radius: 0.5rem;
+  --padding-inline: 0.6rem;
+  --padding-block: 0.4rem;
 
   &:first-of-type {
     margin-top: 1rem;
@@ -14,14 +18,13 @@ export const Bookmark = styled.div`
 `;
 
 export const BookmarkHeader = styled.div`
-  background-color: ${(props) =>
-    props.isNested
-      ? props.theme.bookmarkHeaderNested_c
-      : props.theme.bookmarkHeader_c};
+  background-color: ${({ isNested, theme }) =>
+    isNested ? theme.bookmarkHeaderNested_c : theme.bookmarkHeader_c};
+  transition: background-color 150ms;
   display: flex;
-  padding: 0.25rem;
-  border-top-left-radius: 0.2rem;
-  border-top-right-radius: 0.2rem;
+  padding: var(--padding-block) var(--padding-inline);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 `;
 
 export const BookmarkTimestamp = styled.div`
@@ -30,7 +33,6 @@ export const BookmarkTimestamp = styled.div`
   border-radius: 0.6rem;
   text-align: center;
   cursor: pointer;
-  width: 4rem;
 
   &:hover {
     color: lightblue;
@@ -41,7 +43,6 @@ export const BookmarkHeaderText = styled.div`
   color: white;
   font-size: 0.8rem;
   letter-spacing: 0.1rem;
-  margin-left: 0.3rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,18 +57,21 @@ export const BookmarkHeaderIconGroup = styled.div`
   align-items: center;
 `;
 export const BookmarkBodyText = styled.div`
-  padding: 0.25rem 0.5rem;
-  background-color: ${({ theme }) => theme.bookmarkBody_c};
+  padding: 0 var(--padding-inline) var(--padding-inline);
   overflow-wrap: break-word;
+
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
   // TODO: make sure you set the color based on the bg
 `;
 
 export const BookmarkTitle = styled.h2`
-  padding: 0.25rem 0.5rem;
+  padding: var(--padding-block) var(--padding-inline);
   font-size: 1rem;
   font-weight: 500;
   white-space: nowrap;
-  background-color: ${({ theme }) => theme.bookmarkBody_c};
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
   color: black;
   // TODO: make sure you set the color based on the bg
 `;

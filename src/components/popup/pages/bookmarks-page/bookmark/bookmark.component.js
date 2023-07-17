@@ -21,7 +21,7 @@ import {
 import SpinnerIcon from "../../../../../icons/shared-icons/spinner-icon/spinner.icon";
 import { SpinnerWrapper } from "../bookmarks-controls/bookmarks-controls.styles";
 
-const IconProps = {
+export const BookmarkIconProps = {
   width: "18px",
   height: "18px",
   color: "white",
@@ -137,7 +137,7 @@ const BookmarkComponent = ({
             onClick={toggleIndent}
           >
             <IndentIcon
-              {...IconProps}
+              {...BookmarkIconProps}
               type={isNested ? "decrease" : "increase"}
             />
           </BookmarkIconWrapper>
@@ -146,14 +146,14 @@ const BookmarkComponent = ({
             enabled={true}
             onClick={handleEditIconClick}
           >
-            <EditIcon {...IconProps} />
+            <EditIcon {...BookmarkIconProps} />
           </BookmarkIconWrapper>
           <BookmarkIconWrapper
             title="Delete Bookmark"
             enabled={true}
             onClick={handleDeleteIconClick}
           >
-            <TrashIcon {...IconProps} />
+            <TrashIcon {...BookmarkIconProps} />
           </BookmarkIconWrapper>
         </Styled.BookmarkHeaderIconGroup>
       </Styled.BookmarkHeader>

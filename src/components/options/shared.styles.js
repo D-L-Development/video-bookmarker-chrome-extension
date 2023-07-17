@@ -16,7 +16,9 @@ export const Container = styled.div`
   margin-inline: auto;
   height: 100%;
   display: flex;
+  padding-block: 1rem;
   flex-direction: ${({ isRow }) => (isRow ? "row" : "column")};
+  gap: ${({ gap }) => gap || "1rem"};
   justify-content: ${({ jc }) => jc};
   align-items: ${({ ai }) => ai};
 `;
@@ -28,10 +30,6 @@ export const OuterContainer = styled(Container)`
 export const RowContainer = styled(Container).attrs(() => ({ isRow: true }))`
   align-items: center;
   gap: 3rem;
-
-  ${Container} {
-    gap: 1rem;
-  }
 `;
 
 export const StyledText = styled.p`

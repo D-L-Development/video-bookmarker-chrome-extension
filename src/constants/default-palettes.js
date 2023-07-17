@@ -53,7 +53,7 @@ export const defaultPalettes = {
     // bookmarks colors
     bookmarkBody_c: "#b0dbe9",
     bookmarkHeaderNested_c: "#4c4977",
-    bookmarkHeader_c: "#38357a",
+    bookmarkHeader_c: "#3E3971",
     controlPageHeader_c: "#2b2b72", // **** NOT USED ****
     // file system colors
     file_c: "#b84e4e", // **** NOT USED ****

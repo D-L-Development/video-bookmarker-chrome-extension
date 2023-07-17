@@ -16,6 +16,7 @@ import {
   WideContainer,
 } from "../../shared.styles";
 import { COLORS } from "../../top-bar/top-bar.styles";
+import { renderBookmarks } from "../../data/content";
 
 const HomeComponent = (props) => {
   return (
@@ -49,7 +50,7 @@ const HomeComponent = (props) => {
                 learning experience.
               </SecondaryText>
             </Container>
-            <PlaceHolderImg />
+            {renderBookmarks()}
           </RowContainer>
         </OuterContainer>
       </WideContainer>
