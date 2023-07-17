@@ -94,3 +94,63 @@ export const List = styled.ul`
   padding-left: 3rem;
   line-height: 2.5rem;
 `;
+
+export const Card = styled.div`
+  position: relative;
+  min-height: 20rem;
+  width: 15rem;
+  padding: 2rem;
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem 2.5rem 0.5rem 2.5rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  box-shadow: -1px 4px 17px 1px rgb(0 0 0 / 35%);
+
+  h3 {
+    font-size: 1rem;
+    color: ${COLORS.TEXT_DARK};
+  }
+
+  svg {
+    margin-bottom: 1rem;
+  }
+`;
+
+export const DummyBox = styled.span`
+  position: absolute;
+  width: 50%;
+  aspect-ratio: 1;
+  --thickness: 0.5rem;
+  ${({ isTop }) =>
+    isTop
+      ? css`
+          border-top: var(--thickness) solid ${COLORS.PRIMARY};
+          border-left: var(--thickness) solid ${COLORS.PRIMARY};
+          top: 0;
+          left: 0;
+          border-radius: 0.5rem 0 0 0;
+        `
+      : css`
+          border-bottom: var(--thickness) solid ${COLORS.PRIMARY};
+          border-right: var(--thickness) solid ${COLORS.PRIMARY};
+          right: 0;
+          bottom: 0;
+          border-radius: 0 0 0.5rem 0;
+        `}
+`;
+
+export const CircleShape = styled.div`
+  aspect-ratio: 1;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 80%;
+  transform: translate(40%, -40%);
+  border-radius: 50%;
+  background-color: ${COLORS.SECONDARY};
+  z-index: -1;
+`;

@@ -1,6 +1,9 @@
 import React from "react";
 import {
   BackgroundShape,
+  Card,
+  CircleShape,
+  DummyBox,
   H2,
   Header,
   HeaderImage,
@@ -18,6 +21,8 @@ import {
 import { COLORS } from "../../top-bar/top-bar.styles";
 import { renderBookmarks } from "../../data/bookmarksContent";
 import { renderFileSystem } from "../../data/fileSystemContent";
+import PaletteIcon from "../../../../icons/palette-icon/palette.icon";
+import CogIcon from "../../../../icons/cog-icon/cog.icon";
 
 const HomeComponent = (props) => {
   return (
@@ -94,16 +99,52 @@ const HomeComponent = (props) => {
           </RowContainer>
         </OuterContainer>
       </WideContainer>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", overflow: "hidden" }}>
         <OuterContainer style={{ alignItems: "center", paddingBlock: "3rem" }}>
           <H2 color={COLORS.TEXT_DARK}>Customize the theme and settings</H2>
           <SecondaryText color={COLORS.TEXT_SECONDARY_DARK}>
             Select between light mode or dark mode and enjoy creating your own
             custom theme by using your favorite colors
           </SecondaryText>
-          <PlaceHolderImg width={"40rem"} aspectRatio={"16/9"} />
+          <RowContainer
+            style={{ justifyContent: "center", paddingTop: "2rem" }}
+          >
+            {[
+              {
+                title: "Create custom themes",
+                text: "Keep it moving",
+                icon: (
+                  <PaletteIcon
+                    width={"128px"}
+                    height={"128px"}
+                    color={COLORS.TEXT_DARK}
+                  />
+                ),
+              },
+              {
+                title: "Configure your own settings",
+                text: "Keep it moving",
+                icon: (
+                  <CogIcon
+                    width={"128px"}
+                    height={"128px"}
+                    color={COLORS.TEXT_DARK}
+                  />
+                ),
+              },
+            ].map(({ title, text, icon }) => (
+              <Card>
+                {icon}
+                <h3>{title}</h3>
+                {/*<p>{text}</p>*/}
+                <DummyBox isTop={true} />
+                <DummyBox />
+              </Card>
+            ))}
+          </RowContainer>
           <BackgroundShape />
         </OuterContainer>
+        <CircleShape />
       </div>
     </>
   );

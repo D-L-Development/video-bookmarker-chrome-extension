@@ -9,7 +9,8 @@ export const FileSystemContent = styled(PageContent)`
   flex-direction: column;
   background-color: ${({ theme }) => theme.body_c};
   border-radius: 0.5rem;
-
+  box-shadow: ${({ shadow }) =>
+    shadow ? "-1px 4px 17px 1px rgb(0 0 0 / 35%)" : ""};
   ${(props) =>
     props.grid &&
     "flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: start;\n  align-content: start;"}
