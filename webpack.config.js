@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const CustomMovePluginJS = require("./CustomMovePluginJS");
 
 const LANDING_PAGE_DIR_NAME = "builtLandingPage";
 const BUILD_DIR = "build";
@@ -17,12 +18,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, BUILD_DIR),
     clean: true,
-    chunkFilename: `[name].js`,
     filename: (pathData) => {
       return pathData.chunk.name === "landingPage"
         ? `${LANDING_PAGE_DIR_NAME}/[name].js`
         : `${EXTENSION_DIR_NAME}/[name].js`;
     },
+    // if I prefix this with the 'extension' folder name, the code references it at extension/filename
+    // instead of ./filename so a custom loader is created to move the chunks at the end
+    chunkFilename: `[name].js`,
   },
   module: {
     // TODO: make sure the utils file is not loaded twice but rather shared
@@ -78,6 +81,10 @@ module.exports = {
         },
       ],
     }),
+    new CustomMovePluginJS({
+      from: "build",
+      to: "extension",
+    }),
   ],
 };
 
@@ -91,6 +98,7 @@ module.exports = {
  * |--|--|-- options.js
  * |--|--|-- popup.html
  * |--|--|-- popup.js
+ * |--|--|-- chunk.js (lazy loaded) (moved by custom loader here)
  * |--|--|-- other extension files
  * |--|-- builtLandingPage
  * |--|--|-- images
