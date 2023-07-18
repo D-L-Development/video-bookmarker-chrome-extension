@@ -4,7 +4,7 @@ import React from "react";
 
 export const PlaceHolderImg = ({ width, aspectRatio = "1" }) => (
   <img
-    src={"/images/placeHolder.png"}
+    src={"images/placeHolder.png"}
     alt={""}
     style={{ marginBlock: "3rem", borderRadius: "1rem", width, aspectRatio }}
   />

@@ -11,6 +11,7 @@
 
 body {
     width: 100%;
+    font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
 #react-options-root {

@@ -15,7 +15,7 @@ export const Header = styled.header`
 `;
 
 export const HeaderImage = styled.img.attrs(({}) => ({
-  src: "/images/optionsHeaderImage.png",
+  src: "images/optionsHeaderImage.png",
   alt: "Main application image",
 }))`
   height: 18rem;

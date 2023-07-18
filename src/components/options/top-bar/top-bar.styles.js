@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
 
 export const COLORS = {
   PRIMARY: "#3E3971",
@@ -29,16 +28,4 @@ export const ExtensionName = styled.span`
   color: ${COLORS.PRIMARY};
   font-weight: 600;
   font-size: 1rem;
-`;
-
-export const StyledLink = styled(NavLink)`
-  color: ${COLORS.GREY};
-  font-size: 1rem;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-
-  &.active {
-    border-bottom: 2px solid ${COLORS.GREY};
-    font-weight: 600;
-  }
 `;

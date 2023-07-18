@@ -59,7 +59,7 @@ export const BookmarkHeaderIconGroup = styled.div`
 export const BookmarkBodyText = styled.div`
   padding: 0 var(--padding-inline) var(--padding-inline);
   overflow-wrap: break-word;
-
+  font-size: 0.75rem;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
   // TODO: make sure you set the color based on the bg
