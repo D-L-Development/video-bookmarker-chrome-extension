@@ -16,6 +16,7 @@ export const PopupIconGroup = styled.div`
   height: 100%;
   position: absolute;
   right: 0;
+  border-radius: inherit;
 `;
 
 export const HeaderText = styled.h1`
@@ -43,7 +44,7 @@ export const CloseIconWrapper = styled.div`
   }
 
   .draggable & {
-    border-top-right-radius: 1rem;
+    border-top-right-radius: inherit;
   }
 `;
 
