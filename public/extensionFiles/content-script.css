@@ -12,17 +12,25 @@
     display: flex;
     flex-direction: column;
     font-size: 16px;
+    --border-radius: 1rem;
+    border-radius: var(--border-radius);
 }
 
-.web-parent-div.draggable {
-    border-radius: 0.2em 0.2em 0 0;
+.web-parent-div.draggable .web-header header {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.web-parent-div.draggable iframe {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }
 
 
 .web-header {
     height: 2em;
     width: 100%;
-    background: lightblue;
+    background: none;
     display: flex;
 }
 
@@ -36,6 +44,7 @@
     width: 100%;
     border: none;
     user-select: none;
+    transition: border-radius 350ms;
 }
 
 .closeIcon {

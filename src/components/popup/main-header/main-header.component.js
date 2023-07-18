@@ -12,19 +12,20 @@ import CloseIcon from "../../../icons/close-icon/close.icon";
 import { UI_ACTIONS } from "../../../contentScripts/utility";
 import PropTypes from "prop-types";
 import ExpandIcon from "../../../icons/expand-icon/expand.icon";
+import { EXTENSION_NAME } from "../../options/data/extensionDetails";
 
 const iconStyles = {
-  width: "20px",
-  height: "20px",
-  color: "white",
+  width: "18px",
+  height: "18px",
+  color: "lightgrey",
 };
 
-const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
-  const [draggable, setDraggable] = useState(false);
+const MainHeaderComponent = ({ closePopup, toggleDrag, isDraggable }) => {
+  const [draggable, setDraggable] = useState(isDraggable);
 
   return (
     <Header>
-      <HeaderText>Web Video Bookmarker</HeaderText>
+      <HeaderText>{EXTENSION_NAME}</HeaderText>
       <PopupIconGroup>
         <MainHeaderIconWrapper
           onClick={() => {
@@ -49,7 +50,7 @@ const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
         </MainHeaderIconWrapper>
 
         <CloseIconWrapper onClick={closePopup} title="Hide menu">
-          <CloseIcon width="24px" height="24px" color="white" />
+          <CloseIcon width={"22px"} height={"22px"} color="lightgrey" />
         </CloseIconWrapper>
       </PopupIconGroup>
     </Header>
@@ -59,6 +60,7 @@ const MainHeaderComponent = ({ closePopup, toggleDrag }) => {
 MainHeaderComponent.propTypes = {
   closePopup: PropTypes.func.isRequired,
   toggleDrag: PropTypes.func.isRequired,
+  isDraggable: PropTypes.bool.isRequired,
 };
 
 export default MainHeaderComponent;

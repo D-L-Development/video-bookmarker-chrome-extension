@@ -7,6 +7,7 @@ export const Header = styled.header`
   height: 100%;
   display: flex;
   align-items: center;
+  transition: border-radius 350ms;
   background-color: ${({ theme }) => theme.primary_c};
 `;
 
@@ -31,19 +32,22 @@ export const CloseIconWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   transition: 150ms;
+  padding-inline: 0.25rem;
+
+  svg {
+    fill: ${({ theme }) => invertColor(theme.primary_c, true)};
+  }
 
   &:hover {
     background-color: red;
   }
 
   .draggable & {
-    border-top-right-radius: 0.2em;
+    border-top-right-radius: 1rem;
   }
 `;
 
 export const MainHeaderIconWrapper = styled(CloseIconWrapper)`
-  margin-right: 0.2em;
-
   &:hover {
     background-color: transparent;
 

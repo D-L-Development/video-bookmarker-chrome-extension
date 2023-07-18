@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Footer, StyledPopup } from "./popup.styles";
+import { StyledPopup } from "./popup.styles";
 import ViewPagerComponent from "./view-pager/view-pager.component";
 import { OutsideContext } from "../../contexts/outside-context";
 import FileSystemControlsComponent from "./pages/file-system-page/file-system-controls/file-system-controls.component";
@@ -56,8 +56,6 @@ const PopupComponent = () => {
           pageInfo={pageInfo}
           switchToBookmarksPage={renderBookmarksPage}
         />
-
-        <Footer></Footer>
       </OutsideContext.Provider>
     </StyledPopup>
   );

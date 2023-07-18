@@ -27,14 +27,15 @@ export class PopupUiManager {
     this.parentDiv = null;
     this.header = null;
 
-    // create the side menu for found video
-    this.#createPopup(PopupUiManager.SIDEBAR_PAGE_URL);
     this.lastMouseX = 0;
     this.lastMouseY = 0;
     this.isDraggable = false;
     this.isShown = false;
     this.lastDraggedToPosX = "calc(100% - 600px)";
     this.lastDraggedToPosY = "200px";
+
+    // create the side menu for found video
+    this.#createPopup(PopupUiManager.SIDEBAR_PAGE_URL);
   }
 
   /**
@@ -144,6 +145,7 @@ export class PopupUiManager {
         <MainHeaderComponent
           closePopup={() => this.togglePopupVisibility(false)}
           toggleDrag={() => this.#togglePopupDrag()}
+          isDraggable={this.isDraggable}
         />
       </CustomThemeProvider>
     );
@@ -187,16 +189,14 @@ export class PopupUiManager {
    */
   togglePopupVisibility(value = null) {
     const { RIGHT, ZERO_PX, OFF_SCREEN } = UI_ENUMS;
-    if (value === null) value = !this.isShown;
-    switch (value) {
+    this.isShown = value ?? !this.isShown;
+    switch (this.isShown) {
       case true:
-        this.isShown = true;
         this.isDraggable
           ? this.#updatePopupPos(this.lastDraggedToPosX, this.lastDraggedToPosY)
           : this.#updatePopupPos(RIGHT, ZERO_PX);
         break;
       case false:
-        this.isShown = false;
         this.#updatePopupPos(OFF_SCREEN, ZERO_PX);
         break;
     }
@@ -207,16 +207,14 @@ export class PopupUiManager {
    */
   #togglePopupDrag(value = null) {
     const { DRAGGABLE_HEIGHT, FULL, RIGHT, ZERO_PX } = UI_ENUMS;
-    if (value === null) value = !this.isDraggable;
-    switch (value) {
+    this.isDraggable = value ?? !this.isDraggable;
+    switch (this.isDraggable) {
       case true:
-        this.isDraggable = true;
         this.#updatePopupHeight(DRAGGABLE_HEIGHT);
         this.#updatePopupPos(this.lastDraggedToPosX, this.lastDraggedToPosY);
         this.parentDiv.classList.add(UI_ENUMS.DRAGGABLE_CLASS);
         break;
       case false:
-        this.isDraggable = false;
         this.#updatePopupHeight(FULL);
         this.#updatePopupPos(RIGHT, ZERO_PX);
         this.parentDiv.classList.remove(UI_ENUMS.DRAGGABLE_CLASS);

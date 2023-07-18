@@ -1,7 +1,7 @@
 {
-  "name": "Web Video Bookmarker",
+  "name": "Video Bookmarker",
   "description": "Create annotations and associate them with certain key points in any embedded video on any website.",
-  "version": "0.0.0.0",
+  "version": "0.0.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -19,7 +19,7 @@
       "48": "/images/extension.icon-48x48.png",
       "128": "/images/extension.icon-128x128.png"
     },
-    "default_title": "Web Video Bookmarker"
+    "default_title": "Video Bookmarker"
   },
   "icons": {
     "16": "/images/extension.icon-16x16.png",
