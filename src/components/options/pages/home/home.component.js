@@ -14,15 +14,22 @@ import {
 import {
   Container,
   OuterContainer,
-  PlaceHolderImg,
   RowContainer,
   WideContainer,
 } from "../../shared.styles";
 import { COLORS } from "../../top-bar/top-bar.styles";
 import { renderBookmarks } from "../../data/bookmarksContent";
 import { renderFileSystem } from "../../data/fileSystemContent";
-import PaletteIcon from "../../../../icons/palette-icon/palette.icon";
-import CogIcon from "../../../../icons/cog-icon/cog.icon";
+import FileSharingSvg from "../../../../../public/optionsImages/shareFiles.svg";
+import SettingsSvg from "../../../../../public/optionsImages/settings.svg";
+import PaletteSvg from "../../../../../public/optionsImages/palette.svg";
+import styled from "styled-components";
+
+const SettingsIcon = styled(SettingsSvg)`
+  path {
+    stroke: grey;
+  }
+`;
 
 const HomeComponent = (props) => {
   return (
@@ -94,7 +101,7 @@ const HomeComponent = (props) => {
         degree={190}
       >
         <OuterContainer>
-          <RowContainer>
+          <RowContainer style={{ paddingBlock: "3rem" }}>
             <Container>
               <H2 color={COLORS.TEXT_LIGHT}>
                 Share your notes with others by downloading the PDF file
@@ -107,7 +114,15 @@ const HomeComponent = (props) => {
                 together.
               </SecondaryText>
             </Container>
-            <PlaceHolderImg />
+            <FileSharingSvg
+              alt={
+                "File sharing illustration image by pikisuperstar on Freepik"
+              }
+              title={
+                "File sharing illustration image by pikisuperstar on Freepik"
+              }
+              style={{ width: "55rem" }}
+            />
           </RowContainer>
         </OuterContainer>
       </WideContainer>
@@ -126,24 +141,12 @@ const HomeComponent = (props) => {
               {
                 title: "Create custom themes",
                 text: "Keep it moving",
-                icon: (
-                  <PaletteIcon
-                    width={"128px"}
-                    height={"128px"}
-                    color={COLORS.TEXT_DARK}
-                  />
-                ),
+                icon: <PaletteSvg />,
               },
               {
                 title: "Configure your own settings",
                 text: "Keep it moving",
-                icon: (
-                  <CogIcon
-                    width={"128px"}
-                    height={"128px"}
-                    color={COLORS.TEXT_DARK}
-                  />
-                ),
+                icon: <SettingsIcon />,
               },
             ].map(({ title, text, icon }) => (
               <Card key={title}>

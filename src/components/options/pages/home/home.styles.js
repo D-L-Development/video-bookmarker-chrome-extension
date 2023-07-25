@@ -109,6 +109,8 @@ export const Card = styled.div`
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
   box-shadow: -1px 4px 17px 1px rgb(0 0 0 / 35%);
+  --thickness: 4px;
+  border: var(--thickness) solid grey;
 
   h3 {
     font-size: 1rem;
@@ -124,21 +126,20 @@ export const DummyBox = styled.span`
   position: absolute;
   width: 50%;
   aspect-ratio: 1;
-  --thickness: 0.5rem;
   ${({ isTop }) =>
     isTop
       ? css`
           border-top: var(--thickness) solid ${COLORS.PRIMARY};
           border-left: var(--thickness) solid ${COLORS.PRIMARY};
-          top: 0;
-          left: 0;
+          top: calc(-1 * var(--thickness));
+          left: calc(-1 * var(--thickness));
           border-radius: 0.5rem 0 0 0;
         `
       : css`
           border-bottom: var(--thickness) solid ${COLORS.PRIMARY};
           border-right: var(--thickness) solid ${COLORS.PRIMARY};
-          right: 0;
-          bottom: 0;
+          right: calc(-1 * var(--thickness));
+          bottom: calc(-1 * var(--thickness));
           border-radius: 0 0 0.5rem 0;
         `}
 `;
@@ -185,5 +186,9 @@ export const FooterExtName = styled.p`
 
   span:nth-child(2) {
     float: right;
+  }
+
+  a {
+    color: inherit;
   }
 `;

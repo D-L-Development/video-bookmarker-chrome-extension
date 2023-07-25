@@ -30,12 +30,20 @@ const OptionsComponent = ({ isExtension = true }) => {
       <footer style={{ backgroundColor: COLORS.TEXT_DARK, marginTop: "auto" }}>
         <OuterContainer>
           <FooterLinks>
-            <NavLinksComponent showExtensionLinks={isExtension} />
+            <NavLinksComponent
+              showExtensionLinks={isExtension}
+              isFooter={true}
+            />
             <FooterExtName>
               <span>
                 &copy; {yearRef.current} {EXTENSION_NAME}
               </span>
-              <span>Created by Dako Albeik</span>
+              <span>
+                Created by{" "}
+                <a href={"https://www.dakoalbeik.com"} target={"_blank"}>
+                  Dako Albeik
+                </a>
+              </span>
             </FooterExtName>
           </FooterLinks>
         </OuterContainer>
