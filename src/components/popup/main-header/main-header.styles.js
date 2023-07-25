@@ -22,7 +22,7 @@ export const PopupIconGroup = styled.div`
 export const HeaderText = styled.h1`
   text-align: center;
   color: ${({ theme }) => invertColor(theme.primary_c, true)};
-  font-size: 0.6rem;
+  font-size: 10px;
   font-weight: 300;
   margin: 0 auto;
   user-select: none;

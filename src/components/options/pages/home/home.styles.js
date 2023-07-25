@@ -18,7 +18,7 @@ export const HeaderImage = styled.img.attrs(({}) => ({
   src: "images/optionsHeaderImage.png",
   alt: "Main application image",
 }))`
-  height: 18rem;
+  height: 20rem;
   transform: translateX(2rem);
   border: 20px solid ${COLORS.TEXT_DARK};
   border-radius: 1rem;
