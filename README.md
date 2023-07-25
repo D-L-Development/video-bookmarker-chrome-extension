@@ -12,6 +12,8 @@ Although the annotations are persistent in the browser, you can still download a
 later
 or share with your peers.
 
+🔗 [View Landing Page](https://video-bookmaker-page.vercel.app)
+
 ## For Developers
 
 After cloning the repository, follow the steps below to get the extension working:
@@ -33,7 +35,7 @@ to get a development version, which has hot reloading enabled
 
 1. Navigate to the list of your downloaded extensions by going to [chrome://extensions](chrome://extensions)
 2. Enable developer mode by toggling the switch in the upper right corner
-3. Click "Load Unpacked" and locate the build directory in the project files.
+3. Click "Load Unpacked" and locate the extension directory located at repo/build/extension.
 4. Go to a web page with a video in it such as [YouTube](https://www.youtube.com/)
 5. In the upper right corner of the tab, pin the extension icon for ease of use.
 6. Once the extension icon is clicked, a side menu popup will show up.
