@@ -61,7 +61,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "./src/landingPage.html",
-      filename: `${LANDING_PAGE_DIR_NAME}/landingPage.html`,
+      filename: `${LANDING_PAGE_DIR_NAME}/index.html`,
       customJS: "landingPage.js",
       chunks: [],
     }),
@@ -78,6 +78,10 @@ module.exports = {
         {
           from: "public/optionsImages",
           to: `${LANDING_PAGE_DIR_NAME}/images`,
+        },
+        {
+          from: ".vercel",
+          to: `${LANDING_PAGE_DIR_NAME}/.vercel`,
         },
       ],
     }),

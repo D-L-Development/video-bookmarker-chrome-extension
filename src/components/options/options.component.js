@@ -9,6 +9,7 @@ import { OuterContainer } from "./shared.styles";
 import { FooterExtName, FooterLinks } from "./pages/home/home.styles";
 import { EXTENSION_NAME } from "./data/extensionDetails";
 import NavLinksComponent from "./nav-links/nav-links.component";
+import AboutComponent from "./pages/about/about.component";
 
 const OptionsComponent = ({ isExtension = true }) => {
   const yearRef = useRef(new Date().getFullYear());
@@ -24,7 +25,7 @@ const OptionsComponent = ({ isExtension = true }) => {
             <Route path={"/theme"} element={<ThemeComponent />} />
           </>
         )}
-        <Route path={"/about"} element={<HomeComponent />} />
+        <Route path={"/about"} element={<AboutComponent />} />
       </Routes>
       <footer style={{ backgroundColor: COLORS.TEXT_DARK, marginTop: "auto" }}>
         <OuterContainer>
