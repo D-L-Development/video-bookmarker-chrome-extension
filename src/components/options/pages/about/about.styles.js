@@ -9,7 +9,7 @@ export const PortfolioLink = styled.a`
   transition: border-bottom-color 150ms;
 
   ::before {
-    content: "🔗";
+    content: "🔗 ";
   }
 
   :hover {
