@@ -8,20 +8,30 @@ export const Main = styled.div`
 `;
 
 export const Header = styled.header`
-  max-width: 20rem;
   flex-direction: column;
   gap: 2rem;
   display: flex;
+  padding-bottom: 2rem;
+
+  @media (max-width: 1000px) {
+    text-align: center;
+  }
 `;
 
 export const HeaderImage = styled.img.attrs(({}) => ({
   src: "images/optionsHeaderImage.png",
   alt: "Main application image",
 }))`
-  height: 20rem;
+  height: 25rem;
   transform: translateX(2rem);
   border: 20px solid ${COLORS.TEXT_DARK};
   border-radius: 1rem;
+
+  @media (max-width: 1000px) {
+    transform: unset;
+    width: 100%;
+    height: auto;
+  }
 `;
 
 export const MainText = styled.h1`
@@ -98,7 +108,8 @@ export const List = styled.ul`
 export const Card = styled.div`
   position: relative;
   min-height: 20rem;
-  width: 15rem;
+  width: 80%;
+  max-width: 18rem;
   padding: 2rem;
   text-align: center;
   flex-direction: column;

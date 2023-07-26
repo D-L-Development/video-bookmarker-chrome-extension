@@ -1,6 +1,6 @@
 import React from "react";
 import { ExtensionName, Navigation, TopBar } from "./top-bar.styles";
-import { OuterContainer, RowContainer } from "../shared.styles";
+import { Container, OuterContainer } from "../shared.styles";
 import NavLinksComponent from "../nav-links/nav-links.component";
 
 const TopBarComponent = ({ showExtensionLinks }) => {
@@ -10,14 +10,14 @@ const TopBarComponent = ({ showExtensionLinks }) => {
         isRow={true}
         style={{ alignItems: "center", justifyContent: "space-between" }}
       >
-        <RowContainer isRow={true} style={{ gap: "1rem" }}>
+        <Container isRow={true} style={{ gap: "1rem", alignItems: "center" }}>
           <img
             src={"images/extension.icon-48x48.png"}
             alt={"Extension icon"}
             style={{ height: "2rem" }}
           />
           <ExtensionName>Web Video Bookmarker</ExtensionName>
-        </RowContainer>
+        </Container>
         <Navigation>
           <NavLinksComponent showExtensionLinks={showExtensionLinks} />
         </Navigation>

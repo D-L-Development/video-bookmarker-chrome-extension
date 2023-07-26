@@ -5,6 +5,7 @@ import { FS_MARGIN_PERCENT } from "./shared/styles";
 export const FileSystemContent = styled(PageContent)`
   display: flex;
   height: 90%;
+  max-width: ${({ maxWidth }) => maxWidth};
   padding-bottom: ${(props) => (props.grid ? FS_MARGIN_PERCENT : 0)};
   flex-direction: column;
   background-color: ${({ theme }) => theme.body_c};

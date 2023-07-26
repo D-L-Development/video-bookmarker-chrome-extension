@@ -17,11 +17,12 @@ function AboutComponent(props) {
         alignItems: "center",
         display: "flex",
         minHeight: "35rem",
+        paddingBlock: "3rem",
       }}
       colors={[COLORS.PRIMARY, COLORS.PRIMARY_LIGHT]}
     >
       <OuterContainer gap={"3rem"}>
-        <RowContainer>
+        <RowContainer snapValue={"750px"}>
           <img
             alt={"Dako's profile picture"}
             src={"images/dakoalbeik.jpg"}

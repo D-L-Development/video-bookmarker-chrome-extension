@@ -35,7 +35,7 @@ const HomeComponent = (props) => {
   return (
     <>
       <Main>
-        <OuterContainer isRow={true} jc={"space-between"}>
+        <OuterContainer isRow={true} jc={"space-between"} snapValue={"1000px"}>
           <Header>
             <MainText>A Simple Video Bookmark Manager</MainText>
             <SecondaryText>
@@ -62,7 +62,7 @@ const HomeComponent = (props) => {
           colors={[COLORS.PRIMARY_LIGHT, COLORS.PRIMARY]}
         />
         <OuterContainer pb={"3rem"}>
-          <RowContainer pb={"0"}>
+          <RowContainer pb={"0"} snapValue={"800px"}>
             <Container>
               <H2 color={COLORS.TEXT_LIGHT}>
                 Effortlessly associate annotations with videos
@@ -81,7 +81,7 @@ const HomeComponent = (props) => {
       </WideContainer>
 
       <OuterContainer>
-        <RowContainer pb={"3rem"}>
+        <RowContainer pb={"3rem"} snapValue={"1000px"}>
           {renderFileSystem()}
           <Container>
             <H2 color={COLORS.TEXT_DARK}>Stay organized with a file system</H2>
@@ -101,7 +101,7 @@ const HomeComponent = (props) => {
         degree={190}
       >
         <OuterContainer>
-          <RowContainer style={{ paddingBlock: "3rem" }}>
+          <RowContainer style={{ paddingBlock: "3rem" }} snapValue={"1000px"}>
             <Container>
               <H2 color={COLORS.TEXT_LIGHT}>
                 Share your notes with others by downloading the PDF file
@@ -121,7 +121,10 @@ const HomeComponent = (props) => {
               title={
                 "File sharing illustration image by pikisuperstar on Freepik"
               }
-              style={{ width: "55rem" }}
+              style={{
+                width: "90%",
+                maxWidth: "40rem",
+              }}
             />
           </RowContainer>
         </OuterContainer>
@@ -136,6 +139,7 @@ const HomeComponent = (props) => {
           </SecondaryText>
           <RowContainer
             style={{ justifyContent: "center", paddingTop: "2rem" }}
+            snapValue={"575px"}
           >
             {[
               {
