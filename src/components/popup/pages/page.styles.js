@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import { PageHeader } from "../view-pager/view-pager.styles";
+import {
+  getHoverColor,
+  getTextColor,
+  WHITE,
+} from "../../../constants/helper-functions";
 
 export const StyledPage = styled.div`
   width: 50%;
@@ -52,8 +57,14 @@ export const ActionIconWrapper = styled.button`
     margin-left: 0.5rem;
   }
 
+  svg {
+    fill: ${({ parentColor, enabled }) =>
+      enabled ? getTextColor(parentColor || WHITE) : "grey"};
+  }
+
   &:hover {
-    background-color: ${(props) => props.enabled && props.theme.bgHoverColor};
+    background-color: ${({ enabled, parentColor }) =>
+      enabled && getHoverColor(parentColor || WHITE)};
   }
 `;
 

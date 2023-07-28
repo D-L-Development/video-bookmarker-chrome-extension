@@ -132,6 +132,7 @@ const BookmarkComponent = ({
         </Styled.BookmarkHeaderText>
         <Styled.BookmarkHeaderIconGroup>
           <BookmarkIconWrapper
+            isNested={isNested}
             title={isNested ? "Outdent" : "Indent"}
             enabled={true}
             onClick={toggleIndent}
@@ -142,6 +143,7 @@ const BookmarkComponent = ({
             />
           </BookmarkIconWrapper>
           <BookmarkIconWrapper
+            isNested={isNested}
             title="Edit Bookmark"
             enabled={true}
             onClick={handleEditIconClick}
@@ -149,6 +151,7 @@ const BookmarkComponent = ({
             <EditIcon {...BookmarkIconProps} />
           </BookmarkIconWrapper>
           <BookmarkIconWrapper
+            isNested={isNested}
             title="Delete Bookmark"
             enabled={true}
             onClick={handleDeleteIconClick}

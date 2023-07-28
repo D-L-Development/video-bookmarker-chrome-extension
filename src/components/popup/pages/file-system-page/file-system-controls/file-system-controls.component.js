@@ -24,6 +24,7 @@ import {
   settingsActions,
   SettingsContext,
 } from "../../../../../contexts/settings.context";
+import { useTheme } from "styled-components";
 
 const iconActionType = {
   DELETE: "delete",
@@ -42,6 +43,7 @@ const FileSystemControlsComponent = (props) => {
   const [showEditFileModal, setShowEditFileModal] = useState(false);
   const [showEditFolderModal, setShowEditFolderModal] = useState(false);
   const [showFilePicker, setShowFilePicker] = useState(false);
+  const theme = useTheme();
 
   const handleClick = (e, iconType) => {
     e.stopPropagation();
@@ -143,39 +145,31 @@ const FileSystemControlsComponent = (props) => {
         onClick={(e) => handleClick(e, iconActionType.EDIT)}
         enabled={onlyOneSelected()}
         title={"Edit name"}
+        parentColor={theme.pageControls_c}
       >
-        <EditIcon
-          width={"20px"}
-          height={"20px"}
-          color={onlyOneSelected() ? "white" : "grey"}
-        />
+        <EditIcon width={"20px"} height={"20px"} color={"grey"} />
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.MOVE)}
         enabled={anySelected()}
         title={"Move selected"}
+        parentColor={theme.pageControls_c}
       >
-        <MoveIcon
-          width={"20px"}
-          height={"20px"}
-          color={anySelected() ? "white" : "grey"}
-        />
+        <MoveIcon width={"20px"} height={"20px"} color={"grey"} />
       </ActionIconWrapper>
       <ActionIconWrapper
         onClick={(e) => handleClick(e, iconActionType.DELETE)}
         enabled={anySelected()}
         title={"Delete selected"}
+        parentColor={theme.pageControls_c}
       >
-        <TrashIcon
-          width={"20px"}
-          height={"20px"}
-          color={anySelected() ? "white" : "grey"}
-        />
+        <TrashIcon width={"20px"} height={"20px"} color={"grey"} />
       </ActionIconWrapper>
 
       {!settings.isLoading && (
         <ViewModeSwitch>
           <EdgeActionIcon
+            parentColor={theme.pageControls_c}
             enabled={true}
             selected={settings.isGridView}
             onClick={(e) =>
@@ -188,6 +182,7 @@ const FileSystemControlsComponent = (props) => {
             <GridViewIcon width={"15px"} height={"15px"} color={"white"} />
           </EdgeActionIcon>
           <EdgeActionIcon
+            parentColor={theme.pageControls_c}
             enabled={true}
             selected={!settings.isGridView}
             onClick={(e) =>

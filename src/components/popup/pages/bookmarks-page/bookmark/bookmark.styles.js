@@ -1,5 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ActionIconWrapper } from "../../page.styles";
+import {
+  getHoverColor,
+  getTextColor,
+} from "../../../../../constants/helper-functions";
 
 export const Bookmark = styled.div`
   height: fit-content;
@@ -78,6 +82,21 @@ export const BookmarkTitle = styled.h2`
 
 export const BookmarkIconWrapper = styled(ActionIconWrapper)`
   padding: 0.1rem;
+
+  ${({ theme, isNested }) => {
+    const parentColor = isNested
+      ? theme.bookmarkHeaderNested_c
+      : theme.bookmarkHeader_c;
+    return css`
+      :hover {
+        background-color: ${getHoverColor(parentColor)};
+      }
+
+      svg {
+        fill: ${getTextColor(parentColor)};
+      }
+    `;
+  }}
 `;
 
 export const HighlightedText = styled.span`

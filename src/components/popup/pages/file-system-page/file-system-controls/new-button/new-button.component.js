@@ -57,11 +57,7 @@ const NewButtonComponent = (props) => {
         />
       </NewButton>
       {showContextMenu && (
-        <ContextMenuComponent
-          close={() => setShowContextMenu(false)}
-          color={"black"}
-          bgColor={"white"}
-        >
+        <ContextMenuComponent close={() => setShowContextMenu(false)}>
           <ContextMenuItem
             onClick={(e) => handleContextMenuItemClick(e, options.NEW_FILE)}
           >

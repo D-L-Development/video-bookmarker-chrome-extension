@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import {
+  getHoverColor,
+  getTextColor,
+} from "../../../../constants/helper-functions";
 
 export const ContextMenu = styled.div`
   position: absolute;
@@ -6,8 +10,8 @@ export const ContextMenu = styled.div`
   display: flex;
   flex-direction: column;
   width: fit-content;
-  background: ${(props) => props.bgColor || "white"};
-  color: ${(props) => props.color || "black"};
+  background: ${({ bgColor, theme }) => bgColor || theme.pageControls_c};
+  color: ${({ color, theme }) => color || getTextColor(theme.pageControls_c)};
   border-radius: 0.2rem;
   padding: 0.2rem;
   gap: 0.1rem;
@@ -24,7 +28,7 @@ export const ContextMenuItem = styled.div`
   align-items: center;
 
   &:hover {
-    background-color: lightgrey;
+    background-color: ${({ theme }) => getHoverColor(theme.pageControls_c)};
   }
 `;
 

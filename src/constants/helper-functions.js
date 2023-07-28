@@ -1,3 +1,6 @@
+export const BLACK = "#000000";
+export const WHITE = "#FFFFFF";
+
 /**
  * Returns CSS color oneOf['black', 'white'] based on the given rgb bg color
  *
@@ -15,8 +18,13 @@ export const getTextColor = (color) => {
       parseInt(color[2]) * 114) /
       1000
   );
-  return brightness > 125 ? "black" : "white";
+  return brightness > 125 ? BLACK : WHITE;
 };
+
+export const getHoverColor = (color) =>
+  getTextColor(color) === WHITE
+    ? "rgba(255, 255, 255, 0.2)"
+    : "rgba(0, 0, 0, 0.2)";
 
 /**
  * Gets a contrasted color based on a given hex color. The flag bw determines if the
@@ -42,7 +50,7 @@ export const invertColor = (hex, bw) => {
     b = parseInt(hex.slice(4, 6), 16);
   if (bw) {
     // https://stackoverflow.com/a/3943023/112731
-    return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? "#000000" : "#FFFFFF";
+    return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? BLACK : WHITE;
   }
   // invert color components
   r = (255 - r).toString(16);

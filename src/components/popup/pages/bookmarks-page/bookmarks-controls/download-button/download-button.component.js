@@ -6,6 +6,7 @@ import { ActionIconWrapper } from "../../../page.styles";
 import { defaultIconDimen } from "../bookmarks-controls.component";
 import { BookmarksContext } from "../../../../../../contexts/bookmarks.context";
 import { FileSystemContext } from "../../../../../../contexts/file-system.context";
+import { useTheme } from "styled-components";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -145,6 +146,7 @@ const getBookmarksDocDef = (fileName, bookmarks) => {
 const DownloadButtonComponent = (props) => {
   const { isLoading, bookmarks } = useContext(BookmarksContext);
   const fs = useContext(FileSystemContext);
+  const theme = useTheme();
 
   const anyBookmarks = Object.keys(bookmarks).length >= 1;
 
@@ -165,6 +167,7 @@ const DownloadButtonComponent = (props) => {
       title="Download"
       disabled={!anyBookmarks}
       disableColorChangeDelay={true}
+      parentColor={theme.pageControls_c}
     >
       <SaveArrowIcon
         {...defaultIconDimen}

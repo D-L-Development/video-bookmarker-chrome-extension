@@ -1,8 +1,22 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import {
+  getHoverColor,
+  getTextColor,
+} from "../../../../../../constants/helper-functions";
 
 export const NewButtonWrapper = styled.div`
   margin-left: 0.5rem;
   position: relative;
+  ${({ theme }) => {
+    const textColor = getTextColor(theme.pageControls_c);
+    return css`
+      color: ${textColor};
+
+      svg {
+        fill: ${textColor};
+      }
+    `;
+  }}
 `;
 
 export const NewButton = styled.div`
@@ -14,12 +28,11 @@ export const NewButton = styled.div`
   transition: 0.2s;
 
   &:hover {
-    background-color: ${({ theme }) => theme.bgHoverColor};
+    background-color: ${({ theme }) => getHoverColor(theme.pageControls_c)};
   }
 `;
 
 export const NewButtonText = styled.span`
-  color: white;
   padding-right: 0.2rem;
   padding-left: 0.3rem;
 `;

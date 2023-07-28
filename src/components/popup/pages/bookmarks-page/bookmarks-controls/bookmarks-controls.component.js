@@ -31,6 +31,7 @@ import SaveArrowIcon from "../../../../../icons/save-arrow-icon/save-arrow.icon"
 import { SettingsContext } from "../../../../../contexts/settings.context";
 import { COMMANDS } from "../../../../../constants/constants";
 import { VideoContext } from "../../../../../contexts/video.context";
+import { useTheme } from "styled-components";
 
 const DownloadButtonComponent = React.lazy(() =>
   import(
@@ -55,6 +56,7 @@ const BookmarksControlsComponent = (props) => {
   const settings = useContext(SettingsContext);
   const video = useContext(VideoContext);
   const [isIconLoading, setIsIconLoading] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     const addBookmarkListener = (command) => {
@@ -155,9 +157,11 @@ const BookmarksControlsComponent = (props) => {
       showModal();
     }
   };
+
   return (
     <PageHeaderControls className="PageHeader">
       <ActionIconWrapper
+        parentColor={theme.pageControls_c}
         onClick={handleCreateBookmarkIconClick}
         enabled={!isIconLoading && !settings.isLoading}
         title="Add bookmark"
@@ -168,6 +172,7 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <ActionIconWrapper
+        parentColor={theme.pageControls_c}
         onClick={handleCopyIconClick}
         enabled={Object.keys(bookmarks).length}
         disabled={Object.keys(bookmarks).length === 0}
@@ -182,7 +187,7 @@ const BookmarksControlsComponent = (props) => {
       {/* Show grey icon if component hasn't loaded */}
       <React.Suspense
         fallback={
-          <ActionIconWrapper enabled={false}>
+          <ActionIconWrapper parentColor={theme.pageControls_c} enabled={false}>
             <SaveArrowIcon {...defaultIconDimen} color={"grey"} />
           </ActionIconWrapper>
         }
@@ -191,6 +196,7 @@ const BookmarksControlsComponent = (props) => {
       </React.Suspense>
       <VerticalDivider />
       <ActionIconWrapper
+        parentColor={theme.pageControls_c}
         style={{ marginLeft: "0.5rem" }}
         onClick={() =>
           handleContentScriptIconClick(VIDEO_ACTIONS.REWIND, {
@@ -207,6 +213,7 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <ActionIconWrapper
+        parentColor={theme.pageControls_c}
         onClick={() => handleContentScriptIconClick(VIDEO_ACTIONS.TOGGLE_PLAY)}
         enabled={!isIconLoading}
         title={video.paused ? "play" : "pause"}
@@ -218,6 +225,7 @@ const BookmarksControlsComponent = (props) => {
         />
       </ActionIconWrapper>
       <ActionIconWrapper
+        parentColor={theme.pageControls_c}
         onClick={() =>
           handleContentScriptIconClick(VIDEO_ACTIONS.SKIP, {
             seconds: skipSeconds,
@@ -234,6 +242,7 @@ const BookmarksControlsComponent = (props) => {
       </ActionIconWrapper>
       <SpeedIconsGroup>
         <EdgeActionIcon
+          parentColor={theme.pageControls_c}
           onClick={() => handleContentScriptIconClick(VIDEO_ACTIONS.SLOW_DOWN)}
           enabled={!isIconLoading}
           title="Decrease by 0.10x"
@@ -244,6 +253,7 @@ const BookmarksControlsComponent = (props) => {
           />
         </EdgeActionIcon>
         <EdgeActionIcon
+          parentColor={theme.pageControls_c}
           enabled={!isIconLoading}
           title="Reset playback speed"
           onClick={() =>
@@ -256,6 +266,7 @@ const BookmarksControlsComponent = (props) => {
           />
         </EdgeActionIcon>
         <EdgeActionIcon
+          parentColor={theme.pageControls_c}
           onClick={() => handleContentScriptIconClick(VIDEO_ACTIONS.SPEED_UP)}
           enabled={!isIconLoading}
           title="Increase by 0.10x"

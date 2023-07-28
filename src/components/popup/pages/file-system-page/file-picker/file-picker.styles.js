@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { PageContent } from "../../page.styles";
+import { getHoverColor } from "../../../../../constants/helper-functions";
 
 export const ScrollableBody = styled(PageContent)`
   height: 10rem;
@@ -22,7 +23,8 @@ export const FilePickerBackButton = styled.button`
   cursor: ${(props) => (props.enabled ? "pointer" : "")};
 
   &:hover {
-    background-color: ${(props) => props.enabled && props.theme.bgHoverColor};
+    background-color: ${({ enabled, theme }) =>
+      enabled && getHoverColor(theme.pageHeader_c)};
   }
 `;
 

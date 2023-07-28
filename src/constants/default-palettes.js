@@ -46,7 +46,6 @@ export const defaultPalettes = {
   [THEMES.LIGHT]: {
     // main area
     primary_c: "#c08b8b", // top bar and footer colors
-    bgHoverColor: "#fcfcfc", // buttons hover color
     body_c: "#8e8e8e",
     inputGlow_c: "#c7c7fd",
     inputOutline_c: "#fcc7c7",
@@ -84,7 +83,6 @@ export const defaultPalettes = {
   [THEMES.DARK]: {
     // main area
     primary_c: "#000000",
-    bgHoverColor: "#646161",
     body_c: "#2F2828",
     inputGlow_c: "#C8C8FF",
     inputOutline_c: "#FFC8C8",
