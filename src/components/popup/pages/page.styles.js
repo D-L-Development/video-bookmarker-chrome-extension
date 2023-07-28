@@ -4,7 +4,7 @@ import {
   getHoverColor,
   getTextColor,
   WHITE,
-} from "../../../constants/helper-functions";
+} from "../../../constants/color-functions";
 
 export const StyledPage = styled.div`
   width: 50%;

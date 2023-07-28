@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { invertColor } from "../../../constants/helper-functions";
+import { getTextColor } from "../../../constants/color-functions";
 
 export const Header = styled.header`
   position: relative;
@@ -21,7 +21,7 @@ export const PopupIconGroup = styled.div`
 
 export const HeaderText = styled.h1`
   text-align: center;
-  color: ${({ theme }) => invertColor(theme.primary_c, true)};
+  color: ${({ theme }) => getTextColor(theme.primary_c)};
   font-size: 10px;
   font-weight: 300;
   margin: 0 auto;
@@ -37,7 +37,7 @@ export const CloseIconWrapper = styled.div`
   padding-inline: 0.25rem;
 
   svg {
-    fill: ${({ theme }) => invertColor(theme.primary_c, true)};
+    fill: ${({ theme }) => getTextColor(theme.primary_c)};
   }
 
   &:hover {

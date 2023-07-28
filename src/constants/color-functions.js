@@ -8,6 +8,7 @@ export const WHITE = "#FFFFFF";
  * @returns {string}
  */
 export const getTextColor = (color) => {
+  console.log({ color });
   if (color[0] === "#") {
     return invertColor(color, true);
   }
@@ -21,10 +22,12 @@ export const getTextColor = (color) => {
   return brightness > 125 ? BLACK : WHITE;
 };
 
-export const getHoverColor = (color) =>
-  getTextColor(color) === WHITE
-    ? "rgba(255, 255, 255, 0.2)"
-    : "rgba(0, 0, 0, 0.2)";
+export const getHoverColor = (color, opacity = 0.2) => {
+  const hoverColor = getTextColor(color) === WHITE ? "255,255,255" : "0,0,0";
+  return `rgba(${hoverColor}, ${opacity})`;
+};
+
+export const rgbaToCSS = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`;
 
 /**
  * Gets a contrasted color based on a given hex color. The flag bw determines if the
@@ -34,7 +37,7 @@ export const getHoverColor = (color) =>
  * @param {boolean} bw
  * @returns {string}
  */
-export const invertColor = (hex, bw) => {
+const invertColor = (hex, bw) => {
   if (hex.indexOf("#") === 0) {
     hex = hex.slice(1);
   }

@@ -176,7 +176,6 @@ const FileSystemControlsComponent = (props) => {
               !settings.isGridView &&
               settingsDispatch({ type: settingsActions.TOGGLE_VIEW })
             }
-            style={{ borderRight: "0.25px solid #a8a8a8" }}
             title={"Grid view layout"}
           >
             <GridViewIcon width={"15px"} height={"15px"} color={"white"} />
@@ -189,7 +188,6 @@ const FileSystemControlsComponent = (props) => {
               settings.isGridView &&
               settingsDispatch({ type: settingsActions.TOGGLE_VIEW })
             }
-            style={{ borderLeft: "0.25px solid #a8a8a8" }}
             title={"Detailed view layout"}
           >
             <ListViewIcon width={"15px"} height={"15px"} color={"white"} />

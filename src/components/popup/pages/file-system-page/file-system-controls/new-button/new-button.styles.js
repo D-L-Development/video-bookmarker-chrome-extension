@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import {
   getHoverColor,
   getTextColor,
-} from "../../../../../../constants/helper-functions";
+} from "../../../../../../constants/color-functions";
 
 export const NewButtonWrapper = styled.div`
   margin-left: 0.5rem;

@@ -3,7 +3,7 @@ import { ActionIconWrapper } from "../../page.styles";
 import {
   getHoverColor,
   getTextColor,
-} from "../../../../../constants/helper-functions";
+} from "../../../../../constants/color-functions";
 
 export const Bookmark = styled.div`
   height: fit-content;

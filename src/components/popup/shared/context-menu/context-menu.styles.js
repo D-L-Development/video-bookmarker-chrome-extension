@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {
   getHoverColor,
   getTextColor,
-} from "../../../../constants/helper-functions";
+} from "../../../../constants/color-functions";
 
 export const ContextMenu = styled.div`
   position: absolute;

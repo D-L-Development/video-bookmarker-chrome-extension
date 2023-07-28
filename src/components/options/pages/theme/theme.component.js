@@ -18,6 +18,7 @@ import {
 } from "./theme.styles";
 import { OuterContainer } from "../../shared.styles";
 import { useTheme } from "styled-components";
+import { rgbaToCSS } from "../../../../constants/color-functions";
 
 const ThemeComponent = (props) => {
   const dispatchTheme = useContext(ChangeThemePageContext);
@@ -30,11 +31,15 @@ const ThemeComponent = (props) => {
   const handleColorPickerInput = (color) => {
     setState({
       ...state,
-      colorPicker: color.hex,
+      colorPicker: color.rgb,
     });
+
     dispatchTheme({
       type: THEME_ACTIONS.UPDATE_CUSTOM_THEME,
-      payload: { colorKey: [state.selectedName], colorValue: color.hex },
+      payload: {
+        colorKey: [state.selectedName],
+        colorValue: rgbaToCSS(color.rgb),
+      },
     });
   };
 
@@ -71,6 +76,7 @@ const ThemeComponent = (props) => {
         {theme.type === THEMES.CUSTOM && (
           <ThemeActionsWrapper>
             <ColorPicker
+              disableAlpha={false}
               color={state.colorPicker}
               onChange={(color) => handleColorPickerInput(color)}
             />

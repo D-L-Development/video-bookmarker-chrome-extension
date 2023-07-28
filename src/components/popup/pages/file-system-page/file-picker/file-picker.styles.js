@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PageContent } from "../../page.styles";
-import { getHoverColor } from "../../../../../constants/helper-functions";
+import { getHoverColor } from "../../../../../constants/color-functions";
 
 export const ScrollableBody = styled(PageContent)`
   height: 10rem;

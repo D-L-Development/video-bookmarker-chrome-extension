@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getTextColor } from "../../../../../constants/helper-functions";
+import { getTextColor } from "../../../../../constants/color-functions";
 
 const DIMEN_PERCENT = "22.5%";
 export const FS_MARGIN_PERCENT = "2%";
