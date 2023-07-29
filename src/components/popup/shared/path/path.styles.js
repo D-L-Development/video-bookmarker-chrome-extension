@@ -8,7 +8,7 @@ export const PathWrapper = styled.div`
 `;
 
 export const Path = styled.span`
-  color: #ffffff;
+  color: ${({ color }) => color};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import * as Styled from "./input.styles";
+import * as Styled from "./search-box.styles";
 import ClearIcon from "../../../../icons/clear-icon/clear.icon";
 import SearchIcon from "../../../../icons/search-icon/search.icon";
 
-const InputComponent = ({ placeholder, query, setQuery }) => {
+const SearchBoxComponent = ({ placeholder, query, setQuery }) => {
   const [showClearIcon, setShowClearIcon] = useState(false);
   const inputElem = useRef(null);
 
@@ -45,8 +45,8 @@ const InputComponent = ({ placeholder, query, setQuery }) => {
   );
 };
 
-InputComponent.propTypes = {
+SearchBoxComponent.propTypes = {
   placeholder: PropTypes.string.isRequired,
 };
 
-export default InputComponent;
+export default SearchBoxComponent;

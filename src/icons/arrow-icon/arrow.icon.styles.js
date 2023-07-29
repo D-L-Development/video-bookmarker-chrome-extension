@@ -5,10 +5,12 @@ export const StyledArrowIcon = styled(ExpandArrowIconComponent).attrs(
   (props) => ({
     width: props.width || "24px",
     height: props.height || "24px",
-    viewBox: "0 0 24 24",
   })
 )`
-  fill: ${(props) => props.color};
+  path {
+    fill: ${(props) => props.color};
+  }
+
   transform: rotate(${(props) => getRotationAngle(props.direction)}deg);
 `;
 

@@ -67,7 +67,7 @@ const FOLDERS = [
 ];
 
 export const renderFileSystem = () => (
-  <FileSystemContent shadow={true} grid={true} maxWidth={"27rem"}>
+  <FileSystemContent shadow={true} grid={true} maxWidth={"27rem"} br={"1rem"}>
     {FOLDERS.map((file) => (
       <FolderComponent
         name={file.name}

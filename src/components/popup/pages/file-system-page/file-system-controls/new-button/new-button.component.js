@@ -18,6 +18,7 @@ import {
   ModalContext,
   modalNames,
 } from "../../../../../../contexts/modal.context";
+import { useTheme } from "styled-components";
 
 const options = {
   NEW_FILE: "new file",
@@ -28,6 +29,7 @@ const NewButtonComponent = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const { showModal, setModalProps, hideMessageModal } =
     useContext(ModalContext);
+  const theme = useTheme();
 
   const handleContextMenuItemClick = (e, option) => {
     // close context menu
@@ -62,7 +64,11 @@ const NewButtonComponent = (props) => {
             onClick={(e) => handleContextMenuItemClick(e, options.NEW_FILE)}
           >
             <ContextMenuItemIcon>
-              <BookmarksIcon width={"18px"} height={"18px"} color={"grey"} />
+              <BookmarksIcon
+                width={"18px"}
+                height={"18px"}
+                color={theme.file_c}
+              />
             </ContextMenuItemIcon>
             <ContextMenuItemText>Create File</ContextMenuItemText>
           </ContextMenuItem>
@@ -70,7 +76,11 @@ const NewButtonComponent = (props) => {
             onClick={(e) => handleContextMenuItemClick(e, options.NEW_FOLDER)}
           >
             <ContextMenuItemIcon>
-              <FolderPlusIcon width={"18px"} height={"18px"} color={"grey"} />
+              <FolderPlusIcon
+                width={"18px"}
+                height={"18px"}
+                color={theme.folder_c}
+              />
             </ContextMenuItemIcon>
             <ContextMenuItemText>Create Folder</ContextMenuItemText>
           </ContextMenuItem>

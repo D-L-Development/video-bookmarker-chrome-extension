@@ -8,8 +8,8 @@ export const FileSystemContent = styled(PageContent)`
   max-width: ${({ maxWidth }) => maxWidth};
   padding-bottom: ${(props) => (props.grid ? FS_MARGIN_PERCENT : 0)};
   flex-direction: column;
+  border-radius: ${({ br }) => br};
   background-color: ${({ theme }) => theme.body_c};
-  border-radius: 1rem;
   box-shadow: ${({ shadow }) =>
     shadow ? "-1px 4px 17px 1px rgb(0 0 0 / 35%)" : ""};
   ${(props) =>

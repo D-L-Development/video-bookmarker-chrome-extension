@@ -45,7 +45,7 @@ export const fetchTheme = async () => {
 export const defaultPalettes = {
   [THEMES.LIGHT]: {
     // main area
-    primary_c: "#c08b8b", // top bar and footer colors
+    primary_c: "#0f1123", // top bar and footer colors
     body_c: "#d3d3d3",
     inputGlow_c: "#c7c7fd",
     inputOutline_c: "#fcc7c7",

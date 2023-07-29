@@ -83,5 +83,5 @@ export const NoItemsSign = styled.span`
   top: 50%;
   transform: translate(-50%, -50%);
   white-space: nowrap;
-  color: grey;
+  color: ${({ theme }) => getTextColor(theme.body_c)};
 `;
