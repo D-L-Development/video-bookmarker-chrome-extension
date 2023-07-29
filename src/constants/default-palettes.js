@@ -42,8 +42,14 @@ export const fetchTheme = async () => {
   };
 };
 
+const sharedColors = {
+  error_c: "#e23d3d",
+  selected_folder_c: "#5d6ceb",
+};
+
 export const defaultPalettes = {
   [THEMES.LIGHT]: {
+    ...sharedColors,
     // main area
     primary_c: "#0f1123", // top bar and footer colors
     body_c: "#d3d3d3",
@@ -60,10 +66,7 @@ export const defaultPalettes = {
 
     pageControls_c: "#2b2b6e", // below top bar. Where the action buttons go
     pageHeader_c: "#273377", // below pageControls area
-    error_c: "#e23d3d", // **** NOT SURE WHAT FOR ****
-    scrollerHover_c: "#70706e",
-    scroller_c: "#949392",
-    selected_folder_c: "#5d6ceb", // **** NOT USED ****
+
     modalColors: {
       cancelBtn_c: "#abb8bd",
       submitBtn_c: "#c26e41",
@@ -78,6 +81,7 @@ export const defaultPalettes = {
     },
   },
   [THEMES.DARK]: {
+    ...sharedColors,
     // main area
     primary_c: "#000000",
     body_c: "#2F2828",
@@ -94,10 +98,7 @@ export const defaultPalettes = {
 
     pageControls_c: "#3C3C46",
     pageHeader_c: "#3C3140",
-    error_c: "#E43E3E",
-    scroller_c: "#8f8f8f",
-    scrollerHover_c: "#676767",
-    selected_folder_c: "#6271f1",
+
     modalColors: {
       cancelBtn_c: "#ABB8BD",
       submitBtn_c: "#9d5a34",

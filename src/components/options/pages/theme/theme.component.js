@@ -20,6 +20,8 @@ import { OuterContainer } from "../../shared.styles";
 import { useTheme } from "styled-components";
 import { rgbaToCSS } from "../../../../constants/color-functions";
 
+const IGNORED_KEYS = ["type", "error_c", "selected_folder_c"];
+
 const ThemeComponent = (props) => {
   const dispatchTheme = useContext(ChangeThemePageContext);
   const theme = useTheme();
@@ -45,8 +47,8 @@ const ThemeComponent = (props) => {
 
   const renderThemeItems = () => {
     const colorPickers = [];
-    for (let key in theme) {
-      if (key === "type") continue;
+    for (const key in theme) {
+      if (IGNORED_KEYS.includes(key)) continue;
       colorPickers.push(
         <ColorOption key={key}>
           <ColorSquare

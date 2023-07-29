@@ -15,6 +15,7 @@ export const Bookmark = styled.div`
   border-radius: 0.5rem;
   --padding-inline: 0.6rem;
   --padding-block: 0.4rem;
+  color: ${({ theme }) => getTextColor(theme.bookmarkBody_c)};
 
   &:first-of-type {
     margin-top: 1rem;
@@ -66,7 +67,6 @@ export const BookmarkBodyText = styled.div`
   font-size: 0.75rem;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
-  // TODO: make sure you set the color based on the bg
 `;
 
 export const BookmarkTitle = styled.h2`
@@ -76,8 +76,6 @@ export const BookmarkTitle = styled.h2`
   white-space: nowrap;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
-  color: black;
-  // TODO: make sure you set the color based on the bg
 `;
 
 export const BookmarkIconWrapper = styled(ActionIconWrapper)`

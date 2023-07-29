@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { PageHeader } from "../view-pager/view-pager.styles";
 import {
   getHoverColor,
@@ -25,18 +25,23 @@ export const PageContent = styled.div`
     width: 7px;
   }
 
-  &::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.body_c};
-  }
+  ${({ theme }) => {
+    const [thumb_c, hover_c] = getHoverColor(theme.body_c, [0.2, 0.3]);
+    return css`
+      &::-webkit-scrollbar-track {
+        background: ${({ theme }) => theme.body_c};
+      }
 
-  &::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.scroller_c};
-    border-radius: 0.3rem;
-  }
+      &::-webkit-scrollbar-thumb {
+        background: ${thumb_c};
+        border-radius: 0.3rem;
+      }
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: ${({ theme }) => theme.scrollerHover_c};
-  }
+      &::-webkit-scrollbar-thumb:hover {
+        background: ${hover_c};
+      }
+    `;
+  }}
 `;
 
 export const ActionIconWrapper = styled.button`
