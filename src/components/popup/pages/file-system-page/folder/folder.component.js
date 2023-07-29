@@ -6,7 +6,12 @@ import { folder_c } from "../../../../../constants/theme";
 
 const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
   return grid ? (
-    <SharedStyles.Square id={uuid} selected={selected} onClick={handleClick}>
+    <SharedStyles.Square
+      id={uuid}
+      selected={selected}
+      onClick={handleClick}
+      isFolder={true}
+    >
       <SharedStyles.StretchContainer>
         <FolderIcon width="100%" height="90%" color={folder_c} />
         <SharedStyles.FileSystemItemText>
@@ -19,6 +24,7 @@ const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
       id={uuid}
       selected={selected}
       onClick={handleClick}
+      isFolder={true}
     >
       <SharedStyles.DetailedItemIconWrapper>
         <FolderIcon width={"3rem"} height={"3rem"} color={folder_c} />

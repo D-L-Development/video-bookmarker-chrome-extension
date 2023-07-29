@@ -1,8 +1,22 @@
-import styled from "styled-components";
-import { getTextColor } from "../../../../../constants/color-functions";
+import styled, { css } from "styled-components";
+import {
+  getHoverColor,
+  getTextColor,
+} from "../../../../../constants/color-functions";
 
 const DIMEN_PERCENT = "22.5%";
 export const FS_MARGIN_PERCENT = "2%";
+
+const getFSItemStyle = ({ theme, selected }) => {
+  const [hoverC, selectedC] = getHoverColor(theme.body_c, [0.1, 0.2]);
+  return css`
+    background-color: ${selected && selectedC};
+
+    &:hover {
+      background-color: ${!selected && hoverC};
+    }
+  `;
+};
 
 export const Square = styled.div`
   width: ${DIMEN_PERCENT};
@@ -11,17 +25,14 @@ export const Square = styled.div`
   margin-top: ${FS_MARGIN_PERCENT};
   position: relative;
   cursor: pointer;
-  transition: 0.1s;
+  transition: background-color 0.1s;
 
-  background-color: ${(props) =>
-    props.selected && props.theme.fsItemSelected_c};
-  outline: ${(props) =>
-    props.selected && `1px solid ${props.theme.fsItemSelectedOutline_c};`};
-
-  &:hover {
-    background-color: ${(props) =>
-      !props.selected && props.theme.fsItemHover_c};
+  svg {
+    fill: ${({ theme, isFolder = false }) =>
+      isFolder ? theme.folder_c : theme.file_c};
   }
+
+  ${getFSItemStyle}
 `;
 
 export const StretchContainer = styled.div`
@@ -84,13 +95,12 @@ export const DetailedViewItem = styled.div`
   transition: 0.1s;
   border-bottom: 1px solid grey;
 
-  background-color: ${(props) =>
-    props.selected && props.theme.fsItemSelected_c};
-
-  &:hover {
-    background-color: ${(props) =>
-      !props.selected && props.theme.fsItemHover_c};
+  svg {
+    fill: ${({ theme, isFolder = false }) =>
+      isFolder ? theme.folder_c : theme.file_c};
   }
+
+  ${getFSItemStyle}
 `;
 
 export const DetailedItemName = styled.span`

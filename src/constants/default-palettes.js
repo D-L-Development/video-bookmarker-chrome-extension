@@ -46,7 +46,7 @@ export const defaultPalettes = {
   [THEMES.LIGHT]: {
     // main area
     primary_c: "#c08b8b", // top bar and footer colors
-    body_c: "#8e8e8e",
+    body_c: "#d3d3d3",
     inputGlow_c: "#c7c7fd",
     inputOutline_c: "#fcc7c7",
     // bookmarks colors
@@ -57,9 +57,6 @@ export const defaultPalettes = {
     // file system colors
     file_c: "#b84e4e", // **** NOT USED ****
     folder_c: "#fcebc9", // **** NOT USED ****
-    fsItemHover_c: "#777776",
-    fsItemSelectedOutline_c: "#817474",
-    fsItemSelected_c: "#4e4e4e",
 
     pageControls_c: "#2b2b6e", // below top bar. Where the action buttons go
     pageHeader_c: "#273377", // below pageControls area
@@ -94,9 +91,7 @@ export const defaultPalettes = {
     // file system colors
     file_c: "#b64e4e",
     folder_c: "#FFEECCFF",
-    fsItemHover_c: "#777777",
-    fsItemSelectedOutline_c: "#7d6f6f",
-    fsItemSelected_c: "#4d4d4d40",
+
     pageControls_c: "#3C3C46",
     pageHeader_c: "#3C3140",
     error_c: "#E43E3E",

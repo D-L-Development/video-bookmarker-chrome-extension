@@ -8,7 +8,7 @@ export const WHITE = "#FFFFFF";
  * @returns {string}
  */
 export const getTextColor = (color) => {
-  console.log({ color });
+  // TODO: needs optimization. Gets called on most interactions. It should cache the colors or something
   if (color[0] === "#") {
     return invertColor(color, true);
   }
@@ -22,9 +22,16 @@ export const getTextColor = (color) => {
   return brightness > 125 ? BLACK : WHITE;
 };
 
-export const getHoverColor = (color, opacity = 0.2) => {
+/**
+ * Returns the hover color with multiple opacities
+ *
+ * @param color - css hex or rgba string
+ * @param opacity - array of numbers for each color opacity to be returned
+ * @return {string[]}
+ */
+export const getHoverColor = (color, opacity = [0.2]) => {
   const hoverColor = getTextColor(color) === WHITE ? "255,255,255" : "0,0,0";
-  return `rgba(${hoverColor}, ${opacity})`;
+  return opacity.map((op) => `rgba(${hoverColor}, ${op})`);
 };
 
 export const rgbaToCSS = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`;
