@@ -7,7 +7,7 @@ import {
 const DIMEN_PERCENT = "22.5%";
 export const FS_MARGIN_PERCENT = "2%";
 
-const getFSItemStyle = ({ theme, selected }) => {
+export const getFSItemStyle = ({ theme, selected }) => {
   const [hoverC, selectedC] = getHoverColor(theme.body_c, [0.1, 0.2]);
   return css`
     background-color: ${selected && selectedC};
@@ -57,19 +57,10 @@ export const FileSystemItemText = styled.span`
 export const Rectangle = styled.div`
   width: 100%;
   padding-block: 0.5rem;
-  outline: 1px solid white;
   transition: background-color 150ms ease-in;
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  background-color: ${(props) =>
-    props.selected ? props.theme.selected_folder_c : "white"};
-  color: ${(props) => (props.selected ? "white" : "black")};
-
-  &:hover {
-    background-color: ${(props) => !props.selected && "lightgrey"};
-  }
 
   & > * {
     margin-left: 0.5rem;
@@ -78,14 +69,10 @@ export const Rectangle = styled.div`
   & > svg:last-of-type {
     margin-left: auto;
     margin-right: 0.5rem;
-    fill: ${(props) => props.selected && "white"};
+    fill: ${({ selected, theme }) => selected && getTextColor(theme.body_c)};
   }
 
-  & > svg:first-of-type {
-    fill: ${(props) => props.selected && "white"};
-    height: ${(props) => props.selected && "22px"};
-    width: ${(props) => props.selected && "22px"};
-  }
+  ${getFSItemStyle}
 `;
 
 export const DetailedViewItem = styled.div`

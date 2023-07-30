@@ -44,7 +44,6 @@ export const fetchTheme = async () => {
 
 const sharedColors = {
   error_c: "#e23d3d",
-  warning_c: "#6c97ff",
   selected_folder_c: "#5d6ceb",
 };
 

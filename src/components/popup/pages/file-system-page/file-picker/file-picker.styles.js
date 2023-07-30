@@ -3,10 +3,11 @@ import { PageContent } from "../../page.styles";
 import { getHoverColor } from "../../../../../constants/color-functions";
 
 export const ScrollableBody = styled(PageContent)`
-  height: 10rem;
-  overflow-y: scroll;
+  max-height: 10rem;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 `;
 
 export const FilePickerBackButton = styled.button`
