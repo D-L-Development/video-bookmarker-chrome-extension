@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as SharedStyles from "../shared/styles";
 import FolderIcon from "../../../../../icons/folder-icon/folder.icon";
-import { folder_c } from "../../../../../constants/theme";
 
 const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
   return grid ? (
@@ -13,7 +12,7 @@ const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
       isFolder={true}
     >
       <SharedStyles.StretchContainer>
-        <FolderIcon width="100%" height="90%" color={folder_c} />
+        <FolderIcon width="100%" height="90%" />
         <SharedStyles.FileSystemItemText>
           {name}
         </SharedStyles.FileSystemItemText>
@@ -27,7 +26,7 @@ const FolderComponent = ({ name, uuid, selected, handleClick, grid }) => {
       isFolder={true}
     >
       <SharedStyles.DetailedItemIconWrapper>
-        <FolderIcon width={"3rem"} height={"3rem"} color={folder_c} />
+        <FolderIcon width={"3rem"} height={"3rem"} />
       </SharedStyles.DetailedItemIconWrapper>
       <SharedStyles.DetailedItemName>{name}</SharedStyles.DetailedItemName>
     </SharedStyles.DetailedViewItem>

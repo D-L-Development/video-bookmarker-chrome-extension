@@ -1,7 +1,6 @@
 import styled from "styled-components";
+import { ModalInput } from "../modal.styles";
 
-export const DatePicker = styled.input.attrs((props) => ({
+export const DatePicker = styled(ModalInput).attrs((props) => ({
   type: "date",
-}))`
-  font-size: 0.7rem;
-`;
+}))``;

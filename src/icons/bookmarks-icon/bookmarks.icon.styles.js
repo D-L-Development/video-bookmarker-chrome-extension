@@ -8,6 +8,6 @@ export const StyledBookmarksIcon = styled(BookmarksIconComponent).attrs(
     viewBox: "0 0 24 24",
   })
 )`
-  fill: ${(props) => props.color || "white"};
+  fill: ${({ theme }) => theme.file_c};
   cursor: pointer;
 `;

@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as SharedStyles from "../shared/styles";
 import BookmarksIcon from "../../../../../icons/bookmarks-icon/bookmarks.icon";
-import { file_c } from "../../../../../constants/theme";
 import { formatDatePickerStamp } from "../../../../../contentScripts/utility";
 
 const FileComponent = ({ name, uuid, selected, handleClick, grid, date }) => {
@@ -14,7 +13,7 @@ const FileComponent = ({ name, uuid, selected, handleClick, grid, date }) => {
       title={`Created on ${formatDatePickerStamp(date)}`}
     >
       <SharedStyles.StretchContainer>
-        <BookmarksIcon width="100%" height="80%" color={file_c} />
+        <BookmarksIcon width="100%" height="80%" />
         <SharedStyles.FileSystemItemText>
           {name}
         </SharedStyles.FileSystemItemText>
@@ -27,7 +26,7 @@ const FileComponent = ({ name, uuid, selected, handleClick, grid, date }) => {
       onClick={handleClick}
     >
       <SharedStyles.DetailedItemIconWrapper>
-        <BookmarksIcon width={"3rem"} height={"3rem"} color={file_c} />
+        <BookmarksIcon width={"3rem"} height={"3rem"} />
       </SharedStyles.DetailedItemIconWrapper>
       <SharedStyles.DetailedItemName>{name}</SharedStyles.DetailedItemName>
       <SharedStyles.DetailedItemDate>

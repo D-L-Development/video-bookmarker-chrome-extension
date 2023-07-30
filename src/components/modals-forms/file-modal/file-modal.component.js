@@ -73,7 +73,7 @@ const FileModalComponent = (props) => {
           id="fileName"
           value={fileName}
           onChange={handleFolderNameChange}
-          nameError={nameError !== ""}
+          error={nameError !== ""}
           ref={firstInputElem}
           onKeyDown={handleEnterKeyPress}
         />
@@ -88,6 +88,7 @@ const FileModalComponent = (props) => {
           value={date}
           onKeyDown={handleEnterKeyPress}
           onChange={handleDateChange}
+          error={dateError !== ""}
         />
         <SecondaryInputText>{dateError}</SecondaryInputText>
       </FormSection>

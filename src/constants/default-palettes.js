@@ -44,6 +44,7 @@ export const fetchTheme = async () => {
 
 const sharedColors = {
   error_c: "#e23d3d",
+  warning_c: "#6c97ff",
   selected_folder_c: "#5d6ceb",
 };
 
@@ -53,8 +54,6 @@ export const defaultPalettes = {
     // main area
     primary_c: "#0f1123", // top bar and footer colors
     body_c: "#d3d3d3",
-    inputGlow_c: "#c7c7fd",
-    inputOutline_c: "#fcc7c7",
     // bookmarks colors
     bookmarkBody_c: "#b0dbe9",
     bookmarkHeaderNested_c: "#4c4977",
@@ -70,14 +69,7 @@ export const defaultPalettes = {
     modalColors: {
       cancelBtn_c: "#abb8bd",
       submitBtn_c: "#c26e41",
-      cancelBtnHover_c: "#6C6CCE",
-      submitBtnHover_c: "#c26e41b3",
       disabledBtn_c: "#BEBEBE",
-      typeColors: {
-        alert: "#B03535",
-        form: "#4766E1",
-        warning: "#B6B318",
-      },
     },
   },
   [THEMES.DARK]: {
@@ -85,8 +77,6 @@ export const defaultPalettes = {
     // main area
     primary_c: "#000000",
     body_c: "#2F2828",
-    inputGlow_c: "#C8C8FF",
-    inputOutline_c: "#FFC8C8",
     // bookmarks colors
     bookmarkBody_c: "#898989",
     bookmarkHeaderNested_c: "#4B4875",
@@ -102,14 +92,7 @@ export const defaultPalettes = {
     modalColors: {
       cancelBtn_c: "#ABB8BD",
       submitBtn_c: "#9d5a34",
-      cancelBtnHover_c: "#889296",
-      submitBtnHover_c: "#c26e41",
       disabledBtn_c: "#BEBEBE",
-      typeColors: {
-        alert: "#7E3232",
-        form: "#574C5C",
-        warning: "#A2A27C",
-      },
     },
   },
 };

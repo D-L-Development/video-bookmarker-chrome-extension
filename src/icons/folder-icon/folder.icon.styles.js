@@ -6,5 +6,5 @@ export const StyledFolderIcon = styled(FolderIconComponent).attrs((props) => ({
   width: props.width || "24px",
   viewBox: "0 0 24 24",
 }))`
-  fill: ${(props) => props.color || "white"};
+  fill: ${({ theme }) => theme.folder_c};
 `;

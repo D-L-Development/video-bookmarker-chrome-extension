@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { getHoverColor, getTextColor } from "../../constants/color-functions";
+import { modalTypes } from "../../constants/theme";
 
 export const ModalWrapper = styled.div`
   width: 100%;
@@ -13,7 +15,8 @@ export const ModalWrapper = styled.div`
 export const StyledModal = styled.div`
   width: 350px;
   height: fit-content;
-  background-color: white;
+  background-color: ${({ theme }) => theme.body_c};
+  color: ${({ theme }) => getTextColor(theme.body_c)};
   margin: auto;
   border-radius: 2rem 2rem 5px 5px;
   display: flex;
@@ -28,9 +31,12 @@ export const ModalHeader = styled.div`
   padding: 0.4rem 0;
   display: flex;
   align-items: center;
-  background-color: ${(props) =>
-    props.theme.modalColors.typeColors[props.$modalType] ||
-    props.theme.modalColors.typeColors.alert};
+  background-color: ${({ theme, $modalType }) =>
+    ({
+      [modalTypes.FORM]: theme.primary_c,
+      [modalTypes.WARNING]: theme.primary_c,
+      [modalTypes.ALERT]: theme.error_c,
+    }[$modalType] || theme.error_c)};
 `;
 
 export const CloseIconWrapper = styled.div`
@@ -52,93 +58,52 @@ export const ModalBodyText = styled.div`
 `;
 
 export const ModalActionButtons = styled.div`
-  height: 2.5rem;
   margin-top: auto;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
   display: flex;
-  justify-content: space-evenly;
+  padding-inline: 1rem;
+  padding-bottom: 1rem;
+  gap: 0.5rem;
+  justify-content: end;
   align-items: center;
-  border-top: 0.5px solid rgb(249, 231, 231);
+
+  // if only one child button is present
+  :has(> :nth-child(1):last-child) {
+    justify-content: center;
+  }
 `;
 
 export const ModalButton = styled.button`
   border: none;
   border-radius: 0.2rem;
-  height: 60%;
   width: fit-content;
   min-width: 20%;
-  padding-inline: 0.3rem;
+  padding: 0.5rem 0.3rem;
   cursor: pointer;
   color: white;
-  transition: 0.1s ease-in-out;
+  transition: 150ms ease-in-out;
   font-size: 0.7rem;
-  ${(props) => {
-    if (props.disabled) {
+  ${({ disabled, $btnType, theme }) => {
+    if (disabled) {
       return (
         "background: transparent;" + "color: #e3e3e3;" + "cursor: default;"
       );
-    } else if (props.$btnType === "cancel") {
-      return `background: ${props.theme.modalColors.cancelBtn_c}`;
+    } else if ($btnType === "cancel") {
+      return `background: ${theme.modalColors.cancelBtn_c}`;
     } else {
-      return `background: ${props.theme.modalColors.submitBtn_c}`;
+      return `background: ${theme.modalColors.submitBtn_c}`;
     }
   }};
 
   &:hover {
-    background-color: ${(props) =>
-      props.disabled
-        ? ""
-        : props.$btnType === "cancel"
-        ? props.theme.modalColors.cancelBtnHover_c
-        : props.theme.modalColors.submitBtnHover_c};
+    opacity: ${({ disabled }) => !disabled && "0.8"};
   }
-`;
-
-export const ModalBody = styled.div`
-  margin: 0.6rem 1rem;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-`;
-
-export const FormSection = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const TextInput = styled.input.attrs((props) => ({
-  type: "text",
-}))`
-  outline: ${(props) => (props.error ? props.theme.error_c : "none")};
-  padding: 0.2rem 0.2rem;
-  caret-color: black;
-  font-size: 0.6rem;
-  border-radius: 2px;
-  border: 1px solid gray;
-  transition: 0.1s;
-  font-family: "Roboto", sans-serif;
-
-  &::placeholder {
-    color: lightgray;
-    font-size: 0.6rem;
-  }
-
-  &:focus {
-    outline: 0.5px solid ${({ theme }) => theme.inputOutline_c};
-    box-shadow: 0 0 5px 1px
-      ${(props) =>
-        props.error ? props.theme.error_c : props.theme.inputGlow_c};
-  }
-`;
-
-export const Label = styled.label`
-  font-size: 0.75rem;
-  margin-bottom: 0.2rem;
 `;
 
 export const SecondaryInputText = styled.p`
   font-size: 0.6rem;
+  font-weight: 600;
   color: ${({ theme }) => theme.error_c};
 
   // this makes it to where the p tag stays the same size when empty
@@ -146,4 +111,54 @@ export const SecondaryInputText = styled.p`
     content: "";
     display: inline-block;
   }
+`;
+
+export const FormSection = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ModalBody = styled.div`
+  margin: 0.6rem 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
+export const ModalInput = styled.input`
+  padding: 0.2rem 0.5rem;
+  caret-color: black;
+  font-size: 0.85rem;
+  border-radius: 2px;
+  transition: 150ms;
+  font-family: inherit;
+  background-color: inherit;
+
+  ${({ theme, error }) => {
+    const [textColor, borderColor] = getHoverColor(theme.body_c, [1, 0.2]);
+    return css`
+      color: ${textColor};
+      border: 1px solid ${error ? theme.error_c : borderColor};
+
+      &::placeholder {
+        color: ${borderColor};
+      }
+
+      &:focus {
+        outline: 1px solid ${error ? theme.error_c : borderColor};
+        box-shadow: 0 0 3px 1px ${error ? theme.error_c : borderColor};
+      }
+    `;
+  }}
+`;
+
+export const TextInput = styled(ModalInput).attrs((props) => ({
+  type: "text",
+}))``;
+
+export const Label = styled.label`
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+  opacity: 0.8;
 `;

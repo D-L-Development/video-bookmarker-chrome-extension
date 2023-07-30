@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import {
   getHoverColor,
   getTextColor,
@@ -7,16 +7,7 @@ import {
 export const NewButtonWrapper = styled.div`
   margin-left: 0.5rem;
   position: relative;
-  ${({ theme }) => {
-    const textColor = getTextColor(theme.pageControls_c);
-    return css`
-      color: ${textColor};
-
-      svg {
-        fill: ${textColor};
-      }
-    `;
-  }}
+  color: ${({ theme }) => getTextColor(theme.pageControls_c)};
 `;
 
 export const NewButton = styled.div`
@@ -26,6 +17,10 @@ export const NewButton = styled.div`
   border-radius: 0.2rem;
   cursor: pointer;
   transition: 0.2s;
+
+  svg {
+    fill: ${({ theme }) => getTextColor(theme.pageControls_c)};
+  }
 
   &:hover {
     background-color: ${({ theme }) => getHoverColor(theme.pageControls_c)};

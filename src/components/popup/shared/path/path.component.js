@@ -43,7 +43,7 @@ const PathComponent = ({ goBackToFileSystem, pageNum }) => {
       </Styled.BackArrowIconButton>
 
       <FolderIconWrapper>
-        <FolderIcon width={"20px"} height={"20px"} color={theme.folder_c} />
+        <FolderIcon width={"20px"} height={"20px"} />
       </FolderIconWrapper>
       <ArrowIcon
         width={"18px"}

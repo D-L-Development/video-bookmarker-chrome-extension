@@ -137,7 +137,7 @@ const FilePickerComponent = ({ onClose, selections, source }) => {
             id={folder.uuid}
             selected={folder.uuid === state.selectedUuid}
           >
-            <FolderIcon width={"20px"} height={"20px"} color={"grey"} />
+            <FolderIcon width={"20px"} height={"20px"} />
             <span>{folder.name}</span>
             <OutlineArrowIcon
               width={"20px"}
