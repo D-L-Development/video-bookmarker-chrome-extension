@@ -7,10 +7,14 @@ import {
 const DIMEN_PERCENT = "22.5%";
 export const FS_MARGIN_PERCENT = "2%";
 
-export const getFSItemStyle = ({ theme, selected }) => {
+export const getFSItemStyle = (
+  { theme, selected },
+  addBorderBottom = false
+) => {
   const [hoverC, selectedC] = getHoverColor(theme.body_c, [0.1, 0.2]);
   return css`
     background-color: ${selected && selectedC};
+    border-bottom: ${addBorderBottom && `1px solid ${hoverC}`};
 
     &:hover {
       background-color: ${!selected && hoverC};
@@ -72,7 +76,7 @@ export const Rectangle = styled.div`
     fill: ${({ selected, theme }) => selected && getTextColor(theme.body_c)};
   }
 
-  ${getFSItemStyle}
+  ${(props) => getFSItemStyle(props, true)}
 `;
 
 export const DetailedViewItem = styled.div`
